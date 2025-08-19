@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { Login } from './pages/login/login'
 import { Layout } from './pages/layout/layout'
-import { Dashboard } from './pages/dashboard/dashboard'
-
+import { ClienteDashboard } from './pages/cliente-dashboard/cliente-dashboard';
+import { FuncionarioDashboard } from './pages/funcionario-dashboard/funcionario-dashboard';
 
 
 /*
@@ -34,8 +34,12 @@ export const routes: Routes = [
         //criar componentes novos aqui
         children: [
             {
-                path: 'dashboard',
-                component: Dashboard
+                path: 'cliente-dashboard',
+                component: ClienteDashboard
+            },
+            {
+                path: 'funcionario-dashboard',
+                component: FuncionarioDashboard
             }
         ]
     }
