@@ -1,1 +1,63 @@
-<p>autocadastro works!</p>
+<div class="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden overflow-hidden p-16 pl-40">
+    <div class="w-full max-w-lg">
+        <h2 class="text-4xl font-bold mb-8">Crie sua conta:</h2>
+
+        <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()" class="space-y-4">
+            
+            <div>
+                <label for="nome" class="text-base font-medium leading-normal pb-2">Nome:</label>
+                <input id="nome" type="text" formControlName="nome" placeholder="Insira seu nome aqui" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border-none bg-[#f0f2f5] focus:border-none py-2 placeholder:text-[#60758a] p-4 text-base font-normal leading-normal">
+            </div>
+
+            <div>
+                <label for="email" class="block">E-mail:</label>
+                <input id="email" type="email" formControlName="email" placeholder="Insira seu email" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border-none bg-[#f0f2f5] focus:border-none py-2 placeholder:text-[#60758a] p-4 text-base font-normal leading-normal">
+            </div>
+
+            <div>
+                <label for="cpf" class="block">CPF:</label>
+                <input id="cpf" type="text" formControlName="cpf" placeholder="Insira seu CPF" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border-none bg-[#f0f2f5] focus:border-none py-2 placeholder:text-[#60758a] p-4 text-base font-normal leading-normal">
+            </div>
+
+            <div>
+                <label for="telefone" class="block">Telefone:</label>
+                <input id="telefone" type="tel" formControlName="telefone" placeholder="Insira seu número de telefone" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border-none bg-[#f0f2f5] focus:border-none py-2 placeholder:text-[#60758a] p-4 text-base font-normal leading-normal">
+            </div>
+
+            <div>
+                <label for="cep" class="block">CEP:</label>
+                <input id="cep" type="text" formControlName="cep" (blur)="buscarEndereco()" placeholder="Insira seu CEP" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border-none bg-[#f0f2f5] focus:border-none py-2 placeholder:text-[#60758a] p-4 text-base font-normal leading-normal">
+            </div>
+
+            <div>
+                <label for="logradouro" class="block">Rua:</label>
+                <input id="logradouro" type="text" formControlName="logradouro" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border-none bg-[#f0f2f5] focus:border-none py-2 placeholder:text-[#60758a] p-4 text-base font-normal leading-normal">
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label for="bairro" class="block">Bairro:</label>
+                    <input id="bairro" type="text" formControlName="bairro" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border-none bg-[#f0f2f5] focus:border-none py-2 placeholder:text-[#60758a] p-4 text-base font-normal leading-normal">
+                </div>
+                <div>
+                    <label for="cidade" class="block">Cidade:</label>
+                    <input id="cidade" type="text" formControlName="cidade" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border-none bg-[#f0f2f5] focus:border-none py-2 placeholder:text-[#60758a] p-4 text-base font-normal leading-normal">
+                </div>
+            </div>
+
+            <div>
+                <label for="estado" class="block">Estado:</label>
+                <input id="estado" type="text" formControlName="estado" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border-none bg-[#f0f2f5] focus:border-none py-2 placeholder:text-[#60758a] p-4 text-base font-normal leading-normal">
+            </div>
+            
+
+            <button type="submit" [disabled]="!cadastroForm.valid" class="w-full py-4 px-4 bg-blue-500 text-white rounded-md">
+                Cadastrar
+            </button>
+        </form>
+
+        <p class="text-center mt-4">
+            Já tem uma conta? <a [routerLink]="['/login']" class="text-blue-500">Faça login</a>
+        </p>
+    </div>
+</div>

@@ -8,7 +8,8 @@
 
 
 <body>
-    <div class="login-container">
+
+    <div class="login-container" >
         <form class="login-form">
             <h2>Login</h2>
             <div class="input-group">
@@ -21,7 +22,10 @@
             </div>
             <button type="submit">Entrar</button>
         </form>
+        <p>Não tem uma conta?</p>
+        <a [routerLink]="['/autocadastro']">Criar conta</a>
     </div>
+    
 </body>
 
 
