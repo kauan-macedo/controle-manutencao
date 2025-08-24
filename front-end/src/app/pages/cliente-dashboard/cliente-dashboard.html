@@ -1,1 +1,88 @@
-<p>cliente-dashboard works!</p>
+<main class="bg-gray-50 font-sans p-8 min-h-screen">
+  <div class="max-w-7xl mx-auto">
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold text-gray-800">Minhas Solicitações</h1>
+    </header>
+
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <!-- Cabeçalho da Lista -->
+      <div class="grid grid-cols-12 gap-4 px-6 py-4 border-b-2 border-gray-200 bg-gray-100 text-sm font-semibold text-gray-600 uppercase tracking-wider">
+        <div class="col-span-3 lg:col-span-2">Data/Hora</div>
+        <div class="col-span-5 lg:col-span-4">Descrição do Equipamento</div>
+        <div class="col-span-4 lg:col-span-2 text-center">Status</div>
+        <div class="col-span-12 lg:col-span-4 mt-4 lg:mt-0">Ações</div>
+      </div>
+
+      <!-- Lista de Solicitações -->
+      <div class="divide-y divide-gray-100">
+
+        <!-- Solicitação 1: Orçada -->
+        <div class="grid grid-cols-12 gap-4 px-6 py-5 items-center hover:bg-gray-50 transition-colors duration-200">
+          <div class="col-span-3 lg:col-span-2 text-gray-700">2024-03-15 10:00</div>
+          <div class="col-span-5 lg:col-span-4 text-gray-800 font-medium">Unidade de Ar Condicionado da Sala do Servidor</div>
+          <div class="col-span-4 lg:col-span-2 text-center">
+            <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1 rounded-full">Orçada</span>
+          </div>
+          <div class="col-span-12 lg:col-span-4 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+            <a href="#" class="font-medium text-green-600 hover:text-green-800">Aprovar Serviço</a>
+            <a href="#" class="font-medium text-red-600 hover:text-red-800">Rejeitar Serviço</a>
+            <a href="#" class="font-medium text-blue-600 hover:text-blue-800">Visualizar</a>
+          </div>
+        </div>
+
+        <!-- Solicitação 2: Arrumada -->
+        <div class="grid grid-cols-12 gap-4 px-6 py-5 items-center hover:bg-gray-50 transition-colors duration-200">
+          <div class="col-span-3 lg:col-span-2 text-gray-700">2024-03-14 14:30</div>
+          <div class="col-span-5 lg:col-span-4 text-gray-800 font-medium">Impressora de Escritório Modelo X12</div>
+          <div class="col-span-4 lg:col-span-2 text-center">
+            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Arrumada</span>
+          </div>
+          <div class="col-span-12 lg:col-span-4 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+            <a href="#" class="font-medium text-green-600 hover:text-green-800">Pagar Serviço</a>
+            <a href="#" class="font-medium text-blue-600 hover:text-blue-800">Visualizar</a>
+          </div>
+        </div>
+
+        <!-- Solicitação 3: Finalizada -->
+        <div class="grid grid-cols-12 gap-4 px-6 py-5 items-center hover:bg-gray-50 transition-colors duration-200">
+          <div class="col-span-3 lg:col-span-2 text-gray-700">2024-03-13 09:15</div>
+          <div class="col-span-5 lg:col-span-4 text-gray-800 font-medium">Projetor da Sala de Conferência</div>
+          <div class="col-span-4 lg:col-span-2 text-center">
+            <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">Finalizada</span>
+          </div>
+          <div class="col-span-12 lg:col-span-4 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+            <a href="#" class="font-medium text-blue-600 hover:text-blue-800">Visualizar</a>
+          </div>
+        </div>
+
+        <!-- Solicitação 4: Orçada -->
+        <div class="grid grid-cols-12 gap-4 px-6 py-5 items-center hover:bg-gray-50 transition-colors duration-200">
+          <div class="col-span-3 lg:col-span-2 text-gray-700">2024-03-12 16:45</div>
+          <div class="col-span-5 lg:col-span-4 text-gray-800 font-medium">Sistema de ar condicionado do Prédio Principal</div>
+          <div class="col-span-4 lg:col-span-2 text-center">
+            <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1 rounded-full">Orçada</span>
+          </div>
+          <div class="col-span-12 lg:col-span-4 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+            <a href="#" class="font-medium text-green-600 hover:text-green-800">Aprovar Serviço</a>
+            <a href="#" class="font-medium text-red-600 hover:text-red-800">Rejeitar Serviço</a>
+            <a href="#" class="font-medium text-blue-600 hover:text-blue-800">Visualizar</a>
+          </div>
+        </div>
+
+        <!-- Solicitação 5: Rejeitada -->
+        <div class="grid grid-cols-12 gap-4 px-6 py-5 items-center hover:bg-gray-50 transition-colors duration-200">
+          <div class="col-span-3 lg:col-span-2 text-gray-700">2024-03-11 11:20</div>
+          <div class="col-span-5 lg:col-span-4 text-gray-800 font-medium">Sistema de Câmera de Segurança</div>
+          <div class="col-span-4 lg:col-span-2 text-center">
+            <span class="bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full">Rejeitada</span>
+          </div>
+          <div class="col-span-12 lg:col-span-4 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+            <a href="#" class="font-medium text-green-600 hover:text-green-800">Resgatar Serviço</a>
+            <a href="#" class="font-medium text-blue-600 hover:text-blue-800">Visualizar</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
