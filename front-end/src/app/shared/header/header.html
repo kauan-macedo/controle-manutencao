@@ -1,1 +1,15 @@
-<p>header funciona!</p>
+    <!-- Header do funcionário -->
+    
+    <header class="sticky top-0 z-30 bg-white border-b">
+        <div class="container mx-auto flex items-center justify-between p-4">
+            <div class="logomarca">
+                <h1 class="text-4xl text-blue-600 font-semibold pt-4">Controle Manutenção</h1>
+            </div>
+            <nav class="hidden md:flex space-x-6 text-gray-700">
+                <a [routerLink]="['/funcionario-pagina-inicial']" class="text-xl hover:text-blue-600">Dashboard</a>
+                <a [routerLink]="['/funcionario-apresentar-solicitacoes']" class="text-xl hover:text-blue-600">Solicitações</a>
+                <a [routerLink]="['/funcionario-mostrar-categorias-equipamento']" class="text-xl hover:text-blue-600">Categ. Equip.</a>
+                <a [routerLink]="['/funcionario-mostrar-funcionarios']" class="text-xl hover:text-blue-600">Funcionários</a>
+            </nav>
+        </div>
+    </header>
