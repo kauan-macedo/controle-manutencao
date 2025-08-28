@@ -1,0 +1,86 @@
+package com.controlemanutencao.model;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "ME_Usuario")
+public class Usuario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "IdUsuario", columnDefinition="INT")
+    private Long id;
+
+    @Column(name = "Nome")
+    private String nome;
+
+    @Column(name = "Email", unique = true)
+    private String email;
+
+    @Column(name = "Telefone", unique = true)
+    private String telefone;
+
+    @Column(unique = true)
+    private String CPF;
+
+    @Column(name = "Cidade")
+    private String cidade;
+
+    @Column(name = "Estado")
+    private String estado;
+
+    @Column(name = "Rua")
+    private String rua;
+
+    @Column(name = "Bairro")
+    private String bairro;
+
+    @Column(name = "Numero")
+    private int numero;
+
+    private String CEP;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public String getCPF() {
+        return CPF;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public String getRua() {
+        return rua;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public String getCEP() {
+        return CEP;
+    }
+}

@@ -1,6 +1,6 @@
 package com.controlemanutencao.controller;
 
-import com.controlemanutencao.model.Cliente;
+import com.controlemanutencao.model.Usuario;
 import com.controlemanutencao.model.Response;
 import com.controlemanutencao.model.request.LoginRequest;
 import com.controlemanutencao.model.request.RegisterRequest;
@@ -16,11 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
-
     @PostMapping("/login")
-    public ResponseEntity<Response<Cliente>> login(@RequestBody LoginRequest in) {
+    public ResponseEntity<Response<Usuario>> login(@RequestBody LoginRequest in) {
         // Implementar lógica de login com JWT HTTP-ONLY
         return null;
     }
