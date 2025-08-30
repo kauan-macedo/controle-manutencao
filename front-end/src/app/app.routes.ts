@@ -21,7 +21,7 @@ import { FuncionarioEfetuarManutencao } from './pages/funcionario/funcionario-ef
 
 /*
 
-definindo a rota de login como default por enquanto, os componentes que vêm após a página de login podem ser 
+definindo a rota de login como default por enquanto, os componentes que vêm após a página de login podem ser
 criados dentro do componente layout (assim como dashboard, até agora)
 
 */
@@ -48,7 +48,7 @@ export const routes: Routes = [
     {
         path:'',
         component: Layout,
-        
+
         //criar rotas novas aqui
         children: [
 
@@ -62,7 +62,7 @@ export const routes: Routes = [
                 component: ClienteCriarSolicitacao
             },
             {
-                path: 'cliente-mostrar-solicitacao',
+                path: 'cliente-mostrar-solicitacao/:id',
                 component: ClienteMostrarSolicitacao
             },
             {
@@ -77,7 +77,7 @@ export const routes: Routes = [
                 path: 'cliente-rejeitar-servico',
                 component: ClienteRejeitarServico
             },
-            
+
             // Rotas Funcionário
             {
                 path: 'funcionario-pagina-inicial',

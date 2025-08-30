@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { ClienteCriarSolicitacao } from '../cliente-criar-solicitacao/cliente-criar-solicitacao';
 
 
 @Component({
   selector: 'app-cliente-pagina-inicial',
-  imports: [ ClienteCriarSolicitacao, CommonModule ],
+  imports: [ ClienteCriarSolicitacao, CommonModule, RouterModule ],
   templateUrl: './cliente-pagina-inicial.html',
   styleUrl: './cliente-pagina-inicial.css'
 })

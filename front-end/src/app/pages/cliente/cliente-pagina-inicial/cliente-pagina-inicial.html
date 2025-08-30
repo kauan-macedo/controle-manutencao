@@ -17,7 +17,7 @@
         <tbody class="divide-y divide-gray-100">
         <!-- Solicitação 1 -->
         <tr class="hover:bg-gray-50 transition-colors duration-200">
-          <td class="px-6 py-5 text-gray-700">15/03/2025 10:00</td>
+          <td class="px-6 py-5 text-gray-700">01/03/2025 10:00</td>
           <td class="px-6 py-5 text-gray-800 font-medium">Notebook Dell</td>
           <td class="px-6 py-5 text-center">
             <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1 rounded-full">Orçada</span>
@@ -25,32 +25,32 @@
           <td class="px-6 py-5 flex flex-wrap gap-x-4 gap-y-2 text-sm">
             <a href="#" class="text-green-600 hover:text-green-800 font-medium">Aprovar Serviço</a>
             <a href="#" class="text-red-600 hover:text-red-800 font-medium">Rejeitar Serviço</a>
-            <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Visualizar</a>
+            <a [routerLink]="['/cliente-mostrar-solicitacao', 1]" class="text-blue-600 hover:text-blue-800 font-medium">Visualizar</a>
           </td>
         </tr>
 
         <!-- Solicitação 2 -->
         <tr class="hover:bg-gray-50 transition-colors duration-200">
-          <td class="px-6 py-5 text-gray-700">14/03/2025 14:30</td>
+          <td class="px-6 py-5 text-gray-700">03/03/2025 14:30</td>
           <td class="px-6 py-5 text-gray-800 font-medium">Impressora de Escritório Modelo X12</td>
           <td class="px-6 py-5 text-center">
             <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Arrumada</span>
           </td>
           <td class="px-6 py-5 flex flex-wrap gap-x-4 gap-y-2 text-sm">
             <a href="#" class="text-green-600 hover:text-green-800 font-medium">Pagar Serviço</a>
-            <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Visualizar</a>
+            <a [routerLink]="['/cliente-mostrar-solicitacao', 2]" class="text-blue-600 hover:text-blue-800 font-medium">Visualizar</a>
           </td>
         </tr>
 
         <!-- Solicitação 3 -->
         <tr class="hover:bg-gray-50 transition-colors duration-200">
-          <td class="px-6 py-5 text-gray-700">13/03/2025 09:15</td>
+          <td class="px-6 py-5 text-gray-700">10/03/2025 09:15</td>
           <td class="px-6 py-5 text-gray-800 font-medium">Teclado</td>
           <td class="px-6 py-5 text-center">
             <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">Finalizada</span>
           </td>
           <td class="px-6 py-5 flex flex-wrap gap-x-4 gap-y-2 text-sm">
-            <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Visualizar</a>
+            <a [routerLink]="['/cliente-mostrar-solicitacao', 3]" class="text-blue-600 hover:text-blue-800 font-medium">Visualizar</a>
           </td>
         </tr>
 
@@ -64,20 +64,20 @@
           <td class="px-6 py-5 flex flex-wrap gap-x-4 gap-y-2 text-sm">
             <a href="#" class="text-green-600 hover:text-green-800 font-medium">Aprovar Serviço</a>
             <a href="#" class="text-red-600 hover:text-red-800 font-medium">Rejeitar Serviço</a>
-            <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Visualizar</a>
+            <a [routerLink]="['/cliente-mostrar-solicitacao', 4]" class="text-blue-600 hover:text-blue-800 font-medium">Visualizar</a>
           </td>
         </tr>
 
         <!-- Solicitação 5 -->
         <tr class="hover:bg-gray-50 transition-colors duration-200">
-          <td class="px-6 py-5 text-gray-700">11/03/2025 11:20</td>
+          <td class="px-6 py-5 text-gray-700">19/03/2025 11:20</td>
           <td class="px-6 py-5 text-gray-800 font-medium">Mouse sem fio</td>
           <td class="px-6 py-5 text-center">
             <span class="bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full">Rejeitada</span>
           </td>
           <td class="px-6 py-5 flex flex-wrap gap-x-4 gap-y-2 text-sm">
             <a href="#" class="text-green-600 hover:text-green-800 font-medium">Resgatar Serviço</a>
-            <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Visualizar</a>
+            <a [routerLink]="['/cliente-mostrar-solicitacao', 5]" class="text-blue-600 hover:text-blue-800 font-medium">Visualizar</a>
           </td>
         </tr>
         </tbody>
