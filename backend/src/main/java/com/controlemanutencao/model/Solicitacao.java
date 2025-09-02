@@ -1,5 +1,6 @@
 package com.controlemanutencao.model;
 
+import com.controlemanutencao.model.enums.Converter;
 import com.controlemanutencao.model.enums.StatusSolicitacao;
 import jakarta.persistence.*;
 
@@ -13,7 +14,7 @@ public class Solicitacao {
     private Long id;
 
     @Column(name = "Status")
-    @Convert(converter = StatusSolicitacao.class)
+    @Convert(converter = Converter.StatusSolicitacaoConverter.class)
     private StatusSolicitacao status;
 
     @Column(name = "DescDefeito")
@@ -32,11 +33,11 @@ public class Solicitacao {
     @JoinColumn(name = "IdOrcamento")
     private Orcamento orcamento;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "IdUsuario")
     private Usuario usuario;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "IdCategoria")
     private Categoria categoria;
 

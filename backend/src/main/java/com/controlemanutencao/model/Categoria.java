@@ -14,4 +14,11 @@ public class Categoria {
     @Column(name = "DescCategoria")
     private String descricao;
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
 }
