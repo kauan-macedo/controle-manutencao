@@ -38,6 +38,20 @@ public class Usuario {
     @Column(name = "Numero")
     private int numero;
 
+    public Usuario(Long id, String nome, String email, String telefone, String CPF, String cidade, String estado, String rua, String bairro, int numero, String CEP) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.CPF = CPF;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.rua = rua;
+        this.bairro = bairro;
+        this.numero = numero;
+        this.CEP = CEP;
+    }
+
     private String CEP;
 
     public Long getId() {
