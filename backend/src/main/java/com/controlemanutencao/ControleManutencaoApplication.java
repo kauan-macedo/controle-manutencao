@@ -1,5 +1,6 @@
 package com.controlemanutencao;
 
+import com.controlemanutencao.service.MailService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ControleManutencaoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ControleManutencaoApplication.class, args);
+        SpringApplication.run(ControleManutencaoApplication.class, args);
 	}
 
 }
