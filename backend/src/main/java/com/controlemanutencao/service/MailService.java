@@ -26,12 +26,12 @@ public class MailService {
 
         Session session = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("controlemanutencao984@gmail.com", "qfcj fmjc lpci odbr");
+                return new PasswordAuthentication(username, password);
             }
         });
 
         Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("controlemanutencao984@gmail.com"));
+        message.setFrom(new InternetAddress(username));
         message.setRecipients(
                 Message.RecipientType.TO,
                 InternetAddress.parse(to)
