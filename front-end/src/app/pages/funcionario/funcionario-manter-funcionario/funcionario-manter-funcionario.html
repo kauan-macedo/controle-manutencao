@@ -1,1 +1,70 @@
-<p>funcionario-manter-funcionario works!</p>
+<main class="flex justify-center items-center min-h-screen bg-gray-100 p-8">
+  <div class="max-w-4xl w-full mx-auto">
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-4xl font-bold text-gray-800">Gerenciar Funcionários</h1>
+    </div>
+
+    
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+      <h2 class="text-xl font-bold mb-4">Adicionar Novo Funcionário</h2>
+      <form #addForm="ngForm" (ngSubmit)="onAdicionar(addForm)" class="flex flex-col gap-4">
+        <input 
+          type="text" 
+          name="nomeFuncionario" 
+          placeholder="Nome" 
+          required 
+          [(ngModel)]="novoFuncionario.nome"
+          class="p-3 border rounded-lg bg-gray-50"
+        />
+        <input 
+          type="email" 
+          name="emailFuncionario" 
+          placeholder="E-mail (Login)" 
+          required 
+          [(ngModel)]="novoFuncionario.email"
+          class="p-3 border rounded-lg bg-gray-50"
+        />
+        <input 
+          type="password" 
+          name="senhaFuncionario" 
+          placeholder="Senha" 
+          required 
+          [(ngModel)]="novoFuncionario.senha"
+          class="p-3 border rounded-lg bg-gray-50"
+        />
+        <button 
+          type="submit" 
+          [disabled]="addForm.invalid"
+          class="py-3 px-6 bg-blue-600 text-white font-semibold rounded-lg shadow-md"
+        >
+          Adicionar
+        </button>
+      </form>
+    </div>
+
+    
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">ID</th>
+            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Nome</th>
+            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">E-mail</th>
+            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Ações</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr *ngFor="let funcionario of funcionarios">
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ funcionario.id }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ funcionario.nome }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ funcionario.email }}</td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+              <a href="#" (click)="onEditar(funcionario)" class="text-blue-600 hover:text-blue-900 mr-4">Editar</a>
+              <a href="#" (click)="onRemover(funcionario.id)" class="text-red-600 hover:text-red-900">Remover</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
