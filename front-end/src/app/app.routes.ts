@@ -66,15 +66,15 @@ export const routes: Routes = [
                 component: ClienteMostrarSolicitacao
             },
             {
-                path: 'cliente-mostrar-orcamento',
+                path: 'cliente-mostrar-orcamento/:id',
                 component: ClienteMostrarOrcamento
             },
             {
-                path: 'cliente-aprovar-servico',
+                path: 'cliente-aprovar-servico/:id',
                 component: ClienteAprovarServico
             },
             {
-                path: 'cliente-rejeitar-servico',
+                path: 'cliente-rejeitar-servico/:id',
                 component: ClienteRejeitarServico
             },
 

@@ -1,1 +1,68 @@
-<p>cliente-mostrar-orcamento works!</p>
+<main class="bg-gray-50 p-4 md:p-8 font-sans">
+  <div *ngIf="solicitacao" class="max-w-4xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
+
+    <!-- Cabeçalho -->
+    <div class="p-6 bg-gray-100 border-b">
+      <h1 class="text-3xl font-bold text-gray-800">Orçamento da Solicitação</h1>
+      <p class="text-md text-gray-600">Solicitado em: {{ solicitacao.dataHora | date:'dd/MM/yyyy \'às\' HH:mm' }}</p>
+    </div>
+
+    <!-- Corpo com Detalhes -->
+    <div class="p-6">
+
+      <!-- Detalhes da Solicitação -->
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Detalhes da Solicitação</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+          <div>
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Equipamento</h3>
+            <p class="text-lg text-gray-800">{{ solicitacao.descricaoEquipamento }}</p>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Categoria</h3>
+            <p class="text-lg text-gray-800">{{ solicitacao.categoria }}</p>
+          </div>
+          <div class="md:col-span-2">
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Descrição do Defeito</h3>
+            <p class="text-lg text-gray-800 bg-gray-50 p-3 rounded-md mt-1">{{ solicitacao.defeito }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detalhes do Cliente -->
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Seus Dados</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+          <div>
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Nome</h3>
+            <p class="text-lg text-gray-800">{{ solicitacao.cliente.nome }}</p>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Contato</h3>
+            <p class="text-lg text-gray-800">{{ solicitacao.cliente.contato }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção do Orçamento -->
+      <div>
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Valor do Orçamento</h2>
+        <div class="bg-green-100 text-green-800 p-6 rounded-lg text-center">
+          <p class="text-4xl font-bold">{{ solicitacao.preco | currency:'BRL' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rodapé com Ações -->
+    <div class="p-6 bg-gray-50 border-t flex flex-col md:flex-row justify-end items-center gap-4">
+      <button (click)="rejeitarServico()"
+              class="w-full md:w-auto px-6 py-3 bg-red-600 text-white font-semibold text-sm uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 transition duration-150 ease-in-out">
+        Rejeitar Serviço
+      </button>
+      <button (click)="aprovarServico()"
+              class="w-full md:w-auto px-6 py-3 bg-blue-600 text-white font-semibold text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out">
+        Aprovar Serviço
+      </button>
+    </div>
+  </div>
+</main>
