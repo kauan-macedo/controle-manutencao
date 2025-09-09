@@ -1,27 +1,31 @@
-<div class="relative flex items-center justify-center size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden overflow-hidden p-16 pt-40">
+<div
+    class="relative flex items-center justify-center size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden overflow-hidden p-16 pt-40">
     <div class="w-full max-w-lg">
         <h2 class="text-4xl font-bold mb-8 text-center">Sistema de Manutenção de Equipamentos</h2>
-        
+
         <form class="space-y-8">
             <div>
                 <label for="email" class="block text-base font-medium leading-normal pb-2">Email</label>
                 <input type="text" id="email" name="email" required
-                       class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border-none bg-[#f0f2f5] focus:border-none py-4 placeholder:text-[#60758a] p-4 text-base font-normal leading-normal"
-                       placeholder="Insira seu email">
+                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border-none bg-[#f0f2f5] focus:border-none py-4 placeholder:text-[#60758a] p-4 text-base font-normal leading-normal"
+                    placeholder="Insira seu email">
             </div>
-            
+
             <div>
                 <label for="password" class="block text-base font-medium leading-normal pb-2">Senha</label>
                 <input type="password" id="password" name="password" required
-                       class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border-none bg-[#f0f2f5] focus:border-none py-4 placeholder:text-[#60758a] p-4 text-base font-normal leading-normal"
-                       placeholder="Insira sua senha">
+                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border-none bg-[#f0f2f5] focus:border-none py-4 placeholder:text-[#60758a] p-4 text-base font-normal leading-normal"
+                    placeholder="Insira sua senha">
             </div>
-            
-            <button type="submit" class="w-full py-4 px-4 bg-blue-500 text-white rounded-md">
-                Entrar
+
+            <button class="w-full py-4 px-4 bg-blue-500 text-white rounded-md" routerLink="/cliente-pagina-inicial">
+                Entrar como Cliente
+            </button>
+            <button class="w-full py-4 px-4 bg-blue-500 text-white rounded-md" routerLink="/funcionario-pagina-inicial">
+                Entrar como Funcionário
             </button>
         </form>
-        
+
         <p class="text-center mt-4 text-base font-medium leading-normal pb-2">
             Não tem uma conta? <a [routerLink]="['/autocadastro']" class="text-blue-500">Criar conta</a>
         </p>
