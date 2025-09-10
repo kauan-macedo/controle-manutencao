@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router';
-import { Login } from './pages/sem-perfil/login/login'
+import { Login } from './pages/sem-perfil/login/login';
 import { Autocadastro  } from './pages/sem-perfil/autocadastro/autocadastro';
-import { Layout } from './pages/layout/layout'
+import { ClienteLayout } from './pages/cliente/cliente-layout/cliente-layout';
+import { FuncionarioLayout } from './pages/funcionario/funcionario-layout/funcionario-layout';
 import { ClientePaginaInicial } from './pages/cliente/cliente-pagina-inicial/cliente-pagina-inicial';
 import { FuncionarioPaginaInicial } from './pages/funcionario/funcionario-pagina-inicial/funcionario-pagina-inicial';
 import { ClienteCriarSolicitacao } from './pages/cliente/cliente-criar-solicitacao/cliente-criar-solicitacao';
@@ -27,7 +28,7 @@ criados dentro do componente layout (assim como dashboard, até agora)
 */
 
 export const routes: Routes = [
-
+    //rotas sem perfil
     {
         path:'',
         redirectTo: 'login',
@@ -44,81 +45,84 @@ export const routes: Routes = [
         component: Autocadastro
     },
 
+        // rotas para perfil cliente
+        {
+            path:'cliente',
+            component: ClienteLayout,
+            children: [
+                {
+                    path: 'pagina-inicial',
+                    component: ClientePaginaInicial
+                },
+                {
+                    path: 'criar-solicitacao',
+                    component: ClienteCriarSolicitacao
+                },
+                {
+                    path: 'mostrar-solicitacao/:id',
+                    component: ClienteMostrarSolicitacao
+                },
+                {
+                    path: 'mostrar-orcamento/:id',
+                    component: ClienteMostrarOrcamento
+                },
+                {
+                    path: 'aprovar-servico/:id',
+                    component: ClienteAprovarServico
+                },
+                {
+                    path: 'rejeitar-servico/:id',
+                    component: ClienteRejeitarServico
+                },
+            ]
+        },
 
-    {
-        path:'',
-        component: Layout,
-
-        //criar rotas novas aqui
+        //rotas para perfil funcionario
+        {
+        path:'funcionario',
+        component: FuncionarioLayout,
         children: [
-
-            // Rotas Cliente
             {
-                path: 'cliente-pagina-inicial',
-                component: ClientePaginaInicial
-            },
-            {
-                path: 'cliente-criar-solicitacao',
-                component: ClienteCriarSolicitacao
-            },
-            {
-                path: 'cliente-mostrar-solicitacao/:id',
-                component: ClienteMostrarSolicitacao
-            },
-            {
-                path: 'cliente-mostrar-orcamento/:id',
-                component: ClienteMostrarOrcamento
-            },
-            {
-                path: 'cliente-aprovar-servico/:id',
-                component: ClienteAprovarServico
-            },
-            {
-                path: 'cliente-rejeitar-servico/:id',
-                component: ClienteRejeitarServico
-            },
-
-            // Rotas Funcionário
-            {
-                path: 'funcionario-pagina-inicial',
+                path: 'pagina-inicial',
                 component: FuncionarioPaginaInicial
             },
             {
-                path: 'funcionario-mostrar-relatorio-receitas',
+                path: 'mostrar-relatorio-receitas',
                 component: FuncionarioMostrarRelatorioReceitas
             },
             {
-                path: 'funcionario-mostrar-relatorio-receitas-categoria',
+                path: 'mostrar-relatorio-receitas-categoria',
                 component: FuncionarioMostrarRelatorioReceitasCategoria
             },
             {
-                path: 'funcionario-mostrar-funcionarios',
+                path: 'mostrar-funcionarios',
                 component: FuncionarioMostrarFuncionarios
             },
             {
-                path: 'funcionario-manter-funcionario',
+                path: 'manter-funcionario',
                 component: FuncionarioManterFuncionario
             },
             {
-                path: 'funcionario-mostrar-categorias-equipamento',
+                path: 'mostrar-categorias-equipamento',
                 component: FuncionarioMostrarCategoriasEquipamento
             },
             {
-                path: 'funcionario-manter-categoria-equipamento',
+                path: 'manter-categoria-equipamento',
                 component: FuncionarioManterCategoriaEquipamento
             },
             {
-                path: 'funcionario-efetuar-orcamento',
+                path: 'efetuar-orcamento',
                 component: FuncionarioEfetuarOrcamento
             },
             {
-                path: 'funcionario-apresentar-solicitacoes',
+                path: 'apresentar-solicitacoes',
                 component: FuncionarioApresentarSolicitacoes
             },
             {
-                path: 'funcionario-efetuar-manutencao',
+                path: 'efetuar-manutencao',
                 component: FuncionarioEfetuarManutencao
             }
         ]
     }
+
 ];
