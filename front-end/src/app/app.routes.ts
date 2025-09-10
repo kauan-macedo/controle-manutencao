@@ -22,9 +22,7 @@ import { FuncionarioEfetuarManutencao } from './pages/funcionario/funcionario-ef
 
 /*
 
-definindo a rota de login como default por enquanto, os componentes que vêm após a página de login podem ser
-criados dentro do componente layout (assim como dashboard, até agora)
-
+definindo a rota de login como default, após isso as rotas são divididas entre funcionario e cliente
 */
 
 export const routes: Routes = [

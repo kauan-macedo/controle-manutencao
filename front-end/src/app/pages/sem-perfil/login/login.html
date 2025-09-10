@@ -6,24 +6,26 @@
         <form class="space-y-8">
             <div>
                 <label for="email" class="block text-base font-medium leading-normal pb-2">Email</label>
-                <input type="text" id="email" name="email" required
+                <input type="text" id="email" name="email"
                     class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border-none bg-[#f0f2f5] focus:border-none py-4 placeholder:text-[#60758a] p-4 text-base font-normal leading-normal"
                     placeholder="Insira seu email">
             </div>
 
             <div>
                 <label for="password" class="block text-base font-medium leading-normal pb-2">Senha</label>
-                <input type="password" id="password" name="password" required
+                <input type="password" id="password" name="password"
                     class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border-none bg-[#f0f2f5] focus:border-none py-4 placeholder:text-[#60758a] p-4 text-base font-normal leading-normal"
                     placeholder="Insira sua senha">
             </div>
 
-            <button class="w-full py-4 px-4 bg-blue-500 text-white rounded-md" routerLink="/cliente-pagina-inicial">
-                Entrar como Cliente
+            <div class="space-y-8">
+            <button class="w-full py-4 px-4 bg-blue-500 text-white rounded-md">
+                <a [routerLink]="['/cliente/pagina-inicial']" class="block w-full text-center text-white">Entrar como Cliente</a>
             </button>
-            <button class="w-full py-4 px-4 bg-blue-500 text-white rounded-md" routerLink="/funcionario-pagina-inicial">
-                Entrar como Funcionário
+            <button class="w-full py-4 px-4 bg-blue-500 text-white rounded-md">
+                <a [routerLink]="['/funcionario/pagina-inicial']" class="block w-full text-center text-white">Entrar como Funcionário</a>
             </button>
+        </div>
         </form>
 
         <p class="text-center mt-4 text-base font-medium leading-normal pb-2">
