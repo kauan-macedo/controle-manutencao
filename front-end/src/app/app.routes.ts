@@ -19,6 +19,8 @@ import { FuncionarioMostrarCategoriasEquipamento } from './pages/funcionario/fun
 import { FuncionarioManterCategoriaEquipamento } from './pages/funcionario/funcionario-manter-categoria-equipamento/funcionario-manter-categoria-equipamento';
 import { FuncionarioApresentarSolicitacoes } from './pages/funcionario/funcionario-apresentar-solicitacoes/funcionario-apresentar-solicitacoes';
 import { FuncionarioEfetuarManutencao } from './pages/funcionario/funcionario-efetuar-manutencao/funcionario-efetuar-manutencao';
+import { FuncionarioModalRedirecionarManutencao } from './pages/funcionario/funcionario-modal-redirecionar-manutencao/funcionario-modal-redirecionar-manutencao';
+import { FuncionarioModalEfetuarManutencao } from './pages/funcionario/funcionario-modal-efetuar-manutencao/funcionario-modal-efetuar-manutencao';
 
 /*
 
@@ -117,8 +119,16 @@ export const routes: Routes = [
                 component: FuncionarioApresentarSolicitacoes
             },
             {
-                path: 'efetuar-manutencao',
+                path: 'efetuar-manutencao/:id',
                 component: FuncionarioEfetuarManutencao
+            },
+            {
+                path: 'funcionario-modal-redirecionar-manutencao/:id',
+                component: FuncionarioModalRedirecionarManutencao
+            },
+            {
+                path: 'funcionario-modal-efetuar-manutencao/:id',
+                component: FuncionarioModalEfetuarManutencao
             }
         ]
     }

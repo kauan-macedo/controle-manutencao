@@ -4,9 +4,9 @@
       <h1 class="text-4xl font-bold text-gray-800">Minhas Solicitações</h1>
     </header>
 
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+    <div class="bg-white rounded-lg shadow-md overflow-hidden max-h-[70vh] overflow-y-scroll">
       <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-100 text-gray-600 uppercase text-sm font-semibold">
+        <thead class="bg-gray-100 text-gray-600 uppercase text-sm font-semibold sticky top-0">
         <tr>
           <th class="px-6 py-4 text-left w-1/6">Data/Hora</th>
           <th class="px-6 py-4 text-left w-2/5">Descrição do Equipamento</th>
@@ -15,69 +15,37 @@
         </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
-        <!-- Solicitação 1 -->
-        <tr class="hover:bg-gray-50 transition-colors duration-200">
-          <td class="px-6 py-5 text-gray-700">01/03/2025 10:00</td>
-          <td class="px-6 py-5 text-gray-800 font-medium">Notebook Dell</td>
-          <td class="px-6 py-5 text-center">
-            <span class="bg-amber-800 text-amber-100 text-xs font-semibold px-3 py-1 rounded-full">Orçada</span>
-          </td>
-          <td class="px-6 py-5 flex flex-wrap gap-x-4 gap-y-2 text-sm">
-            <a [routerLink]="['/cliente-mostrar-orcamento', 1]" class="text-yellow-600 hover:text-yellow-800 font-medium">Aprovar/Rejeitar Serviço</a>
-            <a [routerLink]="['/cliente-mostrar-solicitacao', 1]" class="text-blue-600 hover:text-blue-800 font-medium">Visualizar</a>
-          </td>
-        </tr>
-
-        <!-- Solicitação 2 -->
-        <tr class="hover:bg-gray-50 transition-colors duration-200">
-          <td class="px-6 py-5 text-gray-700">03/03/2025 14:30</td>
-          <td class="px-6 py-5 text-gray-800 font-medium">Impressora de Escritório Modelo X12</td>
-          <td class="px-6 py-5 text-center">
-            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Arrumada</span>
-          </td>
-          <td class="px-6 py-5 flex flex-wrap gap-x-4 gap-y-2 text-sm">
-            <a href="#" class="text-green-600 hover:text-green-800 font-medium">Pagar Serviço</a>
-            <a [routerLink]="['/cliente-mostrar-solicitacao', 2]" class="text-blue-600 hover:text-blue-800 font-medium">Visualizar</a>
-          </td>
-        </tr>
-
-        <!-- Solicitação 3 -->
-        <tr class="hover:bg-gray-50 transition-colors duration-200">
-          <td class="px-6 py-5 text-gray-700">10/03/2025 09:15</td>
-          <td class="px-6 py-5 text-gray-800 font-medium">Teclado</td>
-          <td class="px-6 py-5 text-center">
-            <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">Finalizada</span>
-          </td>
-          <td class="px-6 py-5 flex flex-wrap gap-x-4 gap-y-2 text-sm">
-            <a [routerLink]="['/cliente-mostrar-solicitacao', 3]" class="text-blue-600 hover:text-blue-800 font-medium">Visualizar</a>
-          </td>
-        </tr>
-
-        <!-- Solicitação 4 -->
-        <tr class="hover:bg-gray-50 transition-colors duration-200">
-          <td class="px-6 py-5 text-gray-700">12/03/2025 16:45</td>
-          <td class="px-6 py-5 text-gray-800 font-medium">Desktop 2025</td>
-          <td class="px-6 py-5 text-center">
-            <span class="bg-amber-800 text-amber-100 text-xs font-semibold px-3 py-1 rounded-full">Orçada</span>
-          </td>
-          <td class="px-6 py-5 flex flex-wrap gap-x-4 gap-y-2 text-sm">
-            <a [routerLink]="['/cliente-mostrar-orcamento', 4]" class="text-yellow-600 hover:text-yellow-800 font-medium">Aprovar/Rejeitar Serviço</a>
-            <a [routerLink]="['/cliente-mostrar-solicitacao', 4]" class="text-blue-600 hover:text-blue-800 font-medium">Visualizar</a>
-          </td>
-        </tr>
-
-        <!-- Solicitação 5 -->
-        <tr class="hover:bg-gray-50 transition-colors duration-200">
-          <td class="px-6 py-5 text-gray-700">19/03/2025 11:20</td>
-          <td class="px-6 py-5 text-gray-800 font-medium">Mouse sem fio</td>
-          <td class="px-6 py-5 text-center">
-            <span class="bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full">Rejeitada</span>
-          </td>
-          <td class="px-6 py-5 flex flex-wrap gap-x-4 gap-y-2 text-sm">
-            <a href="#" class="text-stone-600 hover:text-stone-800 font-medium">Resgatar Serviço</a>
-            <a [routerLink]="['/cliente-mostrar-solicitacao', 5]" class="text-blue-600 hover:text-blue-800 font-medium">Visualizar</a>
-          </td>
-        </tr>
+        
+          @for (solicitacao of minhasSolicitacoes; track solicitacao.id) {
+            <tr class="hover:bg-gray-50 transition-colors duration-200">
+                <td class="px-4 border-b border-slate-200 py-5">
+                    <p class="text-lg text-gray-800">{{ solicitacao.dataHora | date:'dd/MM/yyyy HH:mm' }}</p>
+                </td>
+                <td class="px-4 border-b border-slate-200 py-5">
+                    <p class="text-lg text-gray-800">{{ solicitacao.produto }}</p>
+                </td>
+                <td class="px-4 border-b border-slate-200 py-5 text-center">
+                    <p class="inline-block text-sm font-semibold px-3 py-1 rounded-full" [ngClass]="{
+                    'bg-green-100 text-green-800': solicitacao.status === 'Finalizada',
+                    'bg-blue-100 text-blue-800': solicitacao.status === 'Arrumada',
+                    'bg-amber-800 text-amber-100': solicitacao.status === 'Orçada',
+                    'bg-red-100 text-red-800': solicitacao.status === 'Rejeitada',
+                  }">{{ solicitacao.status }}</p>
+                </td>
+                <td class="px-4 border-b border-slate-200 py-5 space-x-4">
+                  <a [routerLink]="['/cliente-mostrar-orcamento', solicitacao.id]" class="text-lg" [ngClass]="{
+                    'text-yellow-600 hover:text-yellow-800': solicitacao.acao === 'Aprovar/Rejeitar',
+                    'text-stone-600 hover:text-stone-800': solicitacao.acao === 'Resgatar Serviço',
+                    'text-green-600 hover:text-green-800': solicitacao.acao === 'Pagar',
+                  }">{{ solicitacao.acao }}</a>
+                  <a [routerLink]="['/cliente-mostrar-solicitacao', solicitacao.id]" class="text-lg text-blue-800 hover:text-blue-950">Visualizar</a>
+                </td>
+            </tr>
+        } @empty {
+          <tr>
+            <td colspan="4" class="text-center py-6 text-gray-500">Sem elementos!</td>
+          </tr>
+        }
         </tbody>
       </table>
     </div>
