@@ -41,7 +41,7 @@ public class AuthController {
         // Implementar lógica de register
 
         Usuario usuario = new Usuario(
-                null,
+                0,
                 in.nome(),
                 in.email(),
                 in.telefone(),

@@ -7,6 +7,9 @@ import jakarta.persistence.*;
 public class Login {
 
     @Id
+    @Column(name = "IdLogin")
+    private int loginId;
+
     @ManyToOne
     @JoinColumn(name = "IdUsuario", referencedColumnName = "IdUsuario")
     private Usuario usuario;

@@ -9,7 +9,7 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "IdUsuario", columnDefinition="INT")
-    private Long id;
+    private int id;
 
     @Column(name = "Nome")
     private String nome;
@@ -38,7 +38,7 @@ public class Usuario {
     @Column(name = "Numero")
     private int numero;
 
-    public Usuario(Long id, String nome, String email, String telefone, String CPF, String cidade, String estado, String rua, String bairro, int numero, String CEP) {
+    public Usuario(int id, String nome, String email, String telefone, String CPF, String cidade, String estado, String rua, String bairro, int numero, String CEP) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -54,7 +54,7 @@ public class Usuario {
 
     private String CEP;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
