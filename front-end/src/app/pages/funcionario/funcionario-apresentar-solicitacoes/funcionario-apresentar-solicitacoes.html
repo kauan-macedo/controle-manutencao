@@ -1,10 +1,22 @@
 <main class="font-sans p-8">
   <div class="max-w-7xl mx-auto">
-    <header class="mb-8">
-      <h1 class="text-4xl font-bold text-gray-800">Solicitações Abertas</h1>
-    </header>
+    <div class="flex justify-between">
+      <header class="mb-4">
+        <h1 class="text-4xl font-bold text-gray-800">Solicitações Abertas</h1>
+      </header>
 
-    <div class="bg-white rounded-lg shadow-md overflow-hidden max-h-[70vh] overflow-y-scroll">
+      <!--Header da tabela com Filtro-->
+
+      <div class=" flex justify-end gap-4 px-4 pb-4">
+        
+
+        <button id="botaoFiltro" type="button" data-dropdown-toggle="filterDropdown" class="w-24 flex items-center justify-center py-2 px-4 text-lg font-semibold text-gray-600 focus:outline-none bg-blue-200 rounded-lg hover:bg-blue-300 ease-in-out transition duration-150">
+          Filtrar 
+        </button>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md overflow-hidden max-h-[65vh] overflow-y-scroll">
 
       <table class="min-w-full divide-y divide-gray-200 table-auto">
         <thead class="bg-gray-100 text-gray-600 uppercase text-sm font-semibold sticky top-0">
@@ -39,14 +51,4 @@
       </table>
     </div>
   </div>
-
-<!-- adicionando botao de criar solicitacao e exibindo o componente -->
-  <div class="p-8 flex justify-center">
-  <div class="flex justify-between items-center mb-6">
-    <button class="py-3 px-6 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700">
-      Criar Solicitação
-    </button>
-  </div>
-  </div>
-
 </main>

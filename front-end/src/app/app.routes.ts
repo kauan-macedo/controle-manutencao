@@ -111,7 +111,7 @@ export const routes: Routes = [
                 component: FuncionarioManterCategoriaEquipamento
             },
             {
-                path: 'efetuar-orcamento',
+                path: 'efetuar-orcamento/:id',
                 component: FuncionarioEfetuarOrcamento
             },
             {

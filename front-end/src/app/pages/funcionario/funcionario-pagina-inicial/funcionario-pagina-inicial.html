@@ -1,1 +1,42 @@
-<p>funcionario-pagina-inicial works!</p>
+<main class="font-sans p-8">
+  <div class="max-w-7xl mx-auto">
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold text-gray-800">Solicitações Abertas</h1>
+    </header>
+
+    <div class="bg-white rounded-lg shadow-md overflow-hidden max-h-[65vh] overflow-y-scroll">
+
+      <table class="min-w-full divide-y divide-gray-200 table-auto">
+        <thead class="bg-gray-100 text-gray-600 uppercase text-sm font-semibold sticky top-0">
+        <tr>
+          <th class="px-6 py-4 text-left w-1/6">Data/Hora</th>
+          <th class="px-6 py-4 text-left w-1/6">Cliente</th>
+          <th class="px-6 py-4 text-left w-2/5">Descrição Produto</th>
+          <th class="px-6 py-4 text-left w-1/6">Ações</th>
+        </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+
+        @for (solicitacao of solicitacoesAbertas; track solicitacao.id) {
+            <tr class="hover:bg-gray-50 transition-colors duration-200">
+                <td class="px-4 border-b border-slate-200 py-5">
+                    <p class="text-lg text-gray-800">{{ solicitacao.dataHora | date:'dd/MM/yyyy HH:mm' }}</p>
+                </td>
+                <td class="px-4 border-b border-slate-200 py-5">
+                    <p class="text-lg text-gray-800">{{ solicitacao.cliente }}</p>
+                </td>
+                <td class="px-4 border-b border-slate-200 py-5">
+                    <p class="text-lg text-gray-800">{{ solicitacao.produto }}</p>
+                </td>
+                <td class="px-4 border-b border-slate-200 py-5">
+                    <a [routerLink]="['/funcionario/efetuar-orcamento', solicitacao.id]" class="text-lg text-blue-800 hover:text-blue-950">{{ solicitacao.acao }}</a>
+                </td>
+            </tr>
+        } @empty {
+            <p>Sem Elementos!</p>
+        }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>

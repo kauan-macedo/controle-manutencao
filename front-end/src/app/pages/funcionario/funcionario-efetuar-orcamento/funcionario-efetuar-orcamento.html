@@ -1,61 +1,64 @@
-<div class="px-40 pt-10 divide-y">
-    <!--Detalhes Solicitação-->
-    <div>
-        <h3 class="text-4xl font-semibold text-slate-800">Orçamento para Solicitação #123456</h3>
-        <h3 class="pt-10 text-xl font-semibold text-slate-800">Detalhes da Solicitação</h3>
+<main class="bg-gray-50 p-4 md:p-8 font-sans">
+  <div *ngIf="solicitacao" class="max-w-4xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
+
+    <!-- Cabeçalho -->
+    <div class="p-6 bg-gray-100 border-b">
+      <h1 class="text-3xl font-bold text-gray-800">Detalhes da Solicitação</h1>
+      <p class="text-md text-gray-600">Solicitado em: {{ solicitacao.dataHora | date:'dd/MM/yyyy \'às\' HH:mm' }}</p>
     </div>
-    <div class="flex pt-5 pb-5">
-        <div class="flex flex-col w-96">
-            <label for="dataDeCriacao" class="text-slate-500">Data de Criação</label>
-            <p>01 de Fevereiro de 2025</p>
+
+    <!-- Corpo com Detalhes -->
+    <div class="p-6 h-[60vh] overflow-y-scroll">
+
+      <!-- Detalhes da Solicitação -->
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Detalhes da Solicitação #{{ solicitacao.id}}</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+          <div>
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Equipamento</h3>
+            <p class="text-lg text-gray-800">{{ solicitacao.descricaoEquipamento }}</p>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Categoria</h3>
+            <p class="text-lg text-gray-800">{{ solicitacao.categoria }}</p>
+          </div>
+          <div class="md:col-span-2">
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Descrição do Defeito</h3>
+            <p class="text-lg text-gray-800 bg-gray-50 p-3 rounded-md mt-1">{{ solicitacao.defeito }}</p>
+          </div>
         </div>
-        <div class="flex flex-col">
-            <label for="equipamento" class="text-slate-500">Equipamento</label>
-            <p>Samsung Book 2</p>
+      </div>
+
+      <!-- Detalhes do Cliente -->
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Dados do Cliente</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+          <div>
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Nome</h3>
+            <p class="text-lg text-gray-800">{{ solicitacao.cliente.nome }}</p>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Telefone</h3>
+            <p class="text-lg text-gray-800">{{ solicitacao.cliente.telefone }}</p>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Endereço</h3>
+            <p class="text-lg text-gray-800">{{ solicitacao.cliente.endereco }}</p>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Email</h3>
+            <p class="text-lg text-gray-800">{{ solicitacao.cliente.email }}</p>
+          </div>
         </div>
+      </div>
     </div>
-    <div class="flex pt-5">
-        <div class="flex flex-col w-96">
-            <label for="problema" class="text-slate-500">Problema</label>
-            <p>Tela quebrada</p>
-        </div>
-        <div class="flex flex-col">
-            <label for="status" class="text-slate-500">Status</label>
-            <p>Em Análise</p>
-        </div>
+
+    <div class="px-6 py-4 bg-gray-50 border-t flex flex-col md:flex-row justify-between items-center gap-4">
+        <input id="valorOrcamento" type="text" formControlName="valorOrcamento" placeholder="Valor" class="form-input flex min-w-0 resize-none overflow-hidden rounded-lg text-[#111418] focus:outline-0 focus:ring-0 border-none bg-blue-200 focus:border-none py-2 placeholder:text-[#60758a] px-4 text-base font-semibold leading-normal">
+        <button class="w-full md:w-auto px-6 py-3 bg-blue-600 text-white font-semibold text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out">
+            Efetuar Orçamento
+        </button>
+
     </div>
-    <!--Detalhes Cliente-->
-    <div>
-        <h3 class="pt-10 text-xl font-semibold text-slate-800">Detalhes do Cliente</h3>
-    </div>
-    <div class="flex pt-5 pb-5">
-        <div class="flex flex-col w-96">
-            <label for="nome" class="text-slate-500">Nome</label>
-            <p>João da Silva</p>
-        </div>
-        <div class="flex flex-col w-96">
-            <label for="contato" class="text-slate-500">Contato</label>
-            <p>(41) 91234-5678</p>
-        </div>
-    </div>
-    <div class="flex pt-5"> 
-        <div class="flex flex-col w-96">
-            <label for="contato2" class="text-slate-500">Contato2</label>
-            <p>joao.silva@gmail.com</p>
-        </div>
-        <div class="flex flex-col w-96">
-            <label for="endereco" class="text-slate-500">Endereço</label>
-            <p>Rua dos Bobos, 0</p>
-        </div>
-    </div>
-    <!--Enviar Orçamento-->
-    <div class="flex flex-col pt-5">
-        <label for="valorDoOrcamento" class="text-xl font-semibold text-slate-800">Valor do Orçamento</label>
-        <div class="flex justify-between pt-5">
-            <input type="text" class="bg-gray-200 appearance-none border-2 border-gray-200
-            rounded py-2 px-4 text-xl text-gray-700 leading-tight focus:outline-none focus:bg-white
-            focus:border-purple-500 w-64 h-16">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-64 h-16">Enviar</button>
-        </div>
-    </div>
-</div>
+  </div>
+</main>
