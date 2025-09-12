@@ -1,10 +1,15 @@
 package com.controlemanutencao.model;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "ME_Usuario")
-public class Usuario {
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +43,9 @@ public class Usuario {
     @Column(name = "Numero")
     private int numero;
 
+    @Column(name = "Senha")
+    private String senha;
+
     public Usuario(int id, String nome, String email, String telefone, String CPF, String cidade, String estado, String rua, String bairro, int numero, String CEP) {
         this.id = id;
         this.nome = nome;
@@ -53,6 +61,10 @@ public class Usuario {
     }
 
     private String CEP;
+
+    public String getSenha() {
+        return senha;
+    }
 
     public int getId() {
         return id;
@@ -97,4 +109,20 @@ public class Usuario {
     public String getCEP() {
         return CEP;
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public String getPassword() {
+        return senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
 }
