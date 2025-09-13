@@ -4,36 +4,36 @@
       <h1 class="text-4xl font-bold text-gray-800">Gerenciar Funcionários</h1>
     </div>
 
-    
+
     <div class="bg-white rounded-lg shadow-md p-6 mb-8">
       <h2 class="text-xl font-bold mb-4">Adicionar Novo Funcionário</h2>
       <form #addForm="ngForm" (ngSubmit)="onAdicionar(addForm)" class="flex flex-col gap-4">
-        <input 
-          type="text" 
-          name="nomeFuncionario" 
-          placeholder="Nome" 
-          required 
+        <input
+          type="text"
+          name="nomeFuncionario"
+          placeholder="Nome"
+          required
           [(ngModel)]="novoFuncionario.nome"
           class="p-3 border rounded-lg bg-gray-50"
         />
-        <input 
-          type="email" 
-          name="emailFuncionario" 
-          placeholder="E-mail (Login)" 
-          required 
+        <input
+          type="email"
+          name="emailFuncionario"
+          placeholder="E-mail (Login)"
+          required
           [(ngModel)]="novoFuncionario.email"
           class="p-3 border rounded-lg bg-gray-50"
         />
-        <input 
-          type="password" 
-          name="senhaFuncionario" 
-          placeholder="Senha" 
-          required 
+        <input
+          type="password"
+          name="senhaFuncionario"
+          placeholder="Senha"
+          required
           [(ngModel)]="novoFuncionario.senha"
           class="p-3 border rounded-lg bg-gray-50"
         />
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           [disabled]="addForm.invalid"
           class="py-3 px-6 bg-blue-600 text-white font-semibold rounded-lg shadow-md"
         >
@@ -41,8 +41,6 @@
         </button>
       </form>
     </div>
-
-    
     <div class="bg-white rounded-lg shadow-md overflow-hidden">
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-100">
@@ -59,12 +57,50 @@
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ funcionario.nome }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ funcionario.email }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-              <a href="#" (click)="onEditar(funcionario)" class="text-blue-600 hover:text-blue-900 mr-4">Editar</a>
-              <a href="#" (click)="onRemover(funcionario.id)" class="text-red-600 hover:text-red-900">Remover</a>
+              <a href="#" (click)="onEditar(funcionario); $event.preventDefault()" class="text-blue-600 hover:text-blue-900 mr-4">Editar</a>
+              <a href="#" (click)="onRemover(funcionario.id); $event.preventDefault()" class="text-red-600 hover:text-red-900">Remover</a>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+  </div>
+
+  <div *ngIf="funcionarioEmEdicao" class="bg-white rounded-lg shadow-md p-6 my-8">
+    <h2 class="text-xl font-bold mb-4">Editando Funcionário: {{ funcionarioEmEdicao.nome }}</h2>
+    <form #editForm="ngForm" (ngSubmit)="onSalvarEdicao()" class="flex flex-col gap-4">
+      <input
+        type="text"
+        name="nomeEdicao"
+        placeholder="Nome"
+        required
+        [(ngModel)]="funcionarioEmEdicao.nome"
+        class="p-3 border rounded-lg bg-gray-50"
+      />
+      <input
+        type="email"
+        name="emailEdicao"
+        placeholder="E-mail (Login)"
+        required
+        [(ngModel)]="funcionarioEmEdicao.email"
+        class="p-3 border rounded-lg bg-gray-50"
+      />
+      <div class="flex gap-4">
+        <button
+          type="submit"
+          [disabled]="editForm.invalid"
+          class="flex-1 py-3 px-6 bg-blue-600 text-white font-semibold rounded-lg shadow-md"
+        >
+          Salvar Alterações
+        </button>
+        <button
+          type="button"
+          (click)="funcionarioEmEdicao = null"
+          class="flex-1 py-3 px-6 bg-stone-600 text-white font-semibold rounded-lg shadow-md"
+        >
+          Cancelar
+        </button>
+      </div>
+    </form>
   </div>
 </main>
