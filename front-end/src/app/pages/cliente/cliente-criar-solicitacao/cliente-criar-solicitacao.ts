@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SolicitacaoService } from '../../../services/solicitacao-service';
+import { Solicitacao } from '../../../models/solicitacao';
+import { OutletContext } from '@angular/router';
 
 @Component({
   selector: 'app-cliente-criar-solicitacao',
@@ -11,20 +14,20 @@ import { FormsModule } from '@angular/forms';
 })
 export class ClienteCriarSolicitacao implements OnInit {
 
-  solicitacao = {
-    descricaoEquipamento: '',
-    categoriaEquipamento: '',
-    descricaoDefeito: ''
-  };
+  @Output() solicitacaoCriada = new EventEmitter<void>();
 
+  solicitacao: Solicitacao = new Solicitacao('', '', '');
   // lista de categorias para o combo box
   categorias: string[] = ['Notebook', 'Desktop', 'Impressora', 'Mouse', 'Teclado'];
 
-  constructor() {}
+  constructor(private solicitacaoService: SolicitacaoService) {}
 
   ngOnInit(): void {}
 
   onSubmit(form: any): void {
-    //implementar logica
+    if (form.valid) {
+      this.solicitacaoService.adicionarSolicitacao(this.solicitacao);
+      this.solicitacaoCriada.emit();
+    }
   }
 }
