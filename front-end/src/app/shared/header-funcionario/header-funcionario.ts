@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ThemeToggleComponent } from '../theme-toggle/theme-toggle';
+import { ThemeToggle } from '../theme-toggle/theme-toggle';
 
 @Component({
   selector: 'app-header-funcionario',
-  imports: [RouterLink, ThemeToggleComponent],
+  imports: [RouterLink, ThemeToggle],
   templateUrl: './header-funcionario.html',
   styleUrl: './header-funcionario.css'
 })

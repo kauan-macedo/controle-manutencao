@@ -3,6 +3,7 @@ import {CurrencyPipe, DatePipe, NgIf} from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteAprovarServico } from '../cliente-aprovar-servico/cliente-aprovar-servico';
 import { ClienteRejeitarServico } from '../cliente-rejeitar-servico/cliente-rejeitar-servico';
+import { ThemeToggle } from '../../../shared/theme-toggle/theme-toggle';
 
 @Component({
   selector: 'app-cliente-mostrar-orcamento',

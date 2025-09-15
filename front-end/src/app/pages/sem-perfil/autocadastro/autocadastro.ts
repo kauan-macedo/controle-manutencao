@@ -3,11 +3,12 @@ import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angula
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ThemeToggle } from '../../../shared/theme-toggle/theme-toggle';
 
 @Component({
   selector: 'app-autocadastro',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, HttpClientModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, ThemeToggle],
   templateUrl: './autocadastro.html',
   styleUrl: './autocadastro.css'
 })

@@ -1,60 +1,54 @@
-<main class="bg-gray-50 p-4 md:p-8 font-sans">
-  <div *ngIf="solicitacao" class="max-w-4xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
+<main class="bg-gray-50 dark:bg-gray-950 p-4 md:p-8 font-sans min-h-screen">
+  <div *ngIf="solicitacao" class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden">
 
-    <!-- Cabeçalho com informações principais -->
-    <div class="p-6 bg-gray-100 border-b">
-      <h1 class="text-3xl font-bold text-gray-800">{{ solicitacao.descricaoEquipamento }}</h1>
-      <p class="text-md text-gray-600">Solicitado em: {{ solicitacao.dataHora | date:'dd/MM/yyyy \'às\' HH:mm' }}</p>
+    <div class="p-6 bg-gray-100 dark:bg-gray-900 border-b dark:border-gray-700">
+      <h1 class="text-3xl font-bold text-gray-800 dark:text-white">{{ solicitacao.descricaoEquipamento }}</h1>
+      <p class="text-md text-gray-600 dark:text-gray-400">Solicitado em: {{ solicitacao.dataHora | date:'dd/MM/yyyy \'às\' HH:mm' }}</p>
     </div>
 
-    <!-- Corpo com os detalhes -->
     <div class="p-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mb-8">
         <div>
-          <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Status Atual</h3>
-          <p class="text-lg font-medium text-blue-600">{{ solicitacao.status }}</p>
+          <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status Atual</h3>
+          <p class="text-lg font-medium text-blue-600 dark:text-blue-400">{{ solicitacao.status }}</p>
         </div>
         <div>
-          <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Categoria</h3>
-          <p class="text-lg text-gray-800">{{ solicitacao.categoria }}</p>
+          <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Categoria</h3>
+          <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.categoria }}</p>
         </div>
         <div class="md:col-span-2">
-          <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Descrição do Defeito</h3>
-          <p class="text-lg text-gray-800 bg-gray-50 p-3 rounded-md mt-1">{{ solicitacao.defeito }}</p>
+          <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descrição do Defeito</h3>
+          <p class="text-lg text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-700 p-3 rounded-md mt-1">{{ solicitacao.defeito }}</p>
         </div>
 
-        <!-- Campos que aparecem condicionalmente -->
         <div *ngIf="solicitacao.preco">
-          <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Valor Orçado</h3>
-          <p class="text-xl font-bold text-green-700">{{ solicitacao.preco | currency:'BRL' }}</p>
+          <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor Orçado</h3>
+          <p class="text-xl font-bold text-green-700 dark:text-green-400">{{ solicitacao.preco | currency:'BRL' }}</p>
         </div>
         <div *ngIf="solicitacao.motivoRejeicao" class="md:col-span-2">
-          <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Motivo da Rejeição</h3>
-          <p class="text-lg text-red-700 bg-red-50 p-3 rounded-md mt-1">{{ solicitacao.motivoRejeicao }}</p>
+          <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Motivo da Rejeição</h3>
+          <p class="text-lg text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-900 p-3 rounded-md mt-1">{{ solicitacao.motivoRejeicao }}</p>
         </div>
       </div>
 
-      <hr class="my-8">
+      <hr class="my-8 dark:border-gray-700">
 
-      <!-- Seção do Histórico -->
       <div>
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Histórico de Atualizações</h2>
-        <div class="relative pl-6 border-l-2 border-gray-200">
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Histórico de Atualizações</h2>
+        <div class="relative pl-6 border-l-2 border-gray-200 dark:border-gray-700">
 
-          <!-- Loop para cada item do histórico -->
           <div *ngFor="let item of solicitacao.historico" class="mb-8 last:mb-0">
-            <!-- Ponto na linha do tempo -->
-            <span class="absolute -left-[11px] top-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 ring-4 ring-white">
+            <span class="absolute -left-[11px] top-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 dark:bg-blue-600 ring-4 ring-white dark:ring-gray-800">
               <svg class="h-3 w-3 text-white fill-current"  viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path></svg>
             </span>
 
             <div class="ml-2">
-              <h3 class="text-lg font-semibold text-gray-900">{{ item.status }}</h3>
-              <time class="block mb-2 text-sm font-normal leading-none text-gray-500">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ item.status }}</h3>
+              <time class="block mb-2 text-sm font-normal leading-none text-gray-500 dark:text-gray-400">
                 {{ item.dataHora | date:'dd/MM/yyyy \'às\' HH:mm' }}
               </time>
-              <p class="text-base font-normal text-gray-600">{{ item.descricao }}</p>
-              <p *ngIf="item.funcionario" class="text-sm text-gray-500 mt-1">
+              <p class="text-base font-normal text-gray-600 dark:text-gray-300">{{ item.descricao }}</p>
+              <p *ngIf="item.funcionario" class="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 Realizado por: <span class="font-medium">{{ item.funcionario }}</span>
               </p>
             </div>
@@ -64,30 +58,24 @@
       </div>
     </div>
 
-    <!-- Rodapé com o botão de Ação -->
-    <div class="p-6 bg-gray-50 border-t flex justify-between items-center">
-    <!-- Botões de ação baseados no status -->
+    <div class="p-6 bg-gray-50 dark:bg-gray-900 border-t dark:border-gray-700 flex justify-between items-center">
     <div class="flex gap-3">
-      <!-- Aprovar/Rejeitar -->
       <div *ngIf="solicitacao.status === 'ORÇADA'">
-        <button class="px-6 py-2.5 bg-yellow-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-700 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-800 transition duration-150 ease-in-out mr-2">
+        <button class="px-6 py-2.5 bg-yellow-600 dark:bg-yellow-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-700 dark:hover:bg-yellow-800 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-800 dark:active:bg-yellow-900 transition duration-150 ease-in-out mr-2">
           Aprovar/Rejeitar Serviço
         </button>
       </div>
 
-      <!-- Pagar -->
-      <button *ngIf="solicitacao.status === 'ARRUMADA'" class="px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 transition duration-150 ease-in-out">
+      <button *ngIf="solicitacao.status === 'ARRUMADA'" class="px-6 py-2.5 bg-green-600 dark:bg-green-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 dark:hover:bg-green-800 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 dark:active:bg-green-900 transition duration-150 ease-in-out">
         Pagar Serviço
       </button>
 
-      <!-- Resgatar -->
-      <button *ngIf="solicitacao.status === 'REJEITADA'" class="px-6 py-2.5 bg-stone-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-stone-700 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-stone-800 transition duration-150 ease-in-out">
+      <button *ngIf="solicitacao.status === 'REJEITADA'" class="px-6 py-2.5 bg-stone-600 dark:bg-stone-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-stone-700 dark:hover:bg-stone-800 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-stone-800 dark:active:bg-stone-900 transition duration-150 ease-in-out">
         Resgatar Serviço
       </button>
     </div>
 
-    <!-- Botão de voltar -->
-    <a routerLink="/cliente-pagina-inicial" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+    <a routerLink="/cliente-pagina-inicial" class="inline-block px-6 py-2.5 bg-blue-600 dark:bg-blue-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 dark:hover:bg-blue-800 hover:shadow-lg focus:bg-blue-700 dark:focus:bg-blue-800 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 dark:active:bg-blue-900 active:shadow-lg transition duration-150 ease-in-out">
       Voltar para Minhas Solicitações
     </a>
   </div>

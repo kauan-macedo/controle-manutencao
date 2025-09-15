@@ -4,11 +4,12 @@ import { RouterModule } from '@angular/router';
 import { ClienteCriarSolicitacao } from '../cliente-criar-solicitacao/cliente-criar-solicitacao';
 import { Solicitacao } from '../../../models/solicitacao';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
+import { ThemeToggle } from '../../../shared/theme-toggle/theme-toggle';
 
 
 @Component({
   selector: 'app-cliente-pagina-inicial',
-  imports: [ ClienteCriarSolicitacao, CommonModule, RouterModule ],
+  imports: [ ClienteCriarSolicitacao, CommonModule, RouterModule],
   templateUrl: './cliente-pagina-inicial.html',
   styleUrl: './cliente-pagina-inicial.css'
 })

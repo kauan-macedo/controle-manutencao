@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ThemeToggle } from '../../../shared/theme-toggle/theme-toggle';
 
 @Component({
   selector: 'app-cliente-aprovar-servico',

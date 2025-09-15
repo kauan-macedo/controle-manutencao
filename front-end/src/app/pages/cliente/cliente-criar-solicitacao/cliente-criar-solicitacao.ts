@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { Solicitacao } from '../../../models/solicitacao';
 import { OutletContext } from '@angular/router';
+import { ThemeToggle } from '../../../shared/theme-toggle/theme-toggle';
 
 @Component({
   selector: 'app-cliente-criar-solicitacao',
