@@ -1,41 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+
 
 @Component({
   selector: 'app-funcionario-manter-categoria-equipamento',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [],
   templateUrl: './funcionario-manter-categoria-equipamento.html',
   styleUrl: './funcionario-manter-categoria-equipamento.css'
 })
-export class FuncionarioManterCategoriaEquipamento implements OnInit {
-  categorias: any[] = [
-    { id: 1, nome: 'Notebook' },
-    { id: 2, nome: 'Impressora' },
-    { id: 3, nome: 'Desktop' }
-  ];
-
-  novaCategoria = { nome: '' };
-  categoriaEmEdicao: any = null;
-
-  constructor() {}
-
-  ngOnInit(): void {}
-
-  onAdicionar(form: any): void {
-   
-  }
-
-  onEditar(categoria: any): void {
-    this.categoriaEmEdicao = { ...categoria };
-  }
-
-  onSalvarEdicao(): void {
+export class FuncionarioManterCategoriaEquipamento {
   
-  }
-
-  onRemover(id: number): void {
-
-  }
 }
