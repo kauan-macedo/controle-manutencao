@@ -1,64 +1,55 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { ThemeToggle } from '../../../shared/theme-toggle/theme-toggle';
+import { Usuario } from '../../../models/usuario';
+import { CadastroService } from '../../../services/cadastro-service';
+import { ToastService } from '../../../services/toast-service';
+import { ToastComponent } from '../../../shared/toast-component/toast-component';
 
 @Component({
   selector: 'app-autocadastro',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, ThemeToggle],
+  imports: [CommonModule, FormsModule, RouterModule, ThemeToggle, ToastComponent],
   templateUrl: './autocadastro.html',
-  styleUrl: './autocadastro.css'
+  styleUrl: './autocadastro.css',
 })
 export class Autocadastro implements OnInit {
-  cadastroForm: FormGroup;
+  usuario: Usuario = new Usuario('', '', '', '');
 
-  constructor(private http: HttpClient) {
-    this.cadastroForm = new FormGroup({});
-  }
+  constructor(private cadastroService: CadastroService, private toastService: ToastService, private router: Router) {}
 
-  // inicializando controles do formulário quando componente for criado
-  ngOnInit(): void {
-    this.cadastroForm = new FormGroup({
-      nome: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      cpf: new FormControl('', Validators.required),
-      telefone: new FormControl('', Validators.required),
-      cep: new FormControl('', Validators.required),
-      logradouro: new FormControl('', Validators.required),
-      bairro: new FormControl('', Validators.required),
-      cidade: new FormControl('', Validators.required),
-      estado: new FormControl('', Validators.required),
-      complemento: new FormControl('')
-    });
-  }
+  ngOnInit(): void {}
 
   // função para completar automaticamente o endereço usando a api ViaCEP
   buscarEndereco(): void {
-    const cep = this.cadastroForm.get('cep')?.value;
+    const cep = this.usuario.endereco.cep;
     if (cep && cep.length === 8) {
       fetch(`https://viacep.com.br/ws/${cep}/json/`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Erro na rede ou no servidor');
-          }
-          return response.json();
-        })
-        .then(dados => {
-          this.cadastroForm.patchValue({
-            logradouro: dados.logradouro,
-            bairro: dados.bairro,
-            cidade: dados.localidade,
-            estado: dados.uf
-          });
-        })
+        .then((response) => response.json())
+        .then((dados) => {
+          this.usuario.endereco.logradouro = dados.logradouro;
+          this.usuario.endereco.bairro = dados.bairro;
+          this.usuario.endereco.cidade = dados.localidade;
+          this.usuario.endereco.estado = dados.uf;
+        });
     }
-
   }
 
-   onSubmit(): void {
+  onSubmit(form: any): void {
     //implementar método onsubmit de cadastro!
+    if (form.valid) {
+      this.cadastroService.registrarUsuario(this.usuario);
+
+      const message = `Usuário cadastrado com sucesso! Sua senha é: ${this.usuario.senha}. 
+      \nAnote sua senha! Você será redirecionado para a página de login em 15 segundos.`;
+      this.toastService.showSuccess(message)
+
+      setTimeout(() => {
+      this.router.navigate(['/login']);
+      }, 15000);
+    }
   }
 }

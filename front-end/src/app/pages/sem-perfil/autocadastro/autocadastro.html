@@ -2,51 +2,51 @@
     <div class="absolute top-4 right-4">
         <app-theme-toggle></app-theme-toggle>
     </div>
-
+    <app-toast></app-toast>
     <div class="w-full max-w-lg">
         <h2 class="text-4xl font-bold mb-8 text-center text-gray-800 dark:text-white">Crie sua conta:</h2>
 
-        <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()" class="space-y-4">
+        <form #cadastroForm="ngForm" (ngSubmit)="onSubmit(cadastroForm)" class="space-y-4">
             
             <div>
                 <label for="nome" class="text-base font-medium leading-normal pb-2 text-gray-800 dark:text-gray-200">Nome:</label>
-                <input id="nome" type="text" formControlName="nome" placeholder="Insira seu nome aqui" 
+                <input id="nome" type="text" required name="nome" [(ngModel)]="usuario.nome" placeholder="Insira seu nome aqui" 
                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal">
             </div>
 
             <div>
                 <label for="email" class="block text-gray-800 dark:text-gray-200">E-mail:</label>
-                <input id="email" type="email" formControlName="email" placeholder="Insira seu email" 
+                <input id="email" type="email" required name="email" [(ngModel)]="usuario.email" placeholder="Insira seu email" 
                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal">
             </div>
 
             <div>
                 <label for="cpf" class="block text-gray-800 dark:text-gray-200">CPF:</label>
-                <input id="cpf" type="text" formControlName="cpf" placeholder="Insira seu CPF" 
+                <input id="cpf" type="text" required name="cpf" [(ngModel)]="usuario.cpf" placeholder="Insira seu CPF" 
                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal">
             </div>
 
             <div>
                 <label for="telefone" class="block text-gray-800 dark:text-gray-200">Telefone:</label>
-                <input id="telefone" type="tel" formControlName="telefone" placeholder="Insira seu número de telefone" 
+                <input id="telefone" type="tel" required name="telefone" [(ngModel)]="usuario.telefone" placeholder="Insira seu número de telefone" 
                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal">
             </div>
 
             <div>
                 <label for="cep" class="block text-gray-800 dark:text-gray-200">CEP:</label>
-                <input id="cep" type="text" formControlName="cep" (blur)="buscarEndereco()" placeholder="Insira seu CEP" 
+                <input id="cep" type="text" required name="cep" [(ngModel)]="usuario.endereco.cep" (blur)="buscarEndereco()" placeholder="Insira seu CEP" 
                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal">
             </div>
 
             <div class="grid grid-cols-3 gap-4">
                 <div class="col-span-2">
                     <label for="logradouro" class="block text-gray-800 dark:text-gray-200">Rua:</label>
-                    <input id="logradouro" type="text" formControlName="logradouro" 
+                    <input id="logradouro" type="text" required name="logradouro" [(ngModel)]="usuario.endereco.logradouro"
                            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal">
                 </div>
                 <div class="col-span-1">
                     <label for="numero" class="block text-gray-800 dark:text-gray-200">Numero:</label>
-                    <input id="numero" type="number" formControlName="numero" 
+                    <input id="numero" type="number" required name="numero" [(ngModel)]="usuario.endereco.numero"
                            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal">
                 </div>
             </div>
@@ -54,24 +54,24 @@
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label for="bairro" class="block text-gray-800 dark:text-gray-200">Bairro:</label>
-                    <input id="bairro" type="text" formControlName="bairro" 
+                    <input id="bairro" type="text" required required name="bairro" [(ngModel)]="usuario.endereco.bairro"
                            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal">
                 </div>
                 <div>
                     <label for="cidade" class="block text-gray-800 dark:text-gray-200">Cidade:</label>
-                    <input id="cidade" type="text" formControlName="cidade" 
+                    <input id="cidade" type="text" required required name="cidade" [(ngModel)]="usuario.endereco.cidade"
                            class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal">
                 </div>
             </div>
 
             <div>
                 <label for="estado" class="block text-gray-800 dark:text-gray-200">Estado:</label>
-                <input id="estado" type="text" formControlName="estado" 
+                <input id="estado" type="text" required required name="estado" [(ngModel)]="usuario.endereco.estado"
                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal">
             </div>
             
 
-            <button type="submit" [disabled]="!cadastroForm.valid" 
+            <button type="submit" [disabled]="!cadastroForm.valid"
                     class="w-full py-4 px-4 bg-blue-500 dark:bg-blue-600 text-white rounded-md">
                 Cadastrar
             </button>
