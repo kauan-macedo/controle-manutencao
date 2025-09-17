@@ -27,6 +27,7 @@ export class CadastroService {
     usuarioDados.id = proximoId;
 
     usuarioDados.senha = this.gerarSenha();
+     usuarioDados.perfil = 'CLIENTE';
     usuarios.push(usuarioDados);
     this.storageService.salvarDados(this.STORAGE_KEY, usuarios);
   }
