@@ -1,25 +1,52 @@
-<main class="font-sans p-8">
-  <div class="max-w-7xl mx-auto">
+<main class="font-sans p-8 dark:bg-gray-950 h-screen">
+  <div class="max-w-7xl mx-auto dark:bg-gray-950">
     <div class="flex justify-between">
       <header class="mb-4">
-        <h1 class="text-4xl font-bold text-gray-800">Solicitações Abertas</h1>
+        <h1 class="text-4xl font-bold text-gray-800 dark:text-white">Solicitações Abertas</h1>
       </header>
 
       <!--Header da tabela com Filtro-->
 
-      <div class=" flex justify-end gap-4 px-4 pb-4">
+      <div class="flex justify-end gap-4 px-4 pb-4">
         
+        <div>
+            <select 
+                id="dropdownFiltro" 
+                name="dropdownFiltro"
+                required
+                [(ngModel)]="filtroSelecionado"
+                class="w-full p-3 border dark:border-gray-600 rounded-lg text-[#111418] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[#f0f2f5] dark:bg-gray-700 placeholder:text-[#60758a] dark:placeholder:text-gray-400"
+            >
+                <option value="" disabled selected>Selecione uma categoria</option>
+                <option *ngFor="let opcao of dropdown" [value]="opcao">
+                    {{ opcao }}
+                </option>
+            </select>
+        </div>
 
-        <button id="botaoFiltro" type="button" data-dropdown-toggle="filterDropdown" class="w-24 flex items-center justify-center py-2 px-4 text-lg font-semibold text-gray-600 focus:outline-none bg-blue-200 rounded-lg hover:bg-blue-300 ease-in-out transition duration-150">
+        <div *ngIf="filtroSelecionado === 'Selecionar Período:'" class="flex gap-2 items-end">
+          <div>
+            <label for="dataInicial" class="block text-sm font-medium text-gray-700">Data inicial</label>
+            <input type="date" id="dataInicial" [(ngModel)]="dataInicial"
+                  class="p-2 border rounded-lg"/>
+          </div>
+          <div>
+            <label for="dataFinal" class="block text-sm font-medium text-gray-700">Data final</label>
+            <input type="date" id="dataFinal" [(ngModel)]="dataFinal"
+                  class="p-2 border rounded-lg"/>
+          </div>
+        </div>
+
+        <button (click)="aplicarFiltro()" id="botaoFiltro" type="button" data-dropdown-toggle="filterDropdown" class="w-24 flex items-center justify-center py-2 px-4 text-lg font-semibold text-gray-600 dark:text-white dark:bg-blue-700 focus:outline-none bg-blue-200 rounded-lg hover:bg-blue-300 ease-in-out transition duration-150">
           Filtrar 
         </button>
       </div>
     </div>
 
-    <div class="bg-white rounded-lg shadow-md overflow-hidden max-h-[65vh] overflow-y-scroll">
+    <div class="bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden max-h-[65vh] overflow-y-scroll">
 
-      <table class="min-w-full divide-y divide-gray-200 table-auto">
-        <thead class="bg-gray-100 text-gray-600 uppercase text-sm font-semibold sticky top-0">
+      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 table-auto">
+        <thead class="bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-200 uppercase text-sm font-semibold sticky top-0">
         <tr>
           <th class="px-6 py-4 text-left w-1/6">Data/Hora</th>
           <th class="px-6 py-4 text-left w-1/6">Cliente</th>
@@ -27,25 +54,29 @@
           <th class="px-6 py-4 text-left w-1/6">Ações</th>
         </tr>
         </thead>
-        <tbody class="divide-y divide-gray-100">
+        <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
 
-        @for (solicitacao of solicitacoesAbertas; track solicitacao.id) {
-            <tr class="hover:bg-gray-50 transition-colors duration-200">
-                <td class="px-4 border-b border-slate-200 py-5">
-                    <p class="text-lg text-gray-800">{{ solicitacao.dataHora | date:'dd/MM/yyyy HH:mm' }}</p>
+        @for (solicitacao of solicitacoesFiltradas; track solicitacao.id) {
+            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
+                <td class="px-4 border-b dark:border-slate-700 border-slate-200 py-5">
+                    <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.dataHora | date:'dd/MM/yyyy HH:mm' }}</p>
                 </td>
-                <td class="px-4 border-b border-slate-200 py-5">
-                    <p class="text-lg text-gray-800">{{ solicitacao.cliente }}</p>
+                <td class="px-4 border-b dark:border-slate-700 border-slate-200 py-5">
+                    <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.cliente }}</p>
                 </td>
-                <td class="px-4 border-b border-slate-200 py-5">
-                    <p class="text-lg text-gray-800">{{ solicitacao.produto }}</p>
+                <td class="px-4 border-b dark:border-slate-700 border-slate-200 py-5">
+                    <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.produto }}</p>
                 </td>
-                <td class="px-4 border-b border-slate-200 py-5">
-                    <a [routerLink]="['/funcionario/efetuar-orcamento', solicitacao.id]" class="text-lg text-blue-800 hover:text-blue-950">{{ solicitacao.acao }}</a>
+                <td class="px-4 border-b dark:border-slate-700 border-slate-200 py-5">
+                    <a [routerLink]="['/funcionario/efetuar-orcamento', solicitacao.id]" class="text-lg text-blue-800 hover:text-blue-950 dark:text-gray-200">{{ solicitacao.acao }}</a>
                 </td>
             </tr>
         } @empty {
-            <p>Sem Elementos!</p>
+            <tr class="hover:bg-gray-50 transition-colors duration-200">
+              <td class="px-4 border-b dark:border-slate-700 border-slate-200 py-5">
+                <p class="text-lg text-gray-800 dark:text-gray-200">Sem Solicitações!</p>
+              </td>
+            </tr>
         }
         </tbody>
       </table>
