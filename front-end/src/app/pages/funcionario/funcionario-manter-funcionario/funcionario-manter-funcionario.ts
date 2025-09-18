@@ -20,6 +20,7 @@ export class FuncionarioManterFuncionario implements OnInit {
   ngOnInit(): void {
     this.carregarDoLocalStorage();
   }
+  
   private carregarDoLocalStorage(): void {
     const dados = localStorage.getItem('funcionarios');
     if (dados) {

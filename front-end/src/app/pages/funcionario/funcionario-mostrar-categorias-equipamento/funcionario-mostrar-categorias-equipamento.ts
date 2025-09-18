@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { CategoriaEquipamentoService } from '../../../services/categoria-equipamento-service';
+import { CategoriaEquipamento } from '../../../models/categoria-equipamento';
 
 @Component({
   selector: 'app-funcionario-mostrar-categorias-equipamento',
@@ -8,33 +10,47 @@ import { CommonModule } from '@angular/common';
   templateUrl: './funcionario-mostrar-categorias-equipamento.html',
   styleUrl: './funcionario-mostrar-categorias-equipamento.css'
 })
-export class FuncionarioMostrarCategoriasEquipamento {
-  categorias: any[] = [
-    { id: 1, nome: 'Notebook' },
-    { id: 2, nome: 'Impressora' },
-    { id: 3, nome: 'Desktop' }
-  ];
+export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
 
-  novaCategoria = { nome: '' };
-  categoriaEmEdicao: any = null;
+  novaCategoria = new CategoriaEquipamento("");
+  categoriaEmEdicao = new CategoriaEquipamento("");
 
-  constructor() {}
+  public categorias!: CategoriaEquipamento[];
 
-  ngOnInit(): void {}
+  constructor(
+    private categoriaService: CategoriaEquipamentoService
+  ) {}
 
-  onAdicionar(form: any): void {
-   
+  ngOnInit(): void {
+    this.categorias = this.listarTodas();
   }
 
-  onEditar(categoria: any): void {
-    this.categoriaEmEdicao = { ...categoria };
+  listarTodas(): CategoriaEquipamento[] {
+    return this.categoriaService.listarTodas();
+  }
+
+  onAdicionar(form: any): void {
+    if (form.invalid) {
+      return;
+    }
+
+    this.categoriaService.inserir(this.novaCategoria);
+    form.resetForm();
+  }
+
+  onEditar(categoria: CategoriaEquipamento): void {
+    this.categoriaEmEdicao = categoria;
   }
 
   onSalvarEdicao(): void {
-  
+    if (!this.categoriaEmEdicao){
+      return;
+    }
+
+    this.categoriaService.atualizar(this.categoriaEmEdicao);
   }
 
   onRemover(id: number): void {
-
+    this.categoriaService.remover(id);
   }
 }

@@ -1,29 +1,30 @@
 import { Injectable } from '@angular/core';
 import { CategoriaEquipamento } from '../models/categoria-equipamento';
 
-Injectable({
+const LS_KEY = "categoriasEquipamento";
+
+@Injectable({
   providedIn: 'root'
 })
-
-const LS_KEY = "categoriasEquipamento";
 
 export class CategoriaEquipamentoService {
   
   listarTodas(): CategoriaEquipamento[] {
     const categorias = localStorage[LS_KEY];
 
-    //return categorias ? JSON.parse(categorias) : [];
-    return [
+    return categorias ? JSON.parse(categorias) : [];
+    /*return [
       { id: 1, nome: 'Notebook' },
       { id: 2, nome: 'Impressora' },
       { id: 3, nome: 'Desktop' },
       { id: 4, nome: 'TesteJP' }
-    ];
+    ];*/
   };
 
   inserir(categoria: CategoriaEquipamento): void {
     const categorias = this.listarTodas();
 
+    categoria.id = new Date().getTime();
     categorias.push(categoria);
 
     localStorage[LS_KEY] = JSON.stringify(categorias);
@@ -49,8 +50,8 @@ export class CategoriaEquipamentoService {
   remover(id: number): void {
     let categorias = this.listarTodas();
 
-    categorias.filter(obj => obj.id !== id);
-
+    categorias = categorias.filter(obj => obj.id != id);
+    
     localStorage[LS_KEY] = JSON.stringify(categorias);
   };
 }
