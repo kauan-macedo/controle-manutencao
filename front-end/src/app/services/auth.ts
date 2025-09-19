@@ -43,4 +43,18 @@ export class AuthService {
 
     return null;
   }
+
+   logout(): void {
+    this.storageService.removerItem('usuarioLogado');
+  }
+
+  
+  getUsuarioLogado(): Usuario | null {
+    const dados = localStorage.getItem('usuarioLogado');
+    if (dados) {
+      return JSON.parse(dados) as Usuario;
+    }
+    return null;
+  }
+
 }
