@@ -6,7 +6,8 @@
 
     <div class="bg-white rounded-lg shadow-md p-6 mb-8">
       <h2 class="text-xl font-bold mb-4">Adicionar Nova Categoria</h2>
-      <form #addForm="ngForm" (ngSubmit)="onAdicionar(addForm)" class="flex gap-4">
+      <!-- <form #addForm="ngForm" (ngSubmit)="onAdicionar(addForm)" class="flex gap-4"> -->
+      <form #addForm="ngForm" class="flex gap-4">
         <input 
           type="text" 
           name="nomeCategoria" 
@@ -15,8 +16,13 @@
           [(ngModel)]="novaCategoria.nome"
           class="flex-1 p-3 border rounded-lg bg-gray-50"
         />
-        <button 
+        <!-- <button 
           type="submit" 
+          [disabled]="addForm.invalid"
+          class="py-3 px-6 bg-blue-600 text-white font-semibold rounded-lg shadow-md"
+        > -->
+        <button 
+          (click)="onAdicionar(addForm)"
           [disabled]="addForm.invalid"
           class="py-3 px-6 bg-blue-600 text-white font-semibold rounded-lg shadow-md"
         >
@@ -35,12 +41,12 @@
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-          @for (categoria of categorias; track $index) {
+          @for (categoria of categorias; track categoria.id) {
             <tr>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ categoria.id }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ categoria.nome }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-              <a href="#" (click)="onEditar(categoria); $event.preventDefault()" class="text-blue-600 hover:text-blue-900 mr-4">Editar</a>
+              <a href="#" (click)="onEditar(categoria.id); $event.preventDefault()" class="text-blue-600 hover:text-blue-900 mr-4">Editar</a>
               <a href="#" (click)="onRemover(categoria.id); $event.preventDefault()" class="text-red-600 hover:text-red-900">Remover</a>
             </td>
           </tr>
@@ -57,7 +63,7 @@
 
   @if(categoriaEmEdicao.id != 0){
     <div class="bg-white rounded-lg shadow-md p-6 my-8">
-      <h2 class="text-xl font-bold mb-4">Editando categoria: {{categoriaEmEdicao.nome}}</h2>
+      <h2 class="text-xl font-bold mb-4">Editando categoria: {{categoriaEmEdicao.nomeOriginal}}</h2>
       <form #editForm="ngForm" (ngSubmit)="onSalvarEdicao()" class="flex flex-col gap-4">
         <input 
           type="text"
@@ -66,19 +72,19 @@
           required
           [(ngModel)]="categoriaEmEdicao.nome"
           class="p-3 border rounded-lg bg-gray-50">
-          <div class="flex gap-4">
-            <button type="submit"
+        <div class="flex gap-4">
+          <button type="submit"
             [disabled]="editForm.invalid"
             class="flex-1 py-3 px-6 bg-blue-600 text-white font-semibold rounded-lg shadow-md">
             Salvar alterações
-            </button>
-            <button 
-              type="button"
-              (click)="categoriaEmEdicao.id = 0"
-              class="flex-1 py-3 px-6 bg-stone-600 text-white font-semibold rounded-lg shadow-md">
-              Cancelar
-            </button>
-          </div>
+          </button>
+          <button 
+            type="button"
+            (click)="categoriaEmEdicao.id = 0"
+            class="flex-1 py-3 px-6 bg-stone-600 text-white font-semibold rounded-lg shadow-md">
+            Cancelar
+          </button>
+        </div>
       </form>
     </div>
   }

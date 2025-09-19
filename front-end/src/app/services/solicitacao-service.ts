@@ -14,6 +14,7 @@ export class SolicitacaoService {
 
   getSolicitacoesCliente(): Solicitacao[] {
     return this.storageService.getDados(this.STORAGE_KEY);
+    //return localStograge[STORAGE_KEY];
   }
 
   adicionarSolicitacao(novaSolicitacao: Solicitacao): void {
