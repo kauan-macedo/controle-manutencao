@@ -25,6 +25,10 @@ public class UsuarioService {
         return repository.findById(id);
     }
 
+    public Optional<Usuario> findByLogin(String email, String password) {
+        return repository.findByLogin(email, password);
+    }
+
     public List<Usuario> findAll() {
         return repository.findAll();
     }
