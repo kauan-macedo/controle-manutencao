@@ -7,12 +7,11 @@ import { ThemeToggle } from '../../../shared/theme-toggle/theme-toggle';
 import { Usuario } from '../../../models/usuario';
 import { CadastroService } from '../../../services/cadastro-service';
 import { ToastService } from '../../../services/toast-service';
-import { ToastComponent } from '../../../shared/toast-component/toast-component';
 
 @Component({
   selector: 'app-autocadastro',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, ThemeToggle, ToastComponent],
+  imports: [CommonModule, FormsModule, RouterModule, ThemeToggle],
   templateUrl: './autocadastro.html',
   styleUrl: './autocadastro.css',
 })

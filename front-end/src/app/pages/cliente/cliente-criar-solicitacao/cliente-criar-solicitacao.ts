@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { Solicitacao } from '../../../models/solicitacao';
-import { OutletContext } from '@angular/router';
-import { ThemeToggle } from '../../../shared/theme-toggle/theme-toggle';
+import { ToastService } from '../../../services/toast-service';
 
 @Component({
   selector: 'app-cliente-criar-solicitacao',
@@ -21,7 +20,7 @@ export class ClienteCriarSolicitacao implements OnInit {
   // lista de categorias para o combo box
   categorias: string[] = ['Notebook', 'Desktop', 'Impressora', 'Mouse', 'Teclado'];
 
-  constructor(private solicitacaoService: SolicitacaoService) {}
+  constructor(private solicitacaoService: SolicitacaoService, private toastService: ToastService) {}
 
   ngOnInit(): void {}
 
@@ -29,6 +28,8 @@ export class ClienteCriarSolicitacao implements OnInit {
     if (form.valid) {
       this.solicitacaoService.adicionarSolicitacao(this.solicitacao);
       this.solicitacaoCriada.emit();
+      const message = `Solicitação criada com sucesso!`;
+      this.toastService.showSuccess(message)
     }
   }
 }

@@ -6,7 +6,9 @@ import { Subject } from 'rxjs';
 })
 export class ToastService {
   private toastSubject = new Subject<{ message: string, visible: boolean }>();
+  private pendingMessage: string | null = null;
   toastState = this.toastSubject.asObservable();
+
 
   constructor() {}
 
@@ -16,4 +18,15 @@ export class ToastService {
       this.toastSubject.next({ message: '', visible: false });
     }, 3000);
   }
+
+  setPendingMessage(message: string) {
+  this.pendingMessage = message;
+}
+
+showPendingMessage() {
+  if (this.pendingMessage) {
+    this.showSuccess(this.pendingMessage);
+    this.pendingMessage = null;
+  }
+}
 }

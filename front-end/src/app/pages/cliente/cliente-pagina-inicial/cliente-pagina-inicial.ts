@@ -5,11 +5,12 @@ import { ClienteCriarSolicitacao } from '../cliente-criar-solicitacao/cliente-cr
 import { Solicitacao } from '../../../models/solicitacao';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { ThemeToggle } from '../../../shared/theme-toggle/theme-toggle';
+import { ToastComponent } from '../../../shared/toast-component/toast-component';
 
 
 @Component({
   selector: 'app-cliente-pagina-inicial',
-  imports: [ ClienteCriarSolicitacao, CommonModule, RouterModule],
+  imports: [ ClienteCriarSolicitacao, CommonModule, RouterModule, ToastComponent],
   templateUrl: './cliente-pagina-inicial.html',
   styleUrl: './cliente-pagina-inicial.css'
 })

@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router'; // Importação correta para o roteamento
 import { FormsModule } from '@angular/forms'; // Adicione este import
 import { AuthService } from '../../../services/auth';
-import { Usuario } from '../../../models/usuario';
 import { ThemeToggle } from '../../../shared/theme-toggle/theme-toggle';
+import { ToastService } from '../../../services/toast-service';
 
 @Component({
   selector: 'app-login',
@@ -16,9 +16,12 @@ import { ThemeToggle } from '../../../shared/theme-toggle/theme-toggle';
 export class Login implements OnInit {
   credenciais = { email: '', senha: '' };
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService, private toastService: ToastService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.toastService.showPendingMessage();
+  }
+
 
   onLogin(form: any): void {
     if (form.valid) {
