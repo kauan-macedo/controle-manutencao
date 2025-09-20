@@ -1,73 +1,67 @@
-<main class="bg-gray-50 p-4 md:p-8 font-sans">
-  <div *ngIf="solicitacao" class="max-w-4xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
+<main class="bg-gray-50 dark:bg-gray-950 p-4 md:p-8 font-sans">
+  <div *ngIf="solicitacao" class="max-w-4xl mx-auto bg-white dark:bg-gray-900 rounded-lg shadow-xl overflow-hidden">
 
-    <!-- Cabeçalho -->
-    <div class="p-6 bg-gray-100 border-b">
-      <h1 class="text-3xl font-bold text-gray-800">Detalhes da Solicitação</h1>
-      <p class="text-md text-gray-600">Solicitado em: {{ solicitacao.dataHora | date:'dd/MM/yyyy \'às\' HH:mm' }}</p>
+    <div class="p-6 bg-gray-100 dark:bg-gray-800 border-b dark:border-gray-700">
+      <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Detalhes da Solicitação</h1>
+      <p class="text-md text-gray-600 dark:text-gray-400">Solicitado em: {{ solicitacao.dataHora | date:'dd/MM/yyyy \'às\' HH:mm' }}</p>
     </div>
 
-    <!-- Corpo com Detalhes -->
     <div class="p-6 h-[60vh] overflow-y-scroll">
 
-      <!-- Detalhes da Solicitação -->
       <div class="mb-8">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Detalhes da Solicitação #{{ solicitacao.id}}</h2>
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4 border-b dark:border-gray-700 pb-2">Detalhes da Solicitação #{{ solicitacao.id}}</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
           <div>
-            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Equipamento</h3>
-            <p class="text-lg text-gray-800">{{ solicitacao.descricaoEquipamento }}</p>
+            <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Equipamento</h3>
+            <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.descricaoEquipamento }}</p>
           </div>
           <div>
-            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Categoria</h3>
-            <p class="text-lg text-gray-800">{{ solicitacao.categoria }}</p>
+            <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Categoria</h3>
+            <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.categoria }}</p>
           </div>
           <div class="md:col-span-2">
-            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Descrição do Defeito</h3>
-            <p class="text-lg text-gray-800 bg-gray-50 p-3 rounded-md mt-1">{{ solicitacao.defeito }}</p>
+            <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descrição do Defeito</h3>
+            <p class="text-lg text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-800 p-3 rounded-md mt-1">{{ solicitacao.defeito }}</p>
           </div>
         </div>
       </div>
 
-      <!-- Detalhes do Cliente -->
       <div class="mb-8">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Dados do Cliente</h2>
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4 border-b dark:border-gray-700 pb-2">Dados do Cliente</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
           <div>
-            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Nome</h3>
-            <p class="text-lg text-gray-800">{{ solicitacao.cliente.nome }}</p>
+            <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nome</h3>
+            <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.cliente.nome }}</p>
           </div>
           <div>
-            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Telefone</h3>
-            <p class="text-lg text-gray-800">{{ solicitacao.cliente.telefone }}</p>
+            <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Telefone</h3>
+            <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.cliente.telefone }}</p>
           </div>
           <div>
-            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Endereço</h3>
-            <p class="text-lg text-gray-800">{{ solicitacao.cliente.endereco }}</p>
+            <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Endereço</h3>
+            <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.cliente.endereco }}</p>
           </div>
           <div>
-            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Email</h3>
-            <p class="text-lg text-gray-800">{{ solicitacao.cliente.email }}</p>
+            <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</h3>
+            <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.cliente.email }}</p>
           </div>
         </div>
       </div>
 
-      <!-- Seção das Descrições -->
       <div>
-        <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Descrição da Manutenção</h2>
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4 border-b dark:border-gray-700 pb-2">Descrição da Manutenção</h2>
           <div class="py-6">
-              <label for="descricaoManutencao" class="text-sm font-semibold text-gray-500 uppercase">Descrição da Manutenção</label>
-              <textarea name="descricaoManutencao" id="descricaoManutencao" placeholder="Descrição..." class="h-48 w-full  p-2 bg-[#f0f2f5] resize-none rounded-md"></textarea>
+              <label for="descricaoManutencao" class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase">Descrição da Manutenção</label>
+              <textarea name="descricaoManutencao" id="descricaoManutencao" placeholder="Descrição..." class="h-48 w-full p-2 bg-[#f0f2f5] dark:bg-gray-700 text-gray-800 dark:text-white resize-none rounded-md"></textarea>
           </div>
           <div class="py-4">
-              <label for="instrucoesCliente" class="text-sm font-semibold text-gray-500 uppercase">Instruções para o Cliente</label>
-              <textarea name="instrucoesCliente" id="instrucoesCliente" placeholder="Instruções..." class="h-48 w-full  p-2 bg-[#f0f2f5] resize-none rounded-md"></textarea>
+              <label for="instrucoesCliente" class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase">Instruções para o Cliente</label>
+              <textarea name="instrucoesCliente" id="instrucoesCliente" placeholder="Instruções..." class="h-48 w-full p-2 bg-[#f0f2f5] dark:bg-gray-700 text-gray-800 dark:text-white resize-none rounded-md"></textarea>
           </div>
       </div>
     </div>
 
-    <!-- Rodapé com Ações -->
-    <div class="p-6 bg-gray-50 border-t flex flex-col md:flex-row justify-end items-center gap-4">
+    <div class="p-6 bg-gray-50 dark:bg-gray-800 border-t dark:border-gray-700 flex flex-col md:flex-row justify-end items-center gap-4">
       <button (click)="abrirModalRedirecionarManutencao()"
               class="w-full md:w-auto px-6 py-3 bg-red-600 text-white font-semibold text-sm uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 transition duration-150 ease-in-out">
         Redirecionar Manutenção
@@ -78,10 +72,10 @@
       </button>
 
       @if (exibirModalRedirecionarManutencao) {
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
-          <div class="bg-white rounded-lg p-6 relative w-[1200px] max-w-6xl">
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-gray-900 dark:bg-opacity-70 flex justify-center items-center z-50">
+          <div class="bg-white dark:bg-gray-800 rounded-lg p-6 relative w-[1200px] max-w-6xl">
             <app-funcionario-modal-redirecionar-manutencao></app-funcionario-modal-redirecionar-manutencao>
-            <button (click)="fecharModalRedirecionarManutencao()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl">
+            <button (click)="fecharModalRedirecionarManutencao()" class="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white text-2xl">
              &times;
             </button>
           </div>
@@ -89,10 +83,10 @@
       }
 
       @if (exibirModalEfetuarManutencao) {
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
-          <div class="bg-white rounded-lg p-6 relative w-[1200px] max-w-6xl">
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-gray-900 dark:bg-opacity-70 flex justify-center items-center z-50">
+          <div class="bg-white dark:bg-gray-800 rounded-lg p-6 relative w-[1200px] max-w-6xl">
             <app-funcionario-modal-efetuar-manutencao></app-funcionario-modal-efetuar-manutencao>
-            <button (click)="fecharModalEfetuarManutencao()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl">
+            <button (click)="fecharModalEfetuarManutencao()" class="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white text-2xl">
              &times;
             </button>
           </div>

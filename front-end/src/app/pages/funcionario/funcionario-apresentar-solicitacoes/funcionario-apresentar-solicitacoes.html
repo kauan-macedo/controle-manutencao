@@ -5,8 +5,6 @@
         <h1 class="text-4xl font-bold text-gray-800 dark:text-white">Solicitações Abertas</h1>
       </header>
 
-      <!--Header da tabela com Filtro-->
-
       <div class="flex justify-end gap-4 px-4 pb-4">
         
         <div>
@@ -26,14 +24,14 @@
 
         <div *ngIf="filtroSelecionado === 'Selecionar Período:'" class="flex gap-2 items-end">
           <div>
-            <label for="dataInicial" class="block text-sm font-medium text-gray-700">Data inicial</label>
+            <label for="dataInicial" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Data inicial</label>
             <input type="date" id="dataInicial" [(ngModel)]="dataInicial"
-                  class="p-2 border rounded-lg"/>
+                  class="p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
           </div>
           <div>
-            <label for="dataFinal" class="block text-sm font-medium text-gray-700">Data final</label>
+            <label for="dataFinal" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Data final</label>
             <input type="date" id="dataFinal" [(ngModel)]="dataFinal"
-                  class="p-2 border rounded-lg"/>
+                  class="p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
           </div>
         </div>
 
@@ -68,14 +66,12 @@
                     <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.produto }}</p>
                 </td>
                 <td class="px-4 border-b dark:border-slate-700 border-slate-200 py-5">
-                    <a [routerLink]="['/funcionario/efetuar-orcamento', solicitacao.id]" class="text-lg text-blue-800 hover:text-blue-950 dark:text-gray-200">{{ solicitacao.acao }}</a>
+                    <a [routerLink]="['/funcionario/efetuar-orcamento', solicitacao.id]" class="text-lg text-blue-800 hover:text-blue-950 dark:text-blue-400 dark:hover:text-blue-300">{{ solicitacao.acao }}</a>
                 </td>
             </tr>
         } @empty {
             <tr class="hover:bg-gray-50 transition-colors duration-200">
-              <td class="px-4 border-b dark:border-slate-700 border-slate-200 py-5">
-                <p class="text-lg text-gray-800 dark:text-gray-200">Sem Solicitações!</p>
-              </td>
+              <td colspan="4" class="text-center py-6 text-gray-500 dark:text-gray-400">Sem elementos!</td>
             </tr>
         }
         </tbody>
