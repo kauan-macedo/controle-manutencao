@@ -22,10 +22,19 @@ export class AuthService {
     '999999999',
     'FUNCIONARIO'
   );
+  const clienteTeste = new Usuario(
+    'Maria', 
+    'maria@gmail.com', 
+    '22222222222', 
+    '888888888', 
+    'CLIENTE' 
+  );
+  clienteTeste.id = 2; 
+  clienteTeste.senha = '1234';
   funcionarioAdmin.id = 1;
   funcionarioAdmin.senha = '1234';
 
-  this.storageService.salvarDados(this.STORAGE_KEY, [funcionarioAdmin])
+  this.storageService.salvarDados(this.STORAGE_KEY, [funcionarioAdmin, clienteTeste])
 }
 
   login(email: string, senha: string): Usuario | null {

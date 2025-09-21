@@ -5,12 +5,14 @@ export class Solicitacao {
     categoriaEquipamento: string;
     descricaoDefeito: string;
     estado: string;
+    clienteId: number;
 
 
 constructor(
     descricaoEquipamento: string,
     categoriaEquipamento: string,
-    descricaoDefeito: string
+    descricaoDefeito: string,
+    clienteId: number
 ) {
     this.id = 0;
     this.dataHora = new Date().toISOString();
@@ -18,5 +20,6 @@ constructor(
     this.categoriaEquipamento = categoriaEquipamento;
     this.descricaoDefeito = descricaoDefeito;
     this.estado = 'ABERTA';
+    this.clienteId = clienteId;
     }
 }

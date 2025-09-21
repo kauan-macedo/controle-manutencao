@@ -1,57 +1,46 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { StorageService } from '../../../services/storage-service';
+import { Solicitacao } from '../../../models/solicitacao';
+import { Usuario } from '../../../models/usuario';
 
 @Component({
   selector: 'app-funcionario-efetuar-orcamento',
+  standalone: true,
   imports: [CommonModule, DatePipe, RouterModule],
   templateUrl: './funcionario-efetuar-orcamento.html',
   styleUrl: './funcionario-efetuar-orcamento.css'
 })
-export class FuncionarioEfetuarOrcamento {
+export class FuncionarioEfetuarOrcamento implements OnInit {
 
-  solicitacao: any;
+  solicitacao: Solicitacao | undefined;
+  cliente: Usuario | undefined; // Adicione esta propriedade para o cliente
+  private readonly SOLICITACOES_KEY = 'solicitacoes';
+  private readonly USUARIOS_KEY = 'usuarios';
 
-    private todasAsSolicitacoes = [
-      {
-        id: 1,
-        dataHora: new Date('2025-03-01T10:00:00'),
-        descricaoEquipamento: 'Notebook Dell',
-        categoria: 'Notebook',
-        defeito: 'Tela fica piscando intermitentemente, especialmente ao mover a tampa.',
-        status: 'ORÇADA',
-        preco: 450.00,
-        cliente: {
-          nome: 'João da Silva',
-          telefone: '(41) 91234-5678',
-          email: 'joao.silva@gmail.com',
-          endereco: 'Rua Julia Ohpis, 467'
-        }
-      },
-      {
-        id: 4,
-        dataHora: new Date('2025-03-12T16:45:00'),
-        descricaoEquipamento: 'Desktop 2025',
-        categoria: 'Desktop',
-        defeito: 'O computador está muito lento e travando, mesmo após formatação. O computador está muito lento e travando, mesmo após formatação. O computador está muito lento e travando, mesmo após formatação. O computador está muito lento e travando, mesmo após formatação.',
-        status: 'ORÇADA',
-        preco: 300.00,
-        cliente: {
-          nome: 'Joana da Silva',
-          telefone: '(41) 98765-4321',
-          email: 'joana.silva@gmail.com',
-          endereco: 'Rua dos Bobos, 0'
-        }
-      }
-    ];
-
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router, private storageService: StorageService) {}
 
   ngOnInit(): void {
-
     const idDaUrl = this.route.snapshot.paramMap.get('id');
     const idNumerico = idDaUrl ? +idDaUrl : 0;
-    this.solicitacao = this.todasAsSolicitacoes.find(s => s.id === idNumerico);
+
+    const todasAsSolicitacoes = this.storageService.getDados(this.SOLICITACOES_KEY);
+    const todosOsUsuarios = this.storageService.getDados(this.USUARIOS_KEY);
+
+    this.solicitacao = todasAsSolicitacoes.find(
+      (s: any) => s.id === idNumerico
+    );
+
+    if (this.solicitacao && todosOsUsuarios) {
+        // Converte a string de data de volta para um objeto Date
+        this.solicitacao.dataHora = new Date(this.solicitacao.dataHora).toISOString();
+
+        // Encontra o cliente usando o clienteId da solicitação
+        this.cliente = todosOsUsuarios.find(
+            (u: any) => u.id === this.solicitacao?.clienteId
+        );
+    }
   }
 
 }

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { ThemeToggle } from '../theme-toggle/theme-toggle';
 import { faComputer } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -10,7 +9,7 @@ import { ToastService } from '../../services/toast-service';
 
 @Component({
   selector: 'app-header-cliente',
-  imports: [RouterLink, ThemeToggle, FontAwesomeModule],
+  imports: [ThemeToggle, FontAwesomeModule],
   templateUrl: './header-cliente.html',
   styleUrl: './header-cliente.css'
 })

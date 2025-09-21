@@ -17,11 +17,11 @@
           </div>
           <div>
             <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Categoria</h3>
-            <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.categoria }}</p>
+            <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.categoriaEquipamento }}</p>
           </div>
           <div class="md:col-span-2">
             <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descrição do Defeito</h3>
-            <p class="text-lg text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-800 p-3 rounded-md mt-1">{{ solicitacao.defeito }}</p>
+            <p class="text-lg text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-800 p-3 rounded-md mt-1">{{ solicitacao.descricaoDefeito }}</p>
           </div>
         </div>
       </div>
@@ -31,19 +31,19 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
           <div>
             <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nome</h3>
-            <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.cliente.nome }}</p>
+            <p class="text-lg text-gray-800 dark:text-gray-200">{{ 'Nome do Cliente' }}</p>
           </div>
           <div>
             <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Telefone</h3>
-            <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.cliente.telefone }}</p>
+            <p class="text-lg text-gray-800 dark:text-gray-200">{{ 'Telefone do Cliente' }}</p>
           </div>
           <div>
             <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Endereço</h3>
-            <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.cliente.endereco }}</p>
+            <p class="text-lg text-gray-800 dark:text-gray-200">{{ 'Endereço do Cliente' }}</p>
           </div>
           <div>
             <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</h3>
-            <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.cliente.email }}</p>
+            <p class="text-lg text-gray-800 dark:text-gray-200">{{ 'Email do Cliente' }}</p>
           </div>
         </div>
       </div>

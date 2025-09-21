@@ -10,17 +10,18 @@ import { ToastService } from '../../../services/toast-service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './cliente-criar-solicitacao.html',
-  styleUrl: './cliente-criar-solicitacao.css'
+  styleUrls: ['./cliente-criar-solicitacao.css'] // <- aqui
 })
 export class ClienteCriarSolicitacao implements OnInit {
-
   @Output() solicitacaoCriada = new EventEmitter<void>();
 
-  solicitacao: Solicitacao = new Solicitacao('', '', '');
-  // lista de categorias para o combo box
+  solicitacao: Solicitacao = new Solicitacao('', '', '', 0);
   categorias: string[] = ['Notebook', 'Desktop', 'Impressora', 'Mouse', 'Teclado'];
 
-  constructor(private solicitacaoService: SolicitacaoService, private toastService: ToastService) {}
+  constructor(
+    private solicitacaoService: SolicitacaoService,
+    private toastService: ToastService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -28,8 +29,7 @@ export class ClienteCriarSolicitacao implements OnInit {
     if (form.valid) {
       this.solicitacaoService.adicionarSolicitacao(this.solicitacao);
       this.solicitacaoCriada.emit();
-      const message = `Solicitação criada com sucesso!`;
-      this.toastService.showSuccess(message)
+      this.toastService.showSuccess('Solicitação criada com sucesso!');
     }
   }
 }
