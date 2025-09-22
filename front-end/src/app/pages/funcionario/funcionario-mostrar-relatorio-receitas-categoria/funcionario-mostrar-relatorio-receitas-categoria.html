@@ -1,1 +1,54 @@
-<p>funcionario-mostrar-relatorio-receitas-categoria works!</p>
+<main class="bg-gray-50 dark:bg-gray-950 h-screen p-4 md:p-8 font-sans">
+
+  <h1 class="max-w-4xl mx-auto p-4 text-4xl dark:text-white font-bold text-gray-800">Gerar Relatório de Receita</h1>
+
+  <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">    
+    <!-- Cabeçalho -->
+    <div class="p-6 bg-gray-100 dark:bg-gray-800 border-b dark:border-gray-700 flex justify-between">
+
+        <div>
+            <p class="text-2xl dark:text-white font-semibold pt-4">Receita agrupado por Categoria</p>
+        </div>
+
+        <div class="flex gap-6">
+          <button (click)="gerarPDF()" id="gerarPDF" type="cbutton" class="w-48 py-2 flex items-center justify-center mt-4 px-4 text-lg font-semibold text-gray-600 dark:text-white dark:bg-blue-700 focus:outline-none bg-blue-200 rounded-lg hover:bg-blue-300 ease-in-out transition duration-150">
+            Baixar PDF
+          </button>
+        </div>
+    </div>
+
+    <!-- Tabela Preview -->
+    <div id="imprimir" class="h-[60vh] overflow-y-scroll dark:bg-gray-900">
+
+        <table class="min-w-full divide-y dark:divide-gray-700 divide-gray-200 table-auto">
+            <thead class="bg-gray-100 dark:bg-gray-900 dark:text-gray-200 text-gray-600 uppercase text-sm font-semibold sticky top-0">
+                <tr>
+                    <th class="px-6 py-4 text-left w-1/6">Categoria</th>    
+                    <th class="px-6 py-4 text-left w-1/6">Receita</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+
+            @for (registro of registrosCategoria; track registro[0]) {
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
+                    <td class="px-6 border-b dark:border-slate-700 border-slate-200 py-5">
+                        <p class="text-lg uppercase text-gray-800 text-gray-800 dark:text-gray-200">{{ registro[0] }}</p>
+                    </td>
+                    <td class="px-6 border-b dark:border-slate-700 border-slate-200 py-5">
+                        <p class="text-lg text-gray-800 text-gray-800 dark:text-gray-200">{{ registro[1] | currency:'BRL' }}</p>
+                    </td>
+                </tr>
+            } @empty {
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
+                <td class="px-6 border-b dark:border-slate-700 border-slate-200 py-5">
+                    <p class="text-lg text-gray-800 text-gray-800 dark:text-gray-200">Sem receitas para o período informado.</p>
+                </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+
+        </div>
+    </div>
+</main>

@@ -84,7 +84,7 @@ export class FuncionarioMostrarRelatorioReceitas implements OnInit{
       let startY = 40;
       doc.setFontSize(12);
       doc.text("Data", 14, startY);
-      doc.text("Receita (R$)", 80, startY);
+      doc.text("Receita", 80, startY);
 
       // linhas da tabela
       startY += 10;
