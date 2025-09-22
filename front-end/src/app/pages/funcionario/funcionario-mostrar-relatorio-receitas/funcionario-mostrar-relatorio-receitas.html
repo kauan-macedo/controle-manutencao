@@ -1,90 +1,84 @@
-<main class="bg-gray-50 dark:bg-gray-950 h-screen p-4 md:p-8 font-sans">
+<main class="bg-gray-50 dark:bg-gray-950 min-h-screen p-6 md:p-10 font-sans">
 
-  <h1 class="max-w-4xl mx-auto p-4 text-4xl dark:text-white font-bold text-gray-800">Gerar Relatório de Receita</h1>
+  <h1 class="max-w-6xl mx-auto mb-6 text-4xl dark:text-white font-bold text-gray-800">
+    Gerar Relatório de Receita
+  </h1>
 
-  <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">    
-    <!-- Cabeçalho -->
-    <div class="p-6 bg-gray-100 dark:bg-gray-800 border-b dark:border-gray-700 flex justify-between">
+  <div class="max-w-6xl mx-auto bg-white dark:bg-gray-900 rounded-xl shadow-lg overflow-hidden">
     
-        <div class="flex gap-12">
-          <div>
-            <label for="dataInicial" class="block text-sm font-medium dark:text-white text-gray-700">Data inicial</label>
-            <input type="date" id="dataInicial" [(ngModel)]="dataInicial"
-                  class="p-2 border rounded-lg"/>
-          </div>
-          <div>
-            <label for="dataFinal" class="block text-sm font-medium dark:text-white text-gray-700">Data final</label>
-            <input type="date" id="dataFinal" [(ngModel)]="dataFinal"
-                  class="p-2 border rounded-lg"/>
-          </div>
-        </div>
+    <!-- Cabeçalho -->
+    <div class="p-6 bg-gray-100 dark:bg-gray-800 border-b dark:border-gray-700 flex flex-wrap gap-8 items-end justify-between">
 
-        <div class="flex gap-6">
-          <button (click)="aplicarFiltro()" id="gerarRelatorio" type="cbutton" class="w-48 flex items-center justify-center mt-4 px-4 text-lg font-semibold text-gray-600 dark:text-white dark:bg-blue-700 focus:outline-none bg-blue-200 rounded-lg hover:bg-blue-300 ease-in-out transition duration-150">
-            Gerar Relatório
-          </button>
-
-          <button (click)="gerarPDF()" id="gerarPDF" type="cbutton" class="w-48 flex items-center justify-center mt-4 px-4 text-lg font-semibold text-gray-600 dark:text-white dark:bg-blue-700 focus:outline-none bg-blue-200 rounded-lg hover:bg-blue-300 ease-in-out transition duration-150">
-            Baixar PDF
-          </button>
+      <!-- Período -->
+      <div class="flex gap-6">
+        <div>
+          <label for="dataInicial" class="block text-sm font-medium dark:text-white text-gray-700 mb-1">Data inicial</label>
+          <input type="date" id="dataInicial" [(ngModel)]="dataInicial"
+                 class="p-2 w-44 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"/>
         </div>
+        <div>
+          <label for="dataFinal" class="block text-sm font-medium dark:text-white text-gray-700 mb-1">Data final</label>
+          <input type="date" id="dataFinal" [(ngModel)]="dataFinal"
+                 class="p-2 w-44 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+        </div>
+      </div>
+
+      <!-- Categoria -->
+      <div>
+        <label for="categoria" class="block text-sm font-medium dark:text-white text-gray-700 mb-1">
+          Categoria
+        </label>
+        <select id="categoria" [(ngModel)]="categoriaSelecionada"
+                class="p-2 w-56 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">Todas</option>
+          @for (c of categorias; track c) {
+            <option [value]="c">{{ c }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Botões -->
+      <div class="flex gap-4">
+        <button (click)="aplicarFiltro()" id="gerarRelatorio" type="button"
+                class="px-6 py-2 text-lg font-semibold text-gray-700 dark:text-white bg-blue-200 dark:bg-blue-700 rounded-lg hover:bg-blue-300 dark:hover:bg-blue-600 focus:outline-none transition">
+          Gerar Relatório
+        </button>
+
+        <button (click)="gerarPDF()" id="gerarPDF" type="button"
+                class="px-6 py-2 text-lg font-semibold text-gray-700 dark:text-white bg-green-200 dark:bg-green-700 rounded-lg hover:bg-green-300 dark:hover:bg-green-600 focus:outline-none transition">
+          Baixar PDF
+        </button>
+      </div>
     </div>
 
     <!-- Corpo com Detalhes -->
-    <div id="imprimir" class="h-[60vh] overflow-y-scroll dark:bg-gray-900">
-
-        <table class="min-w-full divide-y dark:divide-gray-700 divide-gray-200 table-auto">
-            <thead class="bg-gray-100 dark:bg-gray-900 dark:text-gray-200 text-gray-600 uppercase text-sm font-semibold sticky top-0">
-            <tr>
-            <th class="px-6 py-4 text-left w-1/6">Data</th>
-            <th class="px-6 py-4 text-left w-1/6">Receita</th>
+    <div id="imprimir" class="h-[60vh] overflow-y-scroll">
+      <table class="min-w-full divide-y dark:divide-gray-700 divide-gray-200 table-auto">
+        <thead class="bg-gray-200 dark:bg-gray-800 dark:text-gray-200 text-gray-700 uppercase text-sm font-semibold sticky top-0">
+          <tr>
+            <th class="px-6 py-3 text-left w-1/6">Data</th>
+            <th class="px-6 py-3 text-left w-1/6">Receita</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+          @for (registro of registrosFiltrados; track registro.data) {
+            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
+              <td class="px-6 py-4 text-lg text-gray-800 dark:text-gray-200">
+                {{ registro.data | date:'dd/MM/yyyy' }}
+              </td>
+              <td class="px-6 py-4 text-lg text-gray-800 dark:text-gray-200">
+                {{ registro.receita | currency:'BRL' }}
+              </td>
             </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
-
-            @for (registro of registrosFiltrados; track registro.data) {
-                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
-                    <td class="px-4 border-b dark:border-slate-700 border-slate-200 py-5">
-                        <p class="text-lg text-gray-800 text-gray-800 dark:text-gray-200">{{ registro.data | date:'dd/MM/yyyy' }}</p>
-                    </td>
-                    <td class="px-4 border-b dark:border-slate-700 border-slate-200 py-5">
-                        <p class="text-lg text-gray-800 text-gray-800 dark:text-gray-200">{{ registro.receita | currency:'BRL' }}</p>
-                    </td>
-                </tr>
-            } @empty {
-                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
-                <td class="px-4 border-b dark:border-slate-700 border-slate-200 py-5">
-                    <p class="text-lg text-gray-800 text-gray-800 dark:text-gray-200">Sem receitas para o período informado.</p>
-                </td>
-                </tr>
-            }
-            </tbody>
-        </table>
-
-
-        </div>
+          } @empty {
+            <tr>
+              <td colspan="2" class="px-6 py-6 text-center text-gray-500 dark:text-gray-400">
+                Sem receitas para o período informado.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
-
-
-        
-
-      <!--  Detalhes da Solicitação Para Referência
-      <div class="mb-8">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">Detalhes da Solicitação #{{ solicitacao.id}}</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-          <div>
-            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Equipamento</h3>
-            <p class="text-lg text-gray-800">{{ solicitacao.descricaoEquipamento }}</p>
-          </div>
-          <div>
-            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Categoria</h3>
-            <p class="text-lg text-gray-800">{{ solicitacao.categoria }}</p>
-          </div>
-          <div class="md:col-span-2">
-            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Descrição do Defeito</h3>
-            <p class="text-lg text-gray-800 bg-gray-50 p-3 rounded-md mt-1">{{ solicitacao.defeito }}</p>
-          </div>
-        </div>
-      </div>
-      -->
+  </div>
 </main>

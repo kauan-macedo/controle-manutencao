@@ -14,6 +14,9 @@ export class FuncionarioMostrarRelatorioReceitas implements OnInit{
 
   dataInicial: string = '';
   dataFinal: string = '';
+  categoriaSelecionada: string = '';
+
+  categorias = ['Computador', 'Impressora', 'Monitor', 'Notebook',' Projetor'];
 
   registros = [
     { data: new Date('2025-01-05'), receita: 850 },
