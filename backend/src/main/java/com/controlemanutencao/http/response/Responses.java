@@ -11,6 +11,12 @@ public class Responses {
             null
     );
 
+    public static Response<?> CEP_INVALIDO = new Response<>(
+            HttpStatus.BAD_REQUEST.value(),
+            "CEP inválido.",
+            null
+    );
+
     public static Response<?> fromException(Throwable ex) {
         ex.printStackTrace();
         return new Response<>(

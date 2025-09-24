@@ -1,8 +1,9 @@
-package com.controlemanutencao.config;
+package com.controlemanutencao.middleware.filter;
 
 import com.controlemanutencao.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.lang.NonNull;
@@ -41,15 +42,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        final String authHeader = request.getHeader("Authorization");
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        String path = httpRequest.getRequestURI();
+
+        if (path.equals("/login") || path.equals("/autocadastro")) {
             filterChain.doFilter(request, response);
             return;
         }
 
+        Cookie tokenCookie = null;
+        Cookie[] cookies = httpRequest.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("JWT_TOKEN".equals(cookie.getName())) {
+                    tokenCookie = cookie;
+                }
+            }
+        }
+
+        if(tokenCookie == null) {
+            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Faça login novamente");
+            return;
+        }
+
         try {
-            final String jwt = authHeader.substring(7);
+            final String jwt = tokenCookie.getValue();
             final String userEmail = jwtService.extractUsername(jwt);
 
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

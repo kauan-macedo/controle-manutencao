@@ -1,5 +1,6 @@
 package com.controlemanutencao.controller;
 
+import com.controlemanutencao.model.EnderecoViaCep;
 import com.controlemanutencao.model.Usuario;
 import com.controlemanutencao.model.Response;
 import com.controlemanutencao.model.request.LoginRequest;
@@ -27,22 +28,22 @@ public class AuthController {
     private final AuthService authService;
     private final MailService mailService;
     private final JwtService jwtService;
+    private final ViaCEPService viaCEPService;
     private final UsuarioService usuarioService;
 
-    public AuthController(AuthService authService, MailService mailService, UsuarioService usuarioService, JwtService jwtService) {
+    public AuthController(AuthService authService, MailService mailService, UsuarioService usuarioService, JwtService jwtService, ViaCEPService viaCEPService) {
         this.authService = authService;
         this.mailService = mailService;
         this.usuarioService = usuarioService;
         this.jwtService = jwtService;
+        this.viaCEPService = viaCEPService;
     }
 
     @PostMapping("/login")
     public ResponseEntity<Response<?>> login(@RequestBody LoginRequest in, HttpServletResponse response) {
-        // Implementar lógica de login com JWT HTTP-ONLY
-
         Optional<Usuario> user = usuarioService.findByLogin(in.email(), in.password());
 
-        if(!user.isPresent()) {
+        if(user.isEmpty()) {
             return ResponseEntity.ofNullable(new Response<>(HttpStatus.UNAUTHORIZED.value(), "Verifique as credenciais.", null));
         }
 
@@ -58,8 +59,8 @@ public class AuthController {
     }
 
     @PostMapping("/autocadastro")
-    public ResponseEntity<Response<Usuario>> register(@RequestBody @Validated RegisterRequest in) {
-        // Implementar lógica de register
+    public ResponseEntity<Response<Usuario>> register(@RequestBody @Validated RegisterRequest in, HttpServletResponse response) {
+        EnderecoViaCep enderecoViaCep = viaCEPService.buscarCEP(in.cep().replace("-", ""));
 
         Usuario usuario = new Usuario(
                 0,
@@ -67,12 +68,12 @@ public class AuthController {
                 in.email(),
                 in.telefone(),
                 in.cpf(),
-                in.cidade(),
-                in.estado(),
-                in.rua(),
-                in.bairro(),
+                enderecoViaCep.localidade(),
+                enderecoViaCep.estado(),
+                enderecoViaCep.logradouro(),
+                enderecoViaCep.bairro(),
                 in.numero(),
-                in.cep()
+                in.cep().replace("-", "")
         );
 
         try {
@@ -81,7 +82,15 @@ public class AuthController {
             throw new RuntimeException(e);
         }
 
-        return null;
+        String token = jwtService.generateToken(usuario);
+        Cookie cookie = new Cookie("JWT_TOKEN", token);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setMaxAge((int) Duration.ofDays(2).toSeconds());
+        response.addCookie(cookie);
+
+        return ResponseEntity.ofNullable(new Response<>(HttpStatus.OK.value(), "Autocadastro realizado com sucesso!", null));
     }
 
 
