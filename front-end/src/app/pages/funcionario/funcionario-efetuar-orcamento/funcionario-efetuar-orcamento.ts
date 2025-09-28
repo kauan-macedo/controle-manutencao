@@ -53,7 +53,7 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
 
     if (atualizado) {
       alert('Orçamento efetuado com sucesso!');
-      this.router.navigate(['/funcionario']); // redireciona
+      this.router.navigate(['/funcionario/pagina-inicial']); 
     }
   }
 

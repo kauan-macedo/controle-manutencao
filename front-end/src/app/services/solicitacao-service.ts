@@ -29,4 +29,24 @@ export class SolicitacaoService {
     solicitacoes.push(novaSolicitacao);
     this.storageService.salvarDados(this.STORAGE_KEY, solicitacoes);
   }
+
+  atualizarSolicitacao(solicitacaoAtualizada: Solicitacao): void {
+    const solicitacoes = this.getSolicitacoesCliente();
+    const index = solicitacoes.findIndex(s => s.id === solicitacaoAtualizada.id);
+
+    if (index !== -1) {
+      solicitacoes[index] = solicitacaoAtualizada;
+      this.storageService.salvarDados(this.STORAGE_KEY, solicitacoes);
+    }
+  }
+
+  aprovar(solicitacao: Solicitacao): void {
+    solicitacao.estado = 'Aprovada';
+    this.atualizarSolicitacao(solicitacao);
+  }
+
+  rejeitar(solicitacao: Solicitacao): void {
+    solicitacao.estado = 'Rejeitada';
+    this.atualizarSolicitacao(solicitacao);
+  }
 }
