@@ -3,13 +3,14 @@ import { ThemeToggle } from '../theme-toggle/theme-toggle';
 import { faComputer } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AuthService } from '../../services/auth';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ToastService } from '../../services/toast-service';
+
 
 
 @Component({
   selector: 'app-header-cliente',
-  imports: [ThemeToggle, FontAwesomeModule],
+  imports: [ThemeToggle, FontAwesomeModule, RouterLink],
   templateUrl: './header-cliente.html',
   styleUrl: './header-cliente.css'
 })
