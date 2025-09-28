@@ -1,1 +1,39 @@
-<p>funcionario-modal-redirecionar-manutencao works!</p>
+<div class="p-8">
+  <h3 class="text-3xl font-bold mb-8 text-center text-gray-800 dark:text-white">Redirecionar Manutenção</h3>
+
+  <form #form="ngForm" (ngSubmit)="onRedirecionar()" class="space-y-6">
+
+    <div>
+      <label for="funcionario" class="block text-base font-medium text-gray-700 dark:text-gray-200 pb-2">Selecione o funcionário de destino:</label>
+      <select
+        id="funcionario"
+        name="funcionario"
+        required
+        [(ngModel)]="funcionarioSelecionadoId"
+        class="w-full p-3 border dark:border-gray-600 rounded-lg text-[#111418] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[#f0f2f5] dark:bg-gray-700"
+      >
+        <option [ngValue]="null" disabled selected>Selecione um funcionário</option>
+        <option *ngFor="let funcionario of funcionarios" [value]="funcionario.id">
+          {{ funcionario.nome }}
+        </option>
+      </select>
+    </div>
+
+    <div class="flex justify-end gap-4 pt-4">
+      <button
+        type="button"
+        (click)="onCancelar()"
+        class="py-3 px-6 bg-gray-500 dark:bg-gray-600 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 dark:hover:bg-gray-700 transition duration-300"
+      >
+        Cancelar
+      </button>
+      <button
+        type="submit"
+        [disabled]="form.invalid"
+        class="py-3 px-6 bg-blue-600 dark:bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 dark:hover:bg-blue-800 disabled:bg-gray-400 dark:disabled:bg-gray-600 disabled:cursor-not-allowed transition duration-300"
+      >
+        Confirmar Redirecionamento
+      </button>
+    </div>
+  </form>
+</div>
