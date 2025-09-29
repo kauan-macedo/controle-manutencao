@@ -17,4 +17,17 @@ public class Converter {
         }
     }
 
+    public static class TipoUsuarioConverter implements AttributeConverter<TipoUsuario, Integer> {
+
+        @Override
+        public Integer convertToDatabaseColumn(TipoUsuario t) {
+            return t.getId();
+        }
+
+        @Override
+        public TipoUsuario convertToEntityAttribute(Integer integer) {
+            return TipoUsuario.fromId(integer);
+        }
+    }
+
 }

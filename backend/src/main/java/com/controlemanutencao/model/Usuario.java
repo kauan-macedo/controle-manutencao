@@ -1,5 +1,8 @@
 package com.controlemanutencao.model;
 
+import com.controlemanutencao.model.enums.Converter;
+import com.controlemanutencao.model.enums.StatusSolicitacao;
+import com.controlemanutencao.model.enums.TipoUsuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,6 +22,10 @@ public class Usuario implements UserDetails {
 
     @Column(name = "Nome")
     private String nome;
+
+    @Column(name = "TipoUsuario")
+    @Convert(converter = Converter.TipoUsuarioConverter.class)
+    private TipoUsuario tipoUsuario;
 
     @Column(name = "Email", unique = true)
     private String email;

@@ -42,7 +42,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Response<?>> login(@RequestBody LoginRequest in, HttpServletResponse response) {
+    public ResponseEntity<Response<Usuario>> login(@RequestBody LoginRequest in, HttpServletResponse response) {
         Optional<Usuario> user = usuarioService.findByLogin(in.email(), in.password());
 
         if(user.isEmpty()) {
@@ -57,7 +57,7 @@ public class AuthController {
         cookie.setMaxAge((int) Duration.ofDays(2).toSeconds());
         response.addCookie(cookie);
 
-        return ResponseEntity.ofNullable(new Response<>(HttpStatus.OK.value(), "Login realizado com sucesso!", null));
+        return ResponseEntity.ofNullable(new Response<Usuario>(HttpStatus.OK.value(), "Login realizado com sucesso!", user.get()));
     }
 
     @PostMapping("/autocadastro")
