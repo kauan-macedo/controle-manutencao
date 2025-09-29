@@ -1,5 +1,6 @@
 package com.controlemanutencao.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,8 +44,11 @@ public class Usuario implements UserDetails {
     @Column(name = "Numero")
     private int numero;
 
+    @JsonIgnore
     @Column(name = "Senha")
     private String senha;
+
+    public Usuario() {}
 
     public Usuario(int id, String nome, String email, String telefone, String CPF, String cidade, String estado, String rua, String bairro, int numero, String CEP) {
         this.id = id;
@@ -108,6 +112,10 @@ public class Usuario implements UserDetails {
 
     public String getCEP() {
         return CEP;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     @Override

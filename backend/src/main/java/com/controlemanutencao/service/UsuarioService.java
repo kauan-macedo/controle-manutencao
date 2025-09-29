@@ -1,7 +1,9 @@
 package com.controlemanutencao.service;
 
+import com.controlemanutencao.exception.EmailAlreadyTakenException;
 import com.controlemanutencao.model.Usuario;
 import com.controlemanutencao.repository.UsuarioRepository;
+import jakarta.mail.AuthenticationFailedException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +28,7 @@ public class UsuarioService {
     }
 
     public Optional<Usuario> findByLogin(String email, String password) {
-        return repository.findByLogin(email, password);
+        return repository.findByEmailAndSenha(email, password);
     }
 
     public List<Usuario> findAll() {
@@ -34,16 +36,25 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void criarUsuario(Usuario user) throws Exception {
+    public void criarUsuario(Usuario user) throws RuntimeException {
 
-        repository.save(user);
+        if(repository.existsByEmail(user.getEmail())) {
+            throw new EmailAlreadyTakenException();
+        }
 
         int senha = ThreadLocalRandom.current().nextInt(1000, 10000);
+        user.setSenha(senha + "");
+
+        repository.save(user);
 
         String mensagem = "Seja bem vindo ao ambiente Controle Manutenção!"
                 + "\nPara fazer login, utilize seu email e a seguinte senha: " + senha;
 
-        mailService.sendEmail(user.getEmail(), "Controle Manutenção: Boas vindas!", mensagem);
+        try {
+            mailService.sendEmail(user.getEmail(), "Controle Manutenção: Boas vindas!", mensagem);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao enviar email", e);
+        }
 
     }
 

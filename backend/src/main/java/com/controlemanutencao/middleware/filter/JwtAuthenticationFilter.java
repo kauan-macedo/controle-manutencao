@@ -43,16 +43,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        String path = httpRequest.getRequestURI();
+        String path = request.getServletPath();
 
-        if (path.equals("/login") || path.equals("/autocadastro")) {
+        if (path.equals("/auth/login") || path.equals("/auth/autocadastro")) {
             filterChain.doFilter(request, response);
             return;
         }
 
         Cookie tokenCookie = null;
-        Cookie[] cookies = httpRequest.getCookies();
+
+        Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if ("JWT_TOKEN".equals(cookie.getName())) {
@@ -62,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         if(tokenCookie == null) {
-            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Faça login novamente");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Faça login novamente");
             return;
         }
 

@@ -1,5 +1,6 @@
 package com.controlemanutencao.controller;
 
+import com.controlemanutencao.exception.EmailAlreadyTakenException;
 import com.controlemanutencao.model.EnderecoViaCep;
 import com.controlemanutencao.model.Usuario;
 import com.controlemanutencao.model.Response;
@@ -8,6 +9,7 @@ import com.controlemanutencao.model.request.RegisterRequest;
 import com.controlemanutencao.service.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -78,8 +80,8 @@ public class AuthController {
 
         try {
             usuarioService.criarUsuario(usuario);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (RuntimeException ex) {
+            throw ex;
         }
 
         String token = jwtService.generateToken(usuario);

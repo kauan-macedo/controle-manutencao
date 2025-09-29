@@ -11,14 +11,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     Optional<Usuario> findByEmail(String email);
 
-    @Query(
-            value = "SELECT u.* " +
-                    "FROM ME_Usuario u " +
-                    "JOIN ME_Login l ON l.IdUsuario = u.IdUsuario " +
-                    "WHERE l.email = :email AND l.password = :password",
-            nativeQuery = true
-    )
-    Optional<Usuario> findByLogin(@Param("email") String email, @Param("password") String password);
+    Optional<Usuario> findByEmailAndSenha(String email, String senha);
+
+    boolean existsByEmail(String email);
 
 
 }

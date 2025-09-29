@@ -1,7 +1,7 @@
 package com.controlemanutencao.exception;
 
 public class CEPInvalidoException extends RuntimeException {
-  public CEPInvalidoException(String message) {
-    super(message);
+  public CEPInvalidoException() {
+    super("CEP fornecido é inválido.");
   }
 }

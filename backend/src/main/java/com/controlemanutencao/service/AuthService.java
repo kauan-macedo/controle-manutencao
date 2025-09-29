@@ -17,17 +17,8 @@ public class AuthService {
 
     public Optional<Usuario> findUserByLogin(String email, String password) {
 
-        Usuario user = userRepository.findByEmail(email).orElseGet(() -> null);
-
-        if(user == null) {
-            return Optional.empty();
-        }
-
-        if(user.getPassword().equals(password)) {
-            return Optional.of(user);
-        }
-
-        return Optional.empty();
+        Usuario user = userRepository.findByEmailAndSenha(email, password).orElseGet(() -> null);
+        return Optional.ofNullable(user);
 
     }
 

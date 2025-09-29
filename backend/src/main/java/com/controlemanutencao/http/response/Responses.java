@@ -13,7 +13,13 @@ public class Responses {
 
     public static Response<?> CEP_INVALIDO = new Response<>(
             HttpStatus.BAD_REQUEST.value(),
-            "CEP inválido.",
+            "CEP fornecido é inválido.",
+            null
+    );
+
+    public static Response<?> EMAIL_EM_USO = new Response<>(
+            HttpStatus.BAD_REQUEST.value(),
+            "Email fornecido já está em uso.",
             null
     );
 

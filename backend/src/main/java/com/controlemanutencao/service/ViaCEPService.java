@@ -14,8 +14,8 @@ import java.util.Optional;
 @Service
 public class ViaCEPService {
 
-    public EnderecoViaCep buscarCEP(String cep) {
-        String url = "https://viacep.com.br/ws/01001000/json/";
+    public EnderecoViaCep buscarCEP(String cep) throws CEPInvalidoException {
+        String url = "https://viacep.com.br/ws/" + cep + "/json/";
         try (HttpClient client = HttpClient.newHttpClient()) {
 
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
@@ -25,7 +25,7 @@ public class ViaCEPService {
 
             return endereco;
         }catch (Exception ex) {
-            throw new CEPInvalidoException("CEP inválido");
+            throw new CEPInvalidoException();
         }
     }
 
