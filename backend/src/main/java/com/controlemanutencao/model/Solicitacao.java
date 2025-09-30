@@ -41,6 +41,21 @@ public class Solicitacao {
     @JoinColumn(name = "IdCategoria")
     private Categoria categoria;
 
+    public Solicitacao() {
+    }
+
+    public Solicitacao(Long id, StatusSolicitacao status, String descricaoDefeito, String descricaoEquipamento, Long dataCriacao, Long dataArrumado, Orcamento orcamento, Usuario usuario, Categoria categoria) {
+        this.id = id;
+        this.status = status;
+        this.descricaoDefeito = descricaoDefeito;
+        this.descricaoEquipamento = descricaoEquipamento;
+        this.dataCriacao = dataCriacao;
+        this.dataArrumado = dataArrumado;
+        this.orcamento = orcamento;
+        this.usuario = usuario;
+        this.categoria = categoria;
+    }
+
     public Long getId() {
         return id;
     }
@@ -49,8 +64,16 @@ public class Solicitacao {
         return status;
     }
 
+    public void setOrcamento(Orcamento orcamento) {
+        this.orcamento = orcamento;
+    }
+
     public String getDescricaoDefeito() {
         return descricaoDefeito;
+    }
+
+    public void setStatus(StatusSolicitacao status) {
+        this.status = status;
     }
 
     public String getDescricaoEquipamento() {
