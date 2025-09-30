@@ -1,10 +1,18 @@
-<div class="flex justify-center items-center bg-gray-100 dark:bg-gray-950 min-h-screen">
-    <div class="bg-white dark:bg-gray-800 p-16 rounded-lg shadow-2xl w-full">
-        <h3 class="text-3xl font-bold mb-8 text-center text-gray-800 dark:text-white">Aprovar Serviço</h3>
+<div class="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-30">
+  <div class="bg-white dark:bg-gray-800 p-12 rounded-xl shadow-2xl w-1/3 relative">
+    <h2 class="text-3xl font-bold mb-8 text-center text-gray-800 dark:text-white">Tem certeza que deseja aprovar o serviço?</h2>
+
+    <div class="flex justify-center gap-6 mt-6">
+      <button (click)="cancelar()"
+              class="px-6 py-3 bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-white rounded hover:bg-gray-400 dark:hover:bg-gray-600">
+        Cancelar
+      </button>
+      <button (click)="confirmar()"
+              class="px-6 py-3 bg-blue-600 dark:bg-blue-700 text-white rounded hover:bg-blue-700 dark:hover:bg-blue-800">
+        Confirmar
+      </button>
     </div>
+
+    <button (click)="fecharModal()" class="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white text-2xl">&times;</button>
+  </div>
 </div>
-<!--
-    Implementar formulário
-    (baseado no componente "ClienteCriarSolicitacao")
--->
-<form #form="ngForm" (ngSubmit)="onSubmit(form)" class="space-y-6"></form>

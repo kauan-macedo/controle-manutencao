@@ -1,17 +1,28 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ThemeToggle } from '../../../shared/theme-toggle/theme-toggle';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-cliente-aprovar-servico',
+  standalone: true,
   imports: [FormsModule],
   templateUrl: './cliente-aprovar-servico.html',
-  styleUrl: './cliente-aprovar-servico.css'
+  styleUrls: ['./cliente-aprovar-servico.css']
 })
 export class ClienteAprovarServico {
-  onSubmit(form: any): void {
 
-    //implementar logica
-  
+  @Output() fechar = new EventEmitter<void>();
+  @Output() aprovado = new EventEmitter<void>();
+
+  confirmar(): void {
+    this.aprovado.emit(); 
+    this.fechar.emit();   
+  }
+
+  fecharModal(): void {
+    this.fechar.emit();
+  }
+
+  cancelar(): void {
+    this.fechar.emit();
   }
 }

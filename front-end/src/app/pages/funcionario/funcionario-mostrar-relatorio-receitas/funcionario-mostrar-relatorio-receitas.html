@@ -23,20 +23,6 @@
         </div>
       </div>
 
-      <!-- Categoria -->
-      <div>
-        <label for="categoria" class="block text-sm font-medium dark:text-white text-gray-700 mb-1">
-          Categoria
-        </label>
-        <select id="categoria" [(ngModel)]="categoriaSelecionada"
-                class="p-2 w-56 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-          <option value="">Todas</option>
-          @for (c of categorias; track c) {
-            <option [value]="c">{{ c }}</option>
-          }
-        </select>
-      </div>
-
       <!-- Botões -->
       <div class="flex gap-4">
         <button (click)="aplicarFiltro()" id="gerarRelatorio" type="button"
