@@ -2,6 +2,7 @@ package com.controlemanutencao.controller.advice;
 
 import com.controlemanutencao.exception.CEPInvalidoException;
 import com.controlemanutencao.exception.EmailAlreadyTakenException;
+import com.controlemanutencao.exception.EstadoIlegalSolicitacaoException;
 import com.controlemanutencao.http.response.Responses;
 import com.controlemanutencao.model.Response;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .body(Responses.EMAIL_EM_USO);
+    }
 
+    @ExceptionHandler(EstadoIlegalSolicitacaoException.class)
+    public ResponseEntity<Response<?>> handleEstadoIlegalSolicitacaoException(EstadoIlegalSolicitacaoException ex) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(new Response<>(HttpStatus.FORBIDDEN.value(), ex.getMessage(), null));
     }
 
     @ExceptionHandler(RuntimeException.class)

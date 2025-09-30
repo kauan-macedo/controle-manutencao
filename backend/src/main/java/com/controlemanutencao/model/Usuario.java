@@ -121,6 +121,10 @@ public class Usuario implements UserDetails {
         return CEP;
     }
 
+    public TipoUsuario getTipoUsuario() {
+        return tipoUsuario;
+    }
+
     public void setSenha(String senha) {
         this.senha = senha;
     }
