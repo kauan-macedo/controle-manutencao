@@ -27,7 +27,8 @@ export class CadastroService {
       numero: 123
     }
 
-    POST(new APIRequest("auth/autocadastro", null, body, null), (resp: APIResponse<any>) => {
+    /*
+      POST(new APIRequest("auth/autocadastro", null, body, null), (resp: APIResponse<any>) => {
       let mensagem = resp.message;
       if(resp.status != 200) {
         // mandar mensagem de erro
@@ -35,8 +36,9 @@ export class CadastroService {
         // mandar mensagem de sucesso
       }
     })
+    */
 
-    /*const usuarios = this.storageService.getDados(this.STORAGE_KEY) || [];
+    const usuarios = this.storageService.getDados(this.STORAGE_KEY) || [];
 
     let proximoId;
     if (usuarios.length > 0) {
@@ -50,7 +52,7 @@ export class CadastroService {
     usuarioDados.senha = this.gerarSenha();
     usuarioDados.perfil = 'CLIENTE';
     usuarios.push(usuarioDados);
-    this.storageService.salvarDados(this.STORAGE_KEY, usuarios);*/
+    this.storageService.salvarDados(this.STORAGE_KEY, usuarios);
   }
 
   login(email: string, senha: string, onSuccess: (t: Usuario) => void, onError?: () => void) {
@@ -64,14 +66,17 @@ export class CadastroService {
       let mensagem = resp.message;
       if(resp.status != 200) {
         // mandar mensagem de erro
+        //
         onError?.();
       } else {
         // mandar mensagem de sucesso
+        //
         onSuccess(resp.body)
       }
     })
 
-    /*const usuarios: Usuario[] = this.storageService.getDados(this.STORAGE_KEY) || [];
+    /*
+    const usuarios: Usuario[] = this.storageService.getDados(this.STORAGE_KEY) || [];
     const usuarioEncontrado = usuarios.find(u => u.email === email && u.senha === senha);
     
     if (usuarioEncontrado) {
@@ -79,6 +84,7 @@ export class CadastroService {
       return usuarioEncontrado;
     }
 
-    return null; */
+    return null;
+    */
   }
 }

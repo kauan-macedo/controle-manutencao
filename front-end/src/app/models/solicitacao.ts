@@ -23,7 +23,13 @@ export class Solicitacao {
         this.descricaoEquipamento = descricaoEquipamento;
         this.categoriaEquipamento = categoriaEquipamento;
         this.descricaoDefeito = descricaoDefeito;
-        this.estado = 'ABERTA';
+        // Seria interessante
+        // criar um ENUM
+        // para os estados
+        // da solicitação?
+        // ==
+        this.estado = 'Aberta';
+        // ==
         this.clienteId = clienteId;
 
         this.valorOrcamento = undefined;
