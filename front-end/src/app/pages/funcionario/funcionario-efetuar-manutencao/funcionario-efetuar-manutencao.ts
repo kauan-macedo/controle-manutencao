@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { FuncionarioModalRedirecionarManutencao } from '../funcionario-modal-redirecionar-manutencao/funcionario-modal-redirecionar-manutencao';
 import { FuncionarioModalEfetuarManutencao } from '../funcionario-modal-efetuar-manutencao/funcionario-modal-efetuar-manutencao';
+import { setThrowInvalidWriteToSignalError } from '@angular/core/primitives/signals';
 
 @Component({
   selector: 'app-funcionario-efetuar-manutencao',
@@ -11,6 +12,9 @@ import { FuncionarioModalEfetuarManutencao } from '../funcionario-modal-efetuar-
   styleUrl: './funcionario-efetuar-manutencao.css'
 })
 export class FuncionarioEfetuarManutencao {
+
+  descricaoManutencao: string | undefined;
+  informacaoCliente: string | undefined;
 
   solicitacao: any;
 
@@ -59,6 +63,45 @@ export class FuncionarioEfetuarManutencao {
     this.solicitacao = this.todasAsSolicitacoes.find(s => s.id === idNumerico);
   }
 
+  /**
+   * 
+   * Efetuar Manutenção muda
+   * no back o status da solicitação
+   * e a retorna, então leva novamente
+   * à página inicial do funcionário
+   */
+  
+  /**
+   * Service Efetuar Manutenção
+   * Chamar
+   * Método
+   * Efetuar
+   * Manutenção
+   * do
+   * Service
+   * Efetuar
+   * Manutenção
+   * Passando
+   * os
+   * Parâmetros
+   * descricaoManutencao
+   * e
+   * informacaoCliente
+   * Para
+   * Atualizar
+   * os
+   * Respectivos
+   * Campos
+   * na
+   * Solicitação
+   * e
+   * Salvar
+   * no
+   * Banco
+   * de
+   * Dados
+   */
+
   abrirModalRedirecionarManutencao(): void {
     this.exibirModalRedirecionarManutencao = true;
   }
@@ -68,11 +111,16 @@ export class FuncionarioEfetuarManutencao {
   }
 
   abrirModalEfetuarManutencao(): void {
-    this.exibirModalEfetuarManutencao = true;
-  }
+    if(!this.descricaoManutencao || !this.informacaoCliente) return;
 
-  fecharModalEfetuarManutencao(): void {
-    this.exibirModalEfetuarManutencao = false;
+    /**
+     *const atualizado = this.manutencaoService.efetuarOrcamento(this.solicitacao.id, this.descricaoManutencao, this.informacaoCliente);
+
+      if (atualizado) {
+        alert('Manutenção efetuada com sucesso!');
+        this.router.navigate(['/funcionario/pagina-inicial']); 
+      }
+     */
   }
 
 }

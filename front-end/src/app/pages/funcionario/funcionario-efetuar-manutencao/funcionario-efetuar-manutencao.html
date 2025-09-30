@@ -71,6 +71,14 @@
         Efetuar Manutenção
       </button>
 
+      <!--
+        Substituir ModalEfetuarManutencao
+        por um alert informando do sucesso
+        ou fracasso da operação (baseado
+        no preenchimento adequado dos campos
+        descricaoManutencao e informacaoCliente)
+      -->
+
       @if (exibirModalRedirecionarManutencao) {
         <div class="fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-gray-900 dark:bg-opacity-70 flex justify-center items-center z-50">
           <div class="bg-white dark:bg-gray-800 rounded-lg p-6 relative w-[1200px] max-w-6xl">
@@ -81,17 +89,7 @@
           </div>
         </div>
       }
-
-      @if (exibirModalEfetuarManutencao) {
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-gray-900 dark:bg-opacity-70 flex justify-center items-center z-50">
-          <div class="bg-white dark:bg-gray-800 rounded-lg p-6 relative w-[1200px] max-w-6xl">
-            <app-funcionario-modal-efetuar-manutencao></app-funcionario-modal-efetuar-manutencao>
-            <button (click)="fecharModalEfetuarManutencao()" class="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white text-2xl">
-             &times;
-            </button>
-          </div>
-        </div>
-      }
+      
     </div>
   </div>
 </main>
