@@ -6,7 +6,7 @@ import { jsPDF } from 'jspdf';
 
 @Component({
   selector: 'app-funcionario-mostrar-relatorio-receitas-categoria',
-  imports: [CommonModule, RouterModule, DatePipe, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './funcionario-mostrar-relatorio-receitas-categoria.html',
   styleUrl: './funcionario-mostrar-relatorio-receitas-categoria.css'
 })

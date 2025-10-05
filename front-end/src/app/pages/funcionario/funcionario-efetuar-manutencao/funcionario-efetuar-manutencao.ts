@@ -111,16 +111,11 @@ export class FuncionarioEfetuarManutencao {
   }
 
   abrirModalEfetuarManutencao(): void {
-    if(!this.descricaoManutencao || !this.informacaoCliente) return;
+    this.exibirModalEfetuarManutencao = true;
+  }
 
-    /**
-     *const atualizado = this.manutencaoService.efetuarOrcamento(this.solicitacao.id, this.descricaoManutencao, this.informacaoCliente);
-
-      if (atualizado) {
-        alert('Manutenção efetuada com sucesso!');
-        this.router.navigate(['/funcionario/pagina-inicial']); 
-      }
-     */
+  fecharModalEfetuarManutencao(): void {
+    this.exibirModalEfetuarManutencao = false;
   }
 
 }
