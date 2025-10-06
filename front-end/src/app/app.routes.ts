@@ -13,7 +13,6 @@ import { ClienteRejeitarServico } from './pages/cliente/cliente-rejeitar-servico
 import { FuncionarioEfetuarOrcamento } from './pages/funcionario/funcionario-efetuar-orcamento/funcionario-efetuar-orcamento';
 import { FuncionarioMostrarRelatorioReceitas } from './pages/funcionario/funcionario-mostrar-relatorio-receitas/funcionario-mostrar-relatorio-receitas';
 import { FuncionarioMostrarRelatorioReceitasCategoria } from './pages/funcionario/funcionario-mostrar-relatorio-receitas-categoria/funcionario-mostrar-relatorio-receitas-categoria';
-import { FuncionarioMostrarFuncionarios } from './pages/funcionario/funcionario-mostrar-funcionarios/funcionario-mostrar-funcionarios';
 import { FuncionarioManterFuncionario } from './pages/funcionario/funcionario-manter-funcionario/funcionario-manter-funcionario';
 import { FuncionarioMostrarCategoriasEquipamento } from './pages/funcionario/funcionario-mostrar-categorias-equipamento/funcionario-mostrar-categorias-equipamento';
 import { FuncionarioManterCategoriaEquipamento } from './pages/funcionario/funcionario-manter-categoria-equipamento/funcionario-manter-categoria-equipamento';
@@ -93,10 +92,6 @@ export const routes: Routes = [
             {
                 path: 'mostrar-relatorio-receitas-categoria',
                 component: FuncionarioMostrarRelatorioReceitasCategoria
-            },
-            {
-                path: 'mostrar-funcionarios',
-                component: FuncionarioMostrarFuncionarios
             },
             {
                 path: 'manter-funcionario',
