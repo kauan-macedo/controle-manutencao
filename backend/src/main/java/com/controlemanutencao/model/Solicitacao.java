@@ -38,6 +38,10 @@ public class Solicitacao {
     private Usuario usuario;
 
     @ManyToOne
+    @JoinColumn(name = "IdResponsavel")
+    private Usuario responsavel;
+
+    @ManyToOne
     @JoinColumn(name = "IdCategoria")
     private Categoria categoria;
 

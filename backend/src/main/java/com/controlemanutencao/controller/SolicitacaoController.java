@@ -8,6 +8,7 @@ import com.controlemanutencao.model.request.NovaSolicitacaoRequest;
 import com.controlemanutencao.service.CategoriaService;
 import com.controlemanutencao.service.SolicitacaoService;
 import com.controlemanutencao.service.UsuarioService;
+import com.controlemanutencao.utils.Utils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -61,7 +62,7 @@ public class SolicitacaoController {
                 StatusSolicitacao.NOVA,
                 req.desc_defeito(),
                 req.desc_equipamento(),
-                System.currentTimeMillis()/1000,
+                Utils.timestampNow(),
                 null,
                 null,
                 usuario,
@@ -70,42 +71,71 @@ public class SolicitacaoController {
         return ResponseEntity.ofNullable(new Response<>(HttpStatus.OK.value(), "Solicitação criada com sucesso!", service.findByUsuario(usuario)));
     }
 
-    @PostMapping("/orcamento")
-    public ResponseEntity<Response<?>> enviarOrcamento(@RequestBody EnviarOrcamentoRequest orcamento, @AuthenticationPrincipal Usuario usuario) {
-
-        if(usuario.getTipoUsuario() != TipoUsuario.FUNCIONARIO) {
-            return ResponseEntity.ofNullable(new Response<>(HttpStatus.UNAUTHORIZED.value(), "Você não tem permissão para fazer isso.", null));
-        }
-
-        Optional<Solicitacao> solicitacao = service.findById((long) orcamento.solicitacao_id());
-
+    @PostMapping("/orcar/{id}")
+    public ResponseEntity<Response<?>> enviarOrcamento(@PathVariable("id") long solicitacao_id, @RequestBody EnviarOrcamentoRequest orcamento, @AuthenticationPrincipal Usuario usuario) {
+        Optional<Solicitacao> solicitacao = service.findById(solicitacao_id);
         if(solicitacao.isEmpty()) {
             return ResponseEntity.ofNullable(new Response<>(HttpStatus.BAD_REQUEST.value(), "Solicitação não encontrada!", null));
         }
-
-        Orcamento orc = new Orcamento(null, orcamento.valor(), orcamento.descricao(), System.currentTimeMillis()/1000);
-
-        service.enviarOrcamento(solicitacao.get(), orc);
+        Orcamento orc = new Orcamento(null, orcamento.valor(), orcamento.descricao(), Utils.timestampNow());
+        service.orcarServico(solicitacao.get(), orc, usuario);
         return ResponseEntity.ofNullable(new Response<>(HttpStatus.OK.value(), "Orçamento enviado com sucesso!", null));
     }
 
-    @PostMapping("/aprovar")
-    public Response<Response<?>> aprovarServico(@RequestParam int solicitacao_id, @AuthenticationPrincipal Usuario user) {
-        return null;
+    @PostMapping("/aprovar/{id}")
+    public ResponseEntity<Response<?>> aprovarServico(@PathVariable("id") long solicitacao_id, @AuthenticationPrincipal Usuario user) {
+        Optional<Solicitacao> solicitacao = service.findById(solicitacao_id);
+        if(solicitacao.isEmpty()) {
+            return ResponseEntity.ofNullable(new Response<>(HttpStatus.BAD_REQUEST.value(), "Solicitação não encontrada!", null));
+        }
+        service.aprovarServico(solicitacao.get(), user);
+        return ResponseEntity.ofNullable(new Response<>(HttpStatus.OK.value(), "Serviço aprovado com sucesso!", null));
     }
 
-    @PostMapping("/rejeitar")
-    public Response<Response<?>> rejeitarServico(@RequestParam int solicitacao_id, @AuthenticationPrincipal Usuario user) {
-        return null;
+
+    @PostMapping("/rejeitar/{id}")
+    public ResponseEntity<Response<?>> rejeitarServico(@PathVariable("id") long solicitacao_id, @AuthenticationPrincipal Usuario user) {
+        Optional<Solicitacao> solicitacao = service.findById(solicitacao_id);
+        if(solicitacao.isEmpty()) {
+            return ResponseEntity.ofNullable(new Response<>(HttpStatus.BAD_REQUEST.value(), "Solicitação não encontrada!", null));
+        }
+        service.rejeitarServico(solicitacao.get(), user);
+        return ResponseEntity.ofNullable(new Response<>(HttpStatus.OK.value(), "Serviço aprovado com sucesso!", null));
     }
 
-    @PostMapping("/resgatar")
-    public Response<Response<?>> resgatarServico(@RequestParam int solicitacao_id, @AuthenticationPrincipal Usuario user) {
-        return null;
+    @PostMapping("/resgatar/{id}")
+    public ResponseEntity<Response<?>> resgatarServico(@PathVariable("id") long solicitacao_id, @AuthenticationPrincipal Usuario user) {
+        Optional<Solicitacao> solicitacao = service.findById(solicitacao_id);
+        if(solicitacao.isEmpty()) {
+            return ResponseEntity.ofNullable(new Response<>(HttpStatus.BAD_REQUEST.value(), "Solicitação não encontrada!", null));
+        }
+        service.rejeitarServico(solicitacao.get(), user);
+        return ResponseEntity.ofNullable(new Response<>(HttpStatus.OK.value(), "Serviço resgatado com sucesso!", null));
     }
 
-    @PostMapping("/pagar")
-    public Response<Response<?>> pagarServico(@RequestParam int solicitacao_id, @AuthenticationPrincipal Usuario user) {
+    @PostMapping("/arrumar/{id}")
+    public ResponseEntity<Response<?>> arrumarServico(@PathVariable("id") long solicitacao_id, @AuthenticationPrincipal Usuario user) {
+        Optional<Solicitacao> solicitacao = service.findById(solicitacao_id);
+        if(solicitacao.isEmpty()) {
+            return ResponseEntity.ofNullable(new Response<>(HttpStatus.BAD_REQUEST.value(), "Solicitação não encontrada!", null));
+        }
+        service.rejeitarServico(solicitacao.get(), user);
+        return ResponseEntity.ofNullable(new Response<>(HttpStatus.OK.value(), "Equipamento arrumado com sucesso!", null));
+    }
+
+
+    @PostMapping("/pagar/{id}")
+    public ResponseEntity<Response<?>> pagarServico(@PathVariable("id") long solicitacao_id, @AuthenticationPrincipal Usuario user) {
+        Optional<Solicitacao> solicitacao = service.findById(solicitacao_id);
+        if(solicitacao.isEmpty()) {
+            return ResponseEntity.ofNullable(new Response<>(HttpStatus.BAD_REQUEST.value(), "Solicitação não encontrada!", null));
+        }
+        service.rejeitarServico(solicitacao.get(), user);
+        return ResponseEntity.ofNullable(new Response<>(HttpStatus.OK.value(), "Serviço pago com sucesso!", null));
+    }
+
+    @PostMapping("/redirecionar")
+    public ResponseEntity<Response<?>> redirecionarServico(@RequestParam int solicitacao_id, @AuthenticationPrincipal Usuario user) {
         return null;
     }
 

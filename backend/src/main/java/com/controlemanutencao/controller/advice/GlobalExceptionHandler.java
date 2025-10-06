@@ -1,6 +1,7 @@
 package com.controlemanutencao.controller.advice;
 
 import com.controlemanutencao.exception.CEPInvalidoException;
+import com.controlemanutencao.exception.DeveSerFuncionarioException;
 import com.controlemanutencao.exception.EmailAlreadyTakenException;
 import com.controlemanutencao.exception.EstadoIlegalSolicitacaoException;
 import com.controlemanutencao.http.response.Responses;
@@ -36,6 +37,14 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .body(Responses.EMAIL_EM_USO);
     }
+
+    @ExceptionHandler(DeveSerFuncionarioException.class)
+    public ResponseEntity<Response<?>> handleDeveSerFuncionarioException(DeveSerFuncionarioException ex) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(Responses.DEVE_SER_FUNCIONARIO);
+    }
+
 
     @ExceptionHandler(EstadoIlegalSolicitacaoException.class)
     public ResponseEntity<Response<?>> handleEstadoIlegalSolicitacaoException(EstadoIlegalSolicitacaoException ex) {

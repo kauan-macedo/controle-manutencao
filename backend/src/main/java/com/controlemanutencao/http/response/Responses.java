@@ -11,6 +11,12 @@ public class Responses {
             null
     );
 
+    public static Response<?> DEVE_SER_FUNCIONARIO = new Response<>(
+            HttpStatus.UNAUTHORIZED.value(),
+            "Você não tem permissão para performar essa ação.",
+            null
+    );
+
     public static Response<?> CEP_INVALIDO = new Response<>(
             HttpStatus.BAD_REQUEST.value(),
             "CEP fornecido é inválido.",
