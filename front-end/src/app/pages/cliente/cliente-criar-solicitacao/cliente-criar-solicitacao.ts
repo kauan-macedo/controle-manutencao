@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { Solicitacao } from '../../../models/solicitacao';
 import { ToastService } from '../../../services/toast-service';
+import { CategoriaEquipamentoService } from '../../../services/categoria-equipamento-service';
+import { CategoriaEquipamento } from '../../../models/categoria-equipamento';
 
 @Component({
   selector: 'app-cliente-criar-solicitacao',
@@ -16,14 +18,17 @@ export class ClienteCriarSolicitacao implements OnInit {
   @Output() solicitacaoCriada = new EventEmitter<void>();
 
   solicitacao: Solicitacao = new Solicitacao('', '', '', 0);
-  categorias: string[] = ['Notebook', 'Desktop', 'Impressora', 'Mouse', 'Teclado'];
+  categorias!: CategoriaEquipamento[];
 
   constructor(
     private solicitacaoService: SolicitacaoService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private categoriaService: CategoriaEquipamentoService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.categorias = this.categoriaService.listarTodas();
+  }
 
   onSubmit(form: any): void {
     if (form.valid) {

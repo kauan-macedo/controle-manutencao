@@ -12,13 +12,16 @@ export class CategoriaEquipamentoService {
   listarTodas(): CategoriaEquipamento[] {
     const categorias = localStorage[LS_KEY];
 
-    return categorias ? JSON.parse(categorias) : [];
-    /*return [
+    if (categorias){
+      return categorias ? JSON.parse(categorias) : [];
+    }
+    
+    return [
       { id: 1, nome: 'Notebook' },
       { id: 2, nome: 'Impressora' },
       { id: 3, nome: 'Desktop' },
       { id: 4, nome: 'TesteJP' }
-    ];*/
+    ];
   };
 
   inserir(categoria: CategoriaEquipamento): void {
