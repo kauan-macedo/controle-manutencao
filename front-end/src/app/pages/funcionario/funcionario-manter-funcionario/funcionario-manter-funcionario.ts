@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ToastService } from '../../../services/toast-service';
 
 @Component({
   selector: 'app-funcionario-manter-funcionario',
@@ -15,7 +16,7 @@ export class FuncionarioManterFuncionario implements OnInit {
   novoFuncionario = { nome: '', email: '', senha: '' };
   funcionarioEmEdicao: any = null;
 
-  constructor() {}
+  constructor(private toastService: ToastService) {}
 
   ngOnInit(): void {
     this.carregarDoLocalStorage();
@@ -48,6 +49,8 @@ export class FuncionarioManterFuncionario implements OnInit {
     this.funcionarios.push({id: novoId, ...this.novoFuncionario});
     this.salvarNoLocalStorage();
     form.resetForm();
+    const message = `Funcionário cadastrado com sucesso!`;
+    this.toastService.showSuccess(message)
   }
 
   onEditar(funcionario: any): void {

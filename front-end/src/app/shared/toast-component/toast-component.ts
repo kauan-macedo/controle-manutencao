@@ -1,30 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, AsyncPipe } from '@angular/common';
 import { ToastService } from '../../services/toast-service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-toast',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AsyncPipe], 
   templateUrl: './toast-component.html',
   styleUrl: './toast-component.css'
 })
 export class ToastComponent implements OnInit {
-  message: string = '';
-  visible: boolean = false;
+  toastState$: Observable<{ message: string, visible: boolean }> = new Observable();
 
   constructor(private toastService: ToastService) {}
 
   ngOnInit(): void {
-    this.toastService.toastState.subscribe(
-      (state) => {
-        this.message = state.message;
-        this.visible = state.visible;
-      }
-    );
+    this.toastState$ = this.toastService.toastState;
   }
 
   hide() {
-    this.visible = false;
+    this.toastService.hide();
   }
 }

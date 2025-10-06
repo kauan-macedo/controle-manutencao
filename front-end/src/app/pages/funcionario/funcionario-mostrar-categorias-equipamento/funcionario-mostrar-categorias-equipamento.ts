@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CategoriaEquipamentoService } from '../../../services/categoria-equipamento-service';
 import { CategoriaEquipamento } from '../../../models/categoria-equipamento';
+import { ToastService } from '../../../services/toast-service';
 
 @Component({
   selector: 'app-funcionario-mostrar-categorias-equipamento',
@@ -22,7 +23,8 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
   public categorias!: CategoriaEquipamento[];
 
   constructor(
-    private categoriaService: CategoriaEquipamentoService
+    private categoriaService: CategoriaEquipamentoService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +43,8 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
     this.categoriaService.inserir(this.novaCategoria);
     this.categorias = this.listarTodas();
     form.resetForm();
+    const message = `Categoria cadastrada com sucesso!`;
+    this.toastService.showSuccess(message)
   }
 
   onEditar(id: number): void {

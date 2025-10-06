@@ -19,6 +19,10 @@ export class ToastService {
     }, 3000);
   }
 
+hide() {
+    this.toastSubject.next({ message: '', visible: false });
+  }
+
   setPendingMessage(message: string) {
   this.pendingMessage = message;
 }
