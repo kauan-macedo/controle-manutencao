@@ -1,4 +1,4 @@
-export class Solicitacao {
+    export class Solicitacao {
     id: number;
     dataHora: string;
     descricaoEquipamento: string;
@@ -11,6 +11,11 @@ export class Solicitacao {
     valorOrcamento?: number;        
     dataOrcamento?: string;        
     funcionarioOrcamentoId?: number;
+
+    descricaoManutencao?: string;
+    instrucoesCliente?: string;
+    dataManutencao?: string;
+    funcionarioManutencaoId?: number;
 
     constructor(
         descricaoEquipamento: string,
@@ -35,5 +40,10 @@ export class Solicitacao {
         this.valorOrcamento = undefined;
         this.dataOrcamento = undefined;
         this.funcionarioOrcamentoId = undefined;
+
+        this.descricaoManutencao = undefined;
+        this.instrucoesCliente = undefined;
+        this.dataManutencao = undefined;
+        this.funcionarioManutencaoId = undefined;
     }
 }
