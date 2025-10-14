@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ToastService } from '../../../services/toast-service';
+import { StorageService } from '../../../services/storage-service';
+import { Usuario } from '../../../models/usuario';
 
 @Component({
   selector: 'app-funcionario-manter-funcionario',
@@ -16,13 +18,24 @@ export class FuncionarioManterFuncionario implements OnInit {
   novoFuncionario = { nome: '', email: '', senha: '' };
   funcionarioEmEdicao: any = null;
 
-  constructor(private toastService: ToastService) {}
+  // Funcionários devem ser carregados do mesmo lugar que outros usuários,
+  // sendo filtrados pelo campo "Perfil":
+
+  private readonly STORAGE_KEY = 'usuarios';
+
+  constructor(
+    private toastService: ToastService,
+    private storageService: StorageService
+  ) {}
 
   ngOnInit(): void {
     this.carregarDoLocalStorage();
   }
   
   private carregarDoLocalStorage(): void {
+    /*
+    // Implementação anterior:
+
     const dados = localStorage.getItem('funcionarios');
     if (dados) {
       this.funcionarios = JSON.parse(dados);
@@ -33,10 +46,38 @@ export class FuncionarioManterFuncionario implements OnInit {
       ];
       this.salvarNoLocalStorage();
     }
+    */
+
+    //                                                "usuarios"
+    const dados = this.storageService.getDados(this.STORAGE_KEY);
+    if (dados){
+      this.funcionarios = dados.filter( (usuario: Usuario) => {
+        usuario.perfil == 'FUNCIONARIO';
+      } )
+    } else {
+      this.funcionarios = [
+        { id: 1, nome: 'Maria', email: 'maria@exemplo.com' },
+        { id: 2, nome: 'Mário', email: 'mario@exemplo.com' },
+      ];
+      this.salvarNoLocalStorage();
+    }
+
   }
 
   private salvarNoLocalStorage(): void {
-    localStorage.setItem('funcionarios', JSON.stringify(this.funcionarios));
+    // Deve ser utilizado o StorageService, no mesmo array de usuários
+    // localStorage.setItem('funcionarios', JSON.stringify(this.funcionarios));
+
+    const dados = this.storageService.getDados(this.STORAGE_KEY);
+    if (dados){
+      const notFuncionarios = dados.filter(u => u.perfil == 'CLIENTE');
+      let usuarios = notFuncionarios
+      usuarios.push(this.funcionarios)
+      this.storageService.salvarDados(this.STORAGE_KEY, usuarios);
+    } else {
+      this.storageService.salvarDados(this.STORAGE_KEY, this.funcionarios);
+    }
+    
   }
 
   onAdicionar(form: any): void {

@@ -44,7 +44,8 @@ export class Autocadastro implements OnInit {
       this.cadastroService.registrarUsuario(this.usuario);
 
       const message = `Usuário cadastrado com sucesso! Sua senha é: ${this.usuario.senha}`;
-      this.toastService.showSuccess(message)
+      this.toastService.showSuccess(message);
+      this.router.navigate(['/login']);
     }
   }
 }
