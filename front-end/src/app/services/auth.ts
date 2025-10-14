@@ -16,27 +16,35 @@ export class AuthService {
   //criando um usuario do perfil funcionario para testar o login:
   //
   private criarFuncionarioTeste(): void {
-  const funcionarioAdmin = new Usuario(
-    'Gabriel',
-    'gabriel@gmail.com',
-    '11111111111',
-    '999999999',
-    'FUNCIONARIO'
-  );
-  const clienteTeste = new Usuario(
-    'Maria', 
-    'maria@gmail.com', 
-    '22222222222', 
-    '888888888', 
-    'CLIENTE' 
-  );
-  clienteTeste.id = 2; 
-  clienteTeste.senha = '1234';
-  funcionarioAdmin.id = 1;
-  funcionarioAdmin.senha = '1234';
+    
+    const dados = this.storageService.getDados(this.STORAGE_KEY);
+    
+    // Se já houver um array de usuários, ele não é sobrescrito.
+    // Desse modo, eu posso cadastrar um funcionário e, em seguida,
+    // realizar login com ele
+    if(dados.length = 0){return};
+    
+    const funcionarioAdmin = new Usuario(
+      'Gabriel',
+      'gabriel@gmail.com',
+      '11111111111',
+      '999999999',
+      'FUNCIONARIO'
+    );
+    const clienteTeste = new Usuario(
+      'Maria', 
+      'maria@gmail.com', 
+      '22222222222', 
+      '888888888', 
+      'CLIENTE' 
+    );
+    clienteTeste.id = 2; 
+    clienteTeste.senha = '1234';
+    funcionarioAdmin.id = 1;
+    funcionarioAdmin.senha = '1234';
 
-  this.storageService.salvarDados(this.STORAGE_KEY, [funcionarioAdmin, clienteTeste])
-}
+    this.storageService.salvarDados(this.STORAGE_KEY, [funcionarioAdmin, clienteTeste])
+  }
 
   login(email: string, senha: string/*, onSuccess: (t: Usuario) => void, onError?: () => void*/) {
   
