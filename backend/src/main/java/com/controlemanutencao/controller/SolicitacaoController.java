@@ -5,10 +5,12 @@ import com.controlemanutencao.model.enums.StatusSolicitacao;
 import com.controlemanutencao.model.enums.TipoUsuario;
 import com.controlemanutencao.model.request.EnviarOrcamentoRequest;
 import com.controlemanutencao.model.request.NovaSolicitacaoRequest;
+import com.controlemanutencao.model.request.RedirecionarSolicitacaoRequest;
 import com.controlemanutencao.service.CategoriaService;
 import com.controlemanutencao.service.SolicitacaoService;
 import com.controlemanutencao.service.UsuarioService;
 import com.controlemanutencao.utils.Utils;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,6 +18,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,27 +28,29 @@ import java.util.Optional;
 public class SolicitacaoController {
 
     private final SolicitacaoService service;
+    private final UsuarioService userService;
     private final CategoriaService catService;
 
-    public SolicitacaoController(SolicitacaoService service, CategoriaService catService) {
+    public SolicitacaoController(SolicitacaoService service, CategoriaService catService, UsuarioService userService) {
         this.catService = catService;
         this.service = service;
+        this.userService = userService;
+    }
+
+    @GetMapping Response<List<Orcamento>> listarOrcamentos(@AuthenticationPrincipal Usuario user) {
+        return null;
     }
 
     @GetMapping
-    public ResponseEntity<Response<List<Solicitacao>>> listar(@AuthenticationPrincipal Usuario usuario) {
-        if(usuario.getTipoUsuario() == TipoUsuario.FUNCIONARIO) {
-            return ResponseEntity.ofNullable(new Response<>(
-                    HttpStatus.OK.value(),
-                    "Autocadastro realizado com sucesso!",
-                    service.findAll()
-            ));
-        }
-        return ResponseEntity.ofNullable(new Response<>(
-                HttpStatus.OK.value(),
-                "Autocadastro realizado com sucesso!",
-                service.findByUsuario(usuario)
-        ));
+    public Response<List<Solicitacao>> listar(
+            @RequestParam("de") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate dataDe,
+            @RequestParam("ate") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate dataAte,
+            @RequestParam("page") int pagina,
+            @RequestParam("hoje") boolean hoje,
+            @AuthenticationPrincipal Usuario usuario) {
+
+        List<Solicitacao> solicitacoes = service.find(usuario, hoje, dataDe, dataAte, pagina);
+        return new Response<>(200, "", solicitacoes);
     }
 
     @PostMapping
@@ -68,7 +74,7 @@ public class SolicitacaoController {
                 usuario,
                 optCat.get());
         service.novaSolicitacao(s);
-        return ResponseEntity.ofNullable(new Response<>(HttpStatus.OK.value(), "Solicitação criada com sucesso!", service.findByUsuario(usuario)));
+        return ResponseEntity.ofNullable(new Response<>(HttpStatus.OK.value(), "Solicitação criada com sucesso!", null));
     }
 
     @PostMapping("/orcar/{id}")
@@ -134,9 +140,18 @@ public class SolicitacaoController {
         return ResponseEntity.ofNullable(new Response<>(HttpStatus.OK.value(), "Serviço pago com sucesso!", null));
     }
 
-    @PostMapping("/redirecionar")
-    public ResponseEntity<Response<?>> redirecionarServico(@RequestParam int solicitacao_id, @AuthenticationPrincipal Usuario user) {
-        return null;
+    @PostMapping("/redirecionar/{id}")
+    public ResponseEntity<Response<?>> redirecionarServico(@RequestParam long solicitacao_id, @RequestBody RedirecionarSolicitacaoRequest req, @AuthenticationPrincipal Usuario user) {
+        Optional<Solicitacao> solicitacao = service.findById(solicitacao_id);
+        if(solicitacao.isEmpty()) {
+            return ResponseEntity.ofNullable(new Response<>(HttpStatus.BAD_REQUEST.value(), "Solicitação não encontrada!", null));
+        }
+        Optional<Usuario> destino = userService.findById(req.usuario_destino());
+        if(destino.isEmpty()) {
+            return ResponseEntity.ofNullable(new Response<>(HttpStatus.BAD_REQUEST.value(), "Usuário de destino não encontrado!", null));
+        }
+        service.redirecionarServico(solicitacao.get(), user, destino.get());
+        return ResponseEntity.ofNullable(new Response<>(HttpStatus.OK.value(), "Serviço redirecionado com sucesso!", null));
     }
 
 

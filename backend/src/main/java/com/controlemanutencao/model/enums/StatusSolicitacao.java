@@ -5,8 +5,9 @@ public enum StatusSolicitacao {
     APROVADA((short) 2),
     REJEITADA((short) 3),
     ORCADA((short) 4),
-    ARRUMADA((short) 5),
-    FINALIZADA((short) 6);
+    REDIRECIONADA((short) 5),
+    ARRUMADA((short) 6),
+    FINALIZADA((short) 7);
 
     private short id;
 
