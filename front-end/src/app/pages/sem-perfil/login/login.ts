@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms'; // Adicione este import
 import { AuthService } from '../../../services/auth';
 import { ThemeToggle } from '../../../shared/theme-toggle/theme-toggle';
 import { ToastService } from '../../../services/toast-service';
+import { Usuario } from '../../../models/usuario';
 
 @Component({
   selector: 'app-login',
@@ -26,17 +27,16 @@ export class Login implements OnInit {
   onLogin(form: any): void {
     if (form.valid) {
       const { email, senha } = this.credenciais;
-      const usuarioLogado = this.authService.login(email, senha);
-
-      if (usuarioLogado) {
-        if (usuarioLogado.perfil === 'CLIENTE') {
+      const usuarioLogado = this.authService.login(email, senha, (user: Usuario) => {
+        debugger
+        if(user.tipoUsuario === 'CLIENTE') {
           this.router.navigate(['/cliente/pagina-inicial']);
-        } else if (usuarioLogado.perfil === 'FUNCIONARIO') {
+        } else {
           this.router.navigate(['/funcionario/pagina-inicial']);
         }
-      } else {
+      }, () => {
         alert('Email ou senha incorretos.');
-      }
+      });
     }
   }
 }

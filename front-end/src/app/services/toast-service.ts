@@ -12,12 +12,20 @@ export class ToastService {
 
   constructor() {}
 
-  showSuccess(message: string) {
+showSuccess(message: string) {
     this.toastSubject.next({ message, visible: true });
     setTimeout(() => {
       this.toastSubject.next({ message: '', visible: false });
     }, 3000);
   }
+
+  showError(message: string) {
+    this.toastSubject.next({ message, visible: true });
+    setTimeout(() => {
+      this.toastSubject.next({ message: '', visible: false });
+    }, 3000);
+  }
+
 
 hide() {
     this.toastSubject.next({ message: '', visible: false });

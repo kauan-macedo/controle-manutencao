@@ -23,7 +23,7 @@ export class APIRequest<T> {
 
 function responseFrom<T>(j:any): APIResponse<T> {
   let resp = j as APIResponse<T>
-  resp.body = JSON.parse(j.body) as T
+  resp.body = j.body as T
   return resp
 }
 

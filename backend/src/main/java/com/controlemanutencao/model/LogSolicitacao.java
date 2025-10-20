@@ -25,7 +25,7 @@ public class LogSolicitacao {
     @Convert(converter = Converter.StatusSolicitacaoConverter.class)
     private StatusSolicitacao statusAnterior;
 
-    @Column(name = "StatusAnterior")
+    @Column(name = "NovoStatus")
     @Convert(converter = Converter.StatusSolicitacaoConverter.class)
     private StatusSolicitacao novoStatus;
 

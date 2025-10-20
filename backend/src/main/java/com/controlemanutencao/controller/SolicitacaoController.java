@@ -37,10 +37,6 @@ public class SolicitacaoController {
         this.userService = userService;
     }
 
-    @GetMapping Response<List<Orcamento>> listarOrcamentos(@AuthenticationPrincipal Usuario user) {
-        return null;
-    }
-
     @GetMapping
     public Response<List<Solicitacao>> listar(
             @RequestParam("de") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate dataDe,

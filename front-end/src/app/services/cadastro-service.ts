@@ -16,27 +16,25 @@ export class CadastroService {
     return Math.floor(1000 + Math.random() * 9000).toString();
   }
 
-  registrarUsuario(usuarioDados: Usuario): void {
+  registrarUsuario(usuarioDados: Usuario, success: (msg: string) => void, error: (msg: string) => void): void {
 
     let body = {
       email: usuarioDados.email,
       nome: usuarioDados.nome,
       telefone: usuarioDados.telefone,
-      cep: "cep",
+      cep: usuarioDados.endereco.cep,
       cpf: usuarioDados.cpf,
-      numero: 123
+      numero: usuarioDados.endereco.numero
     }
 
-    /*
-      POST(new APIRequest("auth/autocadastro", null, body, null), (resp: APIResponse<any>) => {
+    POST(new APIRequest("auth/autocadastro", null, body, null), (resp: APIResponse<any>) => {
       let mensagem = resp.message;
       if(resp.status != 200) {
-        // mandar mensagem de erro
+        error(mensagem);
       } else {
-        // mandar mensagem de sucesso
+        success(mensagem);
       }
     })
-    */
 
     const usuarios = this.storageService.getDados(this.STORAGE_KEY) || [];
 
@@ -47,12 +45,12 @@ export class CadastroService {
       proximoId = 1;
     }
 
-    usuarioDados.id = proximoId;
+    /*usuarioDados.id = proximoId;
 
     usuarioDados.senha = this.gerarSenha();
     usuarioDados.perfil = 'CLIENTE';
     usuarios.push(usuarioDados);
-    this.storageService.salvarDados(this.STORAGE_KEY, usuarios);
+    this.storageService.salvarDados(this.STORAGE_KEY, usuarios);*/
   }
 
   login(email: string, senha: string, onSuccess: (t: Usuario) => void, onError?: () => void) {

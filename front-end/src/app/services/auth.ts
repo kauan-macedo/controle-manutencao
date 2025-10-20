@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage-service';
 import { Usuario } from '../models/usuario';
-
+import { APIRequest, POST, APIResponse } from '../../api/api';
 @Injectable({
   providedIn: 'root',
 })
@@ -22,7 +22,7 @@ export class AuthService {
     // Se já houver um array de usuários, ele não é sobrescrito.
     // Desse modo, eu posso cadastrar um funcionário e, em seguida,
     // realizar login com ele
-    if(dados.length = 0){return};
+    /*if(dados.length = 0){return};
     
     const funcionarioAdmin = new Usuario(
       'Gabriel',
@@ -43,29 +43,27 @@ export class AuthService {
     funcionarioAdmin.id = 1;
     funcionarioAdmin.senha = '1234';
 
-    this.storageService.salvarDados(this.STORAGE_KEY, [funcionarioAdmin, clienteTeste])
+    this.storageService.salvarDados(this.STORAGE_KEY, [funcionarioAdmin, clienteTeste])*/
   }
 
-  login(email: string, senha: string/*, onSuccess: (t: Usuario) => void, onError?: () => void*/) {
+  login(email: string, senha: string, onSuccess: (t: Usuario) => void, onError?: () => void) {
   
     let body = {
       email: email,
-      senha: senha
+      password: senha
     }
   
-    /*
     POST(new APIRequest("auth/login", null, body, null), (resp: APIResponse<Usuario>) => {
+      debugger
       let mensagem = resp.message;
       if(resp.status != 200) {
-        // mandar mensagem de erro
         onError?.();
       } else {
-        // mandar mensagem de sucesso
         onSuccess(resp.body)
       }
     })
-    */
-    const usuarios: Usuario[] = this.storageService.getDados(this.STORAGE_KEY) || [];
+
+    /*const usuarios: Usuario[] = this.storageService.getDados(this.STORAGE_KEY) || [];
     const usuarioEncontrado = usuarios.find(u => u.email === email && u.senha === senha);
       
     if (usuarioEncontrado) {
@@ -73,7 +71,7 @@ export class AuthService {
       return usuarioEncontrado;
     }
   
-    return null; 
+    return null;*/
   }
 
   logout(): void {

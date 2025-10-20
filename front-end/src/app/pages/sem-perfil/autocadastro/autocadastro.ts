@@ -17,7 +17,7 @@ import { MaskDirective } from '../../../shared/directives/mask.directive';
   styleUrl: './autocadastro.css',
 })
 export class Autocadastro implements OnInit {
-  usuario: Usuario = new Usuario('', '', '', '');
+  usuario: Usuario = new Usuario('', '', '', '', '', { cep: '', logradouro: '', bairro: '', cidade: '', estado: '', numero: '' });
 
   constructor(private cadastroService: CadastroService, private toastService: ToastService, private router: Router) {}
 
@@ -41,11 +41,12 @@ export class Autocadastro implements OnInit {
   onSubmit(form: any): void {
     //implementar método onsubmit de cadastro!
     if (form.valid) {
-      this.cadastroService.registrarUsuario(this.usuario);
-
-      const message = `Usuário cadastrado com sucesso! Sua senha é: ${this.usuario.senha}`;
-      this.toastService.showSuccess(message);
-      this.router.navigate(['/login']);
+      this.cadastroService.registrarUsuario(this.usuario, (msg) => {
+        this.toastService.showSuccess(msg);
+        this.router.navigate(['/login']);
+      }, (msg) => {
+        this.toastService.showError(msg);
+      })
     }
   }
 }

@@ -1,5 +1,6 @@
 package com.controlemanutencao.controller;
 
+import com.controlemanutencao.dto.UsuarioDTO;
 import com.controlemanutencao.model.Usuario;
 import com.controlemanutencao.service.UsuarioService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +20,8 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public List<Usuario> listar() {
-        return service.findAll();
+    public List<UsuarioDTO> listar() {
+        return service.findAll().stream().map(UsuarioDTO::from).toList();
     }
 
 }

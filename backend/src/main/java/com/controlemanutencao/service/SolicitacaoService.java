@@ -7,14 +7,14 @@ import com.controlemanutencao.model.enums.StatusSolicitacao;
 import com.controlemanutencao.model.enums.TipoUsuario;
 import com.controlemanutencao.repository.LogSolicitacaoRepository;
 import com.controlemanutencao.repository.SolicitacaoRepository;
-import com.controlemanutencao.repository.UsuarioRepository;
+import org.springframework.data.domain.Pageable;
 import com.controlemanutencao.utils.Utils;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.time.*;
 import java.util.List;
 import java.util.Optional;

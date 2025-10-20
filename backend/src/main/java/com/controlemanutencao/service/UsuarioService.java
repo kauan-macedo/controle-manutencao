@@ -5,6 +5,8 @@ import com.controlemanutencao.model.Usuario;
 import com.controlemanutencao.repository.UsuarioRepository;
 import jakarta.mail.AuthenticationFailedException;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.concurrent.ThreadLocalRandom;
 @Service
 public class UsuarioService {
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     private final UsuarioRepository repository;
 
     private final MailService mailService;
@@ -28,7 +32,15 @@ public class UsuarioService {
     }
 
     public Optional<Usuario> findByLogin(String email, String password) {
-        return repository.findByEmailAndSenha(email, password);
+        Optional<Usuario> opt = repository.findByEmail(email);
+        if(opt.isEmpty()) {
+            return opt;
+        }
+        if(passwordEncoder.matches(password, opt.get().getPassword())) {
+            return opt;
+        } else {
+            return Optional.empty();
+        }
     }
 
     public List<Usuario> findAll() {
@@ -43,7 +55,7 @@ public class UsuarioService {
         }
 
         int senha = ThreadLocalRandom.current().nextInt(1000, 10000);
-        user.setSenha(senha + "");
+        user.setSenha(passwordEncoder.encode(senha + ""));
 
         repository.save(user);
 

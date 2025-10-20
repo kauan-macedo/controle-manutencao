@@ -52,7 +52,7 @@ export class FuncionarioManterFuncionario implements OnInit {
     const dados = this.storageService.getDados(this.STORAGE_KEY);
     if (dados){
       this.funcionarios = dados.filter( (usuario: Usuario) => {
-        usuario.perfil == 'FUNCIONARIO';
+        usuario.tipoUsuario == 'FUNCIONARIO';
       } )
     } else {
       this.funcionarios = [
@@ -70,7 +70,7 @@ export class FuncionarioManterFuncionario implements OnInit {
 
     const dados = this.storageService.getDados(this.STORAGE_KEY);
     if (dados){
-      const notFuncionarios = dados.filter(u => u.perfil == 'CLIENTE');
+      const notFuncionarios = dados.filter(u => u.tipoUsuario == 'CLIENTE');
       let usuarios = notFuncionarios
       usuarios.push(this.funcionarios)
       this.storageService.salvarDados(this.STORAGE_KEY, usuarios);

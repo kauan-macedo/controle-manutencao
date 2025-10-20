@@ -20,7 +20,7 @@ export class FuncionarioModalEfetuarManutencao implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.funcionarios = [
+    /*this.funcionarios = [
         new Usuario('Maria', 'maria@exemplo.com', '11111111111', '999999999', 'FUNCIONARIO'),
         new Usuario('João', 'joao@exemplo.com', '22222222222', '988888888', 'FUNCIONARIO'),
         new Usuario('Pedro', 'pedro@exemplo.com', '33333333333', '977777777', 'FUNCIONARIO')
@@ -28,7 +28,7 @@ export class FuncionarioModalEfetuarManutencao implements OnInit {
     
     this.funcionarios[0].id = 1;
     this.funcionarios[1].id = 2;
-    this.funcionarios[2].id = 3;
+    this.funcionarios[2].id = 3;*/
   }
 
   onCancelar(): void {

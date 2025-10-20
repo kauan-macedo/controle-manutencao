@@ -57,7 +57,7 @@ public class Usuario implements UserDetails {
 
     public Usuario() {}
 
-    public Usuario(int id, String nome, String email, String telefone, String CPF, String cidade, String estado, String rua, String bairro, int numero, String CEP) {
+    public Usuario(int id, String nome, String email, String telefone, String CPF, String cidade, String estado, String rua, String bairro, int numero, String CEP, TipoUsuario tipoUsuario) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -69,6 +69,7 @@ public class Usuario implements UserDetails {
         this.bairro = bairro;
         this.numero = numero;
         this.CEP = CEP;
+        this.tipoUsuario = tipoUsuario;
     }
 
     private String CEP;
