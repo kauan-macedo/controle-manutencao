@@ -4,12 +4,12 @@ export interface APIResponse<T> {
   error: boolean;
   message: string;
   body: T;
-} 
+}
 
 
 export class APIRequest<T> {
   public route: string;
-  public endpoint: string | null = null; 
+  public endpoint: string | null = null;
   public body: T | null;
   public query: T | null;
 
@@ -17,7 +17,7 @@ export class APIRequest<T> {
     this.route = route;
     this.endpoint = endpoint ?? API_URL
     this.body = body;
-    this.query = query;  
+    this.query = query;
   }
 }
 
