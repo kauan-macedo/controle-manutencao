@@ -1,7 +1,7 @@
 export const API_URL = "https://controlemanutencao.betoni.dev"
 
 export interface APIResponse<T> {
-  status: number;
+  error: boolean;
   message: string;
   body: T;
 } 

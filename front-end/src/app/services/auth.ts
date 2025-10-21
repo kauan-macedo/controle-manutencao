@@ -56,7 +56,7 @@ export class AuthService {
     POST(new APIRequest("auth/login", null, body, null), (resp: APIResponse<Usuario>) => {
       debugger
       let mensagem = resp.message;
-      if(resp.status != 200) {
+      if(resp.error) {
         onError?.();
       } else {
         onSuccess(resp.body)

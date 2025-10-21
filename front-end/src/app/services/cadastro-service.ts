@@ -29,7 +29,7 @@ export class CadastroService {
 
     POST(new APIRequest("auth/autocadastro", null, body, null), (resp: APIResponse<any>) => {
       let mensagem = resp.message;
-      if(resp.status != 200) {
+      if(resp.error) {
         error(mensagem);
       } else {
         success(mensagem);
@@ -62,7 +62,7 @@ export class CadastroService {
 
     POST(new APIRequest("auth/login", null, body, null), (resp: APIResponse<Usuario>) => {
       let mensagem = resp.message;
-      if(resp.status != 200) {
+      if(resp.error) {
         // mandar mensagem de erro
         //
         onError?.();
