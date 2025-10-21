@@ -33,7 +33,16 @@ export class FuncionarioModalRedirecionarManutencao implements OnInit {
   private todosOsFuncionarios = [
     { id: 1, nome: 'Maria' },
     { id: 2, nome: 'Mário' },
-    { id: 3, nome: 'Carlos' }
+    { id: 3, nome: 'Carlos' },
+    { id: 4, nome: 'Adão' },
+    { id: 5, nome: 'Eva' },
+    { id: 6, nome: 'Caim' },
+    { id: 7, nome: 'Abel' },
+    { id: 8, nome: 'Sete' },
+    { id: 9, nome: 'Noé' },
+    { id: 10, nome: 'Moisés' },
+    { id: 11, nome: 'José' },
+    { id: 12, nome: 'Jesus' },
   ];
 
   private idFuncionarioLogado = 1;
@@ -74,7 +83,7 @@ export class FuncionarioModalRedirecionarManutencao implements OnInit {
     const funcionarioDestino = this.todosOsFuncionarios.find(f => f.id === this.funcionarioSelecionadoId);
     console.log(`Manutenção redirecionada para: ${funcionarioDestino?.nome}`);
 
-    if(!funcionarioDestino) alert(`${this.todosOsFuncionarios}`); // :(
+    if(!funcionarioDestino) alert(`${this.todosOsFuncionarios}`); //Erro
 
     this.redirecionarService.redirecionarManutencao(this.solicitacao!.id, funcionarioDestino!.id);
     this.fechar.emit();

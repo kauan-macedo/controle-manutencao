@@ -24,6 +24,50 @@ export class RedirecionarService {
 
     const index = todasAsSolicitacoes.findIndex(s => s.id === solicitacaoId);
 
+    let historicoSolicitacoes = [
+      {
+        "FuncionarioAnteriorId": 1,
+        "FuncionarioPosteriorId": 2,
+        "DataRedirect": "01/10/2025"
+      },
+      {
+        "FuncionarioAnteriorId": 2,
+        "FuncionarioPosteriorId": 3,
+        "DataRedirect": "02/10/2025"
+      },
+      {
+        "FuncionarioAnteriorId": 3,
+        "FuncionarioPosteriorId": 4,
+        "DataRedirect": "03/10/2025"
+      },
+      {
+        "FuncionarioAnteriorId": 4,
+        "FuncionarioPosteriorId": 5,
+        "DataRedirect": "04/10/2025"
+      },
+      {
+        "FuncionarioAnteriorId": 5,
+        "FuncionarioPosteriorId": 6,
+        "DataRedirect": "05/10/2025"
+      },
+      {
+        "FuncionarioAnteriorId": 6,
+        "FuncionarioPosteriorId": 7,
+        "DataRedirect": "06/10/2025"
+      },
+      {
+        "FuncionarioAnteriorId": 7,
+        "FuncionarioPosteriorId": 8,
+        "DataRedirect": "07/10/2025"
+      },
+      {
+        "FuncionarioAnteriorId": 8,
+        "FuncionarioPosteriorId": 9,
+        "DataRedirect": "08/10/2025"
+      },
+      
+    ];
+
     /**
      *  Não pensei exatamente em como implementar o histórico de redirects, deixei os
      *  dados avulsos por enquanto
