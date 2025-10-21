@@ -1,49 +1,55 @@
-<header class="bg-white shadow-md p-8 flex justify-between items-center dark:bg-gray-900">
+<header
+  class="bg-gradient-to-r from-primary-50 via-white to-primary-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-950 shadow-soft p-8 flex justify-between items-center transition duration-300"
+>
   <div class="flex items-center gap-2">
     <fa-icon
       [icon]="faComputer"
-      class="text-blue-600 dark:text-white text-5xl mr-4 cursor-pointer"
+      class="text-primary-600 dark:text-blue-400 text-5xl mr-4 cursor-pointer hover:scale-105 transition-transform duration-300"
       routerLink="/funcionario/pagina-inicial"
     ></fa-icon>
-    <h1 class="text-2xl font-bold dark:text-white">
-      Sistema de Manutenção de Equipamentos - FUNCIONÁRIO
+
+    <h1 class="text-2xl font-bold text-gray-800 dark:text-white tracking-tight">
+      Sistema de Manutenção de Equipamentos —
+      <span class="text-primary-600 dark:text-blue-400">Funcionário</span>
     </h1>
   </div>
 
   <nav class="flex gap-4 items-center">
     <a
       routerLink="/funcionario/pagina-inicial"
-      class="text-blue-600 hover:underline dark:text-blue-300"
+      class="text-primary-700 hover:underline dark:text-blue-300 transition-colors"
     >
       Home Funcionário
     </a>
     <a
       routerLink="/funcionario/apresentar-solicitacoes"
-      class="text-blue-600 hover:underline dark:text-blue-300"
+      class="text-primary-700 hover:underline dark:text-blue-300 transition-colors"
     >
       Todas Solicitações
     </a>
     <a
       routerLink="/funcionario/mostrar-relatorio-receitas"
-      class="text-blue-600 hover:underline dark:text-blue-300"
+      class="text-primary-700 hover:underline dark:text-blue-300 transition-colors"
     >
       Gerar Relatórios
     </a>
     <a
       routerLink="/funcionario/manter-funcionario"
-      class="text-blue-600 hover:underline dark:text-blue-300"
+      class="text-primary-700 hover:underline dark:text-blue-300 transition-colors"
     >
       Gerenciar Funcionários
     </a>
     <a
       routerLink="/funcionario/mostrar-categorias-equipamento"
-      class="text-blue-600 hover:underline dark:text-blue-300"
+      class="text-primary-700 hover:underline dark:text-blue-300 transition-colors"
     >
       Gerenciar Categorias
     </a>
-    <button 
-      (click)="onLogout()" 
-      class="py-2 px-4 bg-red-600 text-white rounded-md hover:bg-red-700 transition">
+
+    <button
+      (click)="onLogout()"
+      class="py-2 px-4 bg-red-600 text-white rounded-md hover:bg-red-700 active:scale-95 transition duration-300"
+    >
       Logout
     </button>
 
