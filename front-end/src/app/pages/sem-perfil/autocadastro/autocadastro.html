@@ -107,10 +107,14 @@
 
 
             <button type="submit" [disabled]="!cadastroForm.valid"
-                    class="w-full py-4 px-4 bg-blue-500 dark:bg-blue-600 text-white rounded-md flex items-center justify-center space-x-2">
+                class="w-full py-4 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 
+                    dark:from-blue-700 dark:to-indigo-700 text-white rounded-lg font-semibold 
+                    hover:opacity-90 transition duration-150 flex items-center justify-center space-x-2">
                 <span>Cadastrar</span>
-                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 0 1 1.04-.208Z" clip-rule="evenodd" />
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" 
+                        d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 0 1 1.04-.208Z" 
+                        clip-rule="evenodd" />
                 </svg>
             </button>
         </form>
