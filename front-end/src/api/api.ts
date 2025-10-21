@@ -1,15 +1,15 @@
-export const API_URL = "http://localhost:8080"
+export const API_URL = "https://controlemanutencao.betoni.dev"
 
 export interface APIResponse<T> {
   status: number;
   message: string;
   body: T;
-} 
+}
 
 
 export class APIRequest<T> {
   public route: string;
-  public endpoint: string | null = null; 
+  public endpoint: string | null = null;
   public body: T | null;
   public query: T | null;
 
@@ -17,7 +17,7 @@ export class APIRequest<T> {
     this.route = route;
     this.endpoint = endpoint ?? API_URL
     this.body = body;
-    this.query = query;  
+    this.query = query;
   }
 }
 
