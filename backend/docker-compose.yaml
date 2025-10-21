@@ -9,7 +9,7 @@ services:
     build: .
     container_name: springboot-api
     ports:
-      - "8080:8080"
+      - "8097:8097"
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
