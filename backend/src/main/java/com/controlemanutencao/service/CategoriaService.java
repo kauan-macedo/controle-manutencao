@@ -1,5 +1,7 @@
 package com.controlemanutencao.service;
 
+import com.controlemanutencao.exception.DeveSerFuncionarioException;
+import com.controlemanutencao.exception.RecursoNaoEncontradoException;
 import com.controlemanutencao.model.Categoria;
 import com.controlemanutencao.model.Solicitacao;
 import com.controlemanutencao.model.Usuario;
@@ -23,12 +25,35 @@ public class CategoriaService {
         return repository.findById(id);
     }
 
-    public void novaCategoria(Categoria cat) {
+    public void novaCategoria(Usuario u, Categoria cat) {
+        if(!u.isFuncionario()) {
+            throw new DeveSerFuncionarioException();
+        }
         repository.save(cat);
     }
 
+    public void atualizarCategoria(Usuario u, Categoria c) {
+        Optional<Categoria> cat = repository.findById(c.getId());
+        if(cat.isEmpty()) {
+            throw new RecursoNaoEncontradoException("Categoria não encontrada.");
+        }
+        Categoria categoria = cat.get();
+        categoria.setDescricao(c.getDescricao());
+        repository.save(categoria);
+    }
+
+    public void inativarCategoria(Usuario u, Categoria c) {
+        Optional<Categoria> cat = repository.findById(c.getId());
+        if(cat.isEmpty()) {
+            throw new RecursoNaoEncontradoException("Categoria não encontrada.");
+        }
+        Categoria categoria = cat.get();
+        categoria.setAtivo(false);
+        repository.save(categoria);
+    }
+
     public List<Categoria> findAll() {
-        return repository.findAll();
+        return repository.findAllByAtivoTrue();
     }
 
 

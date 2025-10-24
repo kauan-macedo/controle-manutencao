@@ -1,6 +1,6 @@
 package com.controlemanutencao.model;
 
-import com.controlemanutencao.model.enums.Converter;
+import com.controlemanutencao.repository.Converter;
 import com.controlemanutencao.model.enums.StatusSolicitacao;
 import jakarta.persistence.*;
 

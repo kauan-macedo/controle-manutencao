@@ -1,8 +1,10 @@
+import { CategoriaEquipamento } from "./categoria-equipamento";
+
     export class Solicitacao {
     id: number;
     dataHora: string;
     descricaoEquipamento: string;
-    categoriaEquipamento: string;
+    categoriaEquipamento: CategoriaEquipamento;
     descricaoDefeito: string;
     estado: string;
     clienteId: number;
@@ -19,7 +21,7 @@
 
     constructor(
         descricaoEquipamento: string,
-        categoriaEquipamento: string,
+        categoriaEquipamento: CategoriaEquipamento,
         descricaoDefeito: string,
         clienteId: number
     ) {

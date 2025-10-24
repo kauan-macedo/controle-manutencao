@@ -5,6 +5,8 @@ import com.controlemanutencao.exception.EstadoIlegalSolicitacaoException;
 import com.controlemanutencao.model.*;
 import com.controlemanutencao.model.enums.StatusSolicitacao;
 import com.controlemanutencao.model.enums.TipoUsuario;
+import com.controlemanutencao.model.request.AtualizarSolicitacaoRequest;
+import com.controlemanutencao.repository.CategoriaRepository;
 import com.controlemanutencao.repository.LogSolicitacaoRepository;
 import com.controlemanutencao.repository.SolicitacaoRepository;
 import org.springframework.data.domain.Pageable;
@@ -23,11 +25,15 @@ import java.util.Optional;
 public class SolicitacaoService {
 
     private final SolicitacaoRepository repository;
+    private final CategoriaService categoriaService;
+    private final UsuarioService usuarioService;
     private final LogSolicitacaoRepository logRepository;
 
-    public SolicitacaoService(SolicitacaoRepository repository, LogSolicitacaoRepository logRepository) {
+    public SolicitacaoService(SolicitacaoRepository repository, LogSolicitacaoRepository logRepository, CategoriaService categoriaService, UsuarioService usuarioService) {
         this.repository = repository;
         this.logRepository = logRepository;
+        this.categoriaService = categoriaService;
+        this.usuarioService = usuarioService;
     }
 
     public Optional<Solicitacao> findById(Long id) {
@@ -40,58 +46,39 @@ public class SolicitacaoService {
         repository.save(s);
     }
 
-    public void rejeitarServico(Solicitacao s, Usuario agente) throws EstadoIlegalSolicitacaoException {
-        if(agente.getTipoUsuario() != TipoUsuario.FUNCIONARIO) {
+    public void atualizarSolicitacao(Usuario user, Solicitacao s, String descricaoDefeito, String descricaoEquipamento, String dthArrumado, Long responsavelId, Long categoriaId, Short status) throws IllegalArgumentException, EstadoIlegalSolicitacaoException, DeveSerFuncionarioException  {
+        if(!user.isFuncionario()) {
             throw new DeveSerFuncionarioException();
         }
-        if (s.getStatus() != StatusSolicitacao.NOVA) {
-            throw new EstadoIlegalSolicitacaoException("Não é possível rejeitar o serviço nessa etapa.");
+        Utils.ifNotNull(descricaoDefeito, (x) -> s.setDescricaoDefeito(descricaoDefeito));
+        Utils.ifNotNull(descricaoEquipamento, (x) -> s.setDescricaoDefeito(descricaoDefeito));
+        if(dthArrumado != null) {
+            if(Utils.isFuture(dthArrumado)) {
+                throw new IllegalArgumentException("A data de arrumado não pode estar no futuro");
+            }
+            s.setDataArrumado(Utils.toUnix(dthArrumado));
         }
-        salvarLog(s, s.getStatus(), StatusSolicitacao.REJEITADA, agente);
-        s.setStatus(StatusSolicitacao.REJEITADA);
+        if(responsavelId != null) {
+            Usuario u = usuarioService.findById(responsavelId).orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado!"));
+            if(!u.isFuncionario()) {
+                throw new IllegalArgumentException("Responsável deve ser funcionário.");
+            }
+            s.setResponsavel(u);
+        }
+        if(categoriaId != null) {
+            Categoria u = categoriaService.findById(categoriaId).orElseThrow(() -> new IllegalArgumentException("Categoria não encontrada!"));
+            s.setCategoria(u);
+        }
+        if(status != null) {
+            StatusSolicitacao statusSolicitacao = StatusSolicitacao.fromId(status);
+            if(!List.of(s.getStatus().getProximosStatusPossiveis()).contains(statusSolicitacao)) {
+                throw new EstadoIlegalSolicitacaoException("A solicitação não pode ser atualizada para o status informado.");
+            }
+        }
         repository.save(s);
     }
 
-    public void aprovarServico(Solicitacao s, Usuario agente) throws EstadoIlegalSolicitacaoException {
-        if(agente.getTipoUsuario() != TipoUsuario.FUNCIONARIO) {
-            throw new DeveSerFuncionarioException();
-        }
-        if (s.getStatus() != StatusSolicitacao.NOVA) {
-            throw new EstadoIlegalSolicitacaoException("Não é possível aprovar o serviço nessa etapa.");
-        }
-        salvarLog(s, s.getStatus(), StatusSolicitacao.APROVADA, agente);
-        s.setStatus(StatusSolicitacao.APROVADA);
-        repository.save(s);
-    }
-
-    public void resgatarServico(Solicitacao s, Usuario agente) throws EstadoIlegalSolicitacaoException {
-        if(agente.getTipoUsuario() != TipoUsuario.FUNCIONARIO) {
-            throw new DeveSerFuncionarioException();
-        }
-        if (s.getStatus() != StatusSolicitacao.REJEITADA) {
-            throw new EstadoIlegalSolicitacaoException("Não é possível resgatar o serviço nessa etapa.");
-        }
-        salvarLog(s, s.getStatus(), StatusSolicitacao.APROVADA, agente);
-        s.setStatus(StatusSolicitacao.APROVADA);
-        repository.save(s);
-    }
-
-    public void redirecionarServico(Solicitacao s, Usuario de, Usuario para) throws EstadoIlegalSolicitacaoException {
-        if(de.getTipoUsuario() != TipoUsuario.FUNCIONARIO) {
-            throw new DeveSerFuncionarioException();
-        }
-        if(para.getTipoUsuario() != TipoUsuario.FUNCIONARIO) {
-            throw new DeveSerFuncionarioException();
-        }
-        if (s.getStatus() != StatusSolicitacao.ORCADA) {
-            throw new EstadoIlegalSolicitacaoException("Não é possível redirecionar o serviço nessa etapa.");
-        }
-        salvarLog(s, s.getStatus(), StatusSolicitacao.REDIRECIONADA, de);
-        s.setStatus(StatusSolicitacao.REDIRECIONADA);
-        repository.save(s);
-    }
-
-    public void orcarServico(Solicitacao s, Orcamento orcamento, Usuario agente) throws EstadoIlegalSolicitacaoException {
+    public void orcarServico(Solicitacao s, String desc, Double valor, Usuario agente) throws EstadoIlegalSolicitacaoException {
         if(agente.getTipoUsuario() != TipoUsuario.FUNCIONARIO) {
             throw new DeveSerFuncionarioException();
         }
@@ -100,7 +87,7 @@ public class SolicitacaoService {
         }
         salvarLog(s, s.getStatus(), StatusSolicitacao.ORCADA, agente);
         s.setStatus(StatusSolicitacao.ORCADA);
-        s.setOrcamento(orcamento);
+        s.setOrcamento(new Orcamento(null, valor, desc, Utils.timestampNow()));
         repository.save(s);
     }
 
@@ -109,28 +96,18 @@ public class SolicitacaoService {
         logRepository.save(log);
     }
 
-    public List<Solicitacao> find(Usuario user, boolean hoje, LocalDate de, LocalDate ate, int pagina) {
+    public List<Solicitacao> find(Usuario user, LocalDate de, LocalDate ate, int pagina) {
 
         ZoneId utcZone = ZoneOffset.UTC;
 
         Long from = null;
         Long to = null;
 
-        if(hoje) {
-            LocalDate hojeUTC = LocalDate.now(utcZone);
-            ZonedDateTime inicioDoDiaUTC = hojeUTC.atStartOfDay(utcZone);
-            ZonedDateTime fimDoDiaUTC = hojeUTC
-                    .atTime(LocalTime.MAX)
-                    .atZone(utcZone);
-            from = inicioDoDiaUTC.toInstant().toEpochMilli();
-            to = fimDoDiaUTC.toInstant().toEpochMilli() - 1;
-        } else {
-            if(de != null) {
-                from = de.atStartOfDay(utcZone).toInstant().toEpochMilli();
-            }
-            if(ate != null) {
-                to = ate.atStartOfDay(utcZone).toInstant().toEpochMilli();
-            }
+        if(de != null) {
+            from = de.atStartOfDay(utcZone).toInstant().toEpochMilli();
+        }
+        if(ate != null) {
+            to = ate.atStartOfDay(utcZone).plusDays(1).minusNanos(1).toInstant().toEpochMilli();
         }
 
         return repository.buscaSolicitacoes(
@@ -138,7 +115,7 @@ public class SolicitacaoService {
                 to,
                 user.getTipoUsuario() == TipoUsuario.CLIENTE,
                 (long) user.getId(),
-                (Pageable) PageRequest.of(pagina, 15)
+                PageRequest.of(pagina, 15)
         ).toList();
     }
 

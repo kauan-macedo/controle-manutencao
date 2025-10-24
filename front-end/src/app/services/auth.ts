@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage-service';
 import { Usuario } from '../models/usuario';
-import { APIRequest, POST, APIResponse } from '../../api/api';
+import * as api from '../../api/auth';
 @Injectable({
   providedIn: 'root',
 })
@@ -46,32 +46,18 @@ export class AuthService {
     this.storageService.salvarDados(this.STORAGE_KEY, [funcionarioAdmin, clienteTeste])*/
   }
 
-  login(email: string, senha: string, onSuccess: (t: Usuario) => void, onError?: () => void) {
-  
+  async login(email: string, senha: string, onSuccess: (u: Usuario) => void, onError?: (msg: string) => void) {
     let body = {
       email: email,
       password: senha
     }
-  
-    POST(new APIRequest("auth/login", null, body, null), (resp: APIResponse<Usuario>) => {
-      debugger
-      let mensagem = resp.message;
-      if(resp.error) {
-        onError?.();
-      } else {
-        onSuccess(resp.body)
-      }
-    })
-
-    /*const usuarios: Usuario[] = this.storageService.getDados(this.STORAGE_KEY) || [];
-    const usuarioEncontrado = usuarios.find(u => u.email === email && u.senha === senha);
-      
-    if (usuarioEncontrado) {
-      this.storageService.salvarDados('usuarioLogado', usuarioEncontrado);
-      return usuarioEncontrado;
+    let resp = await api.login(body)
+    if(resp.error) {
+      onError?.(resp.message);
+    } else {
+      localStorage.setItem('usuarioLogado', resp.body);
+      onSuccess(resp.body);
     }
-  
-    return null;*/
   }
 
   logout(): void {

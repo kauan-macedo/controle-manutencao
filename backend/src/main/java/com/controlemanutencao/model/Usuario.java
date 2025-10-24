@@ -1,7 +1,6 @@
 package com.controlemanutencao.model;
 
-import com.controlemanutencao.model.enums.Converter;
-import com.controlemanutencao.model.enums.StatusSolicitacao;
+import com.controlemanutencao.repository.Converter;
 import com.controlemanutencao.model.enums.TipoUsuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -124,6 +123,10 @@ public class Usuario implements UserDetails {
 
     public TipoUsuario getTipoUsuario() {
         return tipoUsuario;
+    }
+
+    public boolean isFuncionario() {
+        return tipoUsuario == TipoUsuario.FUNCIONARIO;
     }
 
     public void setSenha(String senha) {

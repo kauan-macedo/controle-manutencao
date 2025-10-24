@@ -45,11 +45,11 @@ export class SolicitacaoService {
   // método como o acima, no entanto, 
   // com a nomenclatura correta:
 
-  // getSolicitacoes(): Solicitacao[] {
-
+  async getSolicitacoes(onError?: (msg: string) => void): Promise<Solicitacao[]> {
+    return [];
     // return this.storageService.getDados(this.STORAGE_KEY);
   
-  //}
+  }
 
 
   adicionarSolicitacao(novaSolicitacao: Solicitacao): void {

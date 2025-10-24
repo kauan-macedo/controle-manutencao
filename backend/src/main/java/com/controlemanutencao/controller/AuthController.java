@@ -86,7 +86,7 @@ public class AuthController {
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
-        cookie.setMaxAge((int) Duration.ofDays(2).toSeconds());
+        cookie.setMaxAge((int) Duration.ofDays(3).toSeconds());
         response.addCookie(cookie);
 
         return new Response<>(HttpStatus.OK.value(), "Cadastrado com sucesso! A senha foi enviada para seu e-mail.", UsuarioDTO.from(usuario));

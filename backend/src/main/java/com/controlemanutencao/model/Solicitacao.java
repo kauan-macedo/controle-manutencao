@@ -1,6 +1,6 @@
 package com.controlemanutencao.model;
 
-import com.controlemanutencao.model.enums.Converter;
+import com.controlemanutencao.repository.Converter;
 import com.controlemanutencao.model.enums.StatusSolicitacao;
 import jakarta.persistence.*;
 
@@ -102,5 +102,33 @@ public class Solicitacao {
 
     public Categoria getCategoria() {
         return categoria;
+    }
+
+    public void setDescricaoDefeito(String descricaoDefeito) {
+        this.descricaoDefeito = descricaoDefeito;
+    }
+
+    public void setDescricaoEquipamento(String descricaoEquipamento) {
+        this.descricaoEquipamento = descricaoEquipamento;
+    }
+
+    public void setDataCriacao(Long dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public void setDataArrumado(Long dataArrumado) {
+        this.dataArrumado = dataArrumado;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public void setResponsavel(Usuario responsavel) {
+        this.responsavel = responsavel;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }

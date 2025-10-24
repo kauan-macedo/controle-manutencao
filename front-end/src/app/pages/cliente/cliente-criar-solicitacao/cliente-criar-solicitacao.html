@@ -27,7 +27,7 @@
             >
                 <option value="" disabled selected>Selecione uma categoria</option>
                 <option *ngFor="let categoria of categorias" [value]="categoria">
-                    {{ categoria.nome }}
+                    {{ categoria.descricao }}
                 </option>
             </select>
         </div>

@@ -17,7 +17,7 @@ import { CategoriaEquipamento } from '../../../models/categoria-equipamento';
 export class ClienteCriarSolicitacao implements OnInit {
   @Output() solicitacaoCriada = new EventEmitter<void>();
 
-  solicitacao: Solicitacao = new Solicitacao('', '', '', 0);
+  solicitacao: Solicitacao = new Solicitacao('', new CategoriaEquipamento(0, ''), '', 0);
   categorias!: CategoriaEquipamento[];
 
   constructor(
@@ -26,15 +26,18 @@ export class ClienteCriarSolicitacao implements OnInit {
     private categoriaService: CategoriaEquipamentoService
   ) {}
 
-  ngOnInit(): void {
-    this.categorias = this.categoriaService.listarTodas();
+  async ngOnInit(): Promise<void> {
+    this.categorias = await this.categoriaService.listarTodas((msg) => {
+      this.toastService.showError(msg);
+    });
   }
 
   onSubmit(form: any): void {
     if (form.valid) {
       this.solicitacaoService.adicionarSolicitacao(this.solicitacao);
-      this.solicitacaoCriada.emit();
       this.toastService.showSuccess('Solicitação criada com sucesso!');
+      this.solicitacaoCriada.emit();
+      form.resetForm();
     }
   }
 }

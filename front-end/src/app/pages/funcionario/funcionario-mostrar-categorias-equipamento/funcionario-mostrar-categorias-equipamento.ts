@@ -13,11 +13,11 @@ import { ToastService } from '../../../services/toast-service';
 })
 export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
 
-  novaCategoria = new CategoriaEquipamento("");
+  novaCategoria = new CategoriaEquipamento(0, "");
   categoriaEmEdicao = {
     id: 0,
-    nome: "",
-    nomeOriginal: ""
+    descricao: "",
+    descricaoOriginal: ""
   };
 
   public categorias!: CategoriaEquipamento[];
@@ -27,50 +27,45 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
     private toastService: ToastService
   ) {}
 
-  ngOnInit(): void {
-    this.categorias = this.listarTodas();
+  async ngOnInit(): Promise<void> {
+    this.categorias = await this.listarTodas();
   }
 
-  listarTodas(): CategoriaEquipamento[] {
-    return this.categoriaService.listarTodas();
+  async listarTodas(): Promise<CategoriaEquipamento[]> {
+    let resp = await this.categoriaService.listarTodas((msg) => console.error(msg));
+    return resp;
   }
 
-  onAdicionar(form: any): void {
+  async onAdicionar(form: any) {
     if (form.invalid) {
       return;
     }
 
-    this.categoriaService.inserir(this.novaCategoria);
-    this.categorias = this.listarTodas();
+    this.categoriaService.inserir(this.novaCategoria.descricao, (msg) => console.error(msg));
+    this.categorias = await this.listarTodas();
     form.resetForm();
     const message = `Categoria cadastrada com sucesso!`;
     this.toastService.showSuccess(message)
   }
 
-  onEditar(id: number): void {
-
-    let res = this.categoriaService.buscarPorId(id);
-    
+  async onEditar(id: number) {
+    let res = await this.categoriaService.buscarPorId(id);
     if (res !== undefined){
       this.categoriaEmEdicao.id = res.id;
-      this.categoriaEmEdicao.nome = res.nome;
-      this.categoriaEmEdicao.nomeOriginal = res.nome;
+      this.categoriaEmEdicao.descricao = res.descricao;
+      this.categoriaEmEdicao.descricaoOriginal = res.descricao;
     }
   }
 
-  onSalvarEdicao(): void {
-    /*if (!this.categoriaEmEdicao){
-      return;
-    }*/
-
-    this.categoriaService.atualizar(this.categoriaEmEdicao);
-    this.categorias = this.listarTodas();
+  async onSalvarEdicao() {
+    this.categoriaService.atualizar(this.categoriaEmEdicao.id, this.categoriaEmEdicao.descricao);
+    this.categorias = await this.listarTodas();
     this.categoriaEmEdicao.id = 0;
-    this.categoriaEmEdicao.nome = "";
+    this.categoriaEmEdicao.descricao = "";
   }
 
-  onRemover(id: number): void {
-    this.categoriaService.remover(id);
-    this.categorias = this.listarTodas();
+  async onRemover(id: number) {
+    await this.categoriaService.remover(id);
+    this.categorias = await this.listarTodas();
   }
 }

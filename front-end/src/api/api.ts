@@ -1,4 +1,6 @@
-export const API_URL = "https://controlemanutencao.betoni.dev"
+//export const API_URL = "https://controlemanutencao.betoni.dev"
+export const API_URL = "http://localhost:8097"
+
 
 export interface APIResponse<T> {
   error: boolean;
@@ -9,11 +11,11 @@ export interface APIResponse<T> {
 
 export class APIRequest<T> {
   public route: string;
-  public endpoint: string | null = null;
-  public body: T | null;
-  public query: T | null;
+  public endpoint?: string = undefined;
+  public body?: T = undefined;
+  public query?: T = undefined;
 
-  constructor(route: string, endpoint: string | null, body: T | null, query: T | null) {
+  constructor(route: string, endpoint?: string, body?: T, query?: T) {
     this.route = route;
     this.endpoint = endpoint ?? API_URL
     this.body = body;
@@ -21,7 +23,7 @@ export class APIRequest<T> {
   }
 }
 
-function responseFrom<T>(j:any): APIResponse<T> {
+function responseFrom<T>(j: any): APIResponse<T> {
   let resp = j as APIResponse<T>
   resp.body = j.body as T
   return resp
@@ -33,31 +35,65 @@ let defaultHeaders = {
   'Content-Type': "application/json",
 }
 
-export function POST<A,T>(req: APIRequest<A>, handler: Handler<T>) {
-  fetch(`${req.endpoint}/${req.route}`,{
-    body: req.body == null ? "{}" : JSON.stringify(req.body),
-    method: "POST",
-    headers: defaultHeaders,
-    credentials: 'include',
-  }).then(x => x.json()).then(j => handler(responseFrom(j)))
+function checkUnauthorized(resp: Response) {
+  if(resp.status == 401) {
+    window.location.href="/login";
+  }
 }
 
-export function PUT<A,T>(req: APIRequest<A>, handler: Handler<T>) {
-  fetch(`${req.endpoint}/${req.route}`,{
-    body: req.body == null ? "{}" : JSON.stringify(req.body),
-    method: "PUT",
-    headers: defaultHeaders,
-    credentials: 'include',
-  }).then(x => x.json()).then(j => handler(responseFrom(j)))
-}
-
-export function GET<A,T>(req: APIRequest<A>, handler: Handler<T>) {
-  let filtered: Record<string,any> = req.query == null ? {} : Object.fromEntries(
-    Object.entries(req.query).filter(([_, value]) => value != null && value != undefined && value != "")
+export async function GET_PROMISED<A, T>(req: APIRequest<A>): Promise<APIResponse<T>> {
+  let filtered: Record<string, any> = req.query == null ? {} : Object.fromEntries(
+    Object.entries(req.query).filter(([_, value]) => value != null && value != undefined && value !== "")
   );
-  fetch(`${req.endpoint}/${req.route}${req.query != null ? "?" + new URLSearchParams(filtered).toString() : ""}`, {
+  const url = `${req.endpoint ?? API_URL}/${req.route}${req.query != null ? "?" + new URLSearchParams(filtered).toString() : ""}`;
+  const response = await fetch(url, {
     method: "GET",
     headers: defaultHeaders,
     credentials: 'include',
-  }).then(x => x.json()).then(j => handler(responseFrom(j)))
+  });
+  checkUnauthorized(response);
+  const json = await response.json();
+  return responseFrom(json);
+}
+
+export async function POST_PROMISED<A, T>(req: APIRequest<A>): Promise<APIResponse<T>> {
+
+  const requestBody = req.body == null ? "{}" : JSON.stringify(req.body);
+  const url = `${req.endpoint ?? API_URL}/${req.route}`;
+
+  const response = await fetch(url, {
+    body: requestBody,
+    method: "POST",
+    headers: defaultHeaders,
+    credentials: 'include',
+  });
+  checkUnauthorized(response);
+  const json = await response.json();
+  return responseFrom(json);
+}
+
+export async function PUT_PROMISED<A, T>(req: APIRequest<A>): Promise<APIResponse<T>> {
+  const requestBody = req.body == null ? "{}" : JSON.stringify(req.body);
+  const url = `${req.endpoint ?? API_URL}/${req.route}`;
+  const response = await fetch(url, {
+    body: requestBody,
+    method: "PUT",
+    headers: defaultHeaders,
+    credentials: 'include',
+  });
+  checkUnauthorized(response);
+  const json = await response.json();
+  return responseFrom(json);
+}
+
+export async function DELETE_PROMISED<A, T>(req: APIRequest<A>): Promise<APIResponse<T>> {
+  const url = `${req.endpoint ?? API_URL}/${req.route}`;
+  const response = await fetch(url, {
+    method: "DELETE",
+    headers: defaultHeaders,
+    credentials: 'include',
+  });
+  checkUnauthorized(response);
+  let json = await response.json();
+  return responseFrom(json);
 }

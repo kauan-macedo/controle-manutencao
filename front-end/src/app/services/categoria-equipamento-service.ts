@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CategoriaEquipamento } from '../models/categoria-equipamento';
+import { atualizarCategoria, buscaCategoria, buscarCategorias, novaCategoria } from '../../api/categoria';
+import { APIResponse } from '../../api/api';
 
 const LS_KEY = "categoriasEquipamento";
 
@@ -9,52 +11,43 @@ const LS_KEY = "categoriasEquipamento";
 
 export class CategoriaEquipamentoService {
   
-  listarTodas(): CategoriaEquipamento[] {
-    const categorias = localStorage[LS_KEY];
-
-    if (categorias){
-      return categorias ? JSON.parse(categorias) : [];
+  async listarTodas(onError?: (msg: string) => void): Promise<CategoriaEquipamento[]> {
+    let resp = await buscarCategorias();
+    if(resp.error && onError) {
+      onError(resp.message)
     }
-    
-    return [
-      { id: 1, nome: 'Notebook' },
-      { id: 2, nome: 'Impressora' },
-      { id: 3, nome: 'Desktop' },
-      { id: 4, nome: 'TesteJP' }
-    ];
+    return resp.body
   };
 
-  inserir(categoria: CategoriaEquipamento): void {
-    const categorias = this.listarTodas();
+  async inserir(descricao: string, onError?: (msg: string) => void): Promise<any> {
+    let resp = await novaCategoria(descricao);
+    if(resp.error && onError) {
+      onError(resp.message)
+    }
+    return resp.body
+  };  
 
-    categoria.id = new Date().getTime();
-    categorias.push(categoria);
-
-    localStorage[LS_KEY] = JSON.stringify(categorias);
+  async buscarPorId(id: number, onError?: (msg: string) => void): Promise<CategoriaEquipamento> {
+    let resp = await buscaCategoria(id);
+    if(resp.error && onError) {
+      onError(resp.message)
+    }
+    return resp.body
   }
 
-  buscarPorId(id: number): CategoriaEquipamento | undefined {
-    const categorias = this.listarTodas();
-    return categorias.find(categoria => categoria.id == id);
-  }
-
-  atualizar(categoria: CategoriaEquipamento): void {
-    let categorias = this.listarTodas();
-
-    categorias.forEach( (obj, index, objs) => {
-      if(obj.id == categoria.id){
-        objs[index] = categoria;
-      }
-    });
-
-    localStorage[LS_KEY] = JSON.stringify(categorias);
+  async atualizar(id: number, desc: string, onError?: (msg: string) => void): Promise<any> {
+    let resp = await atualizarCategoria(id, desc);
+    if(resp.error && onError) {
+      onError(resp.message)
+    }
+    return resp.body
   };
 
-  remover(id: number): void {
-    let categorias = this.listarTodas();
-
-    categorias = categorias.filter(obj => obj.id != id);
-    
-    localStorage[LS_KEY] = JSON.stringify(categorias);
+  async remover(id: number, onError?: (msg: string) => void): Promise<any> {
+    let resp = await atualizarCategoria(id, "");
+    if(resp.error && onError) {
+      onError(resp.message)
+    }
+    return resp.body
   };
 }

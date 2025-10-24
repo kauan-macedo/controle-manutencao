@@ -1,5 +1,6 @@
 package com.controlemanutencao.model;
 
+import com.controlemanutencao.repository.Converter;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,11 +15,32 @@ public class Categoria {
     @Column(name = "DescCategoria")
     private String descricao;
 
+    @Column(name = "Ativo")
+    @Convert(converter = Converter.BooleanToIntegerConverter.class)
+    private boolean ativo;
+
+    public Categoria() {
+    }
+
+    public Categoria(Long id, String descricao, boolean ativo) {
+        this.id = id;
+        this.descricao = descricao;
+        this.ativo = ativo;
+    }
+
     public Long getId() {
         return id;
     }
 
     public String getDescricao() {
         return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }

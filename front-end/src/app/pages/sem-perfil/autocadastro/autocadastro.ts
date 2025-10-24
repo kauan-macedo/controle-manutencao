@@ -41,12 +41,15 @@ export class Autocadastro implements OnInit {
   onSubmit(form: any): void {
     //implementar método onsubmit de cadastro!
     if (form.valid) {
-      this.cadastroService.registrarUsuario(this.usuario, (msg) => {
-        this.toastService.showSuccess(msg);
-        this.router.navigate(['/login']);
-      }, (msg) => {
-        this.toastService.showError(msg);
-      })
+      this.cadastroService.registrarUsuario(this.usuario, 
+        (msg) => {
+          this.toastService.showSuccess(msg);
+          this.router.navigate(['/login']);
+        }, 
+        (msg) => {
+          this.toastService.showError(msg);
+        }
+      )
     }
   }
 }

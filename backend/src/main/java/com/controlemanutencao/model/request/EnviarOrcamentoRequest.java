@@ -1,7 +1,8 @@
 package com.controlemanutencao.model.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public record EnviarOrcamentoRequest (
-        int solicitacao_id,
         double valor,
         String descricao
 ) { }

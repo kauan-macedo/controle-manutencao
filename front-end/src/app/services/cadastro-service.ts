@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Usuario } from '../models/usuario';
 import { StorageService } from './storage-service';
-import { APIRequest, APIResponse, POST } from '../../api/api';
+import * as api from '../../api/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -12,77 +12,22 @@ export class CadastroService {
 
   constructor(private storageService: StorageService) {}
 
-  private gerarSenha(): string {
-    return Math.floor(1000 + Math.random() * 9000).toString();
-  }
-
-  registrarUsuario(usuarioDados: Usuario, success: (msg: string) => void, error: (msg: string) => void): void {
-
-    let body = {
+  async registrarUsuario(usuarioDados: Usuario, onSuccess: (msg: string) => void, onError: (msg: string) => void) {
+    let body: api.AutocadastroInput = {
       email: usuarioDados.email,
       nome: usuarioDados.nome,
       telefone: usuarioDados.telefone,
       cep: usuarioDados.endereco.cep,
       cpf: usuarioDados.cpf,
-      numero: usuarioDados.endereco.numero
+      numero: parseInt(usuarioDados.endereco.numero)
     }
 
-    POST(new APIRequest("auth/autocadastro", null, body, null), (resp: APIResponse<any>) => {
-      let mensagem = resp.message;
-      if(resp.error) {
-        error(mensagem);
-      } else {
-        success(mensagem);
-      }
-    })
-
-    const usuarios = this.storageService.getDados(this.STORAGE_KEY) || [];
-
-    let proximoId;
-    if (usuarios.length > 0) {
-      proximoId = Math.max(...usuarios.map((u) => u.id)) + 1;
+    let resp = await api.autocadastro(body);
+    if(resp.error) {
+      onSuccess(resp.message);
     } else {
-      proximoId = 1;
+      onError(resp.message);
     }
-
-    /*usuarioDados.id = proximoId;
-
-    usuarioDados.senha = this.gerarSenha();
-    usuarioDados.perfil = 'CLIENTE';
-    usuarios.push(usuarioDados);
-    this.storageService.salvarDados(this.STORAGE_KEY, usuarios);*/
   }
 
-  login(email: string, senha: string, onSuccess: (t: Usuario) => void, onError?: () => void) {
-
-    let body = {
-      email: email,
-      senha: senha
-    }
-
-    POST(new APIRequest("auth/login", null, body, null), (resp: APIResponse<Usuario>) => {
-      let mensagem = resp.message;
-      if(resp.error) {
-        // mandar mensagem de erro
-        //
-        onError?.();
-      } else {
-        // mandar mensagem de sucesso
-        //
-        onSuccess(resp.body)
-      }
-    })
-
-    /*
-    const usuarios: Usuario[] = this.storageService.getDados(this.STORAGE_KEY) || [];
-    const usuarioEncontrado = usuarios.find(u => u.email === email && u.senha === senha);
-    
-    if (usuarioEncontrado) {
-      this.storageService.salvarDados('usuarioLogado', usuarioEncontrado);
-      return usuarioEncontrado;
-    }
-
-    return null;
-    */
-  }
 }

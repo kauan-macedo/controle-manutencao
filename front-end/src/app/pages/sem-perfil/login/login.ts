@@ -27,16 +27,18 @@ export class Login implements OnInit {
   onLogin(form: any): void {
     if (form.valid) {
       const { email, senha } = this.credenciais;
-      const usuarioLogado = this.authService.login(email, senha, (user: Usuario) => {
-        debugger
-        if(user.tipoUsuario === 'CLIENTE') {
-          this.router.navigate(['/cliente/pagina-inicial']);
-        } else {
-          this.router.navigate(['/funcionario/pagina-inicial']);
+      this.authService.login(email, senha, 
+        (user: Usuario) => {
+          if(user.tipoUsuario === 'CLIENTE') {
+            this.router.navigate(['/cliente/pagina-inicial']);
+          } else {
+            this.router.navigate(['/funcionario/pagina-inicial']);
+          }
+        }, 
+        () => { // Handler de erro
+          alert('Email ou senha incorretos.');
         }
-      }, () => {
-        alert('Email ou senha incorretos.');
-      });
+      );
     }
   }
 }

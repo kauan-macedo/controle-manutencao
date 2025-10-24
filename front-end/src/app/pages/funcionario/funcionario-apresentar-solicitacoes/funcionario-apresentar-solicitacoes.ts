@@ -2,8 +2,8 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { StorageService } from '../../../services/storage-service';
 import { Solicitacao } from '../../../models/solicitacao';
+import { SolicitacaoService } from '../../../services/solicitacao-service';
 
 @Component({
   selector: 'app-funcionario-apresentar-solicitacoes',
@@ -26,12 +26,15 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
 
   private readonly STORAGE_KEY = 'solicitacoes';
 
-  constructor(private storageService: StorageService) {
+  constructor(private solicitacoesService: SolicitacaoService) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     // Carrega todas as solicitações do storage
-    this.solicitacoes = this.storageService.getDados(this.STORAGE_KEY) || [];
+    let solicitacoesRet = await this.solicitacoesService.getSolicitacoes((msg) => {
+      // TODO: mostrar erro para o usuario
+    });
+    this.solicitacoes = solicitacoesRet;
     this.solicitacoesFiltradas = [...this.solicitacoes];
   }
 

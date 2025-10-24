@@ -1,7 +1,12 @@
 package com.controlemanutencao.model.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public record NovaSolicitacaoRequest (
-        String desc_defeito,
-        String desc_equipamento,
-        int categoria_id
+        @JsonProperty("desc_defeito")
+        String descDefeito,
+        @JsonProperty("desc_equipamento")
+        String descEquipamento,
+        @JsonProperty("categoria_id")
+        int categoriaId
 ) {}

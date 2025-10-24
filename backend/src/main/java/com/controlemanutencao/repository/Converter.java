@@ -1,5 +1,7 @@
-package com.controlemanutencao.model.enums;
+package com.controlemanutencao.repository;
 
+import com.controlemanutencao.model.enums.StatusSolicitacao;
+import com.controlemanutencao.model.enums.TipoUsuario;
 import jakarta.persistence.AttributeConverter;
 
 public class Converter {
@@ -27,6 +29,24 @@ public class Converter {
         @Override
         public TipoUsuario convertToEntityAttribute(Integer integer) {
             return TipoUsuario.fromId(integer);
+        }
+    }
+
+    public static class BooleanToIntegerConverter implements AttributeConverter<Boolean, Integer> {
+        @Override
+        public Integer convertToDatabaseColumn(Boolean attribute) {
+            if (attribute == null) {
+                return null;
+            }
+            return (attribute ? 1 : 0);
+        }
+
+        @Override
+        public Boolean convertToEntityAttribute(Integer dbData) {
+            if (dbData == null) {
+                return null;
+            }
+            return dbData.equals(1);
         }
     }
 

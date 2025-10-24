@@ -1,11 +1,12 @@
 export class CategoriaEquipamento {
     public id: number;
-    public nome: string;
+    public descricao: string;
     
     constructor(
-        nome: string
+        id: number,
+        descricao: string
     ) {
-        this.id = 0;
-        this.nome = nome;
+        this.id = id;
+        this.descricao = descricao;
     }
 }
