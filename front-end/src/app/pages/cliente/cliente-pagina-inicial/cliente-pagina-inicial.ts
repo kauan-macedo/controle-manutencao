@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ClienteCriarSolicitacao } from '../cliente-criar-solicitacao/cliente-criar-solicitacao';
@@ -24,13 +24,15 @@ export class ClientePaginaInicial implements OnInit {
 
   constructor(
     private solicitacaoService: SolicitacaoService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   async carregarSolicitacoes(): Promise<void> {
     this.minhasSolicitacoes = await this.solicitacaoService.listarTodas((msg) => {
       this.toastService.showError(msg);
     });
+    this.cdr.detectChanges();
   }
   
   ngOnInit(): void {
@@ -46,4 +48,3 @@ export class ClientePaginaInicial implements OnInit {
     this.carregarSolicitacoes();
   }
 }
-

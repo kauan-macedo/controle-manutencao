@@ -10,7 +10,7 @@ public class Utils {
 
     public static final DateTimeFormatter DT_FORMATTER_DETAIL = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
     public static long timestampNow() {
-        return System.currentTimeMillis()/1000;
+        return System.currentTimeMillis();
     }
 
     public static <T> void ifNotNull(T o, Consumer<T> c) {

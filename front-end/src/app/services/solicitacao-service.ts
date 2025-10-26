@@ -31,7 +31,23 @@ export class SolicitacaoService {
     if (response.error && onError) {
       onError(response.message);
     }
-    return response.body || [];
+
+    if (!response.body) {
+      return [];
+    }
+
+    return response.body.map((item: any) => {
+      const solicitacao = new Solicitacao(
+        item.descricaoEquipamento,
+        item.categoria,
+        item.descricaoDefeito,
+        item.usuario.id
+      );
+      solicitacao.id = item.id;
+      solicitacao.dataHora = new Date(item.dataCriacao).toISOString();
+      solicitacao.estado = item.status;
+      return solicitacao;
+    });
   }
 
 
