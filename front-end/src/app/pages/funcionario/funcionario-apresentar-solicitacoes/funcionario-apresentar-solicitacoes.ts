@@ -31,7 +31,7 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
 
   async ngOnInit(): Promise<void> {
     // Carrega todas as solicitações do storage
-    let solicitacoesRet = await this.solicitacoesService.getSolicitacoes((msg) => {
+    let solicitacoesRet = await this.solicitacoesService.listarTodas((msg) => {
       // TODO: mostrar erro para o usuario
     });
     this.solicitacoes = solicitacoesRet;

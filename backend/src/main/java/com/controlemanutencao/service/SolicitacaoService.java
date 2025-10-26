@@ -41,7 +41,6 @@ public class SolicitacaoService {
     }
 
     public void novaSolicitacao(Solicitacao s) {
-        salvarLog(s, null, StatusSolicitacao.NOVA, null);
         s.setStatus(StatusSolicitacao.NOVA);
         repository.save(s);
     }
