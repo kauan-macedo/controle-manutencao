@@ -1,7 +1,12 @@
 package com.controlemanutencao.service;
 
+import com.controlemanutencao.exception.DeveSerFuncionarioException;
 import com.controlemanutencao.exception.EmailAlreadyTakenException;
+import com.controlemanutencao.model.EnderecoViaCep;
 import com.controlemanutencao.model.Usuario;
+import com.controlemanutencao.model.enums.TipoUsuario;
+import com.controlemanutencao.model.request.AutoCadastroRequest;
+import com.controlemanutencao.model.request.CriarFuncionarioRequest;
 import com.controlemanutencao.repository.UsuarioRepository;
 import jakarta.mail.AuthenticationFailedException;
 import jakarta.transaction.Transactional;
@@ -21,10 +26,12 @@ public class UsuarioService {
     private final UsuarioRepository repository;
 
     private final MailService mailService;
+    private final ViaCEPService viaCEPService;
 
-    public UsuarioService(UsuarioRepository repository, MailService mailService) {
+    public UsuarioService(UsuarioRepository repository, MailService mailService, ViaCEPService viaCEPService) {
         this.mailService = mailService;
         this.repository = repository;
+        this.viaCEPService = viaCEPService;
     }
 
     public Optional<Usuario> findById(Long id) {
@@ -47,23 +54,108 @@ public class UsuarioService {
         return repository.findAll();
     }
 
-    @Transactional
-    public void criarUsuario(Usuario user) throws RuntimeException {
+    public Usuario buscarUsuario(Usuario sender, Long userId) {
+        if(!sender.isFuncionario()) {
+            throw new DeveSerFuncionarioException();
+        }
+        Optional<Usuario> usr = repository.findById(userId);
+        if(usr.isEmpty()) {
+            throw new IllegalArgumentException("Usuário não encontrado.");
+        }
+        return usr.get();
+    }
 
-        if(repository.existsByEmail(user.getEmail())) {
+    public void inativarUsuario(Usuario sender, Long userId) {
+        if(!sender.isFuncionario()) {
+            throw new DeveSerFuncionarioException();
+        }
+        if(sender.getId() == userId) {
+            throw new IllegalArgumentException("Não é permitido inativar seu próprio perfil.");
+        }
+        Optional<Usuario> opt = repository.findById(userId);
+        if(opt.isEmpty()) {
+            throw new IllegalArgumentException("Usuário não encontrado!");
+        }
+        opt.get().setAtivo(false);
+        repository.save(opt.get());
+    }
+
+    @Transactional
+    public void criarFuncionario(Usuario sender, CriarFuncionarioRequest in) throws RuntimeException {
+
+        if(!sender.isFuncionario()) {
+            throw new DeveSerFuncionarioException();
+        }
+
+        if(repository.existsByEmail(in.email())) {
             throw new EmailAlreadyTakenException();
         }
 
-        int senha = ThreadLocalRandom.current().nextInt(1000, 10000);
-        user.setSenha(passwordEncoder.encode(senha + ""));
+        Usuario usuario = new Usuario(
+                0,
+                in.nome(),
+                in.email(),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                0,
+                null,
+                TipoUsuario.FUNCIONARIO,
+                true
+        );
+        usuario.setSenha(in.senha());
 
-        repository.save(user);
+        repository.save(usuario);
+
+        String mensagem = "Seja bem vindo ao ambiente Controle Manutenção!"
+                + "\nPara fazer login como funcionário, utilize seu email e a seguinte senha: " + in.senha();
+
+        try {
+            mailService.sendEmail(usuario.getEmail(), "Controle Manutenção: Boas vindas!", mensagem);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao enviar email", e);
+        }
+
+    }
+
+    @Transactional
+    public void autocadastro(AutoCadastroRequest in) throws RuntimeException {
+
+        if(repository.existsByEmail(in.email())) {
+            throw new EmailAlreadyTakenException();
+        }
+
+        EnderecoViaCep enderecoViaCep = viaCEPService.buscarCEP(in.cep().replace("-", ""));
+
+        Usuario usuario = new Usuario(
+                0,
+                in.nome(),
+                in.email(),
+                in.telefone(),
+                in.cpf(),
+                enderecoViaCep.localidade(),
+                enderecoViaCep.estado(),
+                enderecoViaCep.logradouro(),
+                enderecoViaCep.bairro(),
+                in.numero(),
+                in.cep().replace("-", ""),
+                TipoUsuario.CLIENTE,
+                true
+        );
+
+        int senha = ThreadLocalRandom.current().nextInt(1000, 10000);
+        usuario.setSenha(passwordEncoder.encode(senha + ""));
+
+        repository.save(usuario);
 
         String mensagem = "Seja bem vindo ao ambiente Controle Manutenção!"
                 + "\nPara fazer login, utilize seu email e a seguinte senha: " + senha;
 
         try {
-            mailService.sendEmail(user.getEmail(), "Controle Manutenção: Boas vindas!", mensagem);
+            mailService.sendEmail(usuario.getEmail(), "Controle Manutenção: Boas vindas!", mensagem);
         } catch (Exception e) {
             throw new RuntimeException("Erro ao enviar email", e);
         }

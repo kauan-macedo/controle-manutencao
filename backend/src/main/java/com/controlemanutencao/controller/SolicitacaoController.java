@@ -72,7 +72,7 @@ public class SolicitacaoController {
                 null,
                 null,
                 usuario,
-                optCat.get());
+                optCat.get(), true);
         service.novaSolicitacao(s);
         return ResponseEntity.ofNullable(new Response<>(HttpStatus.OK.value(), "Solicitação criada com sucesso!", null));
     }

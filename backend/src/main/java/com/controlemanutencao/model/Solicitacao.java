@@ -29,6 +29,9 @@ public class Solicitacao {
     @Column(name = "DthArrumado")
     private Long dataArrumado;
 
+    @Column(name = "Ativo")
+    private boolean ativo;
+
     @OneToOne
     @JoinColumn(name = "IdOrcamento")
     private Orcamento orcamento;
@@ -48,7 +51,7 @@ public class Solicitacao {
     public Solicitacao() {
     }
 
-    public Solicitacao(Long id, StatusSolicitacao status, String descricaoDefeito, String descricaoEquipamento, Long dataCriacao, Long dataArrumado, Orcamento orcamento, Usuario usuario, Categoria categoria) {
+    public Solicitacao(Long id, StatusSolicitacao status, String descricaoDefeito, String descricaoEquipamento, Long dataCriacao, Long dataArrumado, Orcamento orcamento, Usuario usuario, Categoria categoria, boolean ativo) {
         this.id = id;
         this.status = status;
         this.descricaoDefeito = descricaoDefeito;
@@ -58,6 +61,7 @@ public class Solicitacao {
         this.orcamento = orcamento;
         this.usuario = usuario;
         this.categoria = categoria;
+        this.ativo = ativo;
     }
 
     public Long getId() {

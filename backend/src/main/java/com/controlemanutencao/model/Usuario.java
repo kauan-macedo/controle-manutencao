@@ -47,6 +47,9 @@ public class Usuario implements UserDetails {
     @Column(name = "Bairro")
     private String bairro;
 
+    @Column(name = "Ativo")
+    private boolean ativo;
+
     @Column(name = "Numero")
     private int numero;
 
@@ -56,7 +59,7 @@ public class Usuario implements UserDetails {
 
     public Usuario() {}
 
-    public Usuario(int id, String nome, String email, String telefone, String CPF, String cidade, String estado, String rua, String bairro, int numero, String CEP, TipoUsuario tipoUsuario) {
+    public Usuario(int id, String nome, String email, String telefone, String CPF, String cidade, String estado, String rua, String bairro, int numero, String CEP, TipoUsuario tipoUsuario, boolean ativo) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -69,6 +72,7 @@ public class Usuario implements UserDetails {
         this.numero = numero;
         this.CEP = CEP;
         this.tipoUsuario = tipoUsuario;
+        this.ativo = ativo;
     }
 
     private String CEP;
@@ -148,4 +152,7 @@ public class Usuario implements UserDetails {
         return email;
     }
 
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
 }

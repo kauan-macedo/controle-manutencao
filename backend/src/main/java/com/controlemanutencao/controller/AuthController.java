@@ -58,25 +58,9 @@ public class AuthController {
 
     @PostMapping("/autocadastro")
     public Response<UsuarioDTO> register(@RequestBody @Validated AutoCadastroRequest in, HttpServletResponse response) {
-        EnderecoViaCep enderecoViaCep = viaCEPService.buscarCEP(in.cep().replace("-", ""));
-
-        Usuario usuario = new Usuario(
-                0,
-                in.nome(),
-                in.email(),
-                in.telefone(),
-                in.cpf(),
-                enderecoViaCep.localidade(),
-                enderecoViaCep.estado(),
-                enderecoViaCep.logradouro(),
-                enderecoViaCep.bairro(),
-                in.numero(),
-                in.cep().replace("-", ""),
-                TipoUsuario.CLIENTE
-        );
 
         try {
-            usuarioService.criarUsuario(usuario);
+            usuarioService.autocadastro(in);
         } catch (RuntimeException ex) {
             throw ex;
         }
