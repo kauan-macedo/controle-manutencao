@@ -37,7 +37,7 @@ public class SolicitacaoService {
     }
 
     public Optional<Solicitacao> findById(Usuario user, Long id) {
-        return repository.findByIdWithUser(user, id);
+        return repository.findByIdWithUser(user, id, user.isFuncionario());
     }
 
     public void novaSolicitacao(Solicitacao s) {

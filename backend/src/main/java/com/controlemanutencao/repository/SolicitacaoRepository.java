@@ -26,11 +26,13 @@ public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long> 
                                                     Pageable pageable);
 
     @Query("SELECT s FROM Solicitacao s WHERE " +
-            "((:usuarioParam.isFuncionario = TRUE) OR (s.usuario = :usuarioParam)) AND " +
+            // Novo parâmetro booleano para a verificação de funcionário
+            "((:isFuncionarioP = TRUE) OR (s.usuario = :usuarioParam)) AND " +
             "(s.id = :idSolicitacao)")
     Optional<Solicitacao> findByIdWithUser(
             @Param("usuarioParam") Usuario usuarioParam,
-            @Param("idSolicitacao") Long idSolicitacao
+            @Param("idSolicitacao") Long idSolicitacao,
+            @Param("isFuncionarioP") boolean isFuncionarioP // NOVO PARÂMETRO
     );
 
 }
