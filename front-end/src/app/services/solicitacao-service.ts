@@ -1,87 +1,69 @@
 import { Injectable } from '@angular/core';
-import { StorageService } from './storage-service';
 import { Solicitacao } from '../models/solicitacao';
+import { buscaSolicitacoes, novaSolicitacao, NovaSolicitacaoInput } from '../../api/solicitacoes'; 
+import { ToastService } from './toast-service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class SolicitacaoService {
-  private readonly STORAGE_KEY = 'solicitacoes';
 
-  constructor(private storageService: StorageService) {
-    const solicitacoesExistentes = this.storageService.getDados(this.STORAGE_KEY);
-  }
+  constructor(private toastService: ToastService) { }
 
-  // Devem haver dois métodos que 
-  // busquem as solicitações no Local Storage:
-  //
-  // 1.
-  // Um método que busque as solicitações por Cliente 
-  // (para exibir na página inicial do cliente) e uma 
-  // que retorne todas as solicitações.
-  //
-  //  Caso abaixo (atualmente retorna todas as
-  //  solicitações, no entanto,é um fluxo que
-  //  se fecha no cliclo do cliente,
-  //  uma vez que no
-  //  perfil do funcionário essas solicitações
-  //  cadastradas não são exibidas):
-  //
-  getSolicitacoesCliente(/* idCliente: number */): Solicitacao[] {
+  async listarTodas(onError?: (msg: string) => void): Promise<Solicitacao[]> {
+    const ate = new Date();
+    const de = new Date();
+    de.setFullYear(ate.getFullYear() - 1);
+
+    const formatDate = (date: Date) => {
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+
+    const response = await buscaSolicitacoes(0, { 
+      de: formatDate(de),
+      ate: formatDate(ate)
+    });
     
-    // const solicitacoes: Solicitacao[] = this
-    //                                       .storageService
-    //                                       .getDados(this.STORAGE_KEY);
-    // return solicitacoes.filter( (obj, index, arr) => {
-    //
-    //    obj.id === idCliente
-    //
-    // }) || [];
-
-    return this.storageService.getDados(this.STORAGE_KEY);
-  }
-
-  // Abaixo seria, funcionalmente, um
-  // método como o acima, no entanto, 
-  // com a nomenclatura correta:
-
-  async getSolicitacoes(onError?: (msg: string) => void): Promise<Solicitacao[]> {
-    return [];
-    // return this.storageService.getDados(this.STORAGE_KEY);
-  
-  }
-
-
-  adicionarSolicitacao(novaSolicitacao: Solicitacao): void {
-    const solicitacoes = this.getSolicitacoesCliente();
-
-    if (solicitacoes.length > 0) {
-      novaSolicitacao.id = solicitacoes.length + 1;
-    } else {
-      novaSolicitacao.id = 1;
+    if (response.error && onError) {
+      onError(response.message);
     }
 
-    solicitacoes.push(novaSolicitacao);
-    this.storageService.salvarDados(this.STORAGE_KEY, solicitacoes);
+    if (!response.body) {
+      return [];
+    }
+
+    return response.body.map((item: any) => {
+      const solicitacao = new Solicitacao(
+        item.descricaoEquipamento,
+        item.categoria,
+        item.descricaoDefeito,
+        item.usuario.id
+      );
+      solicitacao.id = item.id;
+      solicitacao.dataHora = new Date(item.dataCriacao).toISOString();
+      solicitacao.estado = item.status;
+      return solicitacao;
+    });
   }
 
-  atualizarSolicitacao(solicitacaoAtualizada: Solicitacao): void {
-    const solicitacoes = this.getSolicitacoesCliente();
-    const index = solicitacoes.findIndex(s => s.id === solicitacaoAtualizada.id);
 
-    if (index !== -1) {
-      solicitacoes[index] = solicitacaoAtualizada;
-      this.storageService.salvarDados(this.STORAGE_KEY, solicitacoes);
+  async adicionarSolicitacao(solicitacao: Solicitacao): Promise<void> {
+    const input: NovaSolicitacaoInput = {
+      desc_defeito: solicitacao.descricaoDefeito,
+      desc_equipamento: solicitacao.descricaoEquipamento,
+      categoria_id: solicitacao.categoriaEquipamento.id
+    };
+
+    const response = await novaSolicitacao(input);
+
+    if (response.error) {
+      this.toastService.showError(response.message);
     }
   }
 
-  aprovar(solicitacao: Solicitacao): void {
-    solicitacao.estado = 'Aprovada';
-    this.atualizarSolicitacao(solicitacao);
-  }
-
-  rejeitar(solicitacao: Solicitacao): void {
-    solicitacao.estado = 'Rejeitada';
-    this.atualizarSolicitacao(solicitacao);
-  }
 }
+

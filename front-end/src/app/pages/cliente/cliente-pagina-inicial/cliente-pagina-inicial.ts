@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ClienteCriarSolicitacao } from '../cliente-criar-solicitacao/cliente-criar-solicitacao';
 import { Solicitacao } from '../../../models/solicitacao';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
-import { ThemeToggle } from '../../../shared/theme-toggle/theme-toggle';
 import { ToastComponent } from '../../../shared/toast-component/toast-component';
+import { ToastService } from '../../../services/toast-service';
+
 
 
 @Component({
@@ -19,20 +20,24 @@ export class ClientePaginaInicial implements OnInit {
 
   exibirModal: boolean = false;
   minhasSolicitacoes: Solicitacao[] = [];
+ 
 
-  constructor(private solicitacaoService: SolicitacaoService) {}
+  constructor(
+    private solicitacaoService: SolicitacaoService,
+    private toastService: ToastService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
-  carregarSolicitacoes(): void {
-    this.minhasSolicitacoes = this.solicitacaoService.getSolicitacoesCliente();
+  async carregarSolicitacoes(): Promise<void> {
+    this.minhasSolicitacoes = await this.solicitacaoService.listarTodas((msg) => {
+      this.toastService.showError(msg);
+    });
+    this.cdr.detectChanges();
   }
-  
   
   ngOnInit(): void {
     this.carregarSolicitacoes();
   }   
-
-
-  //adicionando funcao para exibir o componente de criar solicitacao na pagina inicial
 
   abrirModal(): void {
     this.exibirModal = true;

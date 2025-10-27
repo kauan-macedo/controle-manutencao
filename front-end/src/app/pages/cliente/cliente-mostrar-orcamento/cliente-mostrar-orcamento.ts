@@ -56,7 +56,6 @@ export class ClienteMostrarOrcamento implements OnInit {
   
   aprovarSolicitacao(): void {
     if (this.solicitacao) {
-      this.solicitacaoService.aprovar(this.solicitacao);
       this.fecharModalAprovarServico();
       this.router.navigate(['/cliente/pagina-inicial']);
     }
@@ -65,7 +64,6 @@ export class ClienteMostrarOrcamento implements OnInit {
  
   rejeitarSolicitacao(): void {
     if (this.solicitacao) {
-      this.solicitacaoService.rejeitar(this.solicitacao);
       this.fecharModalRejeitarServico();
       this.router.navigate(['/cliente/pagina-inicial']);
     }

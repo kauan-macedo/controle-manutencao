@@ -10,12 +10,18 @@ public class Converter {
 
         @Override
         public Short convertToDatabaseColumn(StatusSolicitacao statusSolicitacao) {
+            if (statusSolicitacao == null) {
+                return null;
+            }
             return statusSolicitacao.getId();
         }
 
         @Override
         public StatusSolicitacao convertToEntityAttribute(Short integer) {
-            return StatusSolicitacao.fromId((short) integer);
+            if (integer == null) {
+                return null;
+            }
+            return StatusSolicitacao.fromId(integer.shortValue());
         }
     }
 
