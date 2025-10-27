@@ -24,6 +24,10 @@ export async function buscaSolicitacoes(page: number, filtros: Partial<FiltrosSo
     })
 }
 
+export async function buscaSolicitacaoPorId(id: number): Promise<APIResponse<Solicitacao>> {
+    return await GET_PROMISED({route: `solicitacao/${id}`,}); 
+}
+
 export interface NovaSolicitacaoInput {
     desc_defeito: string,
     desc_equipamento: string,

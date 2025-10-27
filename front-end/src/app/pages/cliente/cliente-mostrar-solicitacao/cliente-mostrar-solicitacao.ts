@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
-import { StorageService } from '../../../services/storage-service';
+import { SolicitacaoService } from '../../../services/solicitacao-service';
+import { Solicitacao } from '../../../models/solicitacao';
 
 @Component({
   selector: 'app-cliente-mostrar-solicitacao',
@@ -11,30 +12,26 @@ import { StorageService } from '../../../services/storage-service';
   styleUrl: './cliente-mostrar-solicitacao.css',
 })
 export class ClienteMostrarSolicitacao implements OnInit {
-  solicitacao: any;
-  private readonly STORAGE_KEY = 'solicitacoes';
+  solicitacao: Solicitacao | null = null;
 
-  constructor(private route: ActivatedRoute, private storageService: StorageService) {}
+  constructor(private route: ActivatedRoute, private solicitacaoService: SolicitacaoService, private cdr: ChangeDetectorRef) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     const idDaUrl = this.route.snapshot.paramMap.get('id');
-    const idNumerico = idDaUrl ? +idDaUrl : 0;
 
-    const todasAsSolicitacoes = this.storageService.getDados(this.STORAGE_KEY);
-
-    this.solicitacao = todasAsSolicitacoes.find(
-      (s: any) => s.id === idNumerico
-    );
-
-    if (this.solicitacao) {
-      this.solicitacao.dataHora = new Date(this.solicitacao.dataHora);
-      
-    
-      if (this.solicitacao.historico && this.solicitacao.historico.length > 0) {
-        this.solicitacao.historico.forEach((item: any) => {
-          item.dataHora = new Date(item.dataHora);
-        });
-      }
+    //garantindo que o idDaUrl não é nulo
+    if (!idDaUrl) {
+      console.error('ID da solicitação não encontrado na URL');
+      return;
     }
+
+    const idNumerico = +idDaUrl;
+    //chamando a funcao do solicitacaoservice
+    this.solicitacao = await this.solicitacaoService.buscarPorId(idNumerico, (errorMsg) => {
+      console.error('Erro ao buscar solicitação:', errorMsg);
+    });
+
+    //garantindo que o template vai ser carregado quando a requisicao for feita
+    this.cdr.detectChanges();
   }
 }

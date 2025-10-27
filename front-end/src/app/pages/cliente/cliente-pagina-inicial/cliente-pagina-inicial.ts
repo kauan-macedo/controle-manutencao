@@ -28,10 +28,12 @@ export class ClientePaginaInicial implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
 
+  //deixando essa funcao fora do ngoninit para poder chamar ela ao fechar o modal
   async carregarSolicitacoes(): Promise<void> {
     this.minhasSolicitacoes = await this.solicitacaoService.listarTodas((msg) => {
       this.toastService.showError(msg);
     });
+    //garantindo que as solicitacoes serao mostradas
     this.cdr.detectChanges();
   }
   
