@@ -49,6 +49,12 @@ public class SolicitacaoController {
         return new Response<>(200, "", solicitacoes);
     }
 
+    @GetMapping("/{id}")
+    public Response<Solicitacao> buscarPorID(@PathVariable("id") Long id, @AuthenticationPrincipal Usuario usuario) {
+        Optional<Solicitacao> solicitacoes = service.findById(usuario, id);
+        return new Response<>(solicitacoes.isPresent() ? 200 : 404, "", solicitacoes.orElse(null));
+    }
+
     @PostMapping
     public ResponseEntity<Response<?>> novaSolicitacao(@RequestBody NovaSolicitacaoRequest req, @AuthenticationPrincipal Usuario usuario) {
         Optional<Categoria> optCat = catService.findById((long) req.categoriaId());
@@ -75,7 +81,7 @@ public class SolicitacaoController {
 
     @PostMapping("/orcamento/{id}")
     public ResponseEntity<Response<?>> enviarOrcamento(@PathVariable("id") Long solicitacaoId, @RequestBody EnviarOrcamentoRequest orcamento, @AuthenticationPrincipal Usuario usuario) {
-        Optional<Solicitacao> solicitacao = service.findById(solicitacaoId);
+        Optional<Solicitacao> solicitacao = service.findById(usuario, solicitacaoId);
         if(solicitacao.isEmpty()) {
             return ResponseEntity.ofNullable(new Response<>(HttpStatus.BAD_REQUEST.value(), "Solicitação não encontrada!", null));
         }
@@ -85,7 +91,7 @@ public class SolicitacaoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Response<?>> atualizarSolicitacao(@PathVariable("id") Long solicitacaoId, @RequestBody AtualizarSolicitacaoRequest req, @AuthenticationPrincipal Usuario usuario) {
-        Optional<Solicitacao> solicitacao = service.findById(solicitacaoId);
+        Optional<Solicitacao> solicitacao = service.findById(usuario, solicitacaoId);
         if(solicitacao.isEmpty()) {
             return ResponseEntity.ofNullable(new Response<>(HttpStatus.BAD_REQUEST.value(), "Solicitação não encontrada!", null));
         }

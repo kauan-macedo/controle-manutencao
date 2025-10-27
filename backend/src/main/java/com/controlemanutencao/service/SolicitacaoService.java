@@ -36,8 +36,8 @@ public class SolicitacaoService {
         this.usuarioService = usuarioService;
     }
 
-    public Optional<Solicitacao> findById(Long id) {
-        return repository.findById(id);
+    public Optional<Solicitacao> findById(Usuario user, Long id) {
+        return repository.findByIdWithUser(user, id);
     }
 
     public void novaSolicitacao(Solicitacao s) {

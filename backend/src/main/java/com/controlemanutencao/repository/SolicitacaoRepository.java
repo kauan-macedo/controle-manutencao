@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long> {
 
@@ -23,5 +24,13 @@ public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long> 
                                                     @Param("filtroPorClienteParam") Boolean filtroPorCliente,
                                                     @Param("idUsuarioLogadoParam") Long idUsuarioLogado,
                                                     Pageable pageable);
+
+    @Query("SELECT s FROM Solicitacao s WHERE " +
+            "((:usuarioParam.isFuncionario = TRUE) OR (s.usuario = :usuarioParam)) AND " +
+            "(s.id = :idSolicitacao)")
+    Optional<Solicitacao> findByIdWithUser(
+            @Param("usuarioParam") Usuario usuarioParam,
+            @Param("idSolicitacao") Long idSolicitacao
+    );
 
 }
