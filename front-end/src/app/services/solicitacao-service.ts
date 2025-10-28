@@ -77,7 +77,8 @@ export class SolicitacaoService {
   }
 
   //Promise
-  /**async buscarPorId(id: number, onError?: (msg: string) => void): Promise<Solicitacao | null> {
+  /**
+    async buscarPorId(id: number, onError?: (msg: string) => void): Promise<Solicitacao | null> {
     //chama a funcao de buscar por id
     const response = await buscaSolicitacaoPorId(id);
 
@@ -91,7 +92,19 @@ export class SolicitacaoService {
     return this.mapApiToModel(response.body);
   } */
 
-  async adicionarSolicitacao(solicitacao: Solicitacao): Promise<void> {
+
+  //Observable
+  adicionarSolicitacao(solicitacao: Solicitacao): Observable<Solicitacao>{
+    return this.httpClient.post<Solicitacao>(
+      this.BASE_URL,
+      JSON.stringify(solicitacao),
+      this.httpOptions
+    )
+  }
+
+  //Promise
+  /**
+    async adicionarSolicitacao(solicitacao: Solicitacao): Promise<void> {
     const input: NovaSolicitacaoInput = {
       desc_defeito: solicitacao.descricaoDefeito,
       desc_equipamento: solicitacao.descricaoEquipamento,
@@ -103,6 +116,6 @@ export class SolicitacaoService {
     if (response.error) {
       this.toastService.showError(response.message);
     }
-  }
+  } */
 }
 
