@@ -1,9 +1,10 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { StorageService } from '../../../services/storage-service';
+import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { Solicitacao } from '../../../models/solicitacao';
+import { ToastService } from '../../../services/toast-service';
 
 @Component({
   selector: 'app-funcionario-pagina-inicial',
@@ -21,16 +22,19 @@ export class FuncionarioPaginaInicial implements OnInit {
 
   solicitacoesAbertas: Solicitacao[] = [];
 
-  private readonly STORAGE_KEY = 'solicitacoes';
 
-  constructor(private storageService: StorageService) {}
+  constructor(private solicitacaoService: SolicitacaoService, private toastService: ToastService, private cdr: ChangeDetectorRef) {}
+
+  async carregarSolicitacoes(): Promise<void> {
+    this.solicitacoesAbertas = await this.solicitacaoService.listarTodas((msg) => {
+      this.toastService.showError(msg);
+    });
+    //garantindo que as solicitacoes serao mostradas
+    this.cdr.detectChanges();
+  }
 
   ngOnInit(): void {
-    const todasAsSolicitacoes = this.storageService.getDados(this.STORAGE_KEY) as Solicitacao[];
-    
-    if (todasAsSolicitacoes) {
-      this.solicitacoesAbertas = todasAsSolicitacoes.filter(s => s.estado === 'ABERTA');
-    }
+     this.carregarSolicitacoes();
   }
 
 }

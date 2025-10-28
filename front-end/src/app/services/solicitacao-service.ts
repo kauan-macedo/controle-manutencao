@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { EstadosSolicitacao } from '../models/enums/estadosSolicitacao';
 import { Solicitacao } from '../models/solicitacao';
 // Importe a nova função que criamos
 import { buscaSolicitacoes, buscaSolicitacaoPorId, novaSolicitacao, NovaSolicitacaoInput } from '../../api/solicitacoes'; 
@@ -22,7 +23,7 @@ export class SolicitacaoService {
     );
     solicitacao.id = item.id;
     solicitacao.dataHora = new Date(item.dataCriacao).toISOString(); 
-    solicitacao.estado = item.status; 
+    solicitacao.estado = item.status as EstadosSolicitacao; // convertendo para enum
     
     return solicitacao;
   }
