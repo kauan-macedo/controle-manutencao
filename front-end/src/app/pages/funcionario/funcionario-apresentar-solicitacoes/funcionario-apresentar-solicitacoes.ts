@@ -1,9 +1,10 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Solicitacao } from '../../../models/solicitacao';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
+import { ToastService } from '../../../services/toast-service';
 
 @Component({
   selector: 'app-funcionario-apresentar-solicitacoes',
@@ -24,18 +25,17 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
   solicitacoes: Solicitacao[] = [];
   solicitacoesFiltradas: Solicitacao[] = [];
 
-  private readonly STORAGE_KEY = 'solicitacoes';
 
-  constructor(private solicitacoesService: SolicitacaoService) {
+  constructor(private solicitacoesService: SolicitacaoService, private toastService: ToastService, private cdr: ChangeDetectorRef) {
   }
 
   async ngOnInit(): Promise<void> {
-    // Carrega todas as solicitações do storage
-    let solicitacoesRet = await this.solicitacoesService.listarTodas((msg) => {
+    this.solicitacoes = await this.solicitacoesService.listarTodas((msg) => {
       // TODO: mostrar erro para o usuario
+      this.toastService.showError(msg);
     });
-    this.solicitacoes = solicitacoesRet;
-    this.solicitacoesFiltradas = [...this.solicitacoes];
+    this.aplicarFiltro();
+    this.cdr.detectChanges();
   }
 
   aplicarFiltro() {

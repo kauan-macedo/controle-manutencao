@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { Solicitacao } from '../../../models/solicitacao';
 import { ToastService } from '../../../services/toast-service';
+import { EstadosSolicitacao } from '../../../models/enums/estadosSolicitacao';
 
 @Component({
   selector: 'app-funcionario-pagina-inicial',
@@ -20,15 +21,21 @@ export class FuncionarioPaginaInicial implements OnInit {
   dataInicial: string = '';
   dataFinal: string = '';
 
+
   solicitacoesAbertas: Solicitacao[] = [];
 
 
   constructor(private solicitacaoService: SolicitacaoService, private toastService: ToastService, private cdr: ChangeDetectorRef) {}
 
   async carregarSolicitacoes(): Promise<void> {
-    this.solicitacoesAbertas = await this.solicitacaoService.listarTodas((msg) => {
+    const todas = await this.solicitacaoService.listarTodas((msg) => {
       this.toastService.showError(msg);
     });
+   
+
+    // filtrando as solicitacoes para novas aqui no front mesmo e pronto
+    this.solicitacoesAbertas = todas.filter(s => s.estado === EstadosSolicitacao.NOVA);
+
     //garantindo que as solicitacoes serao mostradas
     this.cdr.detectChanges();
   }
