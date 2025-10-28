@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { Solicitacao } from '../../../models/solicitacao';
 import { ToastService } from '../../../services/toast-service';
-import { EstadosSolicitacao } from '../../../models/enums/estadosSolicitacao';
+import { EstadosSolicitacao } from '../../../models/enums/estados-solicitacao';
 
 @Component({
   selector: 'app-funcionario-pagina-inicial',

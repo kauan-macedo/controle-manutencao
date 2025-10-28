@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EstadosSolicitacao } from '../models/enums/estadosSolicitacao';
+import { EstadosSolicitacao } from '../models/enums/estados-solicitacao';
 import { Solicitacao } from '../models/solicitacao';
 // Importe a nova função que criamos
 import { buscaSolicitacoes, buscaSolicitacaoPorId, novaSolicitacao, NovaSolicitacaoInput } from '../../api/solicitacoes'; 

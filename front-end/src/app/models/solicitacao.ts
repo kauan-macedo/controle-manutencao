@@ -1,5 +1,5 @@
 import { CategoriaEquipamento } from "./categoria-equipamento";
-import { EstadosSolicitacao } from "./enums/estadosSolicitacao";
+import { EstadosSolicitacao } from "./enums/estados-solicitacao";
 
 export class Solicitacao {
     id: number;
