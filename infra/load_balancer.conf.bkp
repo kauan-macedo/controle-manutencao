@@ -1,0 +1,32 @@
+# TESTE DE LOAD BALANCER(NÃO IMPLEMENTADO!!!!!!!!!!)
+
+#Define o grupo de servidores que receberão o tráfego.
+
+upstream backend_servers {
+
+    server 192.168.1.10;
+    server 192.168.1.11;
+    server 192.168.1.12;
+
+}
+
+
+# Configuração do servidor que atuará como proxy.
+server {
+
+    listen 80;
+    server_name _;
+
+
+    # Para todas as requisições recebidas
+    location / {
+
+        proxy_pass http://backend;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+
+}
