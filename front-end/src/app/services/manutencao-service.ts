@@ -24,19 +24,6 @@ export class ManutencaoService {
 
     const index = todasAsSolicitacoes.findIndex(s => s.id === solicitacaoId);
 
-    if (index !== -1) {
-      const solicitacaoAtual = todasAsSolicitacoes[index];
-
-      solicitacaoAtual.descricaoManutencao = descricaoManutencao;
-      solicitacaoAtual.dataManutencao = new Date().toISOString();
-      solicitacaoAtual.funcionarioManutencaoId = funcionarioLogado.id;
-      solicitacaoAtual.estado = 'ARRUMADA';
-
-      this.storageService.salvarDados(this.SOLICITACOES_KEY, todasAsSolicitacoes);
-      
-      return solicitacaoAtual;
-    }
-
     return null;
   }
 }

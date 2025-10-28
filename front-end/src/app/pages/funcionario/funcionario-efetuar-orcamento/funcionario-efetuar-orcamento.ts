@@ -46,15 +46,5 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
     }
   }
 
-  efetuarOrcamento(): void {
-    if (!this.solicitacao || !this.valorOrcamento) return;
-
-    const atualizado = this.orcamentoService.efetuarOrcamento(this.solicitacao.id, this.valorOrcamento);
-
-    if (atualizado) {
-      alert('Orçamento efetuado com sucesso!');
-      this.router.navigate(['/funcionario/pagina-inicial']); 
-    }
-  }
 
 }

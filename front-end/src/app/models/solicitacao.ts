@@ -1,17 +1,17 @@
 import { CategoriaEquipamento } from "./categoria-equipamento";
+import { EstadosSolicitacao } from "./enums/estadosSolicitacao";
 
-    export class Solicitacao {
+export class Solicitacao {
     id: number;
     dataHora: string;
     descricaoEquipamento: string;
     categoriaEquipamento: CategoriaEquipamento;
     descricaoDefeito: string;
-    estado: string;
+    estado: EstadosSolicitacao; 
     clienteId: number;
 
-   
-    valorOrcamento?: number;        
-    dataOrcamento?: string;        
+    valorOrcamento?: number;
+    dataOrcamento?: string;
     funcionarioOrcamentoId?: number;
 
     descricaoManutencao?: string;
@@ -30,13 +30,8 @@ import { CategoriaEquipamento } from "./categoria-equipamento";
         this.descricaoEquipamento = descricaoEquipamento;
         this.categoriaEquipamento = categoriaEquipamento;
         this.descricaoDefeito = descricaoDefeito;
-        // Seria interessante
-        // criar um ENUM
-        // para os estados
-        // da solicitação?
-        // ==
-        this.estado = 'Aberta';
-        // ==
+       
+        this.estado = EstadosSolicitacao.NOVA;
         this.clienteId = clienteId;
 
         this.valorOrcamento = undefined;

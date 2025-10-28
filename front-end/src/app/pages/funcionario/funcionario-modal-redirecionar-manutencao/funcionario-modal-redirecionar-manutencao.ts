@@ -85,7 +85,7 @@ export class FuncionarioModalRedirecionarManutencao implements OnInit {
 
     if(!funcionarioDestino) alert(`${this.todosOsFuncionarios}`); //Erro
 
-    this.redirecionarService.redirecionarManutencao(this.solicitacao!.id, funcionarioDestino!.id);
+    //this.redirecionarService.redirecionarManutencao(this.solicitacao!.id, funcionarioDestino!.id);
     this.fechar.emit();
   }
 
