@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { Solicitacao } from '../../../models/solicitacao';
+import { CategoriaEquipamento } from '../../../models/categoria-equipamento';
 
 @Component({
   selector: 'app-cliente-mostrar-solicitacao',
@@ -27,11 +28,31 @@ export class ClienteMostrarSolicitacao implements OnInit {
 
     const idNumerico = +idDaUrl;
     //chamando a funcao do solicitacaoservice
-    this.solicitacao = await this.solicitacaoService.buscarPorId(idNumerico, (errorMsg) => {
-      console.error('Erro ao buscar solicitação:', errorMsg);
-    });
+    
+    this.solicitacao = this.buscarPorId(idNumerico);
+
+    //Promise
+    //this.solicitacao = await this.solicitacaoService.buscarPorId(idNumerico, (errorMsg) => {
+    //  console.error('Erro ao buscar solicitação:', errorMsg);
+    //});
 
     //garantindo que o template vai ser carregado quando a requisicao for feita
     this.cdr.detectChanges();
+  }
+
+  //Observer
+  buscarPorId(id: number): Solicitacao{
+    let sol: Solicitacao = new Solicitacao("", new CategoriaEquipamento(0, ""), "", 0);
+    const resp = this.solicitacaoService.buscarPorId(id).subscribe({
+      next: (data) => {
+        if (data == null){
+          console.log("ID inexistente")
+        }else{
+          sol = data;
+        }
+      }
+    });
+    
+    return sol;
   }
 }

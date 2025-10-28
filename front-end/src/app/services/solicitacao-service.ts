@@ -4,13 +4,24 @@ import { Solicitacao } from '../models/solicitacao';
 // Importe a nova função que criamos
 import { buscaSolicitacoes, buscaSolicitacaoPorId, novaSolicitacao, NovaSolicitacaoInput } from '../../api/solicitacoes'; 
 import { ToastService } from './toast-service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SolicitacaoService {
 
-  constructor(private toastService: ToastService) { }
+  private BASE_URL = "https://controlemanutencao.betoni.dev/categoria";
+  
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'credentials': 'include'
+    })
+  }
+
+  constructor(private toastService: ToastService, private httpClient: HttpClient) { }
 
  
   //funcao para transformar os campos do backend nos campos do front (para nao ter que mudar todos os templates, embora fosse melhor kk)
@@ -56,7 +67,17 @@ export class SolicitacaoService {
     return response.body.map(this.mapApiToModel);
   }
 
-  async buscarPorId(id: number, onError?: (msg: string) => void): Promise<Solicitacao | null> {
+  //Observable
+
+  buscarPorId(id: number): Observable<Solicitacao>{
+    return this.httpClient.get<Solicitacao>(
+      this.BASE_URL + "/" + id,
+      this.httpOptions
+    )
+  }
+
+  //Promise
+  /**async buscarPorId(id: number, onError?: (msg: string) => void): Promise<Solicitacao | null> {
     //chama a funcao de buscar por id
     const response = await buscaSolicitacaoPorId(id);
 
@@ -68,7 +89,7 @@ export class SolicitacaoService {
     }
     //retorna a solicitacao transformada
     return this.mapApiToModel(response.body);
-  }
+  } */
 
   async adicionarSolicitacao(solicitacao: Solicitacao): Promise<void> {
     const input: NovaSolicitacaoInput = {
