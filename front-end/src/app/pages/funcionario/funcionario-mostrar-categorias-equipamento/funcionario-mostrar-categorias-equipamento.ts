@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { CategoriaEquipamentoService } from '../../../services/categoria-equipamento-service';
 import { CategoriaEquipamento } from '../../../models/categoria-equipamento';
 import { ToastService } from '../../../services/toast-service';
+import { Usuario } from '../../../models/usuario';
 
 @Component({
   selector: 'app-funcionario-mostrar-categorias-equipamento',
@@ -27,15 +28,65 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
     private toastService: ToastService
   ) {}
 
-  async ngOnInit(): Promise<void> {
-    this.categorias = await this.listarTodas();
+  ngOnInit() {
+    this.categorias = this.listarTodas();
   }
 
+  // Observer
+  listarTodas(): CategoriaEquipamento[] {
+    let cats: CategoriaEquipamento[] = [];
+    this.categoriaService.listarTodas().subscribe({
+      next: (data: CategoriaEquipamento[]) => {
+        if(data == null){
+          cats = []
+        } else {
+          cats = data;
+          console.log("Cats recebeu data")
+        }
+      }
+    });
+    console.log("Cats foi retornado")
+    return cats;
+  }
+
+  /* PROMISE
   async listarTodas(): Promise<CategoriaEquipamento[]> {
     let resp = await this.categoriaService.listarTodas((msg) => console.error(msg));
     return resp;
   }
+  */
 
+  // Observer
+  buscarPorId(id: number): CategoriaEquipamento {
+    let cat: CategoriaEquipamento = new CategoriaEquipamento(0, "");
+    const resp = this.categoriaService.buscarPorId(id).subscribe({
+      next: (data) => {
+        if (data == null) {
+          console.log("ID inexistente!")
+        } else {
+          cat = data;
+        }
+      }
+    });
+    return cat;
+  }
+
+  // Observer
+  onAdicionar(form: any) {
+    if(form.invalid){
+      return
+    }
+
+    this.categoriaService.inserir(this.novaCategoria).subscribe({
+      next: (data) => {
+        return
+      }
+    });
+
+    this.categorias = this.listarTodas()
+  }
+  
+  /* PROMISE
   async onAdicionar(form: any) {
     if (form.invalid) {
       return;
@@ -47,25 +98,35 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
     const message = `Categoria cadastrada com sucesso!`;
     this.toastService.showSuccess(message)
   }
+  */
 
-  async onEditar(id: number) {
-    let res = await this.categoriaService.buscarPorId(id);
-    if (res !== undefined){
+  
+  /*async*/ onEditar(id: number) {
+    let res: CategoriaEquipamento = this.buscarPorId(id);
+    if (res.id !== 0){
       this.categoriaEmEdicao.id = res.id;
       this.categoriaEmEdicao.descricao = res.descricao;
       this.categoriaEmEdicao.descricaoOriginal = res.descricao;
     }
   }
 
-  async onSalvarEdicao() {
-    this.categoriaService.atualizar(this.categoriaEmEdicao.id, this.categoriaEmEdicao.descricao);
-    this.categorias = await this.listarTodas();
+  /*async*/ onSalvarEdicao() {
+    this.categoriaService
+      .atualizar(this.categoriaEmEdicao.id, this.categoriaEmEdicao.descricao)
+      .subscribe({
+        next: (data) => {
+          this.categorias = this.listarTodas();
+        }
+      })
     this.categoriaEmEdicao.id = 0;
     this.categoriaEmEdicao.descricao = "";
   }
 
-  async onRemover(id: number) {
-    await this.categoriaService.remover(id);
-    this.categorias = await this.listarTodas();
+  /*async*/ onRemover(id: number) {
+    let cat: CategoriaEquipamento = this.buscarPorId(id);
+    if (confirm(`Deseja realmente excluir ${cat.descricao}?`)){
+      this.categoriaService.remover(id);
+      this.categorias = this.listarTodas();
+    }
   }
 }
