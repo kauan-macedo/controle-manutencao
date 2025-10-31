@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { Solicitacao } from '../../../models/solicitacao';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { ToastService } from '../../../services/toast-service';
+import { EstadosSolicitacao } from '../../../models/enums/estados-solicitacao';
 
 @Component({
   selector: 'app-funcionario-apresentar-solicitacoes',
@@ -44,10 +45,11 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
       hoje.setHours(0, 0, 0, 0);
 
       this.solicitacoesFiltradas = this.solicitacoes.filter(s => {
-        const dataSolicitacao = new Date(s.dataHora);
+        const dataSolicitacao = new Date(s.dataCriacao);
         dataSolicitacao.setHours(0, 0, 0, 0);
         return dataSolicitacao.getTime() === hoje.getTime();
       });
+
     } else if (this.filtroSelecionado === 'Selecionar Período:') {
       if (!this.dataInicial || !this.dataFinal) return;
 
@@ -58,7 +60,7 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
       const dataFinalCorrigida = new Date(+dfp[0], +dfp[1] - 1, +dfp[2]);
 
       this.solicitacoesFiltradas = this.solicitacoes.filter(s => {
-        const dataSolicitacao = new Date(s.dataHora);
+        const dataSolicitacao = new Date(s.dataCriacao);
         dataSolicitacao.setHours(0, 0, 0, 0);
         return dataSolicitacao >= dataInicialCorrigida && dataSolicitacao <= dataFinalCorrigida;
       });
@@ -70,38 +72,38 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
 
 
   // Lógica de cores por estado
-  public getClasseEstado(estado: string): string {
-    switch (estado.toUpperCase()) {
+  public getClasseEstado(estado: EstadosSolicitacao): string {
+    switch (estado) {
       // Requisito: Cinza
-      case 'ABERTA':
+      case EstadosSolicitacao.NOVA:
         return 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
 
       // Requisito: Marrom
-      case 'ORÇADA':
+      case EstadosSolicitacao.ORCADA:
         return 'bg-amber-200 text-amber-800 dark:bg-amber-800 dark:text-amber-100';
 
       // Requisito: Vermelho
-      case 'REJEITADA':
+      case EstadosSolicitacao.REJEITADA:
         return 'bg-red-200 text-red-800 dark:bg-red-800 dark:text-red-100';
 
       // Requisito: Amarelo
-      case 'APROVADA':
+      case EstadosSolicitacao.APROVADA:
         return 'bg-yellow-200 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100';
 
       // Requisito: Roxo
-      case 'REDIRECIONADA':
+      case EstadosSolicitacao.REDIRECIONADA:
         return 'bg-purple-200 text-purple-800 dark:bg-purple-800 dark:text-purple-100';
 
       // Requisito: Azul
-      case 'ARRUMADA':
+      case EstadosSolicitacao.ARRUMADA:
         return 'bg-blue-200 text-blue-800 dark:bg-blue-800 dark:text-blue-100';
 
       // Requisito: Laranja
-      case 'PAGA':
+      case EstadosSolicitacao.PAGA:
         return 'bg-orange-200 text-orange-800 dark:bg-orange-800 dark:text-orange-100';
 
       // Requisito: Verde
-      case 'FINALIZADA':
+      case EstadosSolicitacao.FINALIZADA:
         return 'bg-green-200 text-green-800 dark:bg-green-800 dark:text-green-100';
 
       default:

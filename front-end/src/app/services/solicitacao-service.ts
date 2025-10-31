@@ -5,15 +5,14 @@ import { Solicitacao } from '../models/solicitacao';
 import { buscaSolicitacoes, buscaSolicitacaoPorId, novaSolicitacao, NovaSolicitacaoInput } from '../../api/solicitacoes'; 
 import { ToastService } from './toast-service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { API_URL, APIResponse } from '../../api/api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SolicitacaoService {
 
-  private BASE_URL = "https://controlemanutencao.betoni.dev/categoria";
-  
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -27,15 +26,19 @@ export class SolicitacaoService {
   //funcao para transformar os campos do backend nos campos do front (para nao ter que mudar todos os templates, embora fosse melhor kk)
   private mapApiToModel(item: any): Solicitacao {
     const solicitacao = new Solicitacao(
-      item.descricaoEquipamento,
+      item.id,
+      item.status,
       item.categoria,
       item.descricaoDefeito,
-      item.usuario.id 
+      item.descricaoEquipamento,
+      item.dataCriacao,
+      item.dataArrumado,
+      item.ativo,
+      item.orcamento,
+      item.usuario,
+      item.responsavel,
+      item.historico
     );
-    solicitacao.id = item.id;
-    solicitacao.dataHora = new Date(item.dataCriacao).toISOString(); 
-    solicitacao.estado = item.status as EstadosSolicitacao; // convertendo para enum
-    
     return solicitacao;
   }
 
@@ -70,10 +73,12 @@ export class SolicitacaoService {
   //Observable
 
   buscarPorId(id: number): Observable<Solicitacao>{
-    return this.httpClient.get<Solicitacao>(
-      this.BASE_URL + "/" + id,
+    return this.httpClient.get<APIResponse<Solicitacao>>(
+      API_URL + "/" + id,
       this.httpOptions
-    )
+    ).pipe(
+          map((res) => res.body)
+        )
   }
 
   //Promise
@@ -94,11 +99,13 @@ export class SolicitacaoService {
 
 
   //Observable
-  adicionarSolicitacao(solicitacao: Solicitacao): Observable<Solicitacao>{
-    return this.httpClient.post<Solicitacao>(
-      this.BASE_URL,
+  adicionarSolicitacao(solicitacao: Solicitacao): Observable<any>{
+    return this.httpClient.post<APIResponse<any>>(
+      API_URL,
       JSON.stringify(solicitacao),
       this.httpOptions
+    ).pipe(
+      map((res) => res.body)
     )
   }
 

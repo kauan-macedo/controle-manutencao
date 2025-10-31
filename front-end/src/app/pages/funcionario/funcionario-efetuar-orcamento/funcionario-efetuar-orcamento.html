@@ -3,7 +3,7 @@
 
     <div class="p-6 bg-gray-100 dark:bg-gray-800 border-b dark:border-gray-700">
       <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Detalhes da Solicitação</h1>
-      <p class="text-md text-gray-600 dark:text-gray-400">Solicitado em: {{ solicitacao.dataHora | date:'dd/MM/yyyy \'às\' HH:mm' }}</p>
+      <p class="text-md text-gray-600 dark:text-gray-400">Solicitado em: {{ solicitacao.dataCriacao | date:'dd/MM/yyyy \'às\' HH:mm' }}</p>
     </div>
 
     <div class="p-6 h-[60vh] overflow-y-scroll">
@@ -17,7 +17,7 @@
           </div>
           <div>
             <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Categoria</h3>
-            <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.categoriaEquipamento }}</p>
+            <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.categoria }}</p>
           </div>
           <div class="md:col-span-2">
             <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descrição do Defeito</h3>

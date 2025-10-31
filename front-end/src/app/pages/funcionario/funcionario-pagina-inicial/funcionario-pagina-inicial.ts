@@ -34,7 +34,7 @@ export class FuncionarioPaginaInicial implements OnInit {
    
 
     // filtrando as solicitacoes para novas aqui no front mesmo e pronto
-    this.solicitacoesAbertas = todas.filter(s => s.estado === EstadosSolicitacao.NOVA);
+    this.solicitacoesAbertas = todas.filter(s => s.status === EstadosSolicitacao.NOVA);
 
     //garantindo que as solicitacoes serao mostradas
     this.cdr.detectChanges();

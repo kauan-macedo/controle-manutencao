@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CategoriaEquipamentoService } from '../../../services/categoria-equipamento-service';
-import { CategoriaEquipamento } from '../../../models/categoria-equipamento';
+import { Categoria } from '../../../models/categoria-equipamento';
 import { ToastService } from '../../../services/toast-service';
 import { Usuario } from '../../../models/usuario';
 
@@ -14,14 +14,14 @@ import { Usuario } from '../../../models/usuario';
 })
 export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
 
-  novaCategoria = new CategoriaEquipamento(0, "");
+  novaCategoria = new Categoria(0, "", true);
   categoriaEmEdicao = {
     id: 0,
     descricao: "",
     descricaoOriginal: ""
   };
 
-  public categorias!: CategoriaEquipamento[];
+  public categorias!: Categoria[];
 
   constructor(
     private categoriaService: CategoriaEquipamentoService,
@@ -33,10 +33,10 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
   }
 
   // Observer
-  listarTodas(): CategoriaEquipamento[] {
-    let cats: CategoriaEquipamento[] = [];
+  listarTodas(): Categoria[] {
+    let cats: Categoria[] = [];
     this.categoriaService.listarTodas().subscribe({
-      next: (data: CategoriaEquipamento[]) => {
+      next: (data: Categoria[]) => {
         if(data == null){
           cats = []
         } else {
@@ -57,8 +57,8 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
   */
 
   // Observer
-  buscarPorId(id: number): CategoriaEquipamento {
-    let cat: CategoriaEquipamento = new CategoriaEquipamento(0, "");
+  buscarPorId(id: number): Categoria {
+    let cat: Categoria = new Categoria(0, "", true);
     const resp = this.categoriaService.buscarPorId(id).subscribe({
       next: (data) => {
         if (data == null) {
@@ -102,7 +102,7 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
 
   
   /*async*/ onEditar(id: number) {
-    let res: CategoriaEquipamento = this.buscarPorId(id);
+    let res: Categoria = this.buscarPorId(id);
     if (res.id !== 0){
       this.categoriaEmEdicao.id = res.id;
       this.categoriaEmEdicao.descricao = res.descricao;
@@ -114,7 +114,7 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
     this.categoriaService
       .atualizar(this.categoriaEmEdicao.id, this.categoriaEmEdicao.descricao)
       .subscribe({
-        next: (data) => {
+        next: (_) => {
           this.categorias = this.listarTodas();
         }
       })
@@ -123,7 +123,7 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
   }
 
   /*async*/ onRemover(id: number) {
-    let cat: CategoriaEquipamento = this.buscarPorId(id);
+    let cat: Categoria = this.buscarPorId(id);
     if (confirm(`Deseja realmente excluir ${cat.descricao}?`)){
       this.categoriaService.remover(id);
       this.categorias = this.listarTodas();

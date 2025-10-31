@@ -1,14 +1,14 @@
-import { CategoriaEquipamento } from "../app/models/categoria-equipamento";
+import { Categoria } from "../app/models/categoria-equipamento";
 import { APIResponse, DELETE_PROMISED, GET_PROMISED, POST_PROMISED, PUT_PROMISED } from "./api";
 
-export async function buscarCategorias(): Promise<APIResponse<CategoriaEquipamento[]>> {
-    return await GET_PROMISED<any, CategoriaEquipamento[]>({
+export async function buscarCategorias(): Promise<APIResponse<Categoria[]>> {
+    return await GET_PROMISED<any, Categoria[]>({
         route: "categoria"
     })
 }
 
-export async function buscaCategoria(id: number): Promise<APIResponse<CategoriaEquipamento>> {
-    return await GET_PROMISED<any, CategoriaEquipamento>({
+export async function buscaCategoria(id: number): Promise<APIResponse<Categoria>> {
+    return await GET_PROMISED<any, Categoria>({
         route: `categoria/${id}`
     })
 }

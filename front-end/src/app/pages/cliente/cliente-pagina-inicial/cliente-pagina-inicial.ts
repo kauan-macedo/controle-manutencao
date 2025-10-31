@@ -6,6 +6,7 @@ import { Solicitacao } from '../../../models/solicitacao';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { ToastComponent } from '../../../shared/toast-component/toast-component';
 import { ToastService } from '../../../services/toast-service';
+import { EstadosSolicitacao, translateEstado } from '../../../models/enums/estados-solicitacao';
 
 
 
@@ -48,5 +49,9 @@ export class ClientePaginaInicial implements OnInit {
   fecharModal(): void {
     this.exibirModal = false;
     this.carregarSolicitacoes();
+  }
+
+  traduzirEstado(estd: EstadosSolicitacao): string {
+    return translateEstado(estd);
   }
 }

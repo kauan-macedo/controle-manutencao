@@ -1,46 +1,48 @@
-import { CategoriaEquipamento } from "./categoria-equipamento";
+import { Categoria } from "./categoria-equipamento";
 import { EstadosSolicitacao } from "./enums/estados-solicitacao";
+import { LogSolicitacao } from "./log-solicitacao";
+import { Orcamento } from "./orcamento";
+import { Usuario } from "./usuario";
 
 export class Solicitacao {
     id: number;
-    dataHora: string;
-    descricaoEquipamento: string;
-    categoriaEquipamento: CategoriaEquipamento;
+    status: EstadosSolicitacao;
     descricaoDefeito: string;
-    estado: EstadosSolicitacao; 
-    clienteId: number;
-
-    valorOrcamento?: number;
-    dataOrcamento?: string;
-    funcionarioOrcamentoId?: number;
-
-    descricaoManutencao?: string;
-    instrucoesCliente?: string;
-    dataManutencao?: string;
-    funcionarioManutencaoId?: number;
+    descricaoEquipamento: string;
+    dataCriacao: string;
+    dataArrumado: string;
+    ativo: boolean;
+    orcamento: Orcamento | null;
+    usuario: Usuario;
+    responsavel: Usuario | null;
+    categoria: Categoria;
+    historico: LogSolicitacao[]
 
     constructor(
-        descricaoEquipamento: string,
-        categoriaEquipamento: CategoriaEquipamento,
-        descricaoDefeito: string,
-        clienteId: number
+        id: number = 0,
+        status: EstadosSolicitacao = 1,
+        categoria: Categoria = new Categoria(0, "", true),
+        descricaoDefeito: string = "",
+        descricaoEquipamento: string = "",
+        dataCriacao: string = "",
+        dataArrumado: string = "",
+        ativo: boolean = true,
+        orcamento: Orcamento | null = null,
+        usuario: Usuario = new Usuario(),
+        responsavel: Usuario | null = null,
+        historico: LogSolicitacao[] = []
     ) {
-        this.id = 0;
-        this.dataHora = new Date().toISOString();
-        this.descricaoEquipamento = descricaoEquipamento;
-        this.categoriaEquipamento = categoriaEquipamento;
+        this.id = id;
+        this.status = status;
+        this.categoria = categoria;
         this.descricaoDefeito = descricaoDefeito;
-       
-        this.estado = EstadosSolicitacao.NOVA;
-        this.clienteId = clienteId;
-
-        this.valorOrcamento = undefined;
-        this.dataOrcamento = undefined;
-        this.funcionarioOrcamentoId = undefined;
-
-        this.descricaoManutencao = undefined;
-        this.instrucoesCliente = undefined;
-        this.dataManutencao = undefined;
-        this.funcionarioManutencaoId = undefined;
+        this.descricaoEquipamento = descricaoEquipamento;
+        this.dataCriacao = dataCriacao;
+        this.dataArrumado = dataArrumado;
+        this.ativo = ativo;
+        this.orcamento = orcamento;
+        this.usuario = usuario;
+        this.responsavel = responsavel;
+        this.historico = historico;
     }
 }

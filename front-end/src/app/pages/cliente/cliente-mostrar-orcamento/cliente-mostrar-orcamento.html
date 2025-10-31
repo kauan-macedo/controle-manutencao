@@ -5,10 +5,10 @@
     <div class="p-6 bg-gray-100 dark:bg-gray-900 border-b dark:border-gray-700">
       <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Orçamento da Solicitação</h1>
       <p class="text-md text-gray-600 dark:text-gray-400">
-        Solicitado em: {{ solicitacao.dataHora | date:'dd/MM/yyyy \'às\' HH:mm' }}
+        Solicitado em: {{ solicitacao.dataCriacao | date:'dd/MM/yyyy \'às\' HH:mm' }}
       </p>
       <p class="text-md text-gray-600 dark:text-gray-400">
-        Estado: <span class="font-semibold">{{ solicitacao.estado }}</span>
+        Estado: <span class="font-semibold">{{ solicitacao.status }}</span>
       </p>
     </div>
 
@@ -23,7 +23,7 @@
           </div>
           <div>
             <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Categoria</h3>
-            <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.categoriaEquipamento }}</p>
+            <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.categoria }}</p>
           </div>
           <div class="md:col-span-2">
             <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descrição do Defeito</h3>
@@ -53,7 +53,7 @@
       <div>
         <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4 border-b pb-2 dark:border-gray-700">Valor do Orçamento</h2>
         <div class="bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200 p-6 rounded-lg text-center">
-          <p class="text-4xl font-bold">{{ solicitacao.valorOrcamento | currency:'BRL' }}</p>
+          <p class="text-4xl font-bold">{{ solicitacao.orcamento.valor | currency:'BRL' }}</p>
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { Solicitacao } from '../../../models/solicitacao';
 import { ToastService } from '../../../services/toast-service';
 import { CategoriaEquipamentoService } from '../../../services/categoria-equipamento-service';
-import { CategoriaEquipamento } from '../../../models/categoria-equipamento';
+import { Categoria } from '../../../models/categoria-equipamento';
 
 @Component({
   selector: 'app-cliente-criar-solicitacao',
@@ -17,8 +17,8 @@ import { CategoriaEquipamento } from '../../../models/categoria-equipamento';
 export class ClienteCriarSolicitacao implements OnInit {
   @Output() solicitacaoCriada = new EventEmitter<void>();
 
-  solicitacao: Solicitacao = new Solicitacao('', new CategoriaEquipamento(0, ''), '', 0);
-  categorias!: CategoriaEquipamento[];
+  solicitacao: Solicitacao = new Solicitacao() ;
+  categorias!: Categoria[];
 
   constructor(
     private solicitacaoService: SolicitacaoService,
@@ -32,17 +32,17 @@ export class ClienteCriarSolicitacao implements OnInit {
 
   async onSubmit(form: any): Promise<void> {
     if (form.valid) {
-      await this.solicitacaoService.adicionarSolicitacao(this.solicitacao);
+      await this.solicitacaoService.adicionarSolicitacao(this.solicitacao!);
       this.toastService.showSuccess('Solicitação criada com sucesso!');
       this.solicitacaoCriada.emit();
       form.resetForm();
     }
   }
 
-  listarCategorias(): CategoriaEquipamento[] {
-    let cats: CategoriaEquipamento[] = [];
+  listarCategorias(): Categoria[] {
+    let cats: Categoria[] = [];
     this.categoriaService.listarTodas().subscribe({
-      next: (data: CategoriaEquipamento[]) => {
+      next: (data: Categoria[]) => {
         if(data == null){
           cats = []
         } else {

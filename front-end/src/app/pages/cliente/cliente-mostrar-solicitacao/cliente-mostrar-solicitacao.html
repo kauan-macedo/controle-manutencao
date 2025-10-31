@@ -3,27 +3,27 @@
 
     <div class="p-6 bg-gray-100 dark:bg-gray-900 border-b dark:border-gray-700">
       <h1 class="text-3xl font-bold text-gray-800 dark:text-white">{{ solicitacao.descricaoEquipamento }}</h1>
-      <p class="text-md text-gray-600 dark:text-gray-400">Solicitado em: {{ solicitacao.dataHora | date:'dd/MM/yyyy \'às\' HH:mm' }}</p>
+      <p class="text-md text-gray-600 dark:text-gray-400">Solicitado em: {{ solicitacao.dataCriacao | date:'dd/MM/yyyy \'às\' HH:mm' }}</p>
     </div>
 
     <div class="p-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mb-8">
         <div>
           <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status Atual</h3>
-          <p class="text-lg font-medium text-blue-600 dark:text-blue-400">{{ solicitacao.estado }}</p>
+          <p class="text-lg font-medium text-blue-600 dark:text-blue-400">{{ solicitacao.status }}</p>
         </div>
         <div>
           <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Categoria</h3>
-          <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.categoriaEquipamento.descricao }}</p>
+          <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.categoria.descricao }}</p>
         </div>
         <div class="md:col-span-2">
           <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descrição do Defeito</h3>
           <p class="text-lg text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-700 p-3 rounded-md mt-1">{{ solicitacao.descricaoDefeito }}</p>
         </div>
 
-        <div *ngIf="solicitacao.valorOrcamento">
+        <div *ngIf="solicitacao.orcamento">
           <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor Orçado</h3>
-          <p class="text-xl font-bold text-green-700 dark:text-green-400">{{ solicitacao.valorOrcamento | currency:'BRL' }}</p>
+          <p class="text-xl font-bold text-green-700 dark:text-green-400">{{ solicitacao.orcamento.valor | currency:'BRL' }}</p>
         </div>
       </div>
 
@@ -38,14 +38,14 @@
               <svg class="h-3 w-3 text-white fill-current"  viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path></svg>
             </span>
 
-            <div class="ml-2">
-              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ solicitacao.estado }}</h3>
+            <div *ngFor="let log of solicitacao.historico" class="ml-2">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ traduzirEstado(log.novoStatus) }}</h3>
               <time class="block mb-2 text-sm font-normal leading-none text-gray-500 dark:text-gray-400">
-                {{ solicitacao.dataHora | date:'dd/MM/yyyy \'às\' HH:mm' }}
+                {{ log.data }}
               </time>
               <p class="text-base font-normal text-gray-600 dark:text-gray-300">{{ solicitacao.descricaoDefeito }}</p>
-              <p *ngIf="solicitacao.funcionarioManutencaoId" class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                Realizado por: <span class="font-medium">{{ solicitacao.funcionarioManutencaoId }}</span>
+              <p *ngIf="log.agente" class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                Realizado por: <span class="font-medium">{{ log.agente.nome }}</span>
               </p>
             </div>
           </div>
@@ -56,17 +56,17 @@
 
     <div class="p-6 bg-gray-50 dark:bg-gray-900 border-t dark:border-gray-700 flex justify-between items-center">
     <div class="flex gap-3">
-      <div *ngIf="solicitacao.estado === 'ORCADA'">
+      <div *ngIf="solicitacao.status == 1">
         <button class="px-6 py-2.5 bg-yellow-600 dark:bg-yellow-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-700 dark:hover:bg-yellow-800 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-800 dark:active:bg-yellow-900 transition duration-150 ease-in-out mr-2">
           Aprovar/Rejeitar Serviço
         </button>
       </div>
 
-      <button *ngIf="solicitacao.estado === 'ARRUMADA'" class="px-6 py-2.5 bg-green-600 dark:bg-green-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 dark:hover:bg-green-800 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 dark:active:bg-green-900 transition duration-150 ease-in-out">
+      <button *ngIf="solicitacao.status == 6" class="px-6 py-2.5 bg-green-600 dark:bg-green-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 dark:hover:bg-green-800 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 dark:active:bg-green-900 transition duration-150 ease-in-out">
         Pagar Serviço
       </button>
 
-      <button *ngIf="solicitacao.estado === 'REJEITADA'" class="px-6 py-2.5 bg-stone-600 dark:bg-stone-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-stone-700 dark:hover:bg-stone-800 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-stone-800 dark:active:bg-stone-900 transition duration-150 ease-in-out">
+      <button *ngIf="solicitacao.status == 4" class="px-6 py-2.5 bg-stone-600 dark:bg-stone-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-stone-700 dark:hover:bg-stone-800 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-stone-800 dark:active:bg-stone-900 transition duration-150 ease-in-out">
         Resgatar Serviço
       </button>
     </div>

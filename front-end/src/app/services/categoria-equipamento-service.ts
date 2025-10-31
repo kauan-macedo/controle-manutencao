@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CategoriaEquipamento } from '../models/categoria-equipamento';
+import { Categoria } from '../models/categoria-equipamento';
 import { atualizarCategoria, buscaCategoria, buscarCategorias, novaCategoria } from '../../api/categoria';
-import { APIResponse } from '../../api/api';
-import { Observable } from 'rxjs';
+import { API_URL, APIResponse } from '../../api/api';
+import { map, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 const LS_KEY = "categoriasEquipamento";
@@ -13,8 +13,6 @@ const LS_KEY = "categoriasEquipamento";
 
 export class CategoriaEquipamentoService {
 
-  private BASE_URL = "https://controlemanutencao.betoni.dev/categoria";
-  
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -25,11 +23,13 @@ export class CategoriaEquipamentoService {
   constructor(private httpClient: HttpClient){}
   
   // Observable
-  listarTodas(): Observable<CategoriaEquipamento[]> {
-    return this.httpClient.get<CategoriaEquipamento[]>(
-      this.BASE_URL,
+  listarTodas(): Observable<Categoria[]> {
+    return this.httpClient.get<APIResponse<Categoria[]>>(
+      API_URL,
       this.httpOptions
-    )
+    ).pipe(
+      map((res) => res.body)
+    );
   }
   
   /* PROMISE
@@ -43,11 +43,13 @@ export class CategoriaEquipamentoService {
   */
 
   // Observable
-  inserir(categoria: CategoriaEquipamento): Observable<CategoriaEquipamento> {
-    return this.httpClient.post<CategoriaEquipamento>(
-      this.BASE_URL,
+  inserir(categoria: Categoria): Observable<any> {
+    return this.httpClient.post<APIResponse<any>>(
+      API_URL,
       JSON.stringify(categoria),
       this.httpOptions
+    ).pipe(
+      map((res) => res.body)
     )
   }
 
@@ -62,10 +64,12 @@ export class CategoriaEquipamentoService {
   */  
 
   // Observable
-  buscarPorId(id: number): Observable<CategoriaEquipamento>{
-    return this.httpClient.get<CategoriaEquipamento>(
-      this.BASE_URL + "/" + id,
+  buscarPorId(id: number): Observable<Categoria>{
+    return this.httpClient.get<APIResponse<Categoria>>(
+      API_URL + "/" + id,
       this.httpOptions
+    ).pipe(
+      map((res) => res.body)
     )
   }
 
@@ -80,10 +84,12 @@ export class CategoriaEquipamentoService {
   */
 
   // Observable
-  atualizar(id: number, desc: string): Observable<CategoriaEquipamento>{
-    return this.httpClient.put<CategoriaEquipamento>(
-      this.BASE_URL + "/" + id,
+  atualizar(id: number, desc: string): Observable<any>{
+    return this.httpClient.put<APIResponse<Categoria>>(
+      API_URL + "/" + id,
       this.httpOptions
+    ).pipe(
+      map((res) => res.body)
     )
   }
 
@@ -98,9 +104,9 @@ export class CategoriaEquipamentoService {
   */
 
   // Observable
-  remover(id: number): Observable<CategoriaEquipamento>{
-    return this.httpClient.delete<CategoriaEquipamento>(
-      this.BASE_URL + "/" + id,
+  remover(id: number) {
+    return this.httpClient.delete(
+      API_URL + "/" + id,
       this.httpOptions
     )
   }

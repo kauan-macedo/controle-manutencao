@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { Solicitacao } from '../../../models/solicitacao';
-import { CategoriaEquipamento } from '../../../models/categoria-equipamento';
+import { Categoria } from '../../../models/categoria-equipamento';
+import { EstadosSolicitacao, translateEstado } from '../../../models/enums/estados-solicitacao';
 
 @Component({
   selector: 'app-cliente-mostrar-solicitacao',
@@ -40,9 +41,13 @@ export class ClienteMostrarSolicitacao implements OnInit {
     this.cdr.detectChanges();
   }
 
+  traduzirEstado(estd: EstadosSolicitacao): string {
+    return translateEstado(estd);
+  }
+
   //Observer
-  buscarPorId(id: number): Solicitacao{
-    let sol: Solicitacao = new Solicitacao("", new CategoriaEquipamento(0, ""), "", 0);
+  buscarPorId(id: number): Solicitacao | null{
+    let sol: Solicitacao | null = null;
     const resp = this.solicitacaoService.buscarPorId(id).subscribe({
       next: (data) => {
         if (data == null){

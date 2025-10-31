@@ -44,10 +44,10 @@ export class FuncionarioEfetuarManutencao implements OnInit{
     );
 
     if (this.solicitacao && todosOsUsuarios) {
-        this.solicitacao.dataHora = new Date(this.solicitacao.dataHora).toISOString();
+        this.solicitacao.dataCriacao = new Date(this.solicitacao.dataCriacao).toISOString();
 
         this.cliente = todosOsUsuarios.find(
-            (u: any) => u.id === this.solicitacao?.clienteId
+            (u: any) => u.id === this.solicitacao?.usuario.id
         );
     }
   }

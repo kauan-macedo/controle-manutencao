@@ -9,12 +9,12 @@ export class Usuario {
   endereco: Endereco;
 
   constructor(
-    nome: string,
-    cpf: string,
-    tipoUsuario: string,
-    email: string,
-    telefone: string,
-    endereco: Endereco
+    nome: string = "",
+    cpf: string = "",
+    tipoUsuario: string = "",
+    email: string = "",
+    telefone: string = "",
+    endereco: Endereco = {bairro: "", cep: "", cidade: "", estado: "", logradouro:"", numero:""}
   ) {
     this.id = 0;
     this.nome = nome;
