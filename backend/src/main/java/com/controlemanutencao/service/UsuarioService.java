@@ -122,7 +122,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void autocadastro(AutoCadastroRequest in) throws RuntimeException {
+    public Usuario autocadastro(AutoCadastroRequest in) throws RuntimeException {
 
         if(repository.existsByEmail(in.email())) {
             throw new EmailAlreadyTakenException();
@@ -159,6 +159,8 @@ public class UsuarioService {
         } catch (Exception e) {
             throw new RuntimeException("Erro ao enviar email", e);
         }
+
+        return usuario;
 
     }
 

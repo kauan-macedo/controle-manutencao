@@ -13,16 +13,10 @@ public class UsuarioDTO {
     private EnderecoDTO endereco;
 
     public static UsuarioDTO from(Usuario user) {
-
-        EnderecoDTO enderecoDTO = new EnderecoDTO(
-                user.getRua(),
-                user.getCEP(),
-                user.getBairro(),
-                user.getCidade(),
-                user.getEstado(),
-                user.getNumero()
-        );
-
+        if(user == null) {
+            return null;
+        }
+        EnderecoDTO enderecoDTO = new EnderecoDTO(user.getRua(), user.getCEP(), user.getBairro(), user.getCidade(), user.getEstado(), user.getNumero());
         return new UsuarioDTO(user.getId(), user.getNome(), user.getCPF(), user.getTipoUsuario().name(), user.getEmail(), user.getTelefone(), enderecoDTO);
 
     }

@@ -118,4 +118,8 @@ public class SolicitacaoService {
         ).toList();
     }
 
+    public List<LogSolicitacao> findLogs(Solicitacao s) {
+        return logRepository.findBySolicitacao(s);
+    }
+
 }

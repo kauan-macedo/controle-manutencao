@@ -36,6 +36,10 @@ public class Categoria {
         return descricao;
     }
 
+    public boolean isAtivo() {
+        return ativo;
+    }
+
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }

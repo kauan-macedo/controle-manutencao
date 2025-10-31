@@ -108,6 +108,14 @@ public class Solicitacao {
         return categoria;
     }
 
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public Usuario getResponsavel() {
+        return responsavel;
+    }
+
     public void setDescricaoDefeito(String descricaoDefeito) {
         this.descricaoDefeito = descricaoDefeito;
     }

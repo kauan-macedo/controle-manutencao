@@ -10,7 +10,7 @@ public class LogSolicitacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "IdOrcamento", columnDefinition="INT")
+    @Column(name = "IdLogSolicitacao", columnDefinition="INT")
     private Long id;
 
     @OneToOne
@@ -33,10 +33,36 @@ public class LogSolicitacao {
     private Long data;
 
 
-    public LogSolicitacao(Solicitacao s, StatusSolicitacao statusAnterior, StatusSolicitacao novoStatus, Long data) {
+    public LogSolicitacao(Long id, Solicitacao s, StatusSolicitacao statusAnterior, Usuario agente, StatusSolicitacao novoStatus, Long data) {
         this.statusAnterior = statusAnterior;
+        this.id = id;
+        this.agente = agente;
         this.novoStatus = novoStatus;
         this.data = data;
-        this. solicitacao = s;
+        this.solicitacao = s;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Solicitacao getSolicitacao() {
+        return solicitacao;
+    }
+
+    public Usuario getAgente() {
+        return agente;
+    }
+
+    public StatusSolicitacao getStatusAnterior() {
+        return statusAnterior;
+    }
+
+    public StatusSolicitacao getNovoStatus() {
+        return novoStatus;
+    }
+
+    public Long getData() {
+        return data;
     }
 }

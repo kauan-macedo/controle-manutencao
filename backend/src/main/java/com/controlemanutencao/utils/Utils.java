@@ -1,8 +1,6 @@
 package com.controlemanutencao.utils;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Consumer;
 
@@ -17,6 +15,17 @@ public class Utils {
         if(o != null) {
             c.accept(o);
         }
+    }
+
+    public static String parseMillis(Long millis) {
+        if(millis == null) {
+            return null;
+        }
+        Instant instant = Instant.ofEpochMilli(millis);
+        ZoneId zoneUTC3 = ZoneId.of("Etc/GMT+3");
+        ZonedDateTime zonedDateTime = instant.atZone(zoneUTC3);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return zonedDateTime.format(formatter);
     }
 
     public static boolean isFuture(String date) {

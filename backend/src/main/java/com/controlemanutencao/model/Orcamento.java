@@ -30,6 +30,10 @@ public class Orcamento {
         this.dataCriacao = dataCriacao;
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
     public Long getId() {
         return id;
     }

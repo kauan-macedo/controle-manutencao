@@ -1,5 +1,6 @@
 package com.controlemanutencao.controller;
 
+import com.controlemanutencao.dto.SolicitacaoDTO;
 import com.controlemanutencao.model.*;
 import com.controlemanutencao.model.enums.StatusSolicitacao;
 import com.controlemanutencao.model.enums.TipoUsuario;
@@ -37,31 +38,42 @@ public class SolicitacaoController {
     }
 
     @GetMapping
-    public Response<List<Solicitacao>> listar(
+    public Response<List<SolicitacaoDTO>> listar(
             @RequestParam("de") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate dataDe,
             @RequestParam("ate") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate dataAte,
             @RequestParam("page") int pagina,
             @AuthenticationPrincipal Usuario usuario) {
-
-        List<Solicitacao> solicitacoes = service.find(usuario, dataDe, dataAte, pagina);
-        return new Response<>(200, "", solicitacoes);
+        List<SolicitacaoDTO> solicitacoes = new ArrayList<>();
+        for (Solicitacao s : service.find(usuario, dataDe, dataAte, pagina)) {
+            List<LogSolicitacao> logs = service.findLogs(s);
+            solicitacoes.add(SolicitacaoDTO.from(s, logs));
+        }
+        return new Response<>(HttpStatus.OK.value(), "", solicitacoes);
     }
 
     @GetMapping("/{id}")
-    public Response<Solicitacao> buscarPorID(@PathVariable("id") Long id, @AuthenticationPrincipal Usuario usuario) {
+    public Response<SolicitacaoDTO> buscarPorID(@PathVariable("id") Long id, @AuthenticationPrincipal Usuario usuario) {
         Optional<Solicitacao> solicitacoes = service.findById(usuario, id);
-        return new Response<>(solicitacoes.isPresent() ? 200 : 404, "", solicitacoes.orElse(null));
+        if(solicitacoes.isEmpty()) {
+            return new Response<>(
+                    HttpStatus.BAD_REQUEST.value(),
+                    "Solicitação inexistente.",
+                    null
+            );
+        }
+        List<LogSolicitacao> logs = service.findLogs(solicitacoes.get());
+        return new Response<>(HttpStatus.OK.value(), "", SolicitacaoDTO.from(solicitacoes.orElse(null), logs));
     }
 
     @PostMapping
-    public ResponseEntity<Response<?>> novaSolicitacao(@RequestBody NovaSolicitacaoRequest req, @AuthenticationPrincipal Usuario usuario) {
+    public Response<?> novaSolicitacao(@RequestBody NovaSolicitacaoRequest req, @AuthenticationPrincipal Usuario usuario) {
         Optional<Categoria> optCat = catService.findById((long) req.categoriaId());
         if(optCat.isEmpty()) {
-            return ResponseEntity.ofNullable(new Response<>(
+            return new Response<>(
                     HttpStatus.BAD_REQUEST.value(),
                     "Categoria de equipamento desconhecida.",
                     null
-            ));
+            );
         }
         Solicitacao s = new Solicitacao(
                 null,
@@ -74,27 +86,27 @@ public class SolicitacaoController {
                 usuario,
                 optCat.get(), true);
         service.novaSolicitacao(s);
-        return ResponseEntity.ofNullable(new Response<>(HttpStatus.OK.value(), "Solicitação criada com sucesso!", null));
+        return new Response<>(HttpStatus.OK.value(), "Solicitação criada com sucesso!", null);
     }
 
     @PostMapping("/orcamento/{id}")
-    public ResponseEntity<Response<?>> enviarOrcamento(@PathVariable("id") Long solicitacaoId, @RequestBody EnviarOrcamentoRequest orcamento, @AuthenticationPrincipal Usuario usuario) {
+    public Response<?> enviarOrcamento(@PathVariable("id") Long solicitacaoId, @RequestBody EnviarOrcamentoRequest orcamento, @AuthenticationPrincipal Usuario usuario) {
         Optional<Solicitacao> solicitacao = service.findById(usuario, solicitacaoId);
         if(solicitacao.isEmpty()) {
-            return ResponseEntity.ofNullable(new Response<>(HttpStatus.BAD_REQUEST.value(), "Solicitação não encontrada!", null));
+            return new Response<>(HttpStatus.BAD_REQUEST.value(), "Solicitação não encontrada!", null);
         }
         service.orcarServico(solicitacao.get(), orcamento.descricao(), orcamento.valor(), usuario);
-        return ResponseEntity.ofNullable(new Response<>(HttpStatus.OK.value(), "Orçamento enviado com sucesso!", null));
+        return new Response<>(HttpStatus.OK.value(), "Orçamento enviado com sucesso!", null);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Response<?>> atualizarSolicitacao(@PathVariable("id") Long solicitacaoId, @RequestBody AtualizarSolicitacaoRequest req, @AuthenticationPrincipal Usuario usuario) {
+    public Response<?> atualizarSolicitacao(@PathVariable("id") Long solicitacaoId, @RequestBody AtualizarSolicitacaoRequest req, @AuthenticationPrincipal Usuario usuario) {
         Optional<Solicitacao> solicitacao = service.findById(usuario, solicitacaoId);
         if(solicitacao.isEmpty()) {
-            return ResponseEntity.ofNullable(new Response<>(HttpStatus.BAD_REQUEST.value(), "Solicitação não encontrada!", null));
+            return new Response<>(HttpStatus.BAD_REQUEST.value(), "Solicitação não encontrada!", null);
         }
         service.atualizarSolicitacao(usuario, solicitacao.get(), req.descricaoDefeito(), req.descricaoEquipamento(), req.dthArrumado(), req.responsavelId(), req.categoriaId(), req.status());
-        return ResponseEntity.ofNullable(new Response<>(HttpStatus.OK.value(), "Orçamento enviado com sucesso!", null));
+        return new Response<>(HttpStatus.OK.value(), "Orçamento enviado com sucesso!", null);
     }
 
 }

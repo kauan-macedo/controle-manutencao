@@ -59,13 +59,14 @@ public class AuthController {
     @PostMapping("/autocadastro")
     public Response<UsuarioDTO> register(@RequestBody @Validated AutoCadastroRequest in, HttpServletResponse response) {
 
+        Usuario u;
         try {
-            usuarioService.autocadastro(in);
+            u = usuarioService.autocadastro(in);
         } catch (RuntimeException ex) {
             throw ex;
         }
 
-        String token = jwtService.generateToken(usuario);
+        String token = jwtService.generateToken(u);
         Cookie cookie = new Cookie("JWT_TOKEN", token);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
@@ -73,7 +74,7 @@ public class AuthController {
         cookie.setMaxAge((int) Duration.ofDays(3).toSeconds());
         response.addCookie(cookie);
 
-        return new Response<>(HttpStatus.OK.value(), "Cadastrado com sucesso! A senha foi enviada para seu e-mail.", UsuarioDTO.from(usuario));
+        return new Response<>(HttpStatus.OK.value(), "Cadastrado com sucesso! A senha foi enviada para seu e-mail.", UsuarioDTO.from(u));
     }
 
 
