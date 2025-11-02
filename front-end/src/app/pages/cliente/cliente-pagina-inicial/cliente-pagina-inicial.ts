@@ -37,7 +37,7 @@ export class ClientePaginaInicial implements OnInit {
     this.solicitacaoService.buscarTodas().subscribe({
       next: (solicitacoes) => {
         this.minhasSolicitacoes = solicitacoes;
-        this.cdr.detectChanges(); // 👈 força atualização do template
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Erro ao carregar solicitações:', error);

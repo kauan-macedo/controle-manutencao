@@ -28,14 +28,8 @@ export class ClienteMostrarSolicitacao implements OnInit {
     }
 
     const idNumerico = +idDaUrl;
-    //chamando a funcao do solicitacaoservice
     
-    this.solicitacao = this.buscarPorId(idNumerico);
-
-    //Promise
-    //this.solicitacao = await this.solicitacaoService.buscarPorId(idNumerico, (errorMsg) => {
-    //  console.error('Erro ao buscar solicitação:', errorMsg);
-    //});
+    this.buscarPorId(idNumerico);
 
     //garantindo que o template vai ser carregado quando a requisicao for feita
     this.cdr.detectChanges();
@@ -46,18 +40,15 @@ export class ClienteMostrarSolicitacao implements OnInit {
   }
 
   //Observer
-  buscarPorId(id: number): Solicitacao | null{
-    let sol: Solicitacao | null = null;
-    const resp = this.solicitacaoService.buscarPorId(id).subscribe({
+  buscarPorId(id: number): void {
+    this.solicitacaoService.buscarPorId(id).subscribe({
       next: (data) => {
-        if (data == null){
-          console.log("ID inexistente")
-        }else{
-          sol = data;
-        }
-      }
+        this.solicitacao = data;
+        this.cdr.detectChanges(); 
+      },
+      error: (error) => {
+        console.error('Erro ao carregar solicitações:', error);
+      },
     });
-    
-    return sol;
   }
 }
