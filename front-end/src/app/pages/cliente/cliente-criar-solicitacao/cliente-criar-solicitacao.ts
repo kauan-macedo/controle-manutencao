@@ -32,10 +32,15 @@ export class ClienteCriarSolicitacao implements OnInit {
 
   async onSubmit(form: any): Promise<void> {
     if (form.valid) {
-      await this.solicitacaoService.adicionarSolicitacao(this.solicitacao!);
-      this.toastService.showSuccess('Solicitação criada com sucesso!');
-      this.solicitacaoCriada.emit();
-      form.resetForm();
+      this.solicitacaoService.adicionarSolicitacao(this.solicitacao!).subscribe(res => {
+        if(!res.error) {
+          this.toastService.showSuccess('Solicitação criada com sucesso!');
+          this.solicitacaoCriada.emit();
+          form.resetForm();
+        } else {
+          this.toastService.showError(res.message);
+        }
+      });
     }
   }
 

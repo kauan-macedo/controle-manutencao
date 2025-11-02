@@ -21,7 +21,7 @@ export class ClientePaginaInicial implements OnInit {
 
   exibirModal: boolean = false;
   minhasSolicitacoes: Solicitacao[] = [];
- 
+
 
   constructor(
     private solicitacaoService: SolicitacaoService,
@@ -34,13 +34,12 @@ export class ClientePaginaInicial implements OnInit {
     this.minhasSolicitacoes = await this.solicitacaoService.listarTodas((msg) => {
       this.toastService.showError(msg);
     });
-    //garantindo que as solicitacoes serao mostradas
     this.cdr.detectChanges();
   }
-  
+
   ngOnInit(): void {
     this.carregarSolicitacoes();
-  }   
+  }
 
   abrirModal(): void {
     this.exibirModal = true;
