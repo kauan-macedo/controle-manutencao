@@ -7,6 +7,7 @@ import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { ToastComponent } from '../../../shared/toast-component/toast-component';
 import { ToastService } from '../../../services/toast-service';
 import { EstadosSolicitacao, translateEstado ,} from '../../../models/enums/estados-solicitacao';
+import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
 
 @Component({
   selector: 'app-cliente-pagina-inicial',
@@ -15,6 +16,7 @@ import { EstadosSolicitacao, translateEstado ,} from '../../../models/enums/esta
     CommonModule,
     RouterModule,
     ToastComponent,
+    SpinnerComponent
   ],
   templateUrl: './cliente-pagina-inicial.html',
   styleUrl: './cliente-pagina-inicial.css',
@@ -22,14 +24,18 @@ import { EstadosSolicitacao, translateEstado ,} from '../../../models/enums/esta
 export class ClientePaginaInicial implements OnInit {
   exibirModal: boolean = false;
   minhasSolicitacoes: Solicitacao[] = [];
+  //variavel para exibir o componente de loading
+  isLoading: boolean = false;
 
   constructor(private solicitacaoService: SolicitacaoService, private toastService: ToastService, private cdr: ChangeDetectorRef) {}
 
   //deixando essa funcao fora do ngoninit para poder chamar ela ao fechar o modal
   carregarSolicitacoes(): void {
+    this.isLoading = true;
     this.solicitacaoService.buscarTodas().subscribe({
       next: (solicitacoes) => {
         this.minhasSolicitacoes = solicitacoes;
+        this.isLoading = false;
         this.cdr.detectChanges();
       },
       error: (error) => {

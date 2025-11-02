@@ -57,6 +57,15 @@
             <th class="px-6 py-4 text-left w-1/6">Ações</th>
           </tr>
         </thead>
+        @if (isLoading) {
+          <tbody>
+            <tr>
+              <td colspan="6">
+                <app-spinner></app-spinner>
+              </td>
+            </tr>
+          </tbody>
+        } @else {
         <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
           
           @for (solicitacao of solicitacoesFiltradas; track solicitacao.id) {
@@ -110,6 +119,7 @@
           }
           
         </tbody>
+      }
       </table>
     </div>
   </div>

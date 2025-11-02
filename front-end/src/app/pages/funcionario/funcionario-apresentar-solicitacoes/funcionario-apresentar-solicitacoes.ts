@@ -6,11 +6,12 @@ import { Solicitacao } from '../../../models/solicitacao';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { ToastService } from '../../../services/toast-service';
 import { EstadosSolicitacao } from '../../../models/enums/estados-solicitacao';
+import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
 
 @Component({
   selector: 'app-funcionario-apresentar-solicitacoes',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, SpinnerComponent],
   templateUrl: './funcionario-apresentar-solicitacoes.html',
   styleUrl: './funcionario-apresentar-solicitacoes.css'
 })
@@ -25,6 +26,7 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
 
   solicitacoes: Solicitacao[] = [];
   solicitacoesFiltradas: Solicitacao[] = [];
+  isLoading: boolean = false;
 
 
   constructor(private solicitacaoService: SolicitacaoService, private toastService: ToastService, private cdr: ChangeDetectorRef) {
@@ -35,11 +37,13 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
   }
   
  carregarSolicitacoes(): void {
+  this.isLoading = true;
     this.solicitacaoService.buscarTodas().subscribe({
       next: (solicitacoes) => {
         
         //aqui deveria ser this.solicitacoes = solicitacoes, para depois filtrar, mas por hora vou deixar assim pra não ter que mudar o template
         this.solicitacoesFiltradas = solicitacoes;
+        this.isLoading = false;
         this.cdr.detectChanges();
       },
       error: (error) => {
