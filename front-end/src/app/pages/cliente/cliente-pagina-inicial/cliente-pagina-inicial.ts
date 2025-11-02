@@ -6,10 +6,7 @@ import { Solicitacao } from '../../../models/solicitacao';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { ToastComponent } from '../../../shared/toast-component/toast-component';
 import { ToastService } from '../../../services/toast-service';
-import {
-  EstadosSolicitacao,
-  translateEstado,
-} from '../../../models/enums/estados-solicitacao';
+import { EstadosSolicitacao, translateEstado ,} from '../../../models/enums/estados-solicitacao';
 
 @Component({
   selector: 'app-cliente-pagina-inicial',
@@ -26,11 +23,7 @@ export class ClientePaginaInicial implements OnInit {
   exibirModal: boolean = false;
   minhasSolicitacoes: Solicitacao[] = [];
 
-  constructor(
-    private solicitacaoService: SolicitacaoService,
-    private toastService: ToastService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private solicitacaoService: SolicitacaoService, private toastService: ToastService, private cdr: ChangeDetectorRef) {}
 
   //deixando essa funcao fora do ngoninit para poder chamar ela ao fechar o modal
   carregarSolicitacoes(): void {

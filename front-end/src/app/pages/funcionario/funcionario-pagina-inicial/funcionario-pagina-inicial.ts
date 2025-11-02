@@ -27,9 +27,17 @@ export class FuncionarioPaginaInicial implements OnInit {
 
   constructor(private solicitacaoService: SolicitacaoService, private toastService: ToastService, private cdr: ChangeDetectorRef) {}
 
-  async carregarSolicitacoes(): Promise<void> {
-   
-    this.cdr.detectChanges();
+  carregarSolicitacoes(): void {
+    this.solicitacaoService.buscarTodas().subscribe({
+      next: (solicitacoes) => {
+        this.solicitacoesAbertas = solicitacoes;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Erro ao carregar solicitações:', error);
+        this.toastService.showError('Erro ao carregar solicitações.');
+      },
+    });
   }
 
   ngOnInit(): void {
