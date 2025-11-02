@@ -27,7 +27,7 @@ export class ClienteCriarSolicitacao implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.categorias = this.listarCategorias();
+    this.listarCategorias((categorias) => this.categorias = categorias);
   }
 
   async onSubmit(form: any): Promise<void> {
@@ -39,19 +39,11 @@ export class ClienteCriarSolicitacao implements OnInit {
     }
   }
 
-  listarCategorias(): Categoria[] {
-    let cats: Categoria[] = [];
+  listarCategorias(then: (v: Categoria[]) => void) {
     this.categoriaService.listarTodas().subscribe({
       next: (data: Categoria[]) => {
-        if(data == null){
-          cats = []
-        } else {
-          cats = data;
-          console.log("Cats recebeu data")
-        }
+        then(data);
       }
     });
-    console.log("Cats foi retornado")
-    return cats;
   }
 }

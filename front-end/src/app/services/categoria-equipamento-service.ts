@@ -19,19 +19,19 @@ export class CategoriaEquipamentoService {
     }),
     withCredentials: true
   }
-  
+
   constructor(private httpClient: HttpClient){}
-  
+
   // Observable
   listarTodas(): Observable<Categoria[]> {
     return this.httpClient.get<APIResponse<Categoria[]>>(
-      API_URL,
+      API_URL + "/categoria",
       this.httpOptions
     ).pipe(
       map((res) => res.body)
     );
   }
-  
+
   /* PROMISE
   async listarTodas(onError?: (msg: string) => void): Promise<CategoriaEquipamento[]> {
     let resp = await buscarCategorias();
@@ -45,7 +45,7 @@ export class CategoriaEquipamentoService {
   // Observable
   inserir(categoria: Categoria): Observable<any> {
     return this.httpClient.post<APIResponse<any>>(
-      API_URL,
+      API_URL + "/categoria",
       JSON.stringify(categoria),
       this.httpOptions
     ).pipe(
@@ -61,12 +61,12 @@ export class CategoriaEquipamentoService {
     }
     return resp.body
   };
-  */  
+  */
 
   // Observable
   buscarPorId(id: number): Observable<Categoria>{
     return this.httpClient.get<APIResponse<Categoria>>(
-      API_URL + "/" + id,
+      API_URL + "/categoria/" + id,
       this.httpOptions
     ).pipe(
       map((res) => res.body)
@@ -86,7 +86,7 @@ export class CategoriaEquipamentoService {
   // Observable
   atualizar(id: number, desc: string): Observable<any>{
     return this.httpClient.put<APIResponse<Categoria>>(
-      API_URL + "/" + id,
+      API_URL + "/categoria/" + id,
       this.httpOptions
     ).pipe(
       map((res) => res.body)
@@ -106,7 +106,7 @@ export class CategoriaEquipamentoService {
   // Observable
   remover(id: number) {
     return this.httpClient.delete(
-      API_URL + "/" + id,
+      API_URL + "/categoria/" + id,
       this.httpOptions
     )
   }
