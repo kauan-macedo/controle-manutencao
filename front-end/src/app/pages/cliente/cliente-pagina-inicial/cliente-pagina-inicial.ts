@@ -6,22 +6,25 @@ import { Solicitacao } from '../../../models/solicitacao';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { ToastComponent } from '../../../shared/toast-component/toast-component';
 import { ToastService } from '../../../services/toast-service';
-import { EstadosSolicitacao, translateEstado } from '../../../models/enums/estados-solicitacao';
-
-
+import {
+  EstadosSolicitacao,
+  translateEstado,
+} from '../../../models/enums/estados-solicitacao';
 
 @Component({
   selector: 'app-cliente-pagina-inicial',
-  imports: [ ClienteCriarSolicitacao, CommonModule, RouterModule, ToastComponent],
+  imports: [
+    ClienteCriarSolicitacao,
+    CommonModule,
+    RouterModule,
+    ToastComponent,
+  ],
   templateUrl: './cliente-pagina-inicial.html',
-  styleUrl: './cliente-pagina-inicial.css'
+  styleUrl: './cliente-pagina-inicial.css',
 })
-
 export class ClientePaginaInicial implements OnInit {
-
   exibirModal: boolean = false;
   minhasSolicitacoes: Solicitacao[] = [];
-
 
   constructor(
     private solicitacaoService: SolicitacaoService,
@@ -30,11 +33,17 @@ export class ClientePaginaInicial implements OnInit {
   ) {}
 
   //deixando essa funcao fora do ngoninit para poder chamar ela ao fechar o modal
-  async carregarSolicitacoes(): Promise<void> {
-    this.minhasSolicitacoes = await this.solicitacaoService.listarTodas((msg) => {
-      this.toastService.showError(msg);
+  carregarSolicitacoes(): void {
+    this.solicitacaoService.buscarTodas().subscribe({
+      next: (solicitacoes) => {
+        this.minhasSolicitacoes = solicitacoes;
+        this.cdr.detectChanges(); // 👈 força atualização do template
+      },
+      error: (error) => {
+        console.error('Erro ao carregar solicitações:', error);
+        this.toastService.showError('Erro ao carregar solicitações.');
+      },
     });
-    this.cdr.detectChanges();
   }
 
   ngOnInit(): void {

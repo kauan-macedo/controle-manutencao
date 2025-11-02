@@ -27,16 +27,23 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
   solicitacoesFiltradas: Solicitacao[] = [];
 
 
-  constructor(private solicitacoesService: SolicitacaoService, private toastService: ToastService, private cdr: ChangeDetectorRef) {
+  constructor(private solicitacaoService: SolicitacaoService, private toastService: ToastService, private cdr: ChangeDetectorRef) {
   }
 
-  async ngOnInit(): Promise<void> {
-    this.solicitacoes = await this.solicitacoesService.listarTodas((msg) => {
-      // TODO: mostrar erro para o usuario
-      this.toastService.showError(msg);
+   ngOnInit(): void {
+    this.carregarSolicitacoes();
+  }
+  
+  carregarSolicitacoes(): void {
+    this.solicitacaoService.buscarTodas().subscribe({
+      next: (solicitacoes) => {
+        this.solicitacoes = solicitacoes;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar solicitações:', error);
+        this.toastService.showError('Erro ao carregar solicitações.');
+      }
     });
-    this.aplicarFiltro();
-    this.cdr.detectChanges();
   }
 
   aplicarFiltro() {

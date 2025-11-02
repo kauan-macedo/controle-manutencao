@@ -28,15 +28,7 @@ export class FuncionarioPaginaInicial implements OnInit {
   constructor(private solicitacaoService: SolicitacaoService, private toastService: ToastService, private cdr: ChangeDetectorRef) {}
 
   async carregarSolicitacoes(): Promise<void> {
-    const todas = await this.solicitacaoService.listarTodas((msg) => {
-      this.toastService.showError(msg);
-    });
    
-
-    // filtrando as solicitacoes para novas aqui no front mesmo e pronto
-    this.solicitacoesAbertas = todas.filter(s => s.status === EstadosSolicitacao.NOVA);
-
-    //garantindo que as solicitacoes serao mostradas
     this.cdr.detectChanges();
   }
 
