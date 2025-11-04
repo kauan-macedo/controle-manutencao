@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @RestController
@@ -40,5 +41,21 @@ public class RelatorioController {
                 .map(entry -> new RelatorioReceitaDTO(entry.getKey(), entry.getValue()))
                 .sorted((d1, d2) -> d1.data().compareTo(d2.data()))
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/receitasCategoria")
+    public List<RelatorioReceitaDTO> getRelatorioReceitasCategoria(){
+        List<Solicitacao> solicitacoes = solicitacaoRepository.findAll();
+
+        Map<Categoria, BigDecimal> receitasPorCategoria = solicitacoes.stream()
+            .filter(solicitacao -> solicitacao.getOrcamento() != null && solicitacao.getCategoria() != null)
+            .collect(Collectors.groupingBy(
+                solicitacao -> solicitacao.getCategoria(),
+                Collectors.reducing(BigDecimal.ZERO, solicitacao -> BigDecimal.valueOf(solicitacao.getOrcamento().getValor()), BigDecimal::add)
+        ));
+
+        return receitasPorCategoria.entrySet().stream()
+            .map(entry -> new RelatorioReceitaDTO(entry.getKey(), entry.getValue()))
+            .collect(Collectors.toList());
     }
 }

@@ -12,7 +12,6 @@ import { SolicitacaoService } from '../../../services/solicitacao-service';
   imports: [
     DatePipe,
     CurrencyPipe,
-    NgIf,
     ClienteAprovarServico,
     ClienteRejeitarServico
   ],
