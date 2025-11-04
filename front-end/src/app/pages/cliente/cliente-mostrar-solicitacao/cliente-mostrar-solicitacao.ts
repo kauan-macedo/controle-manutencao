@@ -5,16 +5,18 @@ import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { Solicitacao } from '../../../models/solicitacao';
 import { Categoria } from '../../../models/categoria-equipamento';
 import { EstadosSolicitacao, translateEstado } from '../../../models/enums/estados-solicitacao';
+import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
 
 @Component({
   selector: 'app-cliente-mostrar-solicitacao',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, SpinnerComponent],
   templateUrl: './cliente-mostrar-solicitacao.html',
   styleUrl: './cliente-mostrar-solicitacao.css',
 })
 export class ClienteMostrarSolicitacao implements OnInit {
   solicitacao: Solicitacao | null = null;
+  isLoading: boolean = false;
 
   constructor(private route: ActivatedRoute, private solicitacaoService: SolicitacaoService, private cdr: ChangeDetectorRef) {}
 
@@ -28,14 +30,8 @@ export class ClienteMostrarSolicitacao implements OnInit {
     }
 
     const idNumerico = +idDaUrl;
-    //chamando a funcao do solicitacaoservice
     
-    this.solicitacao = this.buscarPorId(idNumerico);
-
-    //Promise
-    //this.solicitacao = await this.solicitacaoService.buscarPorId(idNumerico, (errorMsg) => {
-    //  console.error('Erro ao buscar solicitação:', errorMsg);
-    //});
+    this.buscarPorId(idNumerico);
 
     //garantindo que o template vai ser carregado quando a requisicao for feita
     this.cdr.detectChanges();
@@ -46,18 +42,17 @@ export class ClienteMostrarSolicitacao implements OnInit {
   }
 
   //Observer
-  buscarPorId(id: number): Solicitacao | null{
-    let sol: Solicitacao | null = null;
-    const resp = this.solicitacaoService.buscarPorId(id).subscribe({
+  buscarPorId(id: number): void {
+    this.isLoading = true;
+    this.solicitacaoService.buscarPorId(id).subscribe({
       next: (data) => {
-        if (data == null){
-          console.log("ID inexistente")
-        }else{
-          sol = data;
-        }
-      }
+        this.solicitacao = data;
+        this.isLoading = false;
+        this.cdr.detectChanges(); 
+      },
+      error: (error) => {
+        console.error('Erro ao carregar solicitações:', error);
+      },
     });
-    
-    return sol;
   }
 }

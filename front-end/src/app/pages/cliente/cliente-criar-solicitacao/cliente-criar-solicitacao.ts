@@ -27,31 +27,28 @@ export class ClienteCriarSolicitacao implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.categorias = this.listarCategorias();
+    this.listarCategorias((categorias) => this.categorias = categorias);
   }
 
   async onSubmit(form: any): Promise<void> {
     if (form.valid) {
-      await this.solicitacaoService.adicionarSolicitacao(this.solicitacao!);
-      this.toastService.showSuccess('Solicitação criada com sucesso!');
-      this.solicitacaoCriada.emit();
-      form.resetForm();
+      this.solicitacaoService.adicionarSolicitacao(this.solicitacao!).subscribe(res => {
+        if(!res.error) {
+          this.toastService.showSuccess('Solicitação criada com sucesso!');
+          this.solicitacaoCriada.emit();
+          form.resetForm();
+        } else {
+          this.toastService.showError(res.message);
+        }
+      });
     }
   }
 
-  listarCategorias(): Categoria[] {
-    let cats: Categoria[] = [];
+  listarCategorias(then: (v: Categoria[]) => void) {
     this.categoriaService.listarTodas().subscribe({
       next: (data: Categoria[]) => {
-        if(data == null){
-          cats = []
-        } else {
-          cats = data;
-          console.log("Cats recebeu data")
-        }
+        then(data);
       }
     });
-    console.log("Cats foi retornado")
-    return cats;
   }
 }

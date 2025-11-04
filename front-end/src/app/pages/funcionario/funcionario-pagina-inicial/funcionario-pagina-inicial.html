@@ -19,11 +19,20 @@
             <th class="px-6 py-4 text-left w-1/6">Ações</th>
           </tr>
         </thead>
+        @if (isLoading) {
+          <tbody>
+            <tr>
+              <td colspan="4">
+                <app-spinner></app-spinner>
+              </td>
+            </tr>
+          </tbody>
+        } @else {
         <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
           @for (solicitacao of solicitacoesAbertas; track solicitacao.id) {
             <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
               <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5">
-                <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.dataCriacao | date:'dd/MM/yyyy HH:mm' }}</p>
+                <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.dataCriacao }}</p>
               </td>
               <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5">
                 <p class="text-lg text-gray-800 dark:text-gray-200">
@@ -34,11 +43,13 @@
                 <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.descricaoEquipamento }}</p>
               </td>
               <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5">
-                
-                <a *ngIf="solicitacao.status === 1" [routerLink]="['/funcionario/efetuar-orcamento', solicitacao.id]" class="text-lg text-blue-800 hover:text-blue-950 dark:text-blue-400 dark:hover:text-blue-300">Efetuar Orçamento</a>
-                
+                @if (solicitacao.status == 1) {
+                <a [routerLink]="['/funcionario/efetuar-orcamento', solicitacao.id]" class="text-lg text-blue-800 hover:text-blue-950 dark:text-blue-400 dark:hover:text-blue-300">Efetuar Orçamento</a>
+                }
                
-                <a *ngIf="solicitacao.status === 3" [routerLink]="['/funcionario/efetuar-manutencao', solicitacao.id]" class="text-lg text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300">Efetuar Manutenção</a>
+                @if (solicitacao.status == 3) {
+                  <a [routerLink]="['/funcionario/efetuar-manutencao', solicitacao.id]" class="text-lg text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300">Efetuar Manutenção</a>
+                }
               </td>
             </tr>
           } @empty {
@@ -47,6 +58,7 @@
             </tr>
           }
         </tbody>
+      }
       </table>
     </div>
   </div>

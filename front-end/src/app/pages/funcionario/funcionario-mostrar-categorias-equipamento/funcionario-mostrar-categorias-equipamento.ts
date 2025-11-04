@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CategoriaEquipamentoService } from '../../../services/categoria-equipamento-service';
 import { Categoria } from '../../../models/categoria-equipamento';
 import { ToastService } from '../../../services/toast-service';
 import { Usuario } from '../../../models/usuario';
+import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
 
 @Component({
   selector: 'app-funcionario-mostrar-categorias-equipamento',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SpinnerComponent],
   templateUrl: './funcionario-mostrar-categorias-equipamento.html',
   styleUrl: './funcionario-mostrar-categorias-equipamento.css'
 })
@@ -22,39 +23,36 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
   };
 
   public categorias!: Categoria[];
+  isLoading: boolean = false;
 
   constructor(
     private categoriaService: CategoriaEquipamentoService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.categorias = this.listarTodas();
+    this.listarTodas();
   }
 
-  // Observer
-  listarTodas(): Categoria[] {
-    let cats: Categoria[] = [];
+  listarTodas(): void {
+    this.isLoading = true;
     this.categoriaService.listarTodas().subscribe({
-      next: (data: Categoria[]) => {
-        if(data == null){
-          cats = []
-        } else {
-          cats = data;
-          console.log("Cats recebeu data")
-        }
+      next: (data) => {
+        this.categorias = data;
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Erro ao buscar categorias:', error);
+        this.categorias = [];
       }
     });
-    console.log("Cats foi retornado")
-    return cats;
   }
 
-  /* PROMISE
-  async listarTodas(): Promise<CategoriaEquipamento[]> {
-    let resp = await this.categoriaService.listarTodas((msg) => console.error(msg));
-    return resp;
-  }
-  */
+
+  // essas funcoes ainda precisam de ajustes
+
 
   // Observer
   buscarPorId(id: number): Categoria {
@@ -79,27 +77,11 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
 
     this.categoriaService.inserir(this.novaCategoria).subscribe({
       next: (data) => {
-        return
+        this.listarTodas()
       }
     });
-
-    this.categorias = this.listarTodas()
   }
   
-  /* PROMISE
-  async onAdicionar(form: any) {
-    if (form.invalid) {
-      return;
-    }
-
-    this.categoriaService.inserir(this.novaCategoria.descricao, (msg) => console.error(msg));
-    this.categorias = await this.listarTodas();
-    form.resetForm();
-    const message = `Categoria cadastrada com sucesso!`;
-    this.toastService.showSuccess(message)
-  }
-  */
-
   
   /*async*/ onEditar(id: number) {
     let res: Categoria = this.buscarPorId(id);
@@ -115,7 +97,7 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
       .atualizar(this.categoriaEmEdicao.id, this.categoriaEmEdicao.descricao)
       .subscribe({
         next: (_) => {
-          this.categorias = this.listarTodas();
+          this.listarTodas();
         }
       })
     this.categoriaEmEdicao.id = 0;
@@ -126,7 +108,7 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
     let cat: Categoria = this.buscarPorId(id);
     if (confirm(`Deseja realmente excluir ${cat.descricao}?`)){
       this.categoriaService.remover(id);
-      this.categorias = this.listarTodas();
+      this.listarTodas();
     }
   }
 }

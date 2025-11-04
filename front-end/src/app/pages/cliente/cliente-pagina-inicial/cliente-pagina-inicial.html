@@ -18,37 +18,53 @@
           <th class="px-4 py-4 text-left w-2/5">Ações</th>
         </tr>
         </thead>
-        <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
-        
-          @for (solicitacao of minhasSolicitacoes; track solicitacao.id) {
-            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
-                <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5">
-                    <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.dataCriacao }}</p>
-                </td>
-                <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5">
-                    <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.descricaoEquipamento }}</p>
-                </td>
-                <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5 text-center">
-                    <p class="text-black inline-block text-sm font-semibold px-3 py-1 rounded-full dark:text-white" [ngClass]="{
-                    'bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-50': solicitacao.status == 7,
-                    'bg-blue-100 text-blue-800 dark:bg-blue-700 dark:text-blue-50': solicitacao.status == 6,
-                    'bg-amber-800 text-amber-100 dark:bg-amber-600 dark:text-amber-50': solicitacao.status == 3,
-                    'bg-red-100 text-red-800 dark:bg-red-700 dark:text-red-50': solicitacao.status == 4,
-                  }">{{ traduzirEstado(solicitacao.status) }}</p>
-                </td>
-                <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5 space-x-4">
-                  <a *ngIf="solicitacao.status == 3" [routerLink]="['/cliente/mostrar-orcamento', solicitacao.id]" class="text-lg text-yellow-600 hover:text-yellow-800 dark:text-yellow-400 dark:hover:text-yellow-500">Aprovar/Rejeitar Serviço</a>
-                  <a *ngIf="solicitacao.status == 4" [routerLink]="['/cliente/resgatar-servico', solicitacao.id]" class="text-lg text-stone-600 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-500">Resgatar Serviço</a>
-                  <a *ngIf="solicitacao.status == 6" [routerLink]="['/cliente/pagar-servico', solicitacao.id]" class="text-lg text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-500">Pagar Serviço</a>
-                  <a [routerLink]="['/cliente/mostrar-solicitacao', solicitacao.id]" class="text-lg text-blue-800 hover:text-blue-950 dark:text-blue-400 dark:hover:text-blue-300">Visualizar</a>
-                </td>
+        @if (isLoading) {
+          <tbody>
+            <tr>
+              <td colspan="4">
+                <app-spinner></app-spinner>
+              </td>
             </tr>
-        } @empty {
-          <tr>
-            <td colspan="4" class="text-center py-6 text-gray-500 dark:text-gray-400">Sem elementos!</td>
-          </tr>
+          </tbody>
+        } @else {
+          <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+          
+            @for (solicitacao of minhasSolicitacoes; track solicitacao.id) {
+              <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
+                  <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5">
+                      <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.dataCriacao }}</p>
+                  </td>
+                  <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5">
+                      <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.descricaoEquipamento }}</p>
+                  </td>
+                  <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5 text-center">
+                      <p class="text-black inline-block text-sm font-semibold px-3 py-1 rounded-full dark:text-white" [ngClass]="{
+                      'bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-50': solicitacao.status == 7,
+                      'bg-blue-100 text-blue-800 dark:bg-blue-700 dark:text-blue-50': solicitacao.status == 6,
+                      'bg-amber-800 text-amber-100 dark:bg-amber-600 dark:text-amber-50': solicitacao.status == 3,
+                      'bg-red-100 text-red-800 dark:bg-red-700 dark:text-red-50': solicitacao.status == 4,
+                    }">{{ traduzirEstado(solicitacao.status) }}</p>
+                  </td>
+                  <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5 space-x-4">
+                    @if (solicitacao.status == 3) {
+                      <a [routerLink]="['/cliente/mostrar-orcamento', solicitacao.id]" class="text-lg text-yellow-600 hover:text-yellow-800 dark:text-yellow-400 dark:hover:text-yellow-500">Aprovar/Rejeitar Serviço</a>
+                    }
+                    @if (solicitacao.status == 4) {
+                      <a [routerLink]="['/cliente/resgatar-servico', solicitacao.id]" class="text-lg text-stone-600 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-500">Resgatar Serviço</a>
+                    }
+                    @if (solicitacao.status == 6) {
+                      <a [routerLink]="['/cliente/pagar-servico', solicitacao.id]" class="text-lg text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-500">Pagar Serviço</a>
+                    }
+                    <a [routerLink]="['/cliente/mostrar-solicitacao', solicitacao.id]" class="text-lg text-blue-800 hover:text-blue-950 dark:text-blue-400 dark:hover:text-blue-300">Visualizar</a>
+                  </td>
+              </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" class="text-center py-6 text-gray-500 dark:text-gray-400">Sem elementos!</td>
+            </tr>
+          }
+          </tbody>
         }
-        </tbody>
       </table>
     </div>
   </div>
@@ -61,12 +77,14 @@
   </div>
   </div>
 
-<div *ngIf="exibirModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50 dark:bg-gray-900 dark:bg-opacity-70">
-    <div class="bg-white dark:bg-gray-800 rounded-lg relative w-[1200px] max-w-6xl">
-      <app-cliente-criar-solicitacao (solicitacaoCriada)="fecharModal()"></app-cliente-criar-solicitacao>
-      <button (click)="fecharModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl dark:text-gray-400 dark:hover:text-white">
-        &times;
-      </button>
+  @if (exibirModal) {
+    <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50 dark:bg-gray-900 dark:bg-opacity-70">
+      <div class="bg-white dark:bg-gray-800 rounded-lg relative w-[1200px] max-w-6xl">
+        <app-cliente-criar-solicitacao (solicitacaoCriada)="fecharModal()"></app-cliente-criar-solicitacao>
+        <button (click)="fecharModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl dark:text-gray-400 dark:hover:text-white">
+          &times;
+        </button>
+      </div>
     </div>
-  </div>
+  }
 </main>

@@ -3,12 +3,12 @@
     <h3 class="text-3xl font-bold mb-8 text-center text-gray-800 dark:text-white">Nova Solicitação de Manutenção</h3>
 
     <form #form="ngForm" (ngSubmit)="onSubmit(form)" class="space-y-6">
-        
+
         <div>
             <label for="descricaoEquipamento" class="block text-base font-medium text-gray-700 dark:text-gray-200 pb-2">Descrição do Equipamento:</label>
-            <input 
-                id="descricaoEquipamento" 
-                type="text" 
+            <input
+                id="descricaoEquipamento"
+                type="text"
                 name="descricaoEquipamento"
                 required
                 [(ngModel)]="solicitacao.descricaoEquipamento"
@@ -18,24 +18,26 @@
 
         <div>
             <label for="categoriaEquipamento" class="block text-base font-medium text-gray-700 dark:text-gray-200 pb-2">Categoria:</label>
-            <select 
-                id="categoriaEquipamento" 
+            <select
+                id="categoriaEquipamento"
                 name="categoriaEquipamento"
                 required
                 [(ngModel)]="solicitacao.categoria.id"
                 class="w-full p-3 border dark:border-gray-600 rounded-lg text-[#111418] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[#f0f2f5] dark:bg-gray-700 placeholder:text-[#60758a] dark:placeholder:text-gray-400"
             >
                 <option [ngValue]="null" disabled selected>Selecione uma categoria</option>
-                <option *ngFor="let categoria of categorias" [ngValue]="categoria.id">
+                @for (categoria of categorias; track categoria.id) {
+                  <option [ngValue]="categoria.id">
                     {{ categoria.descricao }}
-                </option>
+                  </option>
+                }
             </select>
         </div>
-        
+
         <div>
             <label for="descricaoDefeito" class="block text-base font-medium text-gray-700 dark:text-gray-200 pb-2">Descrição do Defeito:</label>
-            <textarea 
-                id="descricaoDefeito" 
+            <textarea
+                id="descricaoDefeito"
                 name="descricaoDefeito"
                 required
                 [(ngModel)]="solicitacao.descricaoDefeito"
@@ -43,8 +45,8 @@
             ></textarea>
         </div>
 
-        <button 
-            type="submit" 
+        <button
+            type="submit"
             [disabled]="form.invalid"
             class="w-full py-3 px-6 bg-blue-600 dark:bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 dark:hover:bg-blue-800 disabled:bg-gray-400 dark:disabled:bg-gray-600 disabled:cursor-not-allowed transition duration-300"
         >

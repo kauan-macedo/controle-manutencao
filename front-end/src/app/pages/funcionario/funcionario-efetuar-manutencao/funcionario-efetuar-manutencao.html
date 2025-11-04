@@ -1,109 +1,111 @@
 <main class="bg-gray-50 dark:bg-gray-950 p-4 md:p-8 font-sans">
-  <div *ngIf="solicitacao" class="max-w-4xl mx-auto bg-white dark:bg-gray-900 rounded-lg shadow-xl overflow-hidden">
+  @if (solicitacao) {
+    <div class="max-w-4xl mx-auto bg-white dark:bg-gray-900 rounded-lg shadow-xl overflow-hidden">
 
-    <div class="p-6 bg-gray-100 dark:bg-gray-800 border-b dark:border-gray-700">
-      <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Detalhes da Solicitação</h1>
-      <p class="text-md text-gray-600 dark:text-gray-400">Solicitado em: {{ solicitacao.dataCriacao | date:'dd/MM/yyyy \'às\' HH:mm' }}</p>
-    </div>
+      <div class="p-6 bg-gray-100 dark:bg-gray-800 border-b dark:border-gray-700">
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Detalhes da Solicitação</h1>
+        <p class="text-md text-gray-600 dark:text-gray-400">Solicitado em: {{ solicitacao.dataCriacao | date:'dd/MM/yyyy \'às\' HH:mm' }}</p>
+      </div>
 
-    <div class="p-6 h-[60vh] overflow-y-scroll">
+      <div class="p-6 h-[60vh] overflow-y-scroll">
 
-      <div class="mb-8">
-        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4 border-b dark:border-gray-700 pb-2">Detalhes da Solicitação #{{ solicitacao.id}}</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-          <div>
-            <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Equipamento</h3>
-            <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.descricaoEquipamento }}</p>
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4 border-b dark:border-gray-700 pb-2">Detalhes da Solicitação #{{ solicitacao.id}}</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+            <div>
+              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Equipamento</h3>
+              <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.descricaoEquipamento }}</p>
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Categoria</h3>
+              <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.categoria }}</p>
+            </div>
+            <div class="md:col-span-2">
+              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descrição do Defeito</h3>
+              <p class="text-lg text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-800 p-3 rounded-md mt-1">{{ solicitacao.descricaoDefeito }}</p>
+            </div>
           </div>
-          <div>
-            <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Categoria</h3>
-            <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.categoria }}</p>
+        </div>
+
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4 border-b dark:border-gray-700 pb-2">Dados do Cliente</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+            <div>
+              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nome</h3>
+              <p class="text-lg text-gray-800 dark:text-gray-200">{{ cliente?.nome }}</p>
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Telefone</h3>
+              <p class="text-lg text-gray-800 dark:text-gray-200">{{ cliente?.telefone }}</p>
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Endereço</h3>
+              <p class="text-lg text-gray-800 dark:text-gray-200">{{ cliente?.endereco }}</p>
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</h3>
+              <p class="text-lg text-gray-800 dark:text-gray-200">{{ cliente?.email }}</p>
+            </div>
           </div>
-          <div class="md:col-span-2">
-            <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descrição do Defeito</h3>
-            <p class="text-lg text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-800 p-3 rounded-md mt-1">{{ solicitacao.descricaoDefeito }}</p>
-          </div>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4 border-b dark:border-gray-700 pb-2">Descrição da Manutenção</h2>
+            <div class="py-6">
+                <label for="descricaoManutencao" class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase">Descrição da Manutenção</label>
+                <textarea
+                name="descricaoManutencao"
+                id="descricaoManutencao"
+                placeholder="Descrição..."
+                [(ngModel)]="descricaoManutencao"
+                class="h-48 w-full p-2 bg-[#f0f2f5] dark:bg-gray-700 text-gray-800 dark:text-white resize-none rounded-md"></textarea>
+            </div>
+            <div class="py-4">
+                <label for="instrucoesCliente" class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase">Instruções para o Cliente</label>
+                <textarea
+                name="instrucoesCliente"
+                id="instrucoesCliente"
+                placeholder="Instruções..."
+                [(ngModel)]="instrucoesCliente"
+                class="h-48 w-full p-2 bg-[#f0f2f5] dark:bg-gray-700 text-gray-800 dark:text-white resize-none rounded-md"></textarea>
+            </div>
         </div>
       </div>
 
-      <div class="mb-8">
-        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4 border-b dark:border-gray-700 pb-2">Dados do Cliente</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-          <div>
-            <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nome</h3>
-            <p class="text-lg text-gray-800 dark:text-gray-200">{{ cliente?.nome }}</p>
-          </div>
-          <div>
-            <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Telefone</h3>
-            <p class="text-lg text-gray-800 dark:text-gray-200">{{ cliente?.telefone }}</p>
-          </div>
-          <div>
-            <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Endereço</h3>
-            <p class="text-lg text-gray-800 dark:text-gray-200">{{ cliente?.endereco }}</p>
-          </div>
-          <div>
-            <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</h3>
-            <p class="text-lg text-gray-800 dark:text-gray-200">{{ cliente?.email }}</p>
-          </div>
-        </div>
-      </div>
+      <div class="p-6 bg-gray-50 dark:bg-gray-800 border-t dark:border-gray-700 flex flex-col md:flex-row justify-end items-center gap-4">
+        <button (click)="abrirModalRedirecionarManutencao()"
+                class="w-full md:w-auto px-6 py-3 bg-red-600 text-white font-semibold text-sm uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 transition duration-150 ease-in-out">
+          Redirecionar Manutenção
+        </button>
+        <button (click)="efetuarManutencao()"
+                class="w-full md:w-auto px-6 py-3 bg-blue-600 text-white font-semibold text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out">
+          Efetuar Manutenção
+        </button>
 
-      <div>
-        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4 border-b dark:border-gray-700 pb-2">Descrição da Manutenção</h2>
-          <div class="py-6">
-              <label for="descricaoManutencao" class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase">Descrição da Manutenção</label>
-              <textarea
-              name="descricaoManutencao"
-              id="descricaoManutencao"
-              placeholder="Descrição..."
-              [(ngModel)]="descricaoManutencao"
-              class="h-48 w-full p-2 bg-[#f0f2f5] dark:bg-gray-700 text-gray-800 dark:text-white resize-none rounded-md"></textarea>
+
+        @if (exibirModalEfetuarManutencao) {
+          <div class="fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-gray-900 dark:bg-opacity-70 flex justify-center items-center z-50">
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-6 relative w-[1200px] max-w-6xl">
+              <app-funcionario-modal-efetuar-manutencao (fecharModalEfetuarManutencao)="fecharModalRedirecionarManutencao()"></app-funcionario-modal-efetuar-manutencao>
+              <button (click)="abrirModalRedirecionarManutencao()" class="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white text-2xl">
+              &times;
+              </button>
+            </div>
           </div>
-          <div class="py-4">
-              <label for="instrucoesCliente" class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase">Instruções para o Cliente</label>
-              <textarea
-              name="instrucoesCliente"
-              id="instrucoesCliente"
-              placeholder="Instruções..."
-              [(ngModel)]="instrucoesCliente"
-              class="h-48 w-full p-2 bg-[#f0f2f5] dark:bg-gray-700 text-gray-800 dark:text-white resize-none rounded-md"></textarea>
+        }
+
+        @if (exibirModalRedirecionarManutencao) {
+          <div class="fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-gray-900 dark:bg-opacity-70 flex justify-center items-center z-50">
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-6 relative w-[1200px] max-w-6xl">
+              <app-funcionario-modal-redirecionar-manutencao></app-funcionario-modal-redirecionar-manutencao>
+              <button (click)="abrirModalRedirecionarManutencao()" class="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white text-2xl">
+               &times;
+              </button>
+            </div>
           </div>
+        }
+        
       </div>
     </div>
-
-    <div class="p-6 bg-gray-50 dark:bg-gray-800 border-t dark:border-gray-700 flex flex-col md:flex-row justify-end items-center gap-4">
-      <button (click)="abrirModalRedirecionarManutencao()"
-              class="w-full md:w-auto px-6 py-3 bg-red-600 text-white font-semibold text-sm uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 transition duration-150 ease-in-out">
-        Redirecionar Manutenção
-      </button>
-      <button (click)="efetuarManutencao()"
-              class="w-full md:w-auto px-6 py-3 bg-blue-600 text-white font-semibold text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out">
-        Efetuar Manutenção
-      </button>
-
-
-      @if (exibirModalEfetuarManutencao) {
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-gray-900 dark:bg-opacity-70 flex justify-center items-center z-50">
-          <div class="bg-white dark:bg-gray-800 rounded-lg p-6 relative w-[1200px] max-w-6xl">
-            <app-funcionario-modal-efetuar-manutencao (fecharModalEfetuarManutencao)="fecharModalRedirecionarManutencao()"></app-funcionario-modal-efetuar-manutencao>
-            <button (click)="abrirModalRedirecionarManutencao()" class="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white text-2xl">
-            &times;
-            </button>
-          </div>
-        </div>
-      }
-
-      @if (exibirModalRedirecionarManutencao) {
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-50 dark:bg-gray-900 dark:bg-opacity-70 flex justify-center items-center z-50">
-          <div class="bg-white dark:bg-gray-800 rounded-lg p-6 relative w-[1200px] max-w-6xl">
-            <app-funcionario-modal-redirecionar-manutencao></app-funcionario-modal-redirecionar-manutencao>
-            <button (click)="abrirModalRedirecionarManutencao()" class="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white text-2xl">
-             &times;
-            </button>
-          </div>
-        </div>
-      }
-      
-    </div>
-  </div>
+  }
 </main>

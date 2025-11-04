@@ -43,7 +43,7 @@ function checkUnauthorized(resp: Response) {
 
 export async function GET_PROMISED<A, T>(req: APIRequest<A>): Promise<APIResponse<T>> {
   let filtered: Record<string, any> = req.query == null ? {} : Object.fromEntries(
-    Object.entries(req.query).filter(([_, value]) => value != null && value != undefined && value !== "")
+    Object.entries(req.query).filter(([_, value]) => value && value !== "")
   );
   const url = `${req.endpoint ?? API_URL}/${req.route}${req.query != null ? "?" + new URLSearchParams(filtered).toString() : ""}`;
   const response = await fetch(url, {
@@ -57,10 +57,8 @@ export async function GET_PROMISED<A, T>(req: APIRequest<A>): Promise<APIRespons
 }
 
 export async function POST_PROMISED<A, T>(req: APIRequest<A>): Promise<APIResponse<T>> {
-
   const requestBody = req.body == null ? "{}" : JSON.stringify(req.body);
   const url = `${req.endpoint ?? API_URL}/${req.route}`;
-
   const response = await fetch(url, {
     body: requestBody,
     method: "POST",

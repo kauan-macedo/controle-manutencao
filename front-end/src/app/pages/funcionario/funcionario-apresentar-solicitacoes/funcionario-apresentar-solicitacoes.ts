@@ -6,11 +6,12 @@ import { Solicitacao } from '../../../models/solicitacao';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { ToastService } from '../../../services/toast-service';
 import { EstadosSolicitacao } from '../../../models/enums/estados-solicitacao';
+import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
 
 @Component({
   selector: 'app-funcionario-apresentar-solicitacoes',
   standalone: true,
-  imports: [CommonModule, RouterModule, DatePipe, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, SpinnerComponent],
   templateUrl: './funcionario-apresentar-solicitacoes.html',
   styleUrl: './funcionario-apresentar-solicitacoes.css'
 })
@@ -25,49 +26,35 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
 
   solicitacoes: Solicitacao[] = [];
   solicitacoesFiltradas: Solicitacao[] = [];
+  isLoading: boolean = false;
 
 
-  constructor(private solicitacoesService: SolicitacaoService, private toastService: ToastService, private cdr: ChangeDetectorRef) {
+  constructor(private solicitacaoService: SolicitacaoService, private toastService: ToastService, private cdr: ChangeDetectorRef) {
   }
 
-  async ngOnInit(): Promise<void> {
-    this.solicitacoes = await this.solicitacoesService.listarTodas((msg) => {
-      // TODO: mostrar erro para o usuario
-      this.toastService.showError(msg);
+   ngOnInit(): void {
+    this.carregarSolicitacoes();
+  }
+  
+ carregarSolicitacoes(): void {
+  this.isLoading = true;
+    this.solicitacaoService.buscarTodas().subscribe({
+      next: (solicitacoes) => {
+        
+        //aqui deveria ser this.solicitacoes = solicitacoes, para depois filtrar, mas por hora vou deixar assim pra não ter que mudar o template
+        this.solicitacoesFiltradas = solicitacoes;
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Erro ao carregar solicitações:', error);
+        this.toastService.showError('Erro ao carregar solicitações.');
+      },
     });
-    this.aplicarFiltro();
-    this.cdr.detectChanges();
   }
 
   aplicarFiltro() {
-    if (this.filtroSelecionado === 'Hoje') {
-      const hoje = new Date();
-      hoje.setHours(0, 0, 0, 0);
-
-      this.solicitacoesFiltradas = this.solicitacoes.filter(s => {
-        const dataSolicitacao = new Date(s.dataCriacao);
-        dataSolicitacao.setHours(0, 0, 0, 0);
-        return dataSolicitacao.getTime() === hoje.getTime();
-      });
-
-    } else if (this.filtroSelecionado === 'Selecionar Período:') {
-      if (!this.dataInicial || !this.dataFinal) return;
-
-      const dip = this.dataInicial.split('-');
-      const dfp = this.dataFinal.split('-');
-
-      const dataInicialCorrigida = new Date(+dip[0], +dip[1] - 1, +dip[2]);
-      const dataFinalCorrigida = new Date(+dfp[0], +dfp[1] - 1, +dfp[2]);
-
-      this.solicitacoesFiltradas = this.solicitacoes.filter(s => {
-        const dataSolicitacao = new Date(s.dataCriacao);
-        dataSolicitacao.setHours(0, 0, 0, 0);
-        return dataSolicitacao >= dataInicialCorrigida && dataSolicitacao <= dataFinalCorrigida;
-      });
-    } else {
-      // Todas
-      this.solicitacoesFiltradas = [...this.solicitacoes];
-    }
+    //todo: refazer a logica do filtro
   }
 
 

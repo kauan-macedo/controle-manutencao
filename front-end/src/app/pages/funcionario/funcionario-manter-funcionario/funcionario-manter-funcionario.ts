@@ -54,16 +54,13 @@ export class FuncionarioManterFuncionario implements OnInit {
   }
 
   onEditar(funcionario: any): void {
-    this.funcionarioEmEdicao = { ...funcionario };
+    
   }
 
   onSalvarEdicao(): void {
     if (!this.funcionarioEmEdicao) {
       return;
     }
-
-
-
     this.funcionarioEmEdicao = null;
   }
 
