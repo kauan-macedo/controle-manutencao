@@ -5,7 +5,7 @@ WORKDIR /app
 COPY build.gradle settings.gradle ./
 COPY gradle ./gradle
 
-RUN gradle dependencies --no-daemon
+RUN gradle dependencies --stacktrace --no-daemon
 
 COPY . .
 

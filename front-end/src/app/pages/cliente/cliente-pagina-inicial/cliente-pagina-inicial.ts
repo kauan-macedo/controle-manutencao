@@ -41,8 +41,11 @@ export class ClientePaginaInicial implements OnInit {
       error: (error) => {
         console.error('Erro ao carregar solicitações:', error);
         this.toastService.showError('Erro ao carregar solicitações.');
+        this.isLoading = false;
       },
     });
+
+    console.log()
   }
 
   ngOnInit(): void {

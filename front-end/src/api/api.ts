@@ -1,5 +1,5 @@
-export const API_URL = "https://controlemanutencao.betoni.dev"
-//export const API_URL = "http://localhost:8097"
+//export const API_URL = "https://controlemanutencao.betoni.dev"
+export const API_URL = "http://localhost:8097"
 
 export interface APIResponse<T> {
   error: boolean;
