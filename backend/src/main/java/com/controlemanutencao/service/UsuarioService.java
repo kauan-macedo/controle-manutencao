@@ -40,7 +40,7 @@ public class UsuarioService {
     }
 
     public Optional<Usuario> findByLogin(String email, String password) {
-        Optional<Usuario> opt = repository.findByEmail(email);
+        Optional<Usuario> opt = repository.findFirstByEmailAndAtivoTrue(email);
         if(opt.isEmpty()) {
             return opt;
         }
@@ -52,10 +52,10 @@ public class UsuarioService {
     }
 
     public List<Usuario> findAll() {
-        return repository.findAll();
+        return repository.findByAtivo(true);
     }
 
-    public List<Usuario> findFuncionarios() { return repository.findByTipoUsuario(TipoUsuario.FUNCIONARIO); }
+    public List<Usuario> findFuncionarios() { return repository.findByTipoUsuarioAndAtivoTrue(TipoUsuario.FUNCIONARIO); }
 
     public Usuario buscarUsuario(Usuario sender, Long userId) {
         if(!sender.isFuncionario()) {

@@ -25,7 +25,7 @@ export class UsuarioService {
         )
     }
 
-    salvarFunctionario(id: number, email: string, nome: string): Observable<APIResponse<any>> {
+    salvarFuncionario(id: number, email: string, nome: string): Observable<APIResponse<any>> {
         return this.httpClient.put<APIResponse<any>>(
             API_URL + "/user/" + id,
             ({
@@ -45,6 +45,13 @@ export class UsuarioService {
                 dt_nascimento: dtNasc,
                 senha: senha
             }),
+            this.httpOptions
+        )
+    }
+
+    inativarFuncionario(id: number): Observable<APIResponse<any>> {
+        return this.httpClient.delete<APIResponse<any>>(
+            API_URL + "/user/" + id,
             this.httpOptions
         )
     }
