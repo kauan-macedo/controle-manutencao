@@ -75,8 +75,11 @@ public class AuthController {
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
-        cookie.setMaxAge((int) Duration.ofDays(3).toSeconds());
-        response.addCookie(cookie);
+        cookie.setMaxAge((int) Duration.ofDays(2).getSeconds());
+
+        String cookieHeader = String.format("%s=%s; Path=%s; Max-Age=%d; HttpOnly; Secure; SameSite=None",
+                cookie.getName(), cookie.getValue(), cookie.getPath(), cookie.getMaxAge());
+        response.addHeader("Set-Cookie", cookieHeader);
 
         return new Response<>(HttpStatus.OK.value(), "Cadastrado com sucesso! A senha foi enviada para seu e-mail.", UsuarioDTO.from(u));
     }
