@@ -1,6 +1,7 @@
 package com.controlemanutencao.controller;
 
 import com.controlemanutencao.dto.RelatorioReceitaDTO;
+import com.controlemanutencao.model.Categoria;
 import com.controlemanutencao.model.Solicitacao;
 import com.controlemanutencao.repository.SolicitacaoRepository;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/relatorios")
 public class RelatorioController {
 
-    private final SolicitacaoRepository solicitacaoRepository;
+    /*private final SolicitacaoRepository solicitacaoRepository;
 
     public RelatorioController(SolicitacaoRepository solicitacaoRepository) {
         this.solicitacaoRepository = solicitacaoRepository;
@@ -57,5 +58,5 @@ public class RelatorioController {
         return receitasPorCategoria.entrySet().stream()
             .map(entry -> new RelatorioReceitaDTO(entry.getKey(), entry.getValue()))
             .collect(Collectors.toList());
-    }
+    }*/
 }

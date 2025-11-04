@@ -13,11 +13,11 @@ public class LogSolicitacao {
     @Column(name = "IdLogSolicitacao", columnDefinition="INT")
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "IdSolicitacao")
     private Solicitacao solicitacao;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "Agente")
     private Usuario agente;
 
