@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ToastService } from '../../../services/toast-service';
@@ -16,19 +16,17 @@ import { UsuarioService } from '../../../services/usuario-service';
 export class FuncionarioManterFuncionario implements OnInit {
   funcionarios: Usuario[] = [];
 
-  novoFuncionario = { nome: '', email: '', senha: '' };
+  novoFuncionario = { nome: '', email: '', senha: '', dt_nascimento: '' };
   funcionarioEmEdicao: any = null;
 
   constructor(
     private toastService: ToastService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.buscarFuncionarios((x) => {
-      debugger
-      this.funcionarios = x
-    });
+    this.refreshUsers();
   }
 
   buscarFuncionarios(then: (x: Usuario[]) => void) {
@@ -36,7 +34,6 @@ export class FuncionarioManterFuncionario implements OnInit {
       if(x.error) {
         this.toastService.showError(x.message);
       } else {
-        debugger
         then(x.body);
       }
     });
@@ -45,26 +42,44 @@ export class FuncionarioManterFuncionario implements OnInit {
   onAdicionar(form: any): void {
     if (form.invalid) {
       return;
-
     }
-
-    form.resetForm();
-    const message = `Funcionário cadastrado com sucesso!`;
-    this.toastService.showSuccess(message)
+    this.usuarioService.criarFuncionario(this.novoFuncionario.nome, this.novoFuncionario.email, this.novoFuncionario.dt_nascimento, this.novoFuncionario.senha).subscribe(x => {
+      if(x.error) {
+        this.toastService.showError(x.message);
+      } else {
+        this.toastService.showSuccess(x.message);
+        this.refreshUsers();
+        form.resetForm();
+      }
+    })
   }
 
   onEditar(funcionario: any): void {
-    
+      this.funcionarioEmEdicao = funcionario
   }
 
   onSalvarEdicao(): void {
     if (!this.funcionarioEmEdicao) {
       return;
     }
-    this.funcionarioEmEdicao = null;
+    this.usuarioService.salvarFunctionario(this.funcionarioEmEdicao.id, this.funcionarioEmEdicao.email, this.funcionarioEmEdicao.nome).subscribe((x) => {
+      if(x.error) {
+        this.toastService.showError(x.message)
+      } else {
+        this.toastService.showSuccess(x.message);
+        this.funcionarioEmEdicao = null;
+      }
+    });
   }
 
   onRemover(id: number): void {
 
+  }
+
+  refreshUsers() {
+    this.buscarFuncionarios(x => {
+      this.funcionarios = x
+      this.cdr.detectChanges();
+    });
   }
 }

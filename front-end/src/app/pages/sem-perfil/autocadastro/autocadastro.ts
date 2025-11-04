@@ -17,7 +17,7 @@ import { MaskDirective } from '../../../shared/directives/mask.directive';
   styleUrl: './autocadastro.css',
 })
 export class Autocadastro implements OnInit {
-  usuario: Usuario = new Usuario('', '', '', '', '', { cep: '', logradouro: '', bairro: '', cidade: '', estado: '', numero: '' });
+  usuario: Usuario = new Usuario('', '', '', '', '', '', { cep: '', logradouro: '', bairro: '', cidade: '', estado: '', numero: '' });
 
   constructor(private cadastroService: CadastroService, private toastService: ToastService, private router: Router) {}
 

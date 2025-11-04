@@ -25,4 +25,28 @@ export class UsuarioService {
         )
     }
 
+    salvarFunctionario(id: number, email: string, nome: string): Observable<APIResponse<any>> {
+        return this.httpClient.put<APIResponse<any>>(
+            API_URL + "/user/" + id,
+            ({
+                nome: nome,
+                email: email
+            }),
+            this.httpOptions
+        )
+    }
+
+    criarFuncionario(nome: string, email: string, dtNasc: string, senha: string): Observable<APIResponse<any>> {
+        return this.httpClient.post<APIResponse<any>>(
+            API_URL + "/user",
+            ({
+                nome: nome,
+                email: email,
+                dt_nascimento: dtNasc,
+                senha: senha
+            }),
+            this.httpOptions
+        )
+    }
+
 }

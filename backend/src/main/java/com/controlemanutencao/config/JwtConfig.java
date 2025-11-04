@@ -21,7 +21,7 @@ public class JwtConfig {
 
     @Bean
     UserDetailsService userDetailsService() {
-        return username -> userRepository.findByEmail(username)
+        return id -> userRepository.findById(Long.parseLong(id))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 

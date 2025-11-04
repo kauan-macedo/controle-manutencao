@@ -3,6 +3,7 @@ package com.controlemanutencao.controller;
 import com.controlemanutencao.dto.UsuarioDTO;
 import com.controlemanutencao.model.Response;
 import com.controlemanutencao.model.Usuario;
+import com.controlemanutencao.model.request.AtualizarFuncionarioRequest;
 import com.controlemanutencao.model.request.CriarFuncionarioRequest;
 import com.controlemanutencao.service.UsuarioService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -36,8 +37,11 @@ public class UsuarioController {
         return new Response<>(200, "Funcionário criado com sucesso!", null);
     }
 
-    @PutMapping
-    public Response<?> atualizarFuncionario(@AuthenticationPrincipal Usuario user, @RequestBody )
+    @PutMapping("/{id}")
+    public Response<?> atualizarFuncionario(@PathVariable("id") Long id, @AuthenticationPrincipal Usuario user, @RequestBody AtualizarFuncionarioRequest in) {
+        service.atualizarFunctionario(user, id, in);
+        return new Response<>(200, "Funcionário atualizado com sucesso!", null);
+    }
 
     @DeleteMapping("/{id}")
     public Response<?> deletarFuncionario(@AuthenticationPrincipal Usuario user, @PathVariable("id") Long id) {

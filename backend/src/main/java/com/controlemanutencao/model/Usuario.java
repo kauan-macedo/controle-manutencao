@@ -57,10 +57,14 @@ public class Usuario implements UserDetails {
     @Column(name = "Senha")
     private String senha;
 
+    @Column(name = "DtNascimento")
+    private String dtNascimento;
+
     public Usuario() {}
 
-    public Usuario(int id, String nome, String email, String telefone, String CPF, String cidade, String estado, String rua, String bairro, int numero, String CEP, TipoUsuario tipoUsuario, boolean ativo) {
+    public Usuario(int id, String nome, String email, String telefone, String CPF, String cidade, String estado, String rua, String bairro, int numero, String CEP, TipoUsuario tipoUsuario, boolean ativo, String dtNascimento) {
         this.id = id;
+        this.dtNascimento = dtNascimento;
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
@@ -125,6 +129,50 @@ public class Usuario implements UserDetails {
         return CEP;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setTipoUsuario(TipoUsuario tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public void setCPF(String CPF) {
+        this.CPF = CPF;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public void setRua(String rua) {
+        this.rua = rua;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public void setCEP(String CEP) {
+        this.CEP = CEP;
+    }
+
     public TipoUsuario getTipoUsuario() {
         return tipoUsuario;
     }
@@ -149,7 +197,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return id + "";
     }
 
     public void setAtivo(boolean ativo) {

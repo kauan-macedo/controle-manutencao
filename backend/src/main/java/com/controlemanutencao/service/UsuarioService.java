@@ -5,6 +5,7 @@ import com.controlemanutencao.exception.EmailAlreadyTakenException;
 import com.controlemanutencao.model.EnderecoViaCep;
 import com.controlemanutencao.model.Usuario;
 import com.controlemanutencao.model.enums.TipoUsuario;
+import com.controlemanutencao.model.request.AtualizarFuncionarioRequest;
 import com.controlemanutencao.model.request.AutoCadastroRequest;
 import com.controlemanutencao.model.request.CriarFuncionarioRequest;
 import com.controlemanutencao.repository.UsuarioRepository;
@@ -83,6 +84,21 @@ public class UsuarioService {
     }
 
     @Transactional
+    public void atualizarFunctionario(Usuario sender, Long id, AtualizarFuncionarioRequest in) {
+        if(!sender.isFuncionario()) {
+            throw new DeveSerFuncionarioException();
+        }
+        Optional<Usuario> opt = repository.findById(id);
+        if(opt.isEmpty()) {
+            throw new IllegalArgumentException("Usuário não encontrado!");
+        }
+        Usuario usr = opt.get();
+        usr.setNome(in.nome());
+        usr.setEmail(in.email());
+        repository.save(usr);
+    }
+
+    @Transactional
     public void criarFuncionario(Usuario sender, CriarFuncionarioRequest in) throws RuntimeException {
 
         if(!sender.isFuncionario()) {
@@ -106,7 +122,8 @@ public class UsuarioService {
                 0,
                 null,
                 TipoUsuario.FUNCIONARIO,
-                true
+                true,
+                in.dtNascimento()
         );
         usuario.setSenha(in.senha());
 
@@ -145,7 +162,8 @@ public class UsuarioService {
                 in.numero(),
                 in.cep().replace("-", ""),
                 TipoUsuario.CLIENTE,
-                true
+                true,
+                ""
         );
 
         int senha = ThreadLocalRandom.current().nextInt(1000, 10000);

@@ -6,6 +6,7 @@ export class Usuario {
   tipoUsuario: string;
   email: string;
   telefone: string;
+  dt_nascimento: string;
   endereco: Endereco;
 
   constructor(
@@ -14,9 +15,11 @@ export class Usuario {
     tipoUsuario: string = "",
     email: string = "",
     telefone: string = "",
+    dt_nascimento: string = "",
     endereco: Endereco = {bairro: "", cep: "", cidade: "", estado: "", logradouro:"", numero:""}
   ) {
     this.id = 0;
+    this.dt_nascimento = dt_nascimento;
     this.nome = nome;
     this.cpf = cpf;
     this.tipoUsuario = tipoUsuario;
