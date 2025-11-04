@@ -15,10 +15,10 @@ import java.util.Optional;
 public class ViaCEPService {
 
     public EnderecoViaCep buscarCEP(String cep) throws CEPInvalidoException {
-        String uri = "https://viacep.com.br/ws/" + cep + "/json/";
+        String url = "https://viacep.com.br/ws/" + cep + "/json/";
         try (HttpClient client = HttpClient.newHttpClient()) {
 
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(uri)).GET().build();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             ObjectMapper mapper = new ObjectMapper();
             EnderecoViaCep endereco = mapper.readValue(response.body(), EnderecoViaCep.class);
