@@ -36,6 +36,7 @@ export class FuncionarioManterFuncionario implements OnInit {
 
   endLoad = () => {
     setTimeout(() => {
+      debugger
         this.loading = false;
         this.cdr.detectChanges();
       })
@@ -48,7 +49,13 @@ export class FuncionarioManterFuncionario implements OnInit {
       error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
         this.toastrService.error(err.error.message)
       },
-      complete: () => this.endLoad()
+      complete: () => {
+        setTimeout(() => {
+      debugger
+        this.loading = false;
+        this.cdr.detectChanges();
+      })
+      }
     })
   }
 
