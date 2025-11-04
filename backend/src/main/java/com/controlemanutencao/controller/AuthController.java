@@ -12,6 +12,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
@@ -50,8 +51,11 @@ public class AuthController {
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
-        cookie.setMaxAge((int) Duration.ofDays(2).toSeconds());
-        response.addCookie(cookie);
+        cookie.setMaxAge((int) Duration.ofDays(2).getSeconds());
+
+        String cookieHeader = String.format("%s=%s; Path=%s; Max-Age=%d; HttpOnly; Secure; SameSite=None",
+                cookie.getName(), cookie.getValue(), cookie.getPath(), cookie.getMaxAge());
+        response.addHeader("Set-Cookie", cookieHeader);
 
         return new Response<>(HttpStatus.OK.value(), "Login realizado com sucesso!", UsuarioDTO.from(user.get()));
     }
