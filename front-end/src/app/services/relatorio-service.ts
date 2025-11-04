@@ -3,10 +3,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { API_URL } from '../../api/api';
+import { Categoria } from '../models/categoria-equipamento';
 
 export interface RelatorioReceita {
   data: Date;
   receita: number;
+}
+
+export interface RelatorioReceitaCategoria { 
+  receita: number;
+  categoria: Categoria
 }
 
 @Injectable({
@@ -34,4 +40,16 @@ export class RelatorioService {
       })))
     );
   }
+
+  getRelatorioReceitasCategoria(): Observable<RelatorioReceitaCategoria[]>{
+    return this.httpClient.get<{ receita: number, categoria: Categoria }[]>(
+      API_URL + '/api/relatorios/receitasCategoria',
+      this.httpOptions
+    ).pipe(
+      map(response => response.map(item => ({
+        ...item
+      })))
+    )
+  }
+
 }
