@@ -48,6 +48,7 @@ export class Autocadastro implements OnInit {
         }, 
         (msg) => {
           this.toastService.showError(msg);
+          form.resetForm();
         }
       )
     }

@@ -24,9 +24,9 @@ export class CadastroService {
 
     let resp = await api.autocadastro(body);
     if(resp.error) {
-      onSuccess(resp.message);
-    } else {
       onError(resp.message);
+    } else {
+      onSuccess(resp.message);
     }
   }
 
