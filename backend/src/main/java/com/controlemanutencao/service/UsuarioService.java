@@ -54,6 +54,8 @@ public class UsuarioService {
         return repository.findAll();
     }
 
+    public List<Usuario> findFuncionarios() { return repository.findByTipoUsuario(TipoUsuario.FUNCIONARIO); }
+
     public Usuario buscarUsuario(Usuario sender, Long userId) {
         if(!sender.isFuncionario()) {
             throw new DeveSerFuncionarioException();

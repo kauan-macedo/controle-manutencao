@@ -4,6 +4,7 @@ import com.controlemanutencao.model.LogSolicitacao;
 import com.controlemanutencao.model.Solicitacao;
 import com.controlemanutencao.utils.Utils;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public record SolicitacaoDTO (
@@ -26,8 +27,8 @@ public record SolicitacaoDTO (
                 sol.getStatus().getId(),
                 sol.getDescricaoDefeito(),
                 sol.getDescricaoEquipamento(),
-                Utils.parseMillis(sol.getDataCriacao()),
-                Utils.parseMillis(sol.getDataArrumado()),
+                Utils.parseMillis(sol.getDataCriacao(), DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                Utils.parseMillis(sol.getDataArrumado(), DateTimeFormatter.ISO_LOCAL_DATE_TIME),
                 sol.isAtivo(),
                 OrcamentoDTO.from(sol.getOrcamento()),
                 UsuarioDTO.from(sol.getUsuario()),

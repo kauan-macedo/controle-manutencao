@@ -21,8 +21,13 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public List<UsuarioDTO> listar() {
-        return service.findAll().stream().map(UsuarioDTO::from).toList();
+    public Response<List<UsuarioDTO>> listar() {
+        return new Response<>(200, "", service.findAll().stream().map(UsuarioDTO::from).toList());
+    }
+
+    @GetMapping("/funcionario")
+    public Response<List<UsuarioDTO>> listarFuncionarios() {
+        return new Response<>(200, "", service.findFuncionarios().stream().map(UsuarioDTO::from).toList());
     }
 
     @PostMapping
@@ -30,6 +35,9 @@ public class UsuarioController {
         service.criarFuncionario(user, in);
         return new Response<>(200, "Funcionário criado com sucesso!", null);
     }
+
+    @PutMapping
+    public Response<?> atualizarFuncionario(@AuthenticationPrincipal Usuario user, @RequestBody )
 
     @DeleteMapping("/{id}")
     public Response<?> deletarFuncionario(@AuthenticationPrincipal Usuario user, @PathVariable("id") Long id) {

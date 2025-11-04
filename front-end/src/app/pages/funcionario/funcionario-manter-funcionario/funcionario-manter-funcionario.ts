@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ToastService } from '../../../services/toast-service';
 import { StorageService } from '../../../services/storage-service';
 import { Usuario } from '../../../models/usuario';
+import { UsuarioService } from '../../../services/usuario-service';
 
 @Component({
   selector: 'app-funcionario-manter-funcionario',
@@ -13,71 +14,32 @@ import { Usuario } from '../../../models/usuario';
   styleUrl: './funcionario-manter-funcionario.css'
 })
 export class FuncionarioManterFuncionario implements OnInit {
-  funcionarios: any[] = [];
+  funcionarios: Usuario[] = [];
 
   novoFuncionario = { nome: '', email: '', senha: '' };
   funcionarioEmEdicao: any = null;
 
-  // Funcionários devem ser carregados do mesmo lugar que outros usuários,
-  // sendo filtrados pelo campo "Perfil":
-
-  private readonly STORAGE_KEY = 'usuarios';
-
   constructor(
     private toastService: ToastService,
-    private storageService: StorageService
+    private usuarioService: UsuarioService
   ) {}
 
   ngOnInit(): void {
-    this.carregarDoLocalStorage();
-  }
-  
-  private carregarDoLocalStorage(): void {
-    /*
-    // Implementação anterior:
-
-    const dados = localStorage.getItem('funcionarios');
-    if (dados) {
-      this.funcionarios = JSON.parse(dados);
-    } else {
-      this.funcionarios = [
-        { id: 1, nome: 'Maria', email: 'maria@exemplo.com' },
-        { id: 2, nome: 'Mário', email: 'mario@exemplo.com' },
-      ];
-      this.salvarNoLocalStorage();
-    }
-    */
-
-    //                                                "usuarios"
-    const dados = this.storageService.getDados(this.STORAGE_KEY);
-    if (dados){
-      this.funcionarios = dados.filter( (usuario: Usuario) => {
-        usuario.tipoUsuario == 'FUNCIONARIO';
-      } )
-    } else {
-      this.funcionarios = [
-        { id: 1, nome: 'Maria', email: 'maria@exemplo.com' },
-        { id: 2, nome: 'Mário', email: 'mario@exemplo.com' },
-      ];
-      this.salvarNoLocalStorage();
-    }
-
+    this.buscarFuncionarios((x) => {
+      debugger
+      this.funcionarios = x
+    });
   }
 
-  private salvarNoLocalStorage(): void {
-    // Deve ser utilizado o StorageService, no mesmo array de usuários
-    // localStorage.setItem('funcionarios', JSON.stringify(this.funcionarios));
-
-    const dados = this.storageService.getDados(this.STORAGE_KEY);
-    if (dados){
-      const notFuncionarios = dados.filter(u => u.tipoUsuario == 'CLIENTE');
-      let usuarios = notFuncionarios
-      usuarios.push(this.funcionarios)
-      this.storageService.salvarDados(this.STORAGE_KEY, usuarios);
-    } else {
-      this.storageService.salvarDados(this.STORAGE_KEY, this.funcionarios);
-    }
-    
+  buscarFuncionarios(then: (x: Usuario[]) => void) {
+    this.usuarioService.buscarFuncionarios().subscribe(x => {
+      if(x.error) {
+        this.toastService.showError(x.message);
+      } else {
+        debugger
+        then(x.body);
+      }
+    });
   }
 
   onAdicionar(form: any): void {
@@ -86,9 +48,6 @@ export class FuncionarioManterFuncionario implements OnInit {
 
     }
 
-    const novoId = new Date().getTime();
-    this.funcionarios.push({id: novoId, ...this.novoFuncionario});
-    this.salvarNoLocalStorage();
     form.resetForm();
     const message = `Funcionário cadastrado com sucesso!`;
     this.toastService.showSuccess(message)
@@ -103,19 +62,12 @@ export class FuncionarioManterFuncionario implements OnInit {
       return;
     }
 
-    const index = this.funcionarios.findIndex(f => f.id === this.funcionarioEmEdicao.id);
-    if (index !== -1) {
-
-      this.funcionarios[index] = this.funcionarioEmEdicao;
-      this.salvarNoLocalStorage();
-    }
 
 
     this.funcionarioEmEdicao = null;
   }
 
   onRemover(id: number): void {
-    this.funcionarios = this.funcionarios.filter(f => f.id !== id);
-    this.salvarNoLocalStorage();
+
   }
 }

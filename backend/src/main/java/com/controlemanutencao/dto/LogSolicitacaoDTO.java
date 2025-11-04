@@ -3,6 +3,8 @@ package com.controlemanutencao.dto;
 import com.controlemanutencao.model.LogSolicitacao;
 import com.controlemanutencao.utils.Utils;
 
+import java.time.format.DateTimeFormatter;
+
 public record LogSolicitacaoDTO(
     UsuarioDTO agente,
     short statusAnterior,
@@ -14,7 +16,7 @@ public record LogSolicitacaoDTO(
                 UsuarioDTO.from(log.getAgente()),
                 log.getStatusAnterior().getId(),
                 log.getNovoStatus().getId(),
-                Utils.parseMillis(log.getData())
+                Utils.parseMillis(log.getData(), DateTimeFormatter.ISO_LOCAL_DATE_TIME)
         );
     }
 }

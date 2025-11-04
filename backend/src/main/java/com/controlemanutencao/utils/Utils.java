@@ -17,14 +17,13 @@ public class Utils {
         }
     }
 
-    public static String parseMillis(Long millis) {
+    public static String parseMillis(Long millis, DateTimeFormatter formatter) {
         if(millis == null) {
             return null;
         }
         Instant instant = Instant.ofEpochMilli(millis);
         ZoneId zoneUTC3 = ZoneId.of("Etc/GMT+3");
         ZonedDateTime zonedDateTime = instant.atZone(zoneUTC3);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         return zonedDateTime.format(formatter);
     }
 
