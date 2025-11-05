@@ -81,7 +81,7 @@ public class SolicitacaoService {
         if(agente.getTipoUsuario() != TipoUsuario.FUNCIONARIO) {
             throw new DeveSerFuncionarioException();
         }
-        if (s.getStatus() != StatusSolicitacao.APROVADA && s.getStatus() != StatusSolicitacao.REDIRECIONADA) {
+        if (s.getStatus() != StatusSolicitacao.NOVA && s.getStatus() != StatusSolicitacao.REDIRECIONADA) {
             throw new EstadoIlegalSolicitacaoException("Não é possível enviar um orçamento nessa etapa.");
         }
         salvarLog(s, s.getStatus(), StatusSolicitacao.ORCADA, agente);

@@ -32,7 +32,7 @@ public class Solicitacao {
     @Column(name = "Ativo")
     private boolean ativo;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "IdOrcamento")
     private Orcamento orcamento;
 

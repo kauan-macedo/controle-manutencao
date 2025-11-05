@@ -1,13 +1,14 @@
 package com.controlemanutencao.model.enums;
 
 public enum StatusSolicitacao {
-    FINALIZADA((short) 7),
-    ARRUMADA((short) 6, FINALIZADA),
-    APROVADA((short) 5, ARRUMADA),
-    REJEITADA((short) 4, APROVADA),
-    ORCADA((short) 3, APROVADA, REJEITADA),
-    REDIRECIONADA((short) 2, ORCADA),
-    NOVA((short) 1, REDIRECIONADA);
+    NOVA((short) 1),
+    REDIRECIONADA((short) 2, NOVA),
+    ORCADA((short) 3, REDIRECIONADA),
+    REJEITADA((short) 4, ORCADA),
+    APROVADA((short) 5, REJEITADA),
+    ARRUMADA((short) 6, APROVADA),
+    PAGA((short) 8, ARRUMADA),
+    FINALIZADA((short) 7, PAGA);
 
     private short id;
     private StatusSolicitacao[] proximosPossiveis;
