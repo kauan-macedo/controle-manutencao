@@ -3,38 +3,38 @@ package com.controlemanutencao.model;
 import com.controlemanutencao.repository.Converter;
 import com.controlemanutencao.model.enums.StatusSolicitacao;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "ME_LogSolicitacao")
+@NoArgsConstructor
 public class LogSolicitacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "IdLogSolicitacao", columnDefinition="INT")
-    private Long id;
+    @Getter private Long id;
 
     @ManyToOne
     @JoinColumn(name = "IdSolicitacao")
-    private Solicitacao solicitacao;
+    @Getter @Setter private Solicitacao solicitacao;
 
     @ManyToOne
     @JoinColumn(name = "Agente")
-    private Usuario agente;
+    @Getter @Setter private Usuario agente;
 
     @Column(name = "StatusAnterior")
     @Convert(converter = Converter.StatusSolicitacaoConverter.class)
-    private StatusSolicitacao statusAnterior;
+    @Getter @Setter private StatusSolicitacao statusAnterior;
 
     @Column(name = "NovoStatus")
     @Convert(converter = Converter.StatusSolicitacaoConverter.class)
-    private StatusSolicitacao novoStatus;
+    @Getter @Setter private StatusSolicitacao novoStatus;
 
     @Column(name = "Data")
-    private Long data;
-
-
-    public LogSolicitacao() {
-    }
+    @Getter @Setter private Long data;
 
     public LogSolicitacao(Solicitacao s, StatusSolicitacao statusAnterior, StatusSolicitacao novoStatus, Long data) {
         this.statusAnterior = statusAnterior;
@@ -43,27 +43,4 @@ public class LogSolicitacao {
         this.solicitacao = s;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public Solicitacao getSolicitacao() {
-        return solicitacao;
-    }
-
-    public Usuario getAgente() {
-        return agente;
-    }
-
-    public StatusSolicitacao getStatusAnterior() {
-        return statusAnterior;
-    }
-
-    public StatusSolicitacao getNovoStatus() {
-        return novoStatus;
-    }
-
-    public Long getData() {
-        return data;
-    }
 }
