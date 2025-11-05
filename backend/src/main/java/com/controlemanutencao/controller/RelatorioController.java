@@ -1,6 +1,7 @@
 package com.controlemanutencao.controller;
 
 import com.controlemanutencao.dto.RelatorioReceitaDTO;
+import com.controlemanutencao.dto.RelatorioReceitaCategoriaDTO;
 import com.controlemanutencao.model.Categoria;
 import com.controlemanutencao.model.Solicitacao;
 import com.controlemanutencao.repository.SolicitacaoRepository;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/relatorios")
 public class RelatorioController {
 
-    /*private final SolicitacaoRepository solicitacaoRepository;
+    private final SolicitacaoRepository solicitacaoRepository;
 
     public RelatorioController(SolicitacaoRepository solicitacaoRepository) {
         this.solicitacaoRepository = solicitacaoRepository;
@@ -45,7 +46,7 @@ public class RelatorioController {
     }
 
     @GetMapping("/receitasCategoria")
-    public List<RelatorioReceitaDTO> getRelatorioReceitasCategoria(){
+    public List<RelatorioReceitaCategoriaDTO> getRelatorioReceitasCategoria(){
         List<Solicitacao> solicitacoes = solicitacaoRepository.findAll();
 
         Map<Categoria, BigDecimal> receitasPorCategoria = solicitacoes.stream()
@@ -56,7 +57,7 @@ public class RelatorioController {
         ));
 
         return receitasPorCategoria.entrySet().stream()
-            .map(entry -> new RelatorioReceitaDTO(entry.getKey(), entry.getValue()))
+            .map(entry -> new RelatorioReceitaCategoriaDTO(entry.getKey(), entry.getValue()))
             .collect(Collectors.toList());
-    }*/
+    }
 }
