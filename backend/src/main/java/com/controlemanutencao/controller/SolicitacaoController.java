@@ -39,8 +39,8 @@ public class SolicitacaoController {
 
     @GetMapping
     public Response<List<SolicitacaoDTO>> listar(
-            @RequestParam("de") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate dataDe,
-            @RequestParam("ate") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate dataAte,
+            @RequestParam(name = "de", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate dataDe,
+            @RequestParam(name = "ate", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate dataAte,
             @RequestParam("page") int pagina,
             @AuthenticationPrincipal Usuario usuario) {
         List<SolicitacaoDTO> solicitacoes = new ArrayList<>();

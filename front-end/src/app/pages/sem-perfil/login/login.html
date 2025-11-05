@@ -1,6 +1,6 @@
 <div class="relative flex items-center justify-center min-h-screen flex-col 
             bg-gradient-to-br from-blue-50 to-indigo-100 
-            dark:from-gray-900 dark:to-gray-950 p-4 font-[Inter]">
+            dark:from-gray-900 dark:to-gray-950 p-4">
 
 
   <div class="absolute top-4 right-4">
@@ -10,8 +10,6 @@
  
   <div class="w-full max-w-xl bg-white dark:bg-gray-900 p-10 rounded-2xl shadow-2xl
               transform transition-all duration-500 hover:scale-[1.02] animate-fadeIn">
-
-   
        
     <div class="flex justify-center mb-6">
     <svg class="h-16 w-16 text-blue-600 dark:text-blue-400 drop-shadow-lg" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
@@ -19,20 +17,17 @@
     </svg>
     </div>
 
-
-
-
     <h2 class="text-4xl font-extrabold mb-3 text-center bg-clip-text text-transparent 
                bg-gradient-to-r from-blue-600 to-indigo-500 
                dark:from-blue-400 dark:to-indigo-300">
       Sistema de Manutenção
     </h2>
 
-    <p class="text-center mb-8 text-gray-600 dark:text-gray-400 text-base">
+    <p class="text-center mb-4 text-gray-600 dark:text-gray-400 text-base">
       Acesse sua conta para gerenciar suas solicitações.
     </p>
 
-
+    <p class="text-white text-center mb-4">Se não souber sua senha, consulte seu e-mail.</p>
     <form #form="ngForm" (ngSubmit)="onLogin(form)" class="space-y-6">
 
    

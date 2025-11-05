@@ -32,7 +32,7 @@ export class ClientePaginaInicial implements OnInit {
   //deixando essa funcao fora do ngoninit para poder chamar ela ao fechar o modal
   carregarSolicitacoes(): void {
     this.isLoading = true;
-    this.solicitacaoService.buscarTodas().subscribe({
+    this.solicitacaoService.buscarTodas(false, null, null).subscribe({
       next: (solicitacoes) => {
         this.minhasSolicitacoes = solicitacoes;
         this.isLoading = false;

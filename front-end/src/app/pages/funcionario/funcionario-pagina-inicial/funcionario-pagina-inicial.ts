@@ -5,9 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { Solicitacao } from '../../../models/solicitacao';
 import { ToastService } from '../../../services/toast-service';
-import { EstadosSolicitacao } from '../../../models/enums/estados-solicitacao';
+import { EstadosSolicitacao, translateEstado } from '../../../models/enums/estados-solicitacao';
 import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
 import { map } from 'rxjs/operators';
+import { formataData } from '../../../utils/utils';
 
 @Component({
   selector: 'app-funcionario-pagina-inicial',
@@ -17,13 +18,13 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./funcionario-pagina-inicial.css']
 })
 export class FuncionarioPaginaInicial implements OnInit {
-
+  translateEstado = translateEstado
+  formataData = formataData
   dropdown: string[] = ['Todas', 'Hoje', 'Selecionar Período:'];
   filtroSelecionado: string = '';
   dataInicial: string = '';
   dataFinal: string = '';
-
-
+  hoje = false;
 
   solicitacoesAbertas: Solicitacao[] = [];
   isLoading: boolean = false;
@@ -32,7 +33,7 @@ export class FuncionarioPaginaInicial implements OnInit {
 
   carregarSolicitacoes(): void {
     this.isLoading = true;
-    this.solicitacaoService.buscarTodas().pipe(
+    this.solicitacaoService.buscarTodas(false, null, null).pipe(
       map(solicitacoes => 
         solicitacoes.filter(solicitacao => 
           solicitacao.status === EstadosSolicitacao.NOVA

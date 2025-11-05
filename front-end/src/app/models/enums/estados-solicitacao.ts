@@ -25,6 +25,8 @@ export function translateEstado(estd: EstadosSolicitacao): string {
       return "Arrumada";
     case 7:
       return "Finalizada";
+    case 8:
+      return "Paga";
     default:
       return "";
   }

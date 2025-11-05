@@ -10,12 +10,13 @@
       </header>
 
       <div class="flex justify-end gap-4 px-4 pb-4">
-        <div>
+        <div class="flex justify-end flex-col">
           <select
             id="dropdownFiltro"
             name="dropdownFiltro"
             required
             [(ngModel)]="filtroSelecionado"
+            [ngClass]="{'mb-0': filtroSelecionado == 'Selecionar Período:'}"
             class="w-full p-3 border dark:border-gray-600 rounded-lg text-[#111418] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[#f0f2f5] dark:bg-gray-700 placeholder:text-[#60758a] dark:placeholder:text-gray-400"
           >
             <option value="" disabled selected>Selecione uma categoria</option>
@@ -40,7 +41,7 @@
           </div>
         }
 
-        <button (click)="aplicarFiltro()" id="botaoFiltro" type="button" class="w-24 flex items-center justify-center py-2 px-4 text-lg font-semibold text-gray-600 dark:text-white dark:bg-blue-700 focus:outline-none bg-blue-200 rounded-lg hover:bg-blue-300 ease-in-out transition duration-150">
+        <button (click)="carregarSolicitacoes()" id="botaoFiltro" type="button" class="w-24 flex items-center justify-center py-2 px-4 text-lg font-semibold text-gray-600 dark:text-white dark:bg-blue-700 focus:outline-none bg-blue-200 rounded-lg hover:bg-blue-300 ease-in-out transition duration-150">
           Filtrar
         </button>
       </div>
@@ -50,11 +51,11 @@
       <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 table-auto">
         <thead class="bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-200 uppercase text-sm font-semibold sticky top-0">
           <tr>
-            <th class="px-6 py-4 text-left w-1/6">Data/Hora</th>
-            <th class="px-6 py-4 text-left w-1/6">ID Cliente</th>
-            <th class="px-6 py-4 text-left w-1/6">Descrição Produto</th>
-            <th class="px-6 py-4 text-left w-1/6">Estado</th>
-            <th class="px-6 py-4 text-left w-1/6">Ações</th>
+            <th class="px-4 py-4 text-left w-1/6">Data/Hora</th>
+            <th class="px-4 py-4 text-left w-1/6">Cliente</th>
+            <th class="px-4 py-4 text-left w-1/6">Descrição Equip.</th>
+            <th class="px-4 py-4 text-left w-1/6">Estado</th>
+            <th class="px-4 py-4 text-left w-1/6">Ações</th>
           </tr>
         </thead>
         @if (isLoading) {
@@ -71,10 +72,10 @@
           @for (solicitacao of solicitacoesFiltradas; track solicitacao.id) {
             <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
               <td class="px-4 border-b dark:border-slate-700 border-slate-200 py-5">
-                <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.dataCriacao }}</p>
+                <p class="text-lg text-gray-800 dark:text-gray-200">{{ formataData(solicitacao.dataCriacao) }}</p>
               </td>
               <td class="px-4 border-b dark:border-slate-700 border-slate-200 py-5">
-                <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.usuario.id }}</p>
+                <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.usuario.nome }}</p>
               </td>
               <td class="px-4 border-b dark:border-slate-700 border-slate-200 py-5">
                 <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.descricaoEquipamento }}</p>
@@ -84,7 +85,7 @@
                   [ngClass]="getClasseEstado(solicitacao.status)"
                   class="inline-block px-3 py-1 rounded-full text-sm font-semibold"
                 >
-                  {{ solicitacao.status }}
+                  {{ translateEstado(solicitacao.status) }}
                 </span>
               </td>
 

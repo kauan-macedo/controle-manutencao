@@ -1,5 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
+/*
+Source - https://stackoverflow.com/questions/69400560/how-to-change-scrollbar-when-using-tailwind-next-js-react
+Posted by juliomalves
+Retrieved 05/11/2025, License - CC-BY-SA 4.0
+*/
 
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 5px;
+    height: 10px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: oklch(55.4% 0.046 257.417);
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: oklch(37.3% 0.034 259.733);
+    border-radius: 100vh;
+    border: 1px solid oklch(55.1% 0.027 264.364);
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #c0a0b9;
+  }
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}

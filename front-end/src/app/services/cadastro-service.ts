@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Usuario } from '../models/usuario';
 import { StorageService } from './storage-service';
 import * as api from '../../api/auth';
+import { Observable } from 'rxjs';
+import { API_URL, APIResponse } from '../../api/api';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -10,9 +13,17 @@ export class CadastroService {
   
   private readonly STORAGE_KEY = 'usuarios';
 
-  constructor(private storageService: StorageService) {}
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+    withCredentials: true
+  }
 
-  async registrarUsuario(usuarioDados: Usuario, onSuccess: (msg: string) => void, onError: (msg: string) => void) {
+
+  constructor(private httpClient: HttpClient) {}
+
+  registrarUsuario(usuarioDados: Usuario): Observable<APIResponse<any>> {
     let body: api.AutocadastroInput = {
       email: usuarioDados.email,
       nome: usuarioDados.nome,
@@ -22,12 +33,11 @@ export class CadastroService {
       numero: parseInt(usuarioDados.endereco.numero)
     }
 
-    let resp = await api.autocadastro(body);
-    if(resp.error) {
-      onError(resp.message);
-    } else {
-      onSuccess(resp.message);
-    }
+    return this.httpClient.post<APIResponse<any>>(
+      API_URL + "/auth/autocadastro",
+      body,
+      this.httpOptions
+    )
   }
 
 }

@@ -149,6 +149,14 @@ public class UsuarioService {
             throw new EmailAlreadyTakenException();
         }
 
+        if(repository.existsByCPF(in.cpf())) {
+            throw new IllegalArgumentException("CPF já em uso!");
+        }
+
+        if(repository.existsByTelefone(in.telefone())) {
+            throw new IllegalArgumentException("Telefone já em uso!");
+        }
+
         EnderecoViaCep enderecoViaCep = viaCEPService.buscarCEP(in.cep().replace("-", ""));
 
         Usuario usuario = new Usuario(

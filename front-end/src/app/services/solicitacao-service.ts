@@ -23,21 +23,11 @@ export class SolicitacaoService {
 
   //Observable
   //lembrando que so esta buscando solicitacoes em ate 1 pagina (15 solicitacoes)
- buscarTodas(): Observable<Solicitacao[]> {
-    const ate = new Date();
-    const de = new Date();
-    de.setFullYear(ate.getFullYear() - 100); 
-
-    const formatDate = (date: Date) => {
-      const day = String(date.getDate()).padStart(2, '0');
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const year = date.getFullYear();
-      return `${day}/${month}/${year}`;
-    }
-
+ buscarTodas(hoje: boolean, de: string | null, ate: string | null): Observable<Solicitacao[]> {
     let params = new HttpParams();
-    params = params.append('de', formatDate(de));
-    params = params.append('ate', formatDate(ate));
+    params = de == null || de.trim() == "" ? params : params.append('de', new Date(de).toLocaleDateString("pt-BR"));
+    params = ate == null || ate.trim() == "" ? params : params.append('ate', new Date(ate).toLocaleDateString("pt-BR"));
+    params = hoje ? params.append('de', new Date().toLocaleDateString("pt-BR")).append('ate', new Date().toLocaleDateString("pt-BR")) : params;
     params = params.append('page', '0');
 
     return this.httpClient.get<APIResponse<Solicitacao[]>>(

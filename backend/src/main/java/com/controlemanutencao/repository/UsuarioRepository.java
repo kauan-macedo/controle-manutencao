@@ -10,13 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-
-    Optional<Usuario> findFirstByEmailAndAtivoTrue(String email);
-
     boolean existsByEmail(String email);
-
+    boolean existsByCPF(String cpf);
+    boolean existsByTelefone(String cpf);
+    Optional<Usuario> findFirstByEmailAndAtivoTrue(String email);
     List<Usuario> findByTipoUsuarioAndAtivoTrue(TipoUsuario tipoUsuario);
-
     List<Usuario> findByAtivo(boolean bool);
 
 }

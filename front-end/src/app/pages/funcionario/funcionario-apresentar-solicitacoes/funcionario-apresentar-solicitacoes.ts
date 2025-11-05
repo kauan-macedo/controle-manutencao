@@ -5,8 +5,9 @@ import { RouterModule } from '@angular/router';
 import { Solicitacao } from '../../../models/solicitacao';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { ToastService } from '../../../services/toast-service';
-import { EstadosSolicitacao } from '../../../models/enums/estados-solicitacao';
+import { EstadosSolicitacao, translateEstado } from '../../../models/enums/estados-solicitacao';
 import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
+import { formataData } from '../../../utils/utils';
 
 @Component({
   selector: 'app-funcionario-apresentar-solicitacoes',
@@ -28,17 +29,21 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
   solicitacoesFiltradas: Solicitacao[] = [];
   isLoading: boolean = false;
 
+  translateEstado = translateEstado
+  formataData = formataData
 
   constructor(private solicitacaoService: SolicitacaoService, private toastService: ToastService, private cdr: ChangeDetectorRef) {
   }
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.carregarSolicitacoes();
   }
-  
+
  carregarSolicitacoes(): void {
   this.isLoading = true;
-    this.solicitacaoService.buscarTodas().subscribe({
+  let hoje = this.filtroSelecionado == 'Hoje';
+
+    this.solicitacaoService.buscarTodas(hoje, hoje ? null : this.dataInicial.trim(), hoje ? null : this.dataFinal).subscribe({
       next: (solicitacoes) => {
         
         //aqui deveria ser this.solicitacoes = solicitacoes, para depois filtrar, mas por hora vou deixar assim pra não ter que mudar o template
@@ -51,10 +56,6 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
         this.toastService.showError('Erro ao carregar solicitações.');
       },
     });
-  }
-
-  aplicarFiltro() {
-    //todo: refazer a logica do filtro
   }
 
 

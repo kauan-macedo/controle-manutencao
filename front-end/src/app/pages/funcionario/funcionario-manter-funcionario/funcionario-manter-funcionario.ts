@@ -50,11 +50,7 @@ export class FuncionarioManterFuncionario implements OnInit {
         this.toastrService.error(err.error.message)
       },
       complete: () => {
-        setTimeout(() => {
-      debugger
-        this.loading = false;
-        this.cdr.detectChanges();
-      })
+        this.endLoad()
       }
     })
   }
