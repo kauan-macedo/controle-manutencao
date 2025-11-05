@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
@@ -100,15 +102,12 @@ public class UsuarioService {
 
     @Transactional
     public void criarFuncionario(Usuario sender, CriarFuncionarioRequest in) throws RuntimeException {
-
         if(!sender.isFuncionario()) {
             throw new DeveSerFuncionarioException();
         }
-
         if(repository.existsByEmail(in.email())) {
             throw new EmailAlreadyTakenException();
         }
-
         Usuario usuario = new Usuario(
                 0,
                 in.nome(),
@@ -125,13 +124,16 @@ public class UsuarioService {
                 true,
                 in.dtNascimento()
         );
+        LocalDate dataNascimento = LocalDate.parse(in.dtNascimento());
+        LocalDate hoje = LocalDate.now();
+        LocalDate dataMaioridade = dataNascimento.plusYears(18);
+        if(hoje.isBefore(dataMaioridade)) {
+           throw new IllegalArgumentException("Funcionário deve ser maior de 18 anos!");
+        }
         usuario.setSenha(in.senha());
-
         repository.save(usuario);
-
         String mensagem = "Seja bem vindo ao ambiente Controle Manutenção!"
                 + "\nPara fazer login como funcionário, utilize seu email e a seguinte senha: " + in.senha();
-
         try {
             mailService.sendEmail(usuario.getEmail(), "Controle Manutenção: Boas vindas!", mensagem);
         } catch (Exception e) {
