@@ -33,6 +33,9 @@ public class LogSolicitacao {
     private Long data;
 
 
+    public LogSolicitacao() {
+    }
+
     public LogSolicitacao(Solicitacao s, StatusSolicitacao statusAnterior, StatusSolicitacao novoStatus, Long data) {
         this.statusAnterior = statusAnterior;
         this.novoStatus = novoStatus;

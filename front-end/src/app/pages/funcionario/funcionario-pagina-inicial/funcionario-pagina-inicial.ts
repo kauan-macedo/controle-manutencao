@@ -7,6 +7,7 @@ import { Solicitacao } from '../../../models/solicitacao';
 import { ToastService } from '../../../services/toast-service';
 import { EstadosSolicitacao } from '../../../models/enums/estados-solicitacao';
 import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-funcionario-pagina-inicial',
@@ -31,7 +32,13 @@ export class FuncionarioPaginaInicial implements OnInit {
 
   carregarSolicitacoes(): void {
     this.isLoading = true;
-    this.solicitacaoService.buscarTodas().subscribe({
+    this.solicitacaoService.buscarTodas().pipe(
+      map(solicitacoes => 
+        solicitacoes.filter(solicitacao => 
+          solicitacao.status === EstadosSolicitacao.NOVA
+        )
+      )
+    ).subscribe({
       next: (solicitacoes) => {
         this.solicitacoesAbertas = solicitacoes;
         this.isLoading = false;

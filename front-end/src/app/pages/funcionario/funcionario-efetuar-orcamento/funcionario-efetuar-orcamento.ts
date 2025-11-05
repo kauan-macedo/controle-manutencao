@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
 import { EstadosSolicitacao, translateEstado } from '../../../models/enums/estados-solicitacao';
+import { ToastService } from '../../../services/toast-service';
 
 @Component({
   selector: 'app-funcionario-efetuar-orcamento',
@@ -25,7 +26,7 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
   isLoading: boolean = false;
 
 
-  constructor(private route: ActivatedRoute, private router: Router, private orcamentoService: OrcamentoService, private solicitacaoService: SolicitacaoService, private cdr: ChangeDetectorRef) {}
+  constructor(private route: ActivatedRoute, private router: Router, private orcamentoService: OrcamentoService, private solicitacaoService: SolicitacaoService, private cdr: ChangeDetectorRef, private toastService: ToastService) {}
 
   ngOnInit(): void {
     const idDaUrl = this.route.snapshot.paramMap.get('id');
@@ -60,8 +61,29 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
     });
   }
 
-    efetuarOrcamento(): void {}
+  efetuarOrcamento(): void {
+    const solicitacao = this.solicitacao;
+    if (!solicitacao) {
+      this.toastService.showError('Solicitação não carregada.');
+      return;
+    }
+    if (!this.valorOrcamento || !this.descricaoOrcamento) {
+        this.toastService.showError('Preencha todos os campos do orçamento.');
+        return;
+    }
 
+    this.isLoading = true;
+    this.orcamentoService.enviarOrcamento(solicitacao.id, this.valorOrcamento, this.descricaoOrcamento)
+        .subscribe({
+            next: (response) => {
+                this.isLoading = false;
+                this.toastService.showSuccess(response.message);
+                this.router.navigate(['/funcionario/solicitacao', solicitacao.id]);
+            },
+            error: (error) => {
+                this.isLoading = false;
+                this.toastService.showError(error.message);
+            }
+        });
   }
-
-  
+}
