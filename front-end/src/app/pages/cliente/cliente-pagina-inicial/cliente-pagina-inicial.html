@@ -32,7 +32,7 @@
             @for (solicitacao of minhasSolicitacoes; track solicitacao.id) {
               <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
                   <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5">
-                      <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.dataCriacao }}</p>
+                      <p class="text-lg text-gray-800 dark:text-gray-200">{{ formataData(solicitacao.dataCriacao) }}</p>
                   </td>
                   <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5">
                       <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.descricaoEquipamento }}</p>

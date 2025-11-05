@@ -9,24 +9,35 @@ import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
 import { EstadosSolicitacao, translateEstado } from '../../../models/enums/estados-solicitacao';
 import { ToastService } from '../../../services/toast-service';
+import { MaskDirective } from '../../../shared/directives/mask.directive';
+import { formataData } from '../../../utils/utils';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { LoadingOverlayComponent } from '../../../shared/loading-overlay.component';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-funcionario-efetuar-orcamento',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, SpinnerComponent],
+  imports: [CommonModule, RouterModule, FormsModule, MaskDirective, ToastrModule, LoadingOverlayComponent],
   templateUrl: './funcionario-efetuar-orcamento.html',
   styleUrl: './funcionario-efetuar-orcamento.css'
 })
 export class FuncionarioEfetuarOrcamento implements OnInit {
-
+  formataData = formataData
   solicitacao: Solicitacao | null = null;
   cliente: Usuario | undefined;
-  valorOrcamento: number | undefined;
+  valorOrcamento: string | undefined;
   descricaoOrcamento: string | undefined;
   isLoading: boolean = false;
 
-
-  constructor(private route: ActivatedRoute, private router: Router, private orcamentoService: OrcamentoService, private solicitacaoService: SolicitacaoService, private cdr: ChangeDetectorRef, private toastService: ToastService) {}
+  constructor(
+    private route: ActivatedRoute, 
+    private router: Router, 
+    private orcamentoService: OrcamentoService, 
+    private solicitacaoService: SolicitacaoService,
+    private cdr: ChangeDetectorRef, 
+    private toastrService: ToastrService
+  ) {}
 
   ngOnInit(): void {
     const idDaUrl = this.route.snapshot.paramMap.get('id');
@@ -64,25 +75,38 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
   efetuarOrcamento(): void {
     const solicitacao = this.solicitacao;
     if (!solicitacao) {
-      this.toastService.showError('Solicitação não carregada.');
+      this.toastrService.error('Solicitação não carregada.');
       return;
     }
     if (!this.valorOrcamento || !this.descricaoOrcamento) {
-        this.toastService.showError('Preencha todos os campos do orçamento.');
+        this.toastrService.error('Preencha todos os campos do orçamento.');
         return;
     }
 
     this.isLoading = true;
-    this.orcamentoService.enviarOrcamento(solicitacao.id, this.valorOrcamento, this.descricaoOrcamento)
+    this.orcamentoService.enviarOrcamento(solicitacao.id, parseFloat(
+      this.valorOrcamento
+          .replace(/[^\d,.-]/g, '')
+          .replace(/\./g, '')     
+          .replace(',', '.')
+      ), this.descricaoOrcamento).pipe(
+              finalize(() => {
+                setTimeout(() => {
+                  this.isLoading = false;
+                  this.cdr.detectChanges();
+                }, 10);
+              })
+            )
         .subscribe({
             next: (response) => {
-                this.isLoading = false;
-                this.toastService.showSuccess(response.message);
-                this.router.navigate(['/funcionario/solicitacao', solicitacao.id]);
+                this.toastrService.success(response.message);
+                setTimeout(() => {
+                  debugger
+                  this.router.navigate(['/funcionario/solicitacao', solicitacao.id]);
+                }, 3000)
             },
             error: (error) => {
-                this.isLoading = false;
-                this.toastService.showError(error.message);
+                this.toastrService.error(error.message);
             }
         });
   }

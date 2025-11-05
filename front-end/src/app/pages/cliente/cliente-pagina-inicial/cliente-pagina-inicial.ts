@@ -8,6 +8,7 @@ import { ToastComponent } from '../../../shared/toast-component/toast-component'
 import { ToastService } from '../../../services/toast-service';
 import { EstadosSolicitacao, translateEstado ,} from '../../../models/enums/estados-solicitacao';
 import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
+import { formataData } from '../../../utils/utils';
 
 @Component({
   selector: 'app-cliente-pagina-inicial',
@@ -22,6 +23,7 @@ import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
   styleUrl: './cliente-pagina-inicial.css',
 })
 export class ClientePaginaInicial implements OnInit {
+  formataData = formataData
   exibirModal: boolean = false;
   minhasSolicitacoes: Solicitacao[] = [];
   //variavel para exibir o componente de loading

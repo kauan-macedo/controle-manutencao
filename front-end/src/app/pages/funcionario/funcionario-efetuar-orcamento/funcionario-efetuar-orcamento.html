@@ -1,88 +1,47 @@
 <main class="bg-gray-50 dark:bg-gray-950 p-4 md:p-8 font-sans min-h-screen">
-  @if (isLoading) {
-    <app-spinner></app-spinner>
-  } @else {
-  @if (solicitacao) {
-    <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden">
+    <app-loading-overlay [visible]="isLoading"></app-loading-overlay>
+    @if (solicitacao && !solicitacao.orcamento) {
+        <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden">
 
-      <div class="p-6 bg-gray-100 dark:bg-gray-900 border-b dark:border-gray-700">
-        <h1 class="text-3xl font-bold text-gray-800 dark:text-white">{{ solicitacao.descricaoEquipamento }}</h1>
-        <p class="text-md text-gray-600 dark:text-gray-400">Solicitado em: {{ solicitacao.dataCriacao }}</p>
-      </div>
-
-      <div class="p-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mb-8">
-          <div>
-            <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status Atual</h3>
-            <p class="text-lg font-medium text-blue-600 dark:text-blue-400">{{ traduzirEstado(solicitacao.status) }}</p>
-          </div>
-          <div>
-            <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Categoria</h3>
-            <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.categoria.descricao }}</p>
-          </div>
-          <div class="md:col-span-2">
-            <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descrição do Defeito</h3>
-            <p class="text-lg text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-700 p-3 rounded-md mt-1">{{ solicitacao.descricaoDefeito }}</p>
+          <div class="p-6 bg-gray-100 dark:bg-gray-900 border-b dark:border-gray-700">
+            <h1 class="text-3xl font-bold text-gray-800 dark:text-white">{{ solicitacao.descricaoEquipamento }}</h1>
+            <p class="text-md text-gray-600 dark:text-gray-400">Solicitado em: {{ formataData(solicitacao.dataCriacao) }}</p>
           </div>
 
-          @if (solicitacao.orcamento) {
-            <div>
-              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valor Orçado</h3>
-              <p class="text-xl font-bold text-green-700 dark:text-green-400">{{ solicitacao.orcamento.valor | currency:'BRL' }}</p>
+          <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mb-8">
+              <div>
+                <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status Atual</h3>
+                <p class="text-lg font-medium text-blue-600 dark:text-blue-400">{{ traduzirEstado(solicitacao.status) }}</p>
+              </div>
+              <div>
+                <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Categoria</h3>
+                <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.categoria.descricao }}</p>
+              </div>
+              <div class="md:col-span-2">
+                <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descrição do
+                  Defeito</h3>
+                <p class="text-lg text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-700 p-3 rounded-md mt-1">{{
+                  solicitacao.descricaoDefeito }}</p>
+              </div>
+
             </div>
-          }
-        </div>
-
-        <hr class="my-8 dark:border-gray-700">
-
-        <div>
-          <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Histórico de Atualizações</h2>
-          <div class="relative pl-6 border-l-2 border-gray-200 dark:border-gray-700">
-
-            <div class="mb-8 last:mb-0">
-              <span class="absolute -left-[11px] top-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 dark:bg-blue-600 ring-4 ring-white dark:ring-gray-800">
-                <svg class="h-3 w-3 text-white fill-current"  viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path></svg>
-              </span>
-
-              @for (log of solicitacao.historico; track log) {
-                <div class="ml-2">
-                  <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ traduzirEstado(log.novoStatus) }}</h3>
-                  <time class="block mb-2 text-sm font-normal leading-none text-gray-500 dark:text-gray-400">
-                    {{ log.data }}
-                  </time>
-                  <p class="text-base font-normal text-gray-600 dark:text-gray-300">{{ solicitacao.descricaoDefeito }}</p>
-                  
-                  @if (log.agente) {
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                      Realizado por: <span class="font-medium">{{ log.agente.nome }}</span>
-                    </p>
-                  }
-                </div>
-              }
-            </div>
-
           </div>
+
+          <div
+            class="px-6 py-4 bg-gray-50 dark:bg-gray-800 border-t dark:border-gray-700 flex flex-col justify-between items-center gap-4">
+            <input id="valorOrcamento" type="text" [(ngModel)]="valorOrcamento" placeholder="Valor" appMask="money"
+              class="form-input flex w-full resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-blue-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-[#60758a] dark:placeholder:text-gray-400 px-4 text-base font-semibold leading-normal">
+            <textarea id="descricaoOrcamento" [(ngModel)]="descricaoOrcamento" placeholder="Descrição"
+              class="form-input flex w-full resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-blue-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-[#60758a] dark:placeholder:text-gray-400 px-4 text-base font-semibold leading-normal"></textarea>
+            <button (click)="efetuarOrcamento()"
+              class="w-full md:w-auto px-6 py-3 bg-blue-600 dark:bg-blue-700 text-white font-semibold text-sm uppercase rounded shadow-md hover:bg-blue-700 dark:hover:bg-blue-800 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out">
+              Efetuar Orçamento
+            </button>
+          </div>
+
         </div>
-      </div>
-
-      <div class="px-6 py-4 bg-gray-50 dark:bg-gray-800 border-t dark:border-gray-700 flex flex-col md:flex-row justify-between items-center gap-4">
-        <input 
-            id="valorOrcamento" 
-            type="text" 
-            [(ngModel)]="valorOrcamento"
-            placeholder="Valor" 
-            class="form-input flex min-w-0 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-blue-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-[#60758a] dark:placeholder:text-gray-400 px-4 text-base font-semibold leading-normal">
-        <textarea 
-            id="descricaoOrcamento" 
-            [(ngModel)]="descricaoOrcamento"
-            placeholder="Descrição" 
-            class="form-input flex min-w-0 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-blue-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-[#60758a] dark:placeholder:text-gray-400 px-4 text-base font-semibold leading-normal"></textarea>
-        <button (click)="efetuarOrcamento()" class="w-full md:w-auto px-6 py-3 bg-blue-600 dark:bg-blue-700 text-white font-semibold text-sm uppercase rounded shadow-md hover:bg-blue-700 dark:hover:bg-blue-800 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out">
-            Efetuar Orçamento
-        </button>
-    </div>
-
-    </div>
-  }
-}
+      } @else {
+        <h1>Pedido inexistente ou já orçado!</h1>
+      }
 </main>
