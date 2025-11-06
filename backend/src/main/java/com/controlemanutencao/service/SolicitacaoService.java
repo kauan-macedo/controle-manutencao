@@ -46,7 +46,9 @@ public class SolicitacaoService {
     }
 
     public void atualizarSolicitacao(Usuario user, Solicitacao s, String descricaoDefeito, String descricaoEquipamento, String dthArrumado, Long responsavelId, Long categoriaId, Short status) throws IllegalArgumentException, EstadoIlegalSolicitacaoException, DeveSerFuncionarioException  {
-        if(!user.isFuncionario()) {
+        if (!user.isFuncionario()
+                && status != StatusSolicitacao.REJEITADA.getId()
+                && status != StatusSolicitacao.APROVADA.getId()) {
             throw new DeveSerFuncionarioException();
         }
         Utils.ifNotNull(descricaoDefeito, (x) -> s.setDescricaoDefeito(descricaoDefeito));
