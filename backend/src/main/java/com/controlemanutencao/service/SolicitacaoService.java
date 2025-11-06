@@ -45,33 +45,35 @@ public class SolicitacaoService {
         repository.save(s);
     }
 
-    public void atualizarSolicitacao(Usuario user, Solicitacao s, String descricaoDefeito, String descricaoEquipamento, String dthArrumado, Long responsavelId, Long categoriaId, Short status) throws IllegalArgumentException, EstadoIlegalSolicitacaoException, DeveSerFuncionarioException  {
+    public void atualizarSolicitacao(Usuario user, Long idOS, AtualizarSolicitacaoRequest in) throws IllegalArgumentException, EstadoIlegalSolicitacaoException, DeveSerFuncionarioException  {
         if (!user.isFuncionario()
-                && status != StatusSolicitacao.REJEITADA.getId()
-                && status != StatusSolicitacao.APROVADA.getId()) {
+                && in.status() != StatusSolicitacao.REJEITADA.getId()
+                && in.status() != StatusSolicitacao.APROVADA.getId()) {
             throw new DeveSerFuncionarioException();
         }
-        Utils.ifNotNull(descricaoDefeito, (x) -> s.setDescricaoDefeito(descricaoDefeito));
-        Utils.ifNotNull(descricaoEquipamento, (x) -> s.setDescricaoDefeito(descricaoDefeito));
-        if(dthArrumado != null) {
-            if(Utils.isFuture(dthArrumado)) {
-                throw new IllegalArgumentException("A data de arrumado não pode estar no futuro");
-            }
-            s.setDataArrumado(Utils.toUnix(dthArrumado));
-        }
-        if(responsavelId != null) {
-            Usuario u = usuarioService.findById(responsavelId).orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado!"));
+
+        Solicitacao s = repository.findById(idOS).orElseThrow(() -> new IllegalArgumentException("Solicitação não encontrada!"));
+
+        Utils.ifNotNull(in.descricaoDefeito(), (x) -> s.setDescricaoDefeito(in.descricaoDefeito()));
+        Utils.ifNotNull(in.descManutencao(), (x) -> s.setDescricaoManutencao(in.descManutencao()));
+        Utils.ifNotNull(in.orientacoesCliente(), (x) -> s.setOrientacoesCliente(in.orientacoesCliente()));
+        Utils.ifNotNull(in.descricaoEquipamento(), (x) -> s.setDescricaoEquipamento(in.descricaoEquipamento()));
+        if(in.responsavelId() != null) {
+            Usuario u = usuarioService.findById(in.responsavelId()).orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado!"));
             if(!u.isFuncionario()) {
                 throw new IllegalArgumentException("Responsável deve ser funcionário.");
             }
             s.setResponsavel(u);
         }
-        if(categoriaId != null) {
-            Categoria u = categoriaService.findById(categoriaId).orElseThrow(() -> new IllegalArgumentException("Categoria não encontrada!"));
+        if(in.categoriaId() != null) {
+            Categoria u = categoriaService.findById(in.categoriaId()).orElseThrow(() -> new IllegalArgumentException("Categoria não encontrada!"));
             s.setCategoria(u);
         }
-        if(status != null) {
-            StatusSolicitacao statusSolicitacao = StatusSolicitacao.fromId(status);
+        if(in.status() != null) {
+            StatusSolicitacao statusSolicitacao = StatusSolicitacao.fromId(in.status());
+            if(statusSolicitacao == StatusSolicitacao.ARRUMADA) {
+                s.setDataArrumado(Utils.timestampNow());
+            }
             if(!List.of(s.getStatus().getProximosStatusPossiveis()).contains(statusSolicitacao)) {
                 throw new EstadoIlegalSolicitacaoException("A solicitação não pode ser atualizada para o status informado.");
             }
@@ -116,7 +118,7 @@ public class SolicitacaoService {
                 to,
                 user.getTipoUsuario() == TipoUsuario.CLIENTE,
                 (long) user.getId(),
-                PageRequest.of(pagina, 15)
+                PageRequest.of(pagina, 9999)
         ).toList();
     }
 

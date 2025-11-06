@@ -101,11 +101,7 @@ public class SolicitacaoController {
 
     @PutMapping("/{id}")
     public Response<?> atualizarSolicitacao(@PathVariable("id") Long solicitacaoId, @RequestBody AtualizarSolicitacaoRequest req, @AuthenticationPrincipal Usuario usuario) {
-        Optional<Solicitacao> solicitacao = service.findById(usuario, solicitacaoId);
-        if(solicitacao.isEmpty()) {
-            return new Response<>(HttpStatus.BAD_REQUEST.value(), "Solicitação não encontrada!", null);
-        }
-        service.atualizarSolicitacao(usuario, solicitacao.get(), req.descricaoDefeito(), req.descricaoEquipamento(), req.dthArrumado(), req.responsavelId(), req.categoriaId(), req.status());
+        service.atualizarSolicitacao(usuario, solicitacaoId, req);
         return new Response<>(HttpStatus.OK.value(), "Orçamento enviado com sucesso!", null);
     }
 

@@ -9,8 +9,11 @@ public record AtualizarSolicitacaoRequest (
     @JsonProperty("desc_equipamento")
     String descricaoEquipamento,
 
-    @JsonProperty("dth_arrumado")
-    String dthArrumado,
+    @JsonProperty("orientacoes_cliente")
+    String orientacoesCliente,
+
+    @JsonProperty("desc_manutencao")
+    String descManutencao,
 
     @JsonProperty("responsavel_id")
     Long responsavelId,

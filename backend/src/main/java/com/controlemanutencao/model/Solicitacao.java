@@ -23,6 +23,12 @@ public class Solicitacao {
     @Column(name = "DescEquipamento")
     private String descricaoEquipamento;
 
+    @Column(name = "DescManutencao")
+    private String descricaoManutencao;
+
+    @Column(name = "Orientacoes")
+    private String orientacoesCliente;
+
     @Column(name = "DthCriacao")
     private Long dataCriacao;
 
@@ -108,6 +114,14 @@ public class Solicitacao {
         return categoria;
     }
 
+    public String getDescricaoManutencao() {
+        return descricaoManutencao;
+    }
+
+    public String getOrientacoesCliente() {
+        return orientacoesCliente;
+    }
+
     public boolean isAtivo() {
         return ativo;
     }
@@ -142,5 +156,17 @@ public class Solicitacao {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public void setDescricaoManutencao(String descricaoManutencao) {
+        this.descricaoManutencao = descricaoManutencao;
+    }
+
+    public void setOrientacoesCliente(String orientacoesCliente) {
+        this.orientacoesCliente = orientacoesCliente;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }
