@@ -93,7 +93,7 @@ public class SolicitacaoService {
     }
 
     private void salvarLog(Solicitacao s, StatusSolicitacao previous, StatusSolicitacao next, Usuario agente) {
-        LogSolicitacao log = new LogSolicitacao(s, previous, next, Utils.timestampNow());
+        LogSolicitacao log = new LogSolicitacao(s, agente, previous, next, Utils.timestampNow());
         logRepository.save(log);
     }
 

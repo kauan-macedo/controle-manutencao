@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Solicitacao } from '../../../models/solicitacao';
@@ -14,6 +14,8 @@ import { formataData } from '../../../utils/utils';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { LoadingOverlayComponent } from '../../../shared/loading-overlay.component';
 import { finalize } from 'rxjs';
+import {HttpErrorResponse} from '@angular/common/http';
+import {APIResponse} from '../../../../api/api';
 
 @Component({
   selector: 'app-funcionario-efetuar-orcamento',
@@ -31,24 +33,25 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
   isLoading: boolean = false;
 
   constructor(
-    private route: ActivatedRoute, 
-    private router: Router, 
-    private orcamentoService: OrcamentoService, 
+    private route: ActivatedRoute,
+    private router: Router,
+    private orcamentoService: OrcamentoService,
     private solicitacaoService: SolicitacaoService,
-    private cdr: ChangeDetectorRef, 
-    private toastrService: ToastrService
+    private cdr: ChangeDetectorRef,
+    private toastrService: ToastrService,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit(): void {
     const idDaUrl = this.route.snapshot.paramMap.get('id');
-    
+
     if (!idDaUrl) {
       console.error('ID da solicitação não encontrado na URL');
       return;
     }
 
     const idNumerico = +idDaUrl;
-    
+
     this.buscarPorId(idNumerico);
 
     this.cdr.detectChanges();
@@ -64,7 +67,7 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
       next: (data) => {
         this.solicitacao = data;
         this.isLoading = false;
-        this.cdr.detectChanges(); 
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Erro ao carregar solicitações:', error);
@@ -87,7 +90,7 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
     this.orcamentoService.enviarOrcamento(solicitacao.id, parseFloat(
       this.valorOrcamento
           .replace(/[^\d,.-]/g, '')
-          .replace(/\./g, '')     
+          .replace(/\./g, '')
           .replace(',', '.')
       ), this.descricaoOrcamento).pipe(
               finalize(() => {
@@ -102,11 +105,16 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
                 this.toastrService.success(response.message);
                 setTimeout(() => {
                   debugger
-                  this.router.navigate(['/funcionario/solicitacao', solicitacao.id]);
+                  this.ngZone.run(() => {
+                    debugger
+                    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                      this.router.navigate(['/funcionario/pagina-inicial']);
+                    });
+                  });
                 }, 3000)
             },
-            error: (error) => {
-                this.toastrService.error(error.message);
+            error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
+              this.toastrService.error(err.error.message)
             }
         });
   }
