@@ -1,5 +1,8 @@
-<main class="bg-gray-50 dark:bg-gray-950 p-4 md:p-8 font-sans">
+<main class="bg-gray-50 dark:bg-gray-950 p-4 md:p-8 font-sans min-h-screen">
   
+  @if (isLoading) {
+    <app-spinner></app-spinner>
+  } @else {
   @if (solicitacao){
 
     <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden">
@@ -26,7 +29,7 @@
             </div>
             <div>
               <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Categoria</h3>
-              <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.categoria }}</p>
+              <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.categoria.descricao }}</p>
             </div>
             <div class="md:col-span-2">
               <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descrição do Defeito</h3>
@@ -43,11 +46,11 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
             <div>
               <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nome</h3>
-              <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.cliente?.nome }}</p>
+              <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.usuario?.nome }}</p>
             </div>
             <div>
               <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Contato</h3>
-              <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.cliente?.telefone }}</p>
+              <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.usuario?.telefone }}</p>
             </div>
           </div>
         </div>
@@ -92,5 +95,5 @@
     </div>
     
   }
-
+}
 </main>
