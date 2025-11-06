@@ -11,6 +11,8 @@ export class Solicitacao {
     descricaoEquipamento: string;
     dataCriacao: string;
     dataArrumado: string;
+    orientacoesCliente: string;
+    descricaoManutencao: string;
     ativo: boolean;
     orcamento: Orcamento | null;
     usuario: Usuario;
@@ -26,6 +28,8 @@ export class Solicitacao {
         descricaoEquipamento: string = "",
         dataCriacao: string = "",
         dataArrumado: string = "",
+        orientacoesCliente: string = "",
+        descricaoManutencao: string = "",
         ativo: boolean = true,
         orcamento: Orcamento | null = null,
         usuario: Usuario = new Usuario(),
@@ -34,6 +38,8 @@ export class Solicitacao {
     ) {
         this.id = id;
         this.status = status;
+        this.orientacoesCliente = orientacoesCliente;
+        this.descricaoManutencao = descricaoManutencao;
         this.categoria = categoria;
         this.descricaoDefeito = descricaoDefeito;
         this.descricaoEquipamento = descricaoEquipamento;

@@ -99,7 +99,7 @@ public class SolicitacaoService {
         logRepository.save(log);
     }
 
-    public List<Solicitacao> find(Usuario user, LocalDate de, LocalDate ate, int pagina) {
+    public List<Solicitacao> find(Usuario user, LocalDate de, LocalDate ate, StatusSolicitacao status, int pagina) {
 
         ZoneId utcZone = ZoneOffset.UTC;
 
@@ -118,6 +118,7 @@ public class SolicitacaoService {
                 to,
                 user.getTipoUsuario() == TipoUsuario.CLIENTE,
                 (long) user.getId(),
+                status,
                 PageRequest.of(pagina, 9999)
         ).toList();
     }

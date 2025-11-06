@@ -1,47 +1,82 @@
-<main class="bg-gray-50 dark:bg-gray-950 p-4 md:p-8 font-sans min-h-screen">
-    <app-loading-overlay [visible]="isLoading"></app-loading-overlay>
-    @if (solicitacao && !solicitacao.orcamento) {
-        <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden">
+<main class="bg-gray-50 text-gray-700 dark:text-white dark:bg-gray-950 p-4 md:p-8 font-sans min-h-screen">
+  <app-loading-overlay [visible]="isLoading"></app-loading-overlay>
+  @if (solicitacao && !solicitacao.orcamento) {
+  <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden">
 
-          <div class="p-6 bg-gray-100 dark:bg-gray-900 border-b dark:border-gray-700">
-            <h1 class="text-3xl font-bold text-gray-800 dark:text-white">{{ solicitacao.descricaoEquipamento }}</h1>
-            <p class="text-md text-gray-600 dark:text-gray-400">Solicitado em: {{ formataData(solicitacao.dataCriacao) }}</p>
-          </div>
+    <div class="p-6 bg-gray-100 dark:bg-gray-900 border-b dark:border-gray-700">
+      <h1 class="text-3xl font-bold text-gray-800 dark:text-white">{{ solicitacao.descricaoEquipamento }}</h1>
+      <p class="text-md text-gray-600 dark:text-gray-400">Solicitado em: {{ formataData(solicitacao.dataCriacao) }}</p>
+    </div>
 
-          <div class="p-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mb-8">
-              <div>
-                <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status Atual</h3>
-                <p class="text-lg font-medium text-blue-600 dark:text-blue-400">{{ traduzirEstado(solicitacao.status) }}</p>
-              </div>
-              <div>
-                <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Categoria</h3>
-                <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.categoria.descricao }}</p>
-              </div>
-              <div class="md:col-span-2">
-                <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Descrição do
-                  Defeito</h3>
-                <p class="text-lg text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-700 p-3 rounded-md mt-1">{{
-                  solicitacao.descricaoDefeito }}</p>
-              </div>
-
-            </div>
-          </div>
-
-          <div
-            class="px-6 py-4 bg-gray-50 dark:bg-gray-800 border-t dark:border-gray-700 flex flex-col justify-between items-center gap-4">
-            <input id="valorOrcamento" type="text" [(ngModel)]="valorOrcamento" placeholder="Valor" appMask="money"
-              class="form-input flex w-full resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-blue-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-[#60758a] dark:placeholder:text-gray-400 px-4 text-base font-semibold leading-normal">
-            <textarea id="descricaoOrcamento" [(ngModel)]="descricaoOrcamento" placeholder="Descrição"
-              class="form-input flex w-full resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-blue-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-[#60758a] dark:placeholder:text-gray-400 px-4 text-base font-semibold leading-normal"></textarea>
-            <button (click)="efetuarOrcamento()"
-              class="w-full md:w-auto px-6 py-3 bg-blue-600 dark:bg-blue-700 text-white font-semibold text-sm uppercase rounded shadow-md hover:bg-blue-700 dark:hover:bg-blue-800 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out">
-              Efetuar Orçamento
-            </button>
-          </div>
-
+    <div class="p-6">
+      <p class="text-xl font-bold">Solicitação:</p>
+      <div class="grid grid-cols-4 text-md mt-2 gap-4">
+        <div>
+          <p class="font-semibold">Categoria Equip.</p>
+          <p class="text-gray-400 dark:text-gray-300">{{solicitacao.categoria.descricao}}</p>
         </div>
-      } @else {
-        <h1>Pedido inexistente ou já orçado!</h1>
-      }
+        <div>
+          <p class="font-semibold">Data Criação</p>
+          <p class="text-gray-400 dark:text-gray-300">{{formataData(solicitacao.dataCriacao)}}</p>
+        </div>
+        <div>
+          <p class="font-semibold">Responsável</p>
+          <p class="text-gray-400 dark:text-gray-300">{{solicitacao.responsavel ? solicitacao.responsavel.nome : 'Sem responsável'}}</p>
+        </div>
+        <div class="">
+          <p class="font-bold">Desc. Equipamento</p>
+          <p>{{solicitacao.descricaoEquipamento}}</p>
+        </div>
+        <div class="col-span-2">
+          <p class="font-bold">Desc. Defeito</p>
+          <p>{{solicitacao.descricaoDefeito}}</p>
+        </div>
+        <div>
+          <p class="font-semibold">Status</p>
+          <p
+            [ngClass]="[getClasseEstado(solicitacao.status), 'inline-block', 'px-3', 'py-1', 'rounded-full', 'text-sm', 'font-semibold']">
+            {{ translateEstado(solicitacao.status) }}
+          </p>
+        </div>
+      </div>
+      <p class="text-xl font-bold mt-6">Cliente:</p>
+      <div class="grid grid-cols-4 text-md mt-2 gap-4">
+        <div class="col-span-2">
+          <p class="font-semibold">Nome</p>
+          <p class="text-gray-400 dark:text-gray-300">{{solicitacao.usuario.nome}}</p>
+        </div>
+        <div class="">
+          <p class="font-semibold">CPF</p>
+          <p class="text-gray-400 dark:text-gray-300">{{solicitacao.usuario.cpf}}</p>
+        </div>
+        <div class="">
+          <p class="font-semibold">Telefone</p>
+          <p class="text-gray-400 dark:text-gray-300">{{solicitacao.usuario.telefone}}</p>
+        </div>
+        <div class="col-span-2">
+          <p class="font-semibold">E-mail</p>
+          <p class="text-gray-400 dark:text-gray-300">{{solicitacao.usuario.email}}</p>
+        </div>
+        <div class="col-span-2">
+          <p class="font-semibold">Endereço</p>
+          <p class="text-gray-400 dark:text-gray-300">{{`${solicitacao.usuario.endereco.logradouro}, ${solicitacao.usuario.endereco.numero}, ${solicitacao.usuario.endereco.bairro} - ${solicitacao.usuario.endereco.cidade}/${solicitacao.usuario.endereco.estado}`}}</p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="px-6 py-4 bg-gray-50 dark:bg-gray-800 border-t dark:border-gray-700 flex flex-col justify-between items-center gap-4">
+      <input id="valorOrcamento" type="text" [(ngModel)]="valorOrcamento" placeholder="Valor" appMask="money"
+        class="form-input flex w-full resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-blue-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-[#60758a] dark:placeholder:text-gray-400 px-4 text-base font-semibold leading-normal">
+      <!--textarea id="descricaoOrcamento" [(ngModel)]="descricaoOrcamento" placeholder="Descrição"
+        class="form-input flex w-full resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-blue-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-[#60758a] dark:placeholder:text-gray-400 px-4 text-base font-semibold leading-normal"></textarea-->
+      <button (click)="efetuarOrcamento()"
+        class="w-full md:w-auto px-6 py-3 bg-blue-600 dark:bg-blue-700 text-white font-semibold text-sm uppercase rounded shadow-md hover:bg-blue-700 dark:hover:bg-blue-800 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out">
+        Efetuar Orçamento
+      </button>
+    </div>
+
+  </div>
+  } @else {
+  <h1>Pedido inexistente ou já orçado!</h1>
+  }
 </main>

@@ -10,7 +10,7 @@ import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
 import { EstadosSolicitacao, translateEstado } from '../../../models/enums/estados-solicitacao';
 import { ToastService } from '../../../services/toast-service';
 import { MaskDirective } from '../../../shared/directives/mask.directive';
-import { formataData } from '../../../utils/utils';
+import { formataData, getClasseEstado } from '../../../utils/utils';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { LoadingOverlayComponent } from '../../../shared/loading-overlay.component';
 import { finalize } from 'rxjs';
@@ -25,6 +25,8 @@ import {APIResponse} from '../../../../api/api';
   styleUrl: './funcionario-efetuar-orcamento.css'
 })
 export class FuncionarioEfetuarOrcamento implements OnInit {
+  getClasseEstado = getClasseEstado
+  translateEstado = translateEstado
   formataData = formataData
   solicitacao: Solicitacao | null = null;
   cliente: Usuario | undefined;
@@ -81,7 +83,7 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
       this.toastrService.error('Solicitação não carregada.');
       return;
     }
-    if (!this.valorOrcamento || !this.descricaoOrcamento) {
+    if (!this.valorOrcamento) {
         this.toastrService.error('Preencha todos os campos do orçamento.');
         return;
     }
@@ -91,8 +93,8 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
       this.valorOrcamento
           .replace(/[^\d,.-]/g, '')
           .replace(/\./g, '')
-          .replace(',', '.')
-      ), this.descricaoOrcamento).pipe(
+          .replace(',', '.') 
+      )).pipe(
               finalize(() => {
                 setTimeout(() => {
                   this.isLoading = false;

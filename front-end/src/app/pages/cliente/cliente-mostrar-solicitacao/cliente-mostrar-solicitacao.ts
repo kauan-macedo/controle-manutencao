@@ -6,6 +6,7 @@ import { Solicitacao } from '../../../models/solicitacao';
 import { Categoria } from '../../../models/categoria-equipamento';
 import { EstadosSolicitacao, translateEstado } from '../../../models/enums/estados-solicitacao';
 import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
+import { formataData, getClasseEstado } from '../../../utils/utils';
 
 @Component({
   selector: 'app-cliente-mostrar-solicitacao',
@@ -15,6 +16,9 @@ import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
   styleUrl: './cliente-mostrar-solicitacao.css',
 })
 export class ClienteMostrarSolicitacao implements OnInit {
+  formataData = formataData
+  translateEstado = translateEstado
+  getClasseEstado = getClasseEstado
   solicitacao: Solicitacao | null = null;
   isLoading: boolean = false;
 

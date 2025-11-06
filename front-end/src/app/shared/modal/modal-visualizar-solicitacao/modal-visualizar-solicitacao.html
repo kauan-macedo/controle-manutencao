@@ -1,6 +1,6 @@
 @if(solicitacao) {
-  <div class="modal-backdrop" (click)="close()"></div>
-  <div class="modal p-8 bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
+  <div class="modal-backdrop z-10" (click)="close()"></div>
+  <div class="modal p-8 bg-white dark:bg-gray-800 text-gray-800 dark:text-white w-[1000px] z-20">
     <div class="modal-header">
       <h3 class="text-3xl font-bold">Solicitação #{{solicitacao.id}}</h3>
       <button (click)="close()">×</button>
@@ -49,7 +49,7 @@
         </div>
       </div>
       <hr class="my-4 h-[1px]">
-      <div class="text-lg flex flex-col gap-y-4 grid grid-cols-3">
+      <div class="text-lg flex-col gap-y-4 grid grid-cols-3">
         <div class="">
           <p class="font-bold">Desc. Equipamento</p>
           <p>{{solicitacao.descricaoEquipamento}}</p>
@@ -94,24 +94,55 @@
           </div>
         </div>
       </div>
-      <hr class="my-4 h-[1px]">
-      <div class="mx-auto flex justify-center">
-        @if([3, 4, 7].includes(solicitacao.status)) {
-          <button (click)="close()" class="py-3 px-6 bg-red-600 dark:bg-red-700 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 dark:hover:bg-blue-800">
-            Fechar
-          </button>
-        }
+      <div class="mx-auto mt-4 flex justify-center gap-x-4">
         @if(solicitacao.status == 1) {
-          <button (click)="redirecionar()" class="py-3 px-6 bg-purple-600 dark:bg-purple-700 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 dark:hover:bg-blue-800">
-            Redirecionar
-          </button>
           <button (click)="orcar()" class="py-3 px-6 bg-blue-600 dark:bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 dark:hover:bg-blue-800">
             Efetuar Orçamento
           </button>
-          <button (click)="close()" class="py-3 px-6 bg-red-600 dark:bg-red-700 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 dark:hover:bg-blue-800">
-            Fechar
+        }
+        @if(solicitacao.status == 2 || solicitacao.status == 5) {
+          <button (click)="arrumar()" class="py-3 px-6 bg-green-600 dark:bg-green-700 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 dark:hover:bg-green-800">
+            Efetuar Manutenção
           </button>
         }
+        @if(solicitacao.status == 8) {
+          <button (click)="finalizar()" class="py-3 px-6 bg-green-600 dark:bg-green-700 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 dark:hover:bg-green-800">
+            Finalizar
+          </button>
+        }
+        <button (click)="close()" class="py-3 px-6 bg-red-600 dark:bg-red-700 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 dark:hover:bg-red-800">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+@if(redirecionando) {
+  <div class="modal-backdrop z-30">
+    <div class="modal p-8 bg-white dark:bg-gray-800 text-gray-800 dark:text-white w-[500px] z-40">
+      <div class="modal-header">
+        <h3 class="text-3xl font-bold">Redirecionar solicitação</h3>
+        <button (click)="redirecionando = false">×</button>
+      </div>
+      <hr class="my-4 h-[1px]">
+      <div class="modal-body">
+        <p class="text-md text-white font-bold">Selecione um funcionário</p>
+        <select
+          id="funcionarioDestino"
+          name="funcionarioDestino"
+          required
+          [(ngModel)]="funcionarioDestino"
+          class="w-full p-3 border mt-2 dark:border-gray-600 rounded-lg text-[#111418] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[#f0f2f5] dark:bg-gray-700 placeholder:text-[#60758a] dark:placeholder:text-gray-400"
+        >
+          <option [ngValue]="null" disabled selected>Selecione um funcionário</option>
+            @for (func of funcionariosDisponiveis; track func.id) {
+              <option [ngValue]="func">{{ func.nome }}</option>
+            }
+        </select>
+        <button (click)="redirecionar()" class="py-3 mt-4 px-6 mx-auto bg-purple-600 dark:bg-purple-700 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 dark:hover:bg-blue-800">
+          Redirecionar
+        </button>
       </div>
     </div>
   </div>

@@ -17,10 +17,10 @@ export class OrcamentoService {
 
   constructor(private httpClient: HttpClient) { }
 
-  enviarOrcamento(solicitacao_id: number, valor: number, descricao: string): Observable<APIResponse<any>> {
+  enviarOrcamento(solicitacao_id: number, valor: number): Observable<APIResponse<any>> {
     const body = {
       valor: valor,
-      descricao: descricao
+      descricao: ""
     }
     return this.httpClient.post<APIResponse<any>>(
       API_URL + "/solicitacao/orcamento/" + solicitacao_id,

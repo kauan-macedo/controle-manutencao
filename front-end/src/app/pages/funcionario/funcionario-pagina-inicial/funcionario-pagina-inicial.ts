@@ -33,13 +33,8 @@ export class FuncionarioPaginaInicial implements OnInit {
 
   carregarSolicitacoes(): void {
     this.isLoading = true;
-    this.solicitacaoService.buscarTodas(false, null, null).pipe(
-      map(solicitacoes => 
-        solicitacoes.filter(solicitacao => 
-          solicitacao.status === EstadosSolicitacao.NOVA
-        )
-      )
-    ).subscribe({
+    this.solicitacaoService.buscarTodas(1, false, null, null)
+      .subscribe({
       next: (solicitacoes) => {
         this.solicitacoesAbertas = solicitacoes;
         this.isLoading = false;

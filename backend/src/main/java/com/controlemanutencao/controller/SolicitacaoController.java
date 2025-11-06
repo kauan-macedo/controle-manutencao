@@ -41,10 +41,11 @@ public class SolicitacaoController {
     public Response<List<SolicitacaoDTO>> listar(
             @RequestParam(name = "de", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate dataDe,
             @RequestParam(name = "ate", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate dataAte,
+            @RequestParam(name = "status", required = false) Integer status,
             @RequestParam("page") int pagina,
             @AuthenticationPrincipal Usuario usuario) {
         List<SolicitacaoDTO> solicitacoes = new ArrayList<>();
-        for (Solicitacao s : service.find(usuario, dataDe, dataAte, pagina)) {
+        for (Solicitacao s : service.find(usuario, dataDe, dataAte, status == null ? null : StatusSolicitacao.fromId((short)status.intValue()), pagina)) {
             List<LogSolicitacao> logs = service.findLogs(s);
             solicitacoes.add(SolicitacaoDTO.from(s, logs));
         }

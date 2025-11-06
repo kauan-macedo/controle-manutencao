@@ -32,6 +32,7 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
   solicitacoes: Solicitacao[] = [];
   solicitacoesFiltradas: Solicitacao[] = [];
   isLoading: boolean = false;
+  statusSelecionado: number = -1;
 
   translateEstado = translateEstado
   formataData = formataData
@@ -47,9 +48,8 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
   this.isLoading = true;
   let hoje = this.filtroSelecionado == 'Hoje';
 
-    this.solicitacaoService.buscarTodas(hoje && this.filtroSelecionado != 'Todas', hoje && this.filtroSelecionado != 'Todas' ? null : this.dataInicial.trim(), hoje && this.filtroSelecionado != 'Todas' ?  null : this.dataFinal).subscribe({
+    this.solicitacaoService.buscarTodas(this.statusSelecionado, hoje && this.filtroSelecionado != 'Todas', hoje && this.filtroSelecionado != 'Todas' ? null : this.dataInicial.trim(), hoje && this.filtroSelecionado != 'Todas' ?  null : this.dataFinal).subscribe({
       next: (solicitacoes) => {
-
         //aqui deveria ser this.solicitacoes = solicitacoes, para depois filtrar, mas por hora vou deixar assim pra não ter que mudar o template
         this.solicitacoesFiltradas = solicitacoes;
         this.isLoading = false;

@@ -2,10 +2,10 @@ package com.controlemanutencao.model.enums;
 
 public enum StatusSolicitacao {
     NOVA((short) 1),
-    REDIRECIONADA((short) 2, NOVA),
-    ORCADA((short) 3, REDIRECIONADA),
+    ORCADA((short) 3, NOVA),
     REJEITADA((short) 4, ORCADA),
     APROVADA((short) 5, REJEITADA),
+    REDIRECIONADA((short) 2, APROVADA),
     ARRUMADA((short) 6, APROVADA),
     PAGA((short) 8, ARRUMADA),
     FINALIZADA((short) 7, PAGA);
