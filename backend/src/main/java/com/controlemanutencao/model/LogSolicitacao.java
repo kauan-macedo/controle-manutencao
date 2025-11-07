@@ -21,13 +21,8 @@ public class LogSolicitacao {
     @JoinColumn(name = "Agente")
     private Usuario agente;
 
-    @Column(name = "StatusAnterior")
-    @Convert(converter = Converter.StatusSolicitacaoConverter.class)
-    private StatusSolicitacao statusAnterior;
-
-    @Column(name = "NovoStatus")
-    @Convert(converter = Converter.StatusSolicitacaoConverter.class)
-    private StatusSolicitacao novoStatus;
+    @Column(name = "Descricao")
+    private String descricao;
 
     @Column(name = "Data")
     private Long data;
@@ -36,10 +31,9 @@ public class LogSolicitacao {
     public LogSolicitacao() {
     }
 
-    public LogSolicitacao(Solicitacao s, Usuario agente, StatusSolicitacao statusAnterior, StatusSolicitacao novoStatus, Long data) {
-        this.statusAnterior = statusAnterior;
+    public LogSolicitacao(Solicitacao s, Usuario agente, String descricao, Long data) {
         this.agente = agente;
-        this.novoStatus = novoStatus;
+        this.descricao = descricao;
         this.data = data;
         this.solicitacao = s;
     }
@@ -56,12 +50,8 @@ public class LogSolicitacao {
         return agente;
     }
 
-    public StatusSolicitacao getStatusAnterior() {
-        return statusAnterior;
-    }
-
-    public StatusSolicitacao getNovoStatus() {
-        return novoStatus;
+    public String getDescricao() {
+        return descricao;
     }
 
     public Long getData() {

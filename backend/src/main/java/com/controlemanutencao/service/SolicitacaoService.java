@@ -42,7 +42,7 @@ public class SolicitacaoService {
 
     public void novaSolicitacao(Usuario user, Solicitacao s) {
         s.setStatus(StatusSolicitacao.NOVA);
-        salvarLog(s, null, StatusSolicitacao.NOVA, user);
+        salvarLog(s, "Criou a solicitação", user);
         repository.save(s);
     }
 
@@ -64,6 +64,9 @@ public class SolicitacaoService {
             if(!u.isFuncionario()) {
                 throw new IllegalArgumentException("Responsável deve ser funcionário.");
             }
+            if(in.status() == StatusSolicitacao.REDIRECIONADA.getId()) {
+                salvarLog(s, "Redirecionou solicitação para " + u.getNome(), user);
+            }
             s.setResponsavel(u);
         }
         if(in.categoriaId() != null) {
@@ -72,14 +75,14 @@ public class SolicitacaoService {
         }
         if(in.status() != null && in.status() != s.getStatus().getId()) {
             StatusSolicitacao statusSolicitacao = StatusSolicitacao.fromId(in.status());
+            if(!List.of(s.getStatus().getProximosStatusPossiveis()).contains(statusSolicitacao)) {
+                throw new EstadoIlegalSolicitacaoException("A solicitação não pode ser atualizada para o status informado.");
+            }
             if(statusSolicitacao == StatusSolicitacao.ARRUMADA) {
                 s.setDataArrumado(Utils.timestampNow());
                 s.setResponsavel(user);
             }
-            if(!List.of(s.getStatus().getProximosStatusPossiveis()).contains(statusSolicitacao)) {
-                throw new EstadoIlegalSolicitacaoException("A solicitação não pode ser atualizada para o status informado.");
-            }
-            salvarLog(s, s.getStatus(), statusSolicitacao, user);
+            salvarLog(s, "Mudou situação de " + s.getStatus().getDesc() + " para " + statusSolicitacao.getDesc(), user);
             s.setStatus(statusSolicitacao);
         }
         repository.save(s);
@@ -92,14 +95,14 @@ public class SolicitacaoService {
         if (s.getStatus() != StatusSolicitacao.NOVA && s.getStatus() != StatusSolicitacao.REDIRECIONADA) {
             throw new EstadoIlegalSolicitacaoException("Não é possível enviar um orçamento nessa etapa.");
         }
-        salvarLog(s, s.getStatus(), StatusSolicitacao.ORCADA, agente);
+        salvarLog(s, String.format("Orçou o pedido em R$ %.2f", valor), agente);
         s.setStatus(StatusSolicitacao.ORCADA);
         s.setOrcamento(new Orcamento(null, valor, desc, Utils.timestampNow()));
         repository.save(s);
     }
 
-    private void salvarLog(Solicitacao s, StatusSolicitacao previous, StatusSolicitacao next, Usuario agente) {
-        LogSolicitacao log = new LogSolicitacao(s, agente, previous, next, Utils.timestampNow());
+    private void salvarLog(Solicitacao s, String desc, Usuario agente) {
+        LogSolicitacao log = new LogSolicitacao(s, agente, desc, Utils.timestampNow());
         logRepository.save(log);
     }
 

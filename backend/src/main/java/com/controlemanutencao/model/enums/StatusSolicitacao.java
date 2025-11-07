@@ -1,25 +1,31 @@
 package com.controlemanutencao.model.enums;
 
 public enum StatusSolicitacao {
-    FINALIZADA((short) 7),
-    PAGA((short) 8, FINALIZADA),
-    ARRUMADA((short) 6, PAGA),
-    REDIRECIONADA((short) 2, ARRUMADA),
-    APROVADA((short) 5, REDIRECIONADA, ARRUMADA),
-    REJEITADA((short) 4, APROVADA),
-    ORCADA((short) 3, REJEITADA, APROVADA),
-    NOVA((short) 1, ORCADA);
+    FINALIZADA((short) 7, "FINALIZADA"),
+    PAGA((short) 8, "PAGA", FINALIZADA),
+    ARRUMADA((short) 6, "ARRUMADA", PAGA),
+    REDIRECIONADA((short) 2, "REDIRECIONADA", ARRUMADA),
+    APROVADA((short) 5, "APROVADA", REDIRECIONADA, ARRUMADA),
+    REJEITADA((short) 4, "REJEITADA", APROVADA),
+    ORCADA((short) 3, "ORÇADA", REJEITADA, APROVADA),
+    NOVA((short) 1, "NOVA", ORCADA);
 
     private short id;
     private StatusSolicitacao[] proximosPossiveis;
+    private String desc;
 
-    StatusSolicitacao(short id, StatusSolicitacao ...proximosPossiveis) {
+    StatusSolicitacao(short id, String desc, StatusSolicitacao ...proximosPossiveis) {
         this.id = id;
+        this.desc = desc;
         this.proximosPossiveis = proximosPossiveis;
     }
 
     public short getId() {
         return id;
+    }
+
+    public String getDesc() {
+        return desc;
     }
 
     public StatusSolicitacao[] getProximosStatusPossiveis() {
