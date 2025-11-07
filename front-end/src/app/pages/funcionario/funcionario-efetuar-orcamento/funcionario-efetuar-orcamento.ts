@@ -93,7 +93,7 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
       this.valorOrcamento
           .replace(/[^\d,.-]/g, '')
           .replace(/\./g, '')
-          .replace(',', '.') 
+          .replace(',', '.')
       )).pipe(
               finalize(() => {
                 setTimeout(() => {
@@ -106,9 +106,7 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
             next: (response) => {
                 this.toastrService.success(response.message);
                 setTimeout(() => {
-                  debugger
                   this.ngZone.run(() => {
-                    debugger
                     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
                       this.router.navigate(['/funcionario/pagina-inicial']);
                     });

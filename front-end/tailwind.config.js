@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
-  
+
   content: ["./src/**/*.{html,ts}"],
   theme: {
     extend: {},
@@ -44,6 +44,9 @@ theme: {
 },
 theme: {
   extend: {
+    height: {
+      'n-screen': 'calc(100vh - 178px)',
+    },
     transitionTimingFunction: {
       'soft': 'cubic-bezier(0.4, 0, 0.2, 1)',
     },

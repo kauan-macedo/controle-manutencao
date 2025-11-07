@@ -19,8 +19,6 @@ import { FuncionarioManterCategoriaEquipamento } from './pages/funcionario/funci
 import { FuncionarioApresentarSolicitacoes } from './pages/funcionario/funcionario-apresentar-solicitacoes/funcionario-apresentar-solicitacoes';
 import { FuncionarioEfetuarManutencao } from './pages/funcionario/funcionario-efetuar-manutencao/funcionario-efetuar-manutencao';
 import { FuncionarioModalRedirecionarManutencao } from './pages/funcionario/funcionario-modal-redirecionar-manutencao/funcionario-modal-redirecionar-manutencao';
-import { FuncionarioModalEfetuarManutencao } from './pages/funcionario/funcionario-modal-efetuar-manutencao/funcionario-modal-efetuar-manutencao';
-
 /*
 
 definindo a rota de login como default, após isso as rotas são divididas entre funcionario e cliente
@@ -120,10 +118,6 @@ export const routes: Routes = [
             {
                 path: 'funcionario-modal-redirecionar-manutencao/:id',
                 component: FuncionarioModalRedirecionarManutencao
-            },
-            {
-                path: 'funcionario-modal-efetuar-manutencao/:id',
-                component: FuncionarioModalEfetuarManutencao
             }
         ]
     }

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
@@ -25,7 +25,13 @@ export class Autocadastro implements OnInit {
   usuario: Usuario = new Usuario('', '', '', '', '', '', { cep: '', logradouro: '', bairro: '', cidade: '', estado: '', numero: '' });
   loading = false;
 
-  constructor(private cadastroService: CadastroService, private cdr: ChangeDetectorRef, private toastService: ToastrService, private router: Router) {}
+  constructor(
+    private cadastroService: CadastroService,
+    private cdr: ChangeDetectorRef,
+    private toastService: ToastrService,
+    private router: Router,
+    private ngZone: NgZone
+  ) {}
 
   ngOnInit(): void {}
 
@@ -73,7 +79,11 @@ export class Autocadastro implements OnInit {
         next:(res) => {
           this.toastService.success(res.message);
           setTimeout(() => {
-            this.router.navigate(['/cliente/pagina-inicial']);
+            this.ngZone.run(() => {
+              this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                this.router.navigate(['/cliente/pagina-inicial']);
+              });
+            });
           }, 3000)
         },
         error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
