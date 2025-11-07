@@ -4,7 +4,7 @@ public enum StatusSolicitacao {
     NOVA((short) 1),
     ORCADA((short) 3, NOVA),
     REJEITADA((short) 4, ORCADA),
-    APROVADA((short) 5, REJEITADA),
+    APROVADA((short) 5, ORCADA),
     REDIRECIONADA((short) 2, APROVADA),
     ARRUMADA((short) 6, APROVADA),
     PAGA((short) 8, ARRUMADA),

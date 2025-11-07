@@ -74,10 +74,10 @@ public class SolicitacaoService {
             if(statusSolicitacao == StatusSolicitacao.ARRUMADA) {
                 s.setDataArrumado(Utils.timestampNow());
             }
-            if(!List.of(s.getStatus().getProximosStatusPossiveis()).contains(statusSolicitacao)) {
+            if(!List.of(statusSolicitacao.getProximosStatusPossiveis()).contains(s.getStatus())) {
                 throw new EstadoIlegalSolicitacaoException("A solicitação não pode ser atualizada para o status informado.");
             }
-        }
+            s.setStatus(statusSolicitacao);        }
         repository.save(s);
     }
 
