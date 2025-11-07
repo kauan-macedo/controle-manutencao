@@ -6,6 +6,8 @@ import { ClienteRejeitarServico } from '../cliente-rejeitar-servico/cliente-reje
 import { Usuario } from '../../../models/usuario';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
+import { EstadosSolicitacao } from '../../../models/enums/estados-solicitacao';
+import { ToastService } from '../../../services/toast-service';
 
 @Component({
   selector: 'app-cliente-mostrar-orcamento',
@@ -32,7 +34,8 @@ export class ClienteMostrarOrcamento implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private solicitacaoService: SolicitacaoService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private toastService: ToastService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -68,16 +71,36 @@ export class ClienteMostrarOrcamento implements OnInit {
 
   aprovarSolicitacao(): void {
     if (this.solicitacao) {
-      this.fecharModalAprovarServico();
-      this.router.navigate(['/cliente/pagina-inicial']);
+      this.solicitacaoService.atualizarSolicitacao(this.solicitacao.id, { status: EstadosSolicitacao.APROVADA })
+      .subscribe({
+        next: () => {
+          this.toastService.showSuccess('Solicitação aprovada com sucesso!');
+          this.fecharModalAprovarServico();
+          this.router.navigate(['/cliente/pagina-inicial']);
+        },
+        error: (error) => {
+          this.toastService.showSuccess('Erro ao aprovar a solicitação. Tente novamente mais tarde.');
+          console.error(error);
+        }
+      });
     }
   }
 
  
   rejeitarSolicitacao(): void {
     if (this.solicitacao) {
-      this.fecharModalRejeitarServico();
-      this.router.navigate(['/cliente/pagina-inicial']);
+      this.solicitacaoService.atualizarSolicitacao(this.solicitacao.id, { status: EstadosSolicitacao.REJEITADA })
+      .subscribe({
+        next: () => {
+          this.toastService.showSuccess('Solicitação rejeitada com sucesso.');
+          this.fecharModalRejeitarServico();
+          this.router.navigate(['/cliente/pagina-inicial']);
+        },
+        error: (error) => {
+          this.toastService.showSuccess('Erro ao rejeitar a solicitação. Tente novamente mais tarde.');
+          console.error(error);
+        }
+      });
     }
   }
 

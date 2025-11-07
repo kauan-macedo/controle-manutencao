@@ -47,6 +47,8 @@ export class ModalVisualizarSolicitacao implements OnInit {
   ngOnInit() {
   }
 
+  redirecionar() {}
+
   close() {
     this.solicitacao = null;
     this.closed.emit();

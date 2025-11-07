@@ -104,15 +104,19 @@ public class SolicitacaoService {
     }
 
     public List<Solicitacao> find(Usuario user, LocalDate de, LocalDate ate, StatusSolicitacao status, int pagina) {
+
         ZoneId utcZone = ZoneOffset.UTC;
+
         Long from = null;
         Long to = null;
+
         if(de != null) {
             from = de.atStartOfDay(utcZone).toInstant().toEpochMilli();
         }
         if(ate != null) {
             to = ate.atStartOfDay(utcZone).plusDays(1).minusNanos(1).toInstant().toEpochMilli();
         }
+
         return repository.buscaSolicitacoes(
             from, to, user.getTipoUsuario() == TipoUsuario.CLIENTE, (long) user.getId(), status, PageRequest.of(pagina, 9999)
         ).toList().stream().filter(x -> !user.isFuncionario() || (x.getStatus() != StatusSolicitacao.REDIRECIONADA || x.getResponsavel().getId() == user.getId())).toList();
