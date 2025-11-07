@@ -40,8 +40,9 @@ public class SolicitacaoService {
         return repository.findByIdWithUser(user, id, user.isFuncionario());
     }
 
-    public void novaSolicitacao(Solicitacao s) {
+    public void novaSolicitacao(Usuario user, Solicitacao s) {
         s.setStatus(StatusSolicitacao.NOVA);
+        salvarLog(s, null, StatusSolicitacao.NOVA, user);
         repository.save(s);
     }
 
@@ -69,14 +70,17 @@ public class SolicitacaoService {
             Categoria u = categoriaService.findById(in.categoriaId()).orElseThrow(() -> new IllegalArgumentException("Categoria não encontrada!"));
             s.setCategoria(u);
         }
-        if(in.status() != null) {
+        if(in.status() != null && in.status() != s.getStatus().getId()) {
             StatusSolicitacao statusSolicitacao = StatusSolicitacao.fromId(in.status());
             if(statusSolicitacao == StatusSolicitacao.ARRUMADA) {
                 s.setDataArrumado(Utils.timestampNow());
+                s.setResponsavel(user);
             }
             if(!List.of(s.getStatus().getProximosStatusPossiveis()).contains(statusSolicitacao)) {
                 throw new EstadoIlegalSolicitacaoException("A solicitação não pode ser atualizada para o status informado.");
             }
+            salvarLog(s, s.getStatus(), statusSolicitacao, user);
+            s.setStatus(statusSolicitacao);
         }
         repository.save(s);
     }
@@ -100,27 +104,18 @@ public class SolicitacaoService {
     }
 
     public List<Solicitacao> find(Usuario user, LocalDate de, LocalDate ate, StatusSolicitacao status, int pagina) {
-
         ZoneId utcZone = ZoneOffset.UTC;
-
         Long from = null;
         Long to = null;
-
         if(de != null) {
             from = de.atStartOfDay(utcZone).toInstant().toEpochMilli();
         }
         if(ate != null) {
             to = ate.atStartOfDay(utcZone).plusDays(1).minusNanos(1).toInstant().toEpochMilli();
         }
-
         return repository.buscaSolicitacoes(
-                from,
-                to,
-                user.getTipoUsuario() == TipoUsuario.CLIENTE,
-                (long) user.getId(),
-                status,
-                PageRequest.of(pagina, 9999)
-        ).toList();
+            from, to, user.getTipoUsuario() == TipoUsuario.CLIENTE, (long) user.getId(), status, PageRequest.of(pagina, 9999)
+        ).toList().stream().filter(x -> !user.isFuncionario() || (x.getStatus() != StatusSolicitacao.REDIRECIONADA || x.getResponsavel().getId() == user.getId())).toList();
     }
 
     public List<LogSolicitacao> findLogs(Solicitacao s) {

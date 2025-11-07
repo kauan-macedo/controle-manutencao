@@ -86,7 +86,7 @@ public class SolicitacaoController {
                 null,
                 usuario,
                 optCat.get(), true);
-        service.novaSolicitacao(s);
+        service.novaSolicitacao(usuario, s);
         return new Response<>(HttpStatus.OK.value(), "Solicitação criada com sucesso!", null);
     }
 
