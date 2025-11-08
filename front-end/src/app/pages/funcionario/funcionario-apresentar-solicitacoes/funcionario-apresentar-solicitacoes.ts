@@ -9,6 +9,7 @@ import { translateEstado } from '../../../models/enums/estados-solicitacao';
 import {formataData, getClasseEstado} from '../../../utils/utils';
 import {ModalVisualizarSolicitacao} from '../../../shared/modal/modal-visualizar-solicitacao/modal-visualizar-solicitacao';
 import {LoadingOverlayComponent} from '../../../shared/loading-overlay.component';
+import {finalize} from 'rxjs';
 
 @Component({
   selector: 'app-funcionario-apresentar-solicitacoes',
@@ -54,7 +55,9 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
     this.loading = true;
     let hoje = this.filtroSelecionado == 'Hoje';
 
-    this.solicitacaoService.buscarTodas([this.statusSelecionado], hoje && this.filtroSelecionado != 'Todas', hoje && this.filtroSelecionado != 'Todas' ? null : this.dataInicial.trim(), hoje && this.filtroSelecionado != 'Todas' ?  null : this.dataFinal).subscribe({
+    this.solicitacaoService.buscarTodas([this.statusSelecionado], hoje && this.filtroSelecionado != 'Todas', hoje && this.filtroSelecionado != 'Todas' ? null : this.dataInicial.trim(), hoje && this.filtroSelecionado != 'Todas' ?  null : this.dataFinal)
+      .pipe(finalize(() => this.endLoad()))
+      .subscribe({
       next: (solicitacoes) => {
         //aqui deveria ser this.solicitacoes = solicitacoes, para depois filtrar, mas por hora vou deixar assim pra não ter que mudar o template
         this.solicitacoesFiltradas = solicitacoes;
@@ -64,9 +67,6 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
       error: (error) => {
         console.error('Erro ao carregar solicitações:', error);
         this.toastService.showError('Erro ao carregar solicitações.');
-      },
-      complete: () => {
-        this.endLoad();
       }
     });
   }

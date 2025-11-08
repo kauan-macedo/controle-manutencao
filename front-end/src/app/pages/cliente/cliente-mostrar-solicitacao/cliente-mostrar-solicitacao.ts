@@ -6,6 +6,7 @@ import { Solicitacao } from '../../../models/solicitacao';
 import { EstadosSolicitacao, translateEstado } from '../../../models/enums/estados-solicitacao';
 import { LoadingOverlayComponent } from '../../../shared/loading-overlay.component';
 import { formataData, getClasseEstado } from '../../../utils/utils';
+import {finalize} from 'rxjs';
 
 @Component({
   selector: 'app-cliente-mostrar-solicitacao',
@@ -33,7 +34,7 @@ export class ClienteMostrarSolicitacao implements OnInit {
     }
 
     const idNumerico = +idDaUrl;
-    
+
     this.buscarPorId(idNumerico);
 
     //garantindo que o template vai ser carregado quando a requisicao for feita
@@ -54,16 +55,15 @@ export class ClienteMostrarSolicitacao implements OnInit {
   //Observer
   buscarPorId(id: number): void {
     this.loading = true;
-    this.solicitacaoService.buscarPorId(id).subscribe({
+    this.solicitacaoService.buscarPorId(id)
+      .pipe(finalize(() => this.endLoad()))
+      .subscribe({
       next: (data) => {
         this.solicitacao = data;
-        this.cdr.detectChanges(); 
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Erro ao carregar solicitações:', error);
-      },
-      complete: () => {
-        this.endLoad()
       }
     });
   }

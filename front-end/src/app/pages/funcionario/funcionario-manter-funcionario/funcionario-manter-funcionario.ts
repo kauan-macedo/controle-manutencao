@@ -10,6 +10,7 @@ import { LoadingOverlayComponent } from '../../../shared/loading-overlay.compone
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
 import { APIResponse } from '../../../../api/api';
+import {finalize} from 'rxjs';
 
 @Component({
   selector: 'app-funcionario-manter-funcionario',
@@ -44,13 +45,12 @@ export class FuncionarioManterFuncionario implements OnInit {
 
   buscarFuncionarios(then: (x: Usuario[]) => void) {
     this.loading = true;
-    this.usuarioService.buscarFuncionarios().subscribe({
+    this.usuarioService.buscarFuncionarios()
+      .pipe(finalize(() => this.endLoad()))
+      .subscribe({
       next: (x) => then(x.body),
       error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
         this.toastrService.error(err.error.message)
-      },
-      complete: () => {
-        this.endLoad()
       }
     })
   }
@@ -60,7 +60,9 @@ export class FuncionarioManterFuncionario implements OnInit {
     if (form.invalid) {
       return;
     }
-    this.usuarioService.criarFuncionario(this.novoFuncionario.nome, this.novoFuncionario.email, this.novoFuncionario.dt_nascimento, this.novoFuncionario.senha).subscribe({
+    this.usuarioService.criarFuncionario(this.novoFuncionario.nome, this.novoFuncionario.email, this.novoFuncionario.dt_nascimento, this.novoFuncionario.senha)
+      .pipe(finalize(() => this.endLoad()))
+      .subscribe({
       next: (x) => {
         this.toastrService.success(x.message);
         this.refreshUsers();
@@ -69,7 +71,6 @@ export class FuncionarioManterFuncionario implements OnInit {
       error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
         this.toastrService.error(err.error.message)
       },
-      complete: () => this.endLoad()
     })
   }
 
@@ -82,29 +83,31 @@ export class FuncionarioManterFuncionario implements OnInit {
       return;
     }
     this.loading = true;
-    this.usuarioService.salvarFuncionario(this.funcionarioEmEdicao.id, this.funcionarioEmEdicao.email, this.funcionarioEmEdicao.nome).subscribe({
+    this.usuarioService.salvarFuncionario(this.funcionarioEmEdicao.id, this.funcionarioEmEdicao.email, this.funcionarioEmEdicao.nome)
+      .pipe(finalize(() => this.endLoad()))
+      .subscribe({
       next: (x) => {
         this.toastrService.success(x.message);
         this.funcionarioEmEdicao = null;
       },
       error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
         this.toastrService.error(err.error.message)
-      },
-      complete: () => this.endLoad()
+      }
     });
   }
 
   onRemover(id: number): void {
     this.loading = true;
-    this.usuarioService.inativarFuncionario(id).subscribe({
+    this.usuarioService.inativarFuncionario(id)
+      .pipe(finalize(() => this.endLoad()))
+      .subscribe({
       next: (x) => {
         this.toastrService.success(x.message);
         this.refreshUsers();
       },
       error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
         this.toastrService.error(err.error.message)
-      },
-      complete: () => this.endLoad()
+      }
     })
   }
 

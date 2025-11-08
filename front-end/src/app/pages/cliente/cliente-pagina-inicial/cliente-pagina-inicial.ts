@@ -14,6 +14,7 @@ import { ModalResgatarServicoComponent } from '../../../shared/modal/modal-resga
 import { HttpErrorResponse } from '@angular/common/http';
 import { APIResponse } from '../../../../api/api';
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
+import {finalize} from 'rxjs';
 
 @Component({
   selector: 'app-cliente-pagina-inicial',
@@ -37,7 +38,12 @@ export class ClientePaginaInicial implements OnInit {
   solicitacaoParaResgatar: Solicitacao | null = null;
 
 
-  constructor(private solicitacaoService: SolicitacaoService, private toastService: ToastService, private cdr: ChangeDetectorRef, private toastrService: ToastrService) {}
+  constructor(
+    private solicitacaoService: SolicitacaoService,
+    private toastService: ToastService,
+    private cdr: ChangeDetectorRef,
+    private toastrService: ToastrService
+  ){}
 
   ngOnInit(): void {
     this.carregarSolicitacoes();
@@ -53,18 +59,17 @@ export class ClientePaginaInicial implements OnInit {
   //deixando essa funcao fora do ngoninit para poder chamar ela ao fechar o modal
   carregarSolicitacoes(): void {
     this.loading = true;
-    this.solicitacaoService.buscarTodas(null, false, null, null).subscribe({
-      next: (solicitacoes) => {
-        this.minhasSolicitacoes = solicitacoes;
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error('Erro ao carregar solicitações:', error);
-        this.toastService.showError('Erro ao carregar solicitações.');
-      },
-      complete: () => {
-        this.endLoad()
-      }
+    this.solicitacaoService.buscarTodas(null, false, null, null)
+      .pipe(finalize(() => this.endLoad()))
+      .subscribe({
+        next: (solicitacoes) => {
+          this.minhasSolicitacoes = solicitacoes;
+          this.cdr.detectChanges();
+        },
+        error: (error) => {
+          console.error('Erro ao carregar solicitações:', error);
+          this.toastService.showError('Erro ao carregar solicitações.');
+        }
     });
 
     console.log()

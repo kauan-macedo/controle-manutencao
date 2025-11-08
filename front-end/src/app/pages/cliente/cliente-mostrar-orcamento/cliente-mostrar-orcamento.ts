@@ -7,6 +7,7 @@ import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { EstadosSolicitacao } from '../../../models/enums/estados-solicitacao';
 import { LoadingOverlayComponent } from '../../../shared/loading-overlay.component';
 import { ToastService } from '../../../services/toast-service';
+import {finalize} from 'rxjs';
 
 @Component({
   selector: 'app-cliente-mostrar-orcamento',
@@ -22,7 +23,7 @@ import { ToastService } from '../../../services/toast-service';
 })
 export class ClienteMostrarOrcamento implements OnInit {
 
-  
+
   solicitacao: any;
   exibirModalAprovarServico: boolean = false;
   exibirModalRejeitarServico: boolean = false;
@@ -46,7 +47,7 @@ export class ClienteMostrarOrcamento implements OnInit {
     }
 
     const idNumerico = +idDaUrl;
-    
+
     this.buscarPorId(idNumerico);
 
     //garantindo que o template vai ser carregado quando a requisicao for feita
@@ -62,16 +63,15 @@ export class ClienteMostrarOrcamento implements OnInit {
 
   buscarPorId(id: number): void {
     this.loading = true;
-    this.solicitacaoService.buscarPorId(id).subscribe({
+    this.solicitacaoService.buscarPorId(id)
+      .pipe(finalize(() => this.endLoad()))
+      .subscribe({
       next: (data) => {
         this.solicitacao = data;
-        this.cdr.detectChanges(); 
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Erro ao carregar solicitações:', error);
-      },
-      complete: () => {
-        this.endLoad();
       }
     });
   }
@@ -80,7 +80,8 @@ export class ClienteMostrarOrcamento implements OnInit {
     if (this.solicitacao) {
       this.loading = true;
       this.solicitacaoService.atualizarSolicitacao(this.solicitacao.id, { status: EstadosSolicitacao.APROVADA })
-      .subscribe({
+        .pipe(finalize(() => this.endLoad()))
+        .subscribe({
         next: () => {
           this.toastService.showSuccess('Solicitação aprovada com sucesso!');
           this.fecharModalAprovarServico();
@@ -90,19 +91,17 @@ export class ClienteMostrarOrcamento implements OnInit {
           this.toastService.showSuccess('Erro ao aprovar a solicitação. Tente novamente mais tarde.');
           console.error(error);
         },
-        complete: () => {
-          this.endLoad();
-        }
       });
     }
   }
 
- 
+
   rejeitarSolicitacao(): void {
     if (this.solicitacao) {
       this.loading = true;
       this.solicitacaoService.atualizarSolicitacao(this.solicitacao.id, { status: EstadosSolicitacao.REJEITADA })
-      .subscribe({
+        .pipe(finalize(() => this.endLoad()))
+        .subscribe({
         next: () => {
           this.toastService.showSuccess('Solicitação rejeitada com sucesso.');
           this.fecharModalRejeitarServico();
@@ -111,9 +110,6 @@ export class ClienteMostrarOrcamento implements OnInit {
         error: (error) => {
           this.toastService.showSuccess('Erro ao rejeitar a solicitação. Tente novamente mais tarde.');
           console.error(error);
-        },
-        complete: () => {
-          this.endLoad();
         }
       });
     }

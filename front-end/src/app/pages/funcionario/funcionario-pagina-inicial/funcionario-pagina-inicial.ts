@@ -11,6 +11,7 @@ import {formataData, getClasseEstado} from '../../../utils/utils';
 import {
   ModalVisualizarSolicitacao
 } from '../../../shared/modal/modal-visualizar-solicitacao/modal-visualizar-solicitacao';
+import {finalize} from 'rxjs';
 
 @Component({
   selector: 'app-funcionario-pagina-inicial',
@@ -45,6 +46,7 @@ export class FuncionarioPaginaInicial implements OnInit {
         EstadosSolicitacao.REDIRECIONADA,
         EstadosSolicitacao.APROVADA
       ], false, null, null)
+      .pipe(finalize(() => this.endLoad()))
       .subscribe({
       next: (solicitacoes) => {
         this.solicitacoesAbertas = solicitacoes;
@@ -53,9 +55,6 @@ export class FuncionarioPaginaInicial implements OnInit {
       error: (error) => {
         console.error('Erro ao carregar solicitações:', error);
         this.toastService.showError('Erro ao carregar solicitações.');
-      },
-      complete: () => {
-        this.endLoad();
       }
     });
   }

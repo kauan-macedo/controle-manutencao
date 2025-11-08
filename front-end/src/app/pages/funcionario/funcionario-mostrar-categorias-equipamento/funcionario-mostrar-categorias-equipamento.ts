@@ -5,6 +5,7 @@ import { CategoriaEquipamentoService } from '../../../services/categoria-equipam
 import { Categoria } from '../../../models/categoria-equipamento';
 import { ToastService } from '../../../services/toast-service';
 import { LoadingOverlayComponent } from '../../../shared/loading-overlay.component';
+import {finalize} from 'rxjs';
 
 
 @Component({
@@ -37,7 +38,9 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
 
   listarTodas(): void {
     this.loading = true;
-    this.categoriaService.listarTodas().subscribe({
+    this.categoriaService.listarTodas()
+      .pipe(finalize(() => this.endLoad()))
+      .subscribe({
       next: (data) => {
         this.categorias = data;
         this.cdr.detectChanges();
@@ -45,9 +48,6 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
       error: (error) => {
         console.error('Erro ao buscar categorias:', error);
         this.categorias = [];
-      },
-      complete: () => {
-        this.endLoad();
       }
     });
   }
@@ -88,8 +88,8 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
       }
     });
   }
-  
-  
+
+
   /*async*/ onEditar(id: number) {
     let res: Categoria = this.buscarPorId(id);
     if (res.id !== 0){

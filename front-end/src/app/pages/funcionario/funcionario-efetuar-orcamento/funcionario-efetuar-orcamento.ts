@@ -71,16 +71,15 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
 
   buscarPorId(id: number): void {
     this.loading = true;
-    this.solicitacaoService.buscarPorId(id).subscribe({
+    this.solicitacaoService.buscarPorId(id)
+      .pipe(finalize(() => this.endLoad()))
+      .subscribe({
       next: (data) => {
         this.solicitacao = data;
         this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Erro ao carregar solicitações:', error);
-        this.endLoad();
-      },
-      complete: () => {
         this.endLoad();
       }
     });
@@ -104,6 +103,7 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
           .replace(/\./g, '')
           .replace(',', '.')
       ))
+      .pipe(finalize(() => this.endLoad()))
         .subscribe({
             next: (response) => {
                 this.toastrService.success(response.message);
@@ -117,9 +117,6 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
             },
             error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
               this.toastrService.error(err.error.message);
-              this.endLoad();
-            },
-            complete: () => {
               this.endLoad();
             }
         });
