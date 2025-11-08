@@ -9,6 +9,9 @@ import { ToastService } from '../../../services/toast-service';
 import { EstadosSolicitacao, translateEstado ,} from '../../../models/enums/estados-solicitacao';
 import { formataData } from '../../../utils/utils';
 import { LoadingOverlayComponent } from '../../../shared/loading-overlay.component';
+import { ModalResgatarServicoComponent } from '../../../shared/modal/modal-resgatar-servico/modal-resgatar-servico';
+import { HttpErrorResponse } from '@angular/common/http';
+import { APIResponse } from '../../../../api/api';
 
 @Component({
   selector: 'app-cliente-pagina-inicial',
@@ -17,7 +20,8 @@ import { LoadingOverlayComponent } from '../../../shared/loading-overlay.compone
     CommonModule,
     RouterModule,
     ToastComponent,
-    LoadingOverlayComponent
+    LoadingOverlayComponent,
+    ModalResgatarServicoComponent
   ],
   templateUrl: './cliente-pagina-inicial.html',
   styleUrl: './cliente-pagina-inicial.css',
@@ -27,7 +31,9 @@ export class ClientePaginaInicial implements OnInit {
   exibirModal: boolean = false;
   minhasSolicitacoes: Solicitacao[] = [];
   loading = false;
- 
+
+  solicitacaoParaResgatar: Solicitacao | null = null;
+
 
   constructor(private solicitacaoService: SolicitacaoService, private toastService: ToastService, private cdr: ChangeDetectorRef) {}
 
@@ -48,7 +54,7 @@ export class ClientePaginaInicial implements OnInit {
     this.solicitacaoService.buscarTodas(-1, false, null, null).subscribe({
       next: (solicitacoes) => {
         this.minhasSolicitacoes = solicitacoes;
-       
+
         this.cdr.detectChanges();
       },
       error: (error) => {
@@ -59,8 +65,6 @@ export class ClientePaginaInicial implements OnInit {
         this.endLoad()
       }
     });
-
-    console.log()
   }
 
   abrirModal(): void {
@@ -74,5 +78,17 @@ export class ClientePaginaInicial implements OnInit {
 
   traduzirEstado(estd: EstadosSolicitacao): string {
     return translateEstado(estd);
+  }
+
+  abrirModalResgatar(solicitacao: Solicitacao): void {
+    this.solicitacaoParaResgatar = solicitacao;
+  }
+
+  handleCancelResgate(): void {
+    this.solicitacaoParaResgatar = null;
+  }
+
+  handleConfirmResgate(solicitacao: Solicitacao): void {
+   
   }
 }

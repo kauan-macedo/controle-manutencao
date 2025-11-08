@@ -6,7 +6,6 @@ import { Usuario } from '../../../models/usuario';
 import { OrcamentoService } from '../../../services/orcamento-service';
 import { FormsModule } from '@angular/forms';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
-import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
 import { EstadosSolicitacao, translateEstado } from '../../../models/enums/estados-solicitacao';
 import { ToastService } from '../../../services/toast-service';
 import { MaskDirective } from '../../../shared/directives/mask.directive';
@@ -32,7 +31,7 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
   cliente: Usuario | undefined;
   valorOrcamento: string | undefined;
   descricaoOrcamento: string | undefined;
-  isLoading: boolean = false;
+  loading: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -59,21 +58,31 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
     this.cdr.detectChanges();
   }
 
+  endLoad = () => {
+    setTimeout(() => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      })
+  }
+
   traduzirEstado(estd: EstadosSolicitacao): string {
     return translateEstado(estd);
   }
 
   buscarPorId(id: number): void {
-    this.isLoading = true;
+    this.loading = true;
     this.solicitacaoService.buscarPorId(id).subscribe({
       next: (data) => {
         this.solicitacao = data;
-        this.isLoading = false;
         this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Erro ao carregar solicitações:', error);
+        this.endLoad();
       },
+      complete: () => {
+        this.endLoad();
+      }
     });
   }
 
@@ -88,20 +97,13 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
         return;
     }
 
-    this.isLoading = true;
+    this.loading = true;
     this.orcamentoService.enviarOrcamento(solicitacao.id, parseFloat(
       this.valorOrcamento
           .replace(/[^\d,.-]/g, '')
           .replace(/\./g, '')
           .replace(',', '.')
-      )).pipe(
-              finalize(() => {
-                setTimeout(() => {
-                  this.isLoading = false;
-                  this.cdr.detectChanges();
-                }, 10);
-              })
-            )
+      ))
         .subscribe({
             next: (response) => {
                 this.toastrService.success(response.message);
@@ -114,7 +116,11 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
                 }, 3000)
             },
             error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
-              this.toastrService.error(err.error.message)
+              this.toastrService.error(err.error.message);
+              this.endLoad();
+            },
+            complete: () => {
+              this.endLoad();
             }
         });
   }
