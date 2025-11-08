@@ -1,14 +1,15 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { FuncionarioMostrarRelatorioReceitasCategoria } from '../funcionario-mostrar-relatorio-receitas-categoria/funcionario-mostrar-relatorio-receitas-categoria';
+import { Router } from '@angular/router';
 import { jsPDF } from 'jspdf';
 
 import { RelatorioService, RelatorioReceita } from '../../../services/relatorio-service';
 
 @Component({
   selector: 'app-funcionario-mostrar-relatorio-receitas',
-  imports: [CommonModule, RouterModule, DatePipe, FormsModule],
+  imports: [CommonModule, DatePipe, FormsModule, FuncionarioMostrarRelatorioReceitasCategoria],
   templateUrl: './funcionario-mostrar-relatorio-receitas.html',
   styleUrl: './funcionario-mostrar-relatorio-receitas.css'
 })
@@ -24,7 +25,7 @@ export class FuncionarioMostrarRelatorioReceitas implements OnInit{
 
   registrosFiltrados = [...this.registros];
 
-  constructor(private relatorioService: RelatorioService) {}
+  constructor(private relatorioService: RelatorioService, private router: Router) {}
 
   aplicarFiltro(){
     let dip = this.dataInicial.split('-');
@@ -85,5 +86,9 @@ export class FuncionarioMostrarRelatorioReceitas implements OnInit{
       this.registros = data;
       this.registrosFiltrados = [...this.registros];
     });
+  }
+
+  redirecionarCategoria(){
+    this.router.navigate(['/funcionario/mostrar-relatorio-receitas-categoria']);
   }
 }
