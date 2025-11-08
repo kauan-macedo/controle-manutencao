@@ -1,6 +1,40 @@
 <main class="bg-gray-50 text-gray-700 dark:text-white dark:bg-gray-950 p-4 md:p-8 font-sans min-h-screen">
-  <app-loading-overlay [visible]="isLoading"></app-loading-overlay>
-  @if (solicitacao && !solicitacao.orcamento) {
+  <app-loading-overlay [visible]="loading"></app-loading-overlay>
+  @if (loading) {
+    <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden animate-pulse">
+      <!-- Skeleton Header -->
+      <div class="p-6 bg-gray-100 dark:bg-gray-900 border-b dark:border-gray-700">
+        <div class="h-8 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
+        <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/2 mt-3"></div>
+      </div>
+      <div class="p-6">
+        <!-- Skeleton Solicitação -->
+        <div class="h-6 bg-gray-300 dark:bg-gray-700 rounded w-1/4 mb-4"></div>
+        <div class="grid grid-cols-4 gap-4 mb-6">
+          <div class="h-10 bg-gray-300 dark:bg-gray-700 rounded"></div>
+          <div class="h-10 bg-gray-300 dark:bg-gray-700 rounded"></div>
+          <div class="h-10 bg-gray-300 dark:bg-gray-700 rounded"></div>
+          <div class="h-10 bg-gray-300 dark:bg-gray-700 rounded"></div>
+          <div class="col-span-2 h-12 bg-gray-300 dark:bg-gray-700 rounded"></div>
+          <div class="h-10 bg-gray-300 dark:bg-gray-700 rounded"></div>
+        </div>
+        <!-- Skeleton Cliente -->
+        <div class="h-6 bg-gray-300 dark:bg-gray-700 rounded w-1/4 mb-4"></div>
+        <div class="grid grid-cols-4 gap-4">
+          <div class="col-span-2 h-10 bg-gray-300 dark:bg-gray-700 rounded"></div>
+          <div class="h-10 bg-gray-300 dark:bg-gray-700 rounded"></div>
+          <div class="h-10 bg-gray-300 dark:bg-gray-700 rounded"></div>
+          <div class="col-span-2 h-10 bg-gray-300 dark:bg-gray-700 rounded"></div>
+          <div class="col-span-2 h-10 bg-gray-300 dark:bg-gray-700 rounded"></div>
+        </div>
+      </div>
+      <!-- Skeleton Footer/Form -->
+      <div class="px-6 py-4 bg-gray-50 dark:bg-gray-800 border-t dark:border-gray-700 flex flex-col gap-4">
+        <div class="h-12 bg-blue-200 dark:bg-gray-700 rounded-lg"></div>
+        <div class="h-12 bg-blue-600 dark:bg-blue-700 rounded-lg w-full"></div>
+      </div>
+    </div>
+  } @else if (solicitacao && !solicitacao.orcamento) {
   <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden">
 
     <div class="p-6 bg-gray-100 dark:bg-gray-900 border-b dark:border-gray-700">

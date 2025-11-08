@@ -5,17 +5,15 @@ import { RouterModule } from '@angular/router';
 import { Solicitacao } from '../../../models/solicitacao';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { ToastService } from '../../../services/toast-service';
-import { EstadosSolicitacao, translateEstado } from '../../../models/enums/estados-solicitacao';
-import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
+import { translateEstado } from '../../../models/enums/estados-solicitacao';
 import {formataData, getClasseEstado} from '../../../utils/utils';
-import {
-  ModalVisualizarSolicitacao
-} from '../../../shared/modal/modal-visualizar-solicitacao/modal-visualizar-solicitacao';
+import {ModalVisualizarSolicitacao} from '../../../shared/modal/modal-visualizar-solicitacao/modal-visualizar-solicitacao';
+import {LoadingOverlayComponent} from '../../../shared/loading-overlay.component';
 
 @Component({
   selector: 'app-funcionario-apresentar-solicitacoes',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, SpinnerComponent, ModalVisualizarSolicitacao],
+  imports: [CommonModule, RouterModule, FormsModule, LoadingOverlayComponent, ModalVisualizarSolicitacao],
   templateUrl: './funcionario-apresentar-solicitacoes.html',
   styleUrl: './funcionario-apresentar-solicitacoes.css'
 })
@@ -31,8 +29,8 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
 
   solicitacoes: Solicitacao[] = [];
   solicitacoesFiltradas: Solicitacao[] = [];
-  isLoading: boolean = false;
   statusSelecionado: number = -1;
+  loading = false;
 
   translateEstado = translateEstado
   formataData = formataData
@@ -53,21 +51,31 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
   }
 
   carregarSolicitacoes(): void {
-    this.isLoading = true;
+    this.loading = true;
     let hoje = this.filtroSelecionado == 'Hoje';
 
     this.solicitacaoService.buscarTodas([this.statusSelecionado], hoje && this.filtroSelecionado != 'Todas', hoje && this.filtroSelecionado != 'Todas' ? null : this.dataInicial.trim(), hoje && this.filtroSelecionado != 'Todas' ?  null : this.dataFinal).subscribe({
       next: (solicitacoes) => {
         //aqui deveria ser this.solicitacoes = solicitacoes, para depois filtrar, mas por hora vou deixar assim pra não ter que mudar o template
-          this.solicitacoesFiltradas = solicitacoes;
-          this.isLoading = false;
-          this.cdr.detectChanges();
-        },
-        error: (error) => {
-          console.error('Erro ao carregar solicitações:', error);
-          this.toastService.showError('Erro ao carregar solicitações.');
-        },
-      });
+        this.solicitacoesFiltradas = solicitacoes;
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Erro ao carregar solicitações:', error);
+        this.toastService.showError('Erro ao carregar solicitações.');
+      },
+      complete: () => {
+        this.endLoad();
+      }
+    });
+  }
+
+  endLoad = () => {
+    setTimeout(() => {
+      this.loading = false;
+      this.cdr.detectChanges();
+    })
   }
 
 }

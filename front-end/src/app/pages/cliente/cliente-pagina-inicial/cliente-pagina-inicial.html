@@ -1,4 +1,7 @@
 <app-toast></app-toast>
+@if(loading) {
+  <app-loading-overlay [visible]="loading"/>
+} @else {
 <main class="font-sans p-8 bg-gray-50 dark:bg-gray-950 min-h-screen">
   <div class="max-w-7xl mx-auto">
     <header class="mb-8">
@@ -18,15 +21,6 @@
           <th class="px-4 py-4 text-left w-2/5">Ações</th>
         </tr>
         </thead>
-        @if (isLoading) {
-          <tbody>
-            <tr>
-              <td colspan="4">
-                <app-spinner></app-spinner>
-              </td>
-            </tr>
-          </tbody>
-        } @else {
           <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
 
             @for (solicitacao of minhasSolicitacoes; track solicitacao.id) {
@@ -62,7 +56,6 @@
             </tr>
           }
           </tbody>
-        }
       </table>
     </div>
   </div>
@@ -86,3 +79,4 @@
     </div>
   }
 </main>
+}

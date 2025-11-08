@@ -1,4 +1,5 @@
 <main class="font-sans p-8 dark:bg-gray-950 h-screen">
+  <app-loading-overlay [visible]="isLoading"></app-loading-overlay>
   <div class="max-w-7xl mx-auto dark:bg-gray-950">
     <div class="flex justify-between">
       <header class="mb-4">
@@ -21,12 +22,23 @@
           </tr>
         </thead>
         @if (isLoading) {
-          <tbody>
-            <tr>
-              <td colspan="4">
-                <app-spinner></app-spinner>
-              </td>
-            </tr>
+          <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+            @for (_ of [1, 2, 3, 4, 5]; track $index) {
+              <tr class="animate-pulse">
+                <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5">
+                  <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
+                </td>
+                <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5">
+                  <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
+                </td>
+                <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5">
+                  <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
+                </td>
+                <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5">
+                  <div class="h-6 w-24 bg-gray-300 dark:bg-gray-700 rounded-md"></div>
+                </td>
+              </tr>
+            }
           </tbody>
         } @else {
         <tbody class="divide-y divide-gray-100 dark:divide-gray-700">

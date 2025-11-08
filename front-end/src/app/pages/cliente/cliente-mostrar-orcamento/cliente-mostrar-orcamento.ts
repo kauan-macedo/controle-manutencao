@@ -3,10 +3,9 @@ import { CurrencyPipe, DatePipe, NgIf } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteAprovarServico } from '../cliente-aprovar-servico/cliente-aprovar-servico';
 import { ClienteRejeitarServico } from '../cliente-rejeitar-servico/cliente-rejeitar-servico';
-import { Usuario } from '../../../models/usuario';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
-import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
 import { EstadosSolicitacao } from '../../../models/enums/estados-solicitacao';
+import { LoadingOverlayComponent } from '../../../shared/loading-overlay.component';
 import { ToastService } from '../../../services/toast-service';
 
 @Component({
@@ -16,19 +15,18 @@ import { ToastService } from '../../../services/toast-service';
     CurrencyPipe,
     ClienteAprovarServico,
     ClienteRejeitarServico,
-    SpinnerComponent
+    LoadingOverlayComponent
   ],
   templateUrl: './cliente-mostrar-orcamento.html',
   styleUrls: ['./cliente-mostrar-orcamento.css']
 })
 export class ClienteMostrarOrcamento implements OnInit {
 
-  isLoading: boolean = false;
+  
   solicitacao: any;
-
-
   exibirModalAprovarServico: boolean = false;
   exibirModalRejeitarServico: boolean = false;
+  loading = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -55,22 +53,32 @@ export class ClienteMostrarOrcamento implements OnInit {
     this.cdr.detectChanges();
   }
 
+  endLoad = () => {
+    setTimeout(() => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      })
+  }
+
   buscarPorId(id: number): void {
-    this.isLoading = true;
+    this.loading = true;
     this.solicitacaoService.buscarPorId(id).subscribe({
       next: (data) => {
         this.solicitacao = data;
-        this.isLoading = false;
         this.cdr.detectChanges(); 
       },
       error: (error) => {
         console.error('Erro ao carregar solicitações:', error);
       },
+      complete: () => {
+        this.endLoad();
+      }
     });
   }
 
   aprovarSolicitacao(): void {
     if (this.solicitacao) {
+      this.loading = true;
       this.solicitacaoService.atualizarSolicitacao(this.solicitacao.id, { status: EstadosSolicitacao.APROVADA })
       .subscribe({
         next: () => {
@@ -81,6 +89,9 @@ export class ClienteMostrarOrcamento implements OnInit {
         error: (error) => {
           this.toastService.showSuccess('Erro ao aprovar a solicitação. Tente novamente mais tarde.');
           console.error(error);
+        },
+        complete: () => {
+          this.endLoad();
         }
       });
     }
@@ -89,6 +100,7 @@ export class ClienteMostrarOrcamento implements OnInit {
  
   rejeitarSolicitacao(): void {
     if (this.solicitacao) {
+      this.loading = true;
       this.solicitacaoService.atualizarSolicitacao(this.solicitacao.id, { status: EstadosSolicitacao.REJEITADA })
       .subscribe({
         next: () => {
@@ -99,6 +111,9 @@ export class ClienteMostrarOrcamento implements OnInit {
         error: (error) => {
           this.toastService.showSuccess('Erro ao rejeitar a solicitação. Tente novamente mais tarde.');
           console.error(error);
+        },
+        complete: () => {
+          this.endLoad();
         }
       });
     }

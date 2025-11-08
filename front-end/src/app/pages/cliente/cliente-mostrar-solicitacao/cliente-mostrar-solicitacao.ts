@@ -3,15 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { Solicitacao } from '../../../models/solicitacao';
-import { Categoria } from '../../../models/categoria-equipamento';
 import { EstadosSolicitacao, translateEstado } from '../../../models/enums/estados-solicitacao';
-import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
+import { LoadingOverlayComponent } from '../../../shared/loading-overlay.component';
 import { formataData, getClasseEstado } from '../../../utils/utils';
 
 @Component({
   selector: 'app-cliente-mostrar-solicitacao',
   standalone: true,
-  imports: [CommonModule, RouterModule, SpinnerComponent],
+  imports: [CommonModule, RouterModule, LoadingOverlayComponent],
   templateUrl: './cliente-mostrar-solicitacao.html',
   styleUrl: './cliente-mostrar-solicitacao.css',
 })
@@ -20,7 +19,7 @@ export class ClienteMostrarSolicitacao implements OnInit {
   translateEstado = translateEstado
   getClasseEstado = getClasseEstado
   solicitacao: Solicitacao | null = null;
-  isLoading: boolean = false;
+  loading = false;
 
   constructor(private route: ActivatedRoute, private solicitacaoService: SolicitacaoService, private cdr: ChangeDetectorRef) {}
 
@@ -41,22 +40,31 @@ export class ClienteMostrarSolicitacao implements OnInit {
     this.cdr.detectChanges();
   }
 
+  endLoad = () => {
+    setTimeout(() => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      })
+  }
+
   traduzirEstado(estd: EstadosSolicitacao): string {
     return translateEstado(estd);
   }
 
   //Observer
   buscarPorId(id: number): void {
-    this.isLoading = true;
+    this.loading = true;
     this.solicitacaoService.buscarPorId(id).subscribe({
       next: (data) => {
         this.solicitacao = data;
-        this.isLoading = false;
         this.cdr.detectChanges(); 
       },
       error: (error) => {
         console.error('Erro ao carregar solicitações:', error);
       },
+      complete: () => {
+        this.endLoad()
+      }
     });
   }
 }
