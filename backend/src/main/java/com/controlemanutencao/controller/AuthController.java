@@ -11,6 +11,7 @@ import com.controlemanutencao.service.*;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,21 @@ public class AuthController {
         this.usuarioService = usuarioService;
         this.jwtService = jwtService;
         this.viaCEPService = viaCEPService;
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+        ResponseCookie cookie = ResponseCookie.from("JWT_TOKEN", null)
+                .maxAge(0)
+                .path("/")
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("None")
+                .build();
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body("");
+
     }
 
     @PostMapping("/login")
