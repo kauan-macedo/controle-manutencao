@@ -8,7 +8,7 @@ import { ToastComponent } from '../../../shared/toast-component/toast-component'
 import { ToastService } from '../../../services/toast-service';
 import { EstadosSolicitacao, translateEstado ,} from '../../../models/enums/estados-solicitacao';
 import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
-import { formataData } from '../../../utils/utils';
+import {formataData, getClasseEstado} from '../../../utils/utils';
 
 @Component({
   selector: 'app-cliente-pagina-inicial',
@@ -34,7 +34,7 @@ export class ClientePaginaInicial implements OnInit {
   //deixando essa funcao fora do ngoninit para poder chamar ela ao fechar o modal
   carregarSolicitacoes(): void {
     this.isLoading = true;
-    this.solicitacaoService.buscarTodas(-1, false, null, null).subscribe({
+    this.solicitacaoService.buscarTodas(null, false, null, null).subscribe({
       next: (solicitacoes) => {
         this.minhasSolicitacoes = solicitacoes;
         this.isLoading = false;
@@ -66,4 +66,6 @@ export class ClientePaginaInicial implements OnInit {
   traduzirEstado(estd: EstadosSolicitacao): string {
     return translateEstado(estd);
   }
+
+  protected readonly getClasseEstado = getClasseEstado;
 }

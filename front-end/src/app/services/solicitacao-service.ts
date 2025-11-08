@@ -24,12 +24,12 @@ export class SolicitacaoService {
 
   //Observable
   //lembrando que so esta buscando solicitacoes em ate 1 pagina (15 solicitacoes)
- buscarTodas(status: number, hoje: boolean, de: string | null, ate: string | null): Observable<Solicitacao[]> {
+ buscarTodas(status: number[] | null, hoje: boolean, de: string | null, ate: string | null): Observable<Solicitacao[]> {
     let params = new HttpParams();
     params = de == null || de.trim() == "" ? params : params.append('de', new Date(de).toLocaleDateString("pt-BR"));
     params = ate == null || ate.trim() == "" ? params : params.append('ate', new Date(ate).toLocaleDateString("pt-BR"));
     params = hoje ? params.append('de', new Date().toLocaleDateString("pt-BR")).append('ate', new Date().toLocaleDateString("pt-BR")) : params;
-    params = status != -1 ? params.append('status', status) : params;
+    params = status ? params.append('status', status.join(',')) : params;
     params = params.append('page', '0');
 
     return this.httpClient.get<APIResponse<Solicitacao[]>>(
@@ -64,8 +64,8 @@ export class SolicitacaoService {
     );
   }
 
-  atualizarSolicitacao(idS: number, d: Partial<AtualizarSolicitacaoInput>): Observable<APIResponse<any>> {
-    return this.httpClient.put<APIResponse<any>>(
+  atualizarSolicitacao(idS: number, d: Partial<AtualizarSolicitacaoInput>): Observable<APIResponse<Solicitacao>> {
+    return this.httpClient.put<APIResponse<Solicitacao>>(
       `${API_URL}/solicitacao/${idS}`,
       JSON.stringify(d),
       this.httpOptions

@@ -12,13 +12,15 @@ import { APIResponse } from '../../../../api/api';
 import { FormsModule } from '@angular/forms';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { finalize, map } from 'rxjs';
+import {ModalRedirecionarSolicitacao} from '../modal-redirecionar-solicitacao/modal-redirecionar-solicitacao';
 
 @Component({
   selector: 'app-modal-visualizar-solicitacao',
   imports: [
     NgClass,
     FormsModule,
-    ToastrModule
+    ToastrModule,
+    ModalRedirecionarSolicitacao
   ],
   templateUrl: './modal-visualizar-solicitacao.html',
   styleUrl: './modal-visualizar-solicitacao.css'
@@ -30,15 +32,12 @@ export class ModalVisualizarSolicitacao implements OnInit {
 
   loading = false;
   redirecionando = false;
-  funcionarioDestino: Usuario | null = null;
-  funcionariosDisponiveis: Usuario[] = [];
 
   @Input() solicitacao: Solicitacao | null = null;
   @Output() closed = new EventEmitter<void>();
 
   constructor(
     private router: Router,
-    private usuarioService: UsuarioService,
     private toastrService: ToastrService,
     private solicitacaoService: SolicitacaoService,
     private cdr: ChangeDetectorRef
@@ -46,8 +45,6 @@ export class ModalVisualizarSolicitacao implements OnInit {
 
   ngOnInit() {
   }
-
-  redirecionar() {}
 
   close() {
     this.solicitacao = null;
@@ -77,7 +74,7 @@ export class ModalVisualizarSolicitacao implements OnInit {
       .subscribe({
         next: (res) => {
           this.toastrService.success(res.message);
-          this.solicitacao!.status = EstadosSolicitacao.FINALIZADA;
+          this.solicitacao = res.body;
         },
         error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
           this.toastrService.error(err.error.message)

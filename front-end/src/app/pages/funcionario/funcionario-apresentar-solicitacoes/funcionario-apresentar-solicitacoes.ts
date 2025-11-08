@@ -37,29 +37,37 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
   translateEstado = translateEstado
   formataData = formataData
 
-  constructor(private solicitacaoService: SolicitacaoService, private toastService: ToastService, private cdr: ChangeDetectorRef) {
+  constructor(
+    private solicitacaoService: SolicitacaoService,
+    private toastService: ToastService,
+    private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
     this.carregarSolicitacoes();
   }
 
- carregarSolicitacoes(): void {
-  this.isLoading = true;
-  let hoje = this.filtroSelecionado == 'Hoje';
+  abrirSolicitacao(s: Solicitacao) {
+    this.solicitacaoSelecionada = s;
+    this.cdr.detectChanges();
+  }
 
-    this.solicitacaoService.buscarTodas(this.statusSelecionado, hoje && this.filtroSelecionado != 'Todas', hoje && this.filtroSelecionado != 'Todas' ? null : this.dataInicial.trim(), hoje && this.filtroSelecionado != 'Todas' ?  null : this.dataFinal).subscribe({
+  carregarSolicitacoes(): void {
+    this.isLoading = true;
+    let hoje = this.filtroSelecionado == 'Hoje';
+
+    this.solicitacaoService.buscarTodas([this.statusSelecionado], hoje && this.filtroSelecionado != 'Todas', hoje && this.filtroSelecionado != 'Todas' ? null : this.dataInicial.trim(), hoje && this.filtroSelecionado != 'Todas' ?  null : this.dataFinal).subscribe({
       next: (solicitacoes) => {
         //aqui deveria ser this.solicitacoes = solicitacoes, para depois filtrar, mas por hora vou deixar assim pra não ter que mudar o template
-        this.solicitacoesFiltradas = solicitacoes;
-        this.isLoading = false;
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error('Erro ao carregar solicitações:', error);
-        this.toastService.showError('Erro ao carregar solicitações.');
-      },
-    });
+          this.solicitacoesFiltradas = solicitacoes;
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        },
+        error: (error) => {
+          console.error('Erro ao carregar solicitações:', error);
+          this.toastService.showError('Erro ao carregar solicitações.');
+        },
+      });
   }
 
 }

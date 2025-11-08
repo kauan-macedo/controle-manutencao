@@ -6,6 +6,7 @@ import com.controlemanutencao.model.*;
 import com.controlemanutencao.model.enums.StatusSolicitacao;
 import com.controlemanutencao.model.enums.TipoUsuario;
 import com.controlemanutencao.model.request.AtualizarSolicitacaoRequest;
+import com.controlemanutencao.model.request.NovaSolicitacaoRequest;
 import com.controlemanutencao.repository.CategoriaRepository;
 import com.controlemanutencao.repository.LogSolicitacaoRepository;
 import com.controlemanutencao.repository.SolicitacaoRepository;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,13 +42,26 @@ public class SolicitacaoService {
         return repository.findByIdWithUser(user, id, user.isFuncionario());
     }
 
-    public void novaSolicitacao(Usuario user, Solicitacao s) {
-        s.setStatus(StatusSolicitacao.NOVA);
+    public void novaSolicitacao(Usuario user, NovaSolicitacaoRequest req) {
+        Optional<Categoria> optCat = categoriaService.findById((long) req.categoriaId());
+        if(optCat.isEmpty()) {
+            throw new IllegalArgumentException("Categoria desconhecida.");
+        }
+        Solicitacao s = new Solicitacao(
+                null,
+                StatusSolicitacao.NOVA,
+                req.descDefeito(),
+                req.descEquipamento(),
+                Utils.timestampNow(),
+                null,
+                null,
+                user,
+                optCat.get(), true);
+        s = repository.save(s);
         salvarLog(s, "Criou a solicitação", user);
-        repository.save(s);
     }
 
-    public void atualizarSolicitacao(Usuario user, Long idOS, AtualizarSolicitacaoRequest in) throws IllegalArgumentException, EstadoIlegalSolicitacaoException, DeveSerFuncionarioException  {
+    public Solicitacao atualizarSolicitacao(Usuario user, Long idOS, AtualizarSolicitacaoRequest in) throws IllegalArgumentException, EstadoIlegalSolicitacaoException, DeveSerFuncionarioException  {
         if (!user.isFuncionario()
                 && in.status() != StatusSolicitacao.REJEITADA.getId()
                 && in.status() != StatusSolicitacao.APROVADA.getId()) {
@@ -59,13 +74,18 @@ public class SolicitacaoService {
         Utils.ifNotNull(in.descManutencao(), (x) -> s.setDescricaoManutencao(in.descManutencao()));
         Utils.ifNotNull(in.orientacoesCliente(), (x) -> s.setOrientacoesCliente(in.orientacoesCliente()));
         Utils.ifNotNull(in.descricaoEquipamento(), (x) -> s.setDescricaoEquipamento(in.descricaoEquipamento()));
+        var redirecionada = false;
         if(in.responsavelId() != null) {
             Usuario u = usuarioService.findById(in.responsavelId()).orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado!"));
             if(!u.isFuncionario()) {
                 throw new IllegalArgumentException("Responsável deve ser funcionário.");
             }
             if(in.status() == StatusSolicitacao.REDIRECIONADA.getId()) {
+                if(u.getId() == user.getId()) {
+                    throw new IllegalArgumentException("Não é permitido redirecionar uma solicitação para si mesmo.");
+                }
                 salvarLog(s, "Redirecionou solicitação para " + u.getNome(), user);
+                redirecionada = true;
             }
             s.setResponsavel(u);
         }
@@ -82,10 +102,13 @@ public class SolicitacaoService {
                 s.setDataArrumado(Utils.timestampNow());
                 s.setResponsavel(user);
             }
-            salvarLog(s, "Mudou situação de " + s.getStatus().getDesc() + " para " + statusSolicitacao.getDesc(), user);
+            if(!redirecionada) {
+                salvarLog(s, "Mudou situação de " + s.getStatus().getDesc() + " para " + statusSolicitacao.getDesc(), user);
+            }
             s.setStatus(statusSolicitacao);
         }
         repository.save(s);
+        return s;
     }
 
     public void orcarServico(Solicitacao s, String desc, Double valor, Usuario agente) throws EstadoIlegalSolicitacaoException {
@@ -106,7 +129,26 @@ public class SolicitacaoService {
         logRepository.save(log);
     }
 
-    public List<Solicitacao> find(Usuario user, LocalDate de, LocalDate ate, StatusSolicitacao status, int pagina) {
+    public boolean isInteger(String s) {
+        if (s == null || s.isBlank()) return false;
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public List<Solicitacao> find(Usuario user, LocalDate de, LocalDate ate, String status, int pagina) {
+
+        List<StatusSolicitacao> validStatus;
+        if(status != null) {
+            List<String> strStatus = Arrays.stream(status.split(",")).toList();
+            strStatus = strStatus.stream().filter(this::isInteger).toList();
+            validStatus = strStatus.stream().map(x -> StatusSolicitacao.fromId(Short.parseShort(x))).toList();
+        } else {
+            validStatus = null;
+        }
 
         ZoneId utcZone = ZoneOffset.UTC;
 
@@ -121,8 +163,9 @@ public class SolicitacaoService {
         }
 
         return repository.buscaSolicitacoes(
-            from, to, user.getTipoUsuario() == TipoUsuario.CLIENTE, (long) user.getId(), status, PageRequest.of(pagina, 9999)
-        ).toList().stream().filter(x -> !user.isFuncionario() || (x.getStatus() != StatusSolicitacao.REDIRECIONADA || x.getResponsavel().getId() == user.getId())).toList();
+            from, to, user.getTipoUsuario() == TipoUsuario.CLIENTE, (long) user.getId(), validStatus, PageRequest.of(pagina, 9999)
+        ).toList().stream()
+                .filter(x -> !user.isFuncionario() || (x.getStatus() != StatusSolicitacao.REDIRECIONADA || x.getResponsavel().getId() == user.getId())).toList();
     }
 
     public List<LogSolicitacao> findLogs(Solicitacao s) {

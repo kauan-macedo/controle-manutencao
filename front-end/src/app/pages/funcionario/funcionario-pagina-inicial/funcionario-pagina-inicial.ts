@@ -8,23 +8,29 @@ import { ToastService } from '../../../services/toast-service';
 import { EstadosSolicitacao, translateEstado } from '../../../models/enums/estados-solicitacao';
 import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
 import { map } from 'rxjs/operators';
-import { formataData } from '../../../utils/utils';
+import {formataData, getClasseEstado} from '../../../utils/utils';
+import {
+  ModalVisualizarSolicitacao
+} from '../../../shared/modal/modal-visualizar-solicitacao/modal-visualizar-solicitacao';
 
 @Component({
   selector: 'app-funcionario-pagina-inicial',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, SpinnerComponent],
+  imports: [CommonModule, RouterModule, FormsModule, SpinnerComponent, ModalVisualizarSolicitacao],
   templateUrl: './funcionario-pagina-inicial.html',
   styleUrls: ['./funcionario-pagina-inicial.css']
 })
 export class FuncionarioPaginaInicial implements OnInit {
   translateEstado = translateEstado
+  getClasseEstado = getClasseEstado
   formataData = formataData
   dropdown: string[] = ['Todas', 'Hoje', 'Selecionar Período:'];
   filtroSelecionado: string = '';
   dataInicial: string = '';
   dataFinal: string = '';
   hoje = false;
+
+  solicitacaoAberta: Solicitacao | null = null;
 
   solicitacoesAbertas: Solicitacao[] = [];
   isLoading: boolean = false;
@@ -33,7 +39,13 @@ export class FuncionarioPaginaInicial implements OnInit {
 
   carregarSolicitacoes(): void {
     this.isLoading = true;
-    this.solicitacaoService.buscarTodas(1, false, null, null)
+    this.solicitacaoService.buscarTodas(
+      [
+        EstadosSolicitacao.NOVA,
+        EstadosSolicitacao.PAGA,
+        EstadosSolicitacao.REDIRECIONADA,
+        EstadosSolicitacao.APROVADA
+      ], false, null, null)
       .subscribe({
       next: (solicitacoes) => {
         this.solicitacoesAbertas = solicitacoes;

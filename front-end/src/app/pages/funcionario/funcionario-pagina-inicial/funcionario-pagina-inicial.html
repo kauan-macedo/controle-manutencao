@@ -15,7 +15,8 @@
           <tr>
             <th class="px-4 py-4 text-left w-1/6">Data/Hora</th>
             <th class="px-4 py-4 text-left w-1/6">Cliente</th>
-            <th class="px-4 py-4 text-left w-2/5">Descrição Produto</th>
+            <th class="px-4 py-4 text-left w-2/6">Descrição Produto</th>
+            <th class="px-4 py-4 text-left w-1/6">Situação</th>
             <th class="px-4 py-4 text-left w-1/6">Ações</th>
           </tr>
         </thead>
@@ -36,19 +37,20 @@
               </td>
               <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5">
                 <p class="text-lg text-gray-800 dark:text-gray-200">
-                  {{ solicitacao.usuario.nome }} 
+                  {{ solicitacao.usuario.nome }}
                 </p>
               </td>
               <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5">
-                <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.descricaoEquipamento }}</p>
+                <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.descricaoEquipamento.length < 30 ? solicitacao.descricaoEquipamento : solicitacao.descricaoEquipamento.substring(0, 30) + '...' }}</p>
+              </td>
+              <td>
+                <p
+                  [ngClass]="[getClasseEstado(solicitacao.status), 'inline-block', 'px-3', 'py-1', 'rounded-full', 'text-sm', 'font-semibold']">
+                  {{ translateEstado(solicitacao.status) }}
+                </p>
               </td>
               <td class="px-4 border-b border-slate-200 dark:border-slate-700 py-5">
-                @if (solicitacao.status == 1) {
-                  <a [routerLink]="['/funcionario/efetuar-orcamento', solicitacao.id]" class="text-lg text-blue-800 hover:text-blue-950 dark:text-blue-400 dark:hover:text-blue-300">Efetuar Orçamento</a>
-                }
-                @if (solicitacao.status == 3) {
-                  <a [routerLink]="['/funcionario/efetuar-manutencao', solicitacao.id]" class="text-lg text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300">Efetuar Manutenção</a>
-                }
+                <a (click)="solicitacaoAberta = solicitacao" class="text-lg text-blue-800 hover:text-blue-950 dark:text-blue-400 dark:hover:text-blue-300">Abrir Solicitação</a>
               </td>
             </tr>
           } @empty {
@@ -62,3 +64,7 @@
     </div>
   </div>
 </main>
+
+@if(solicitacaoAberta) {
+  <app-modal-visualizar-solicitacao [solicitacao]="solicitacaoAberta" (closed)="solicitacaoAberta = null"/>
+}

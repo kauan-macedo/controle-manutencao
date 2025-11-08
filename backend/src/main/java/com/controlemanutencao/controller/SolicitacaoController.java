@@ -41,11 +41,11 @@ public class SolicitacaoController {
     public Response<List<SolicitacaoDTO>> listar(
             @RequestParam(name = "de", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate dataDe,
             @RequestParam(name = "ate", required = false) @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate dataAte,
-            @RequestParam(name = "status", required = false) Integer status,
+            @RequestParam(name = "status", required = false) String status,
             @RequestParam("page") int pagina,
             @AuthenticationPrincipal Usuario usuario) {
         List<SolicitacaoDTO> solicitacoes = new ArrayList<>();
-        for (Solicitacao s : service.find(usuario, dataDe, dataAte, status == null ? null : StatusSolicitacao.fromId((short)status.intValue()), pagina)) {
+        for (Solicitacao s : service.find(usuario, dataDe, dataAte, status, pagina)) {
             List<LogSolicitacao> logs = service.findLogs(s);
             solicitacoes.add(SolicitacaoDTO.from(s, logs));
         }
@@ -68,25 +68,7 @@ public class SolicitacaoController {
 
     @PostMapping
     public Response<?> novaSolicitacao(@RequestBody NovaSolicitacaoRequest req, @AuthenticationPrincipal Usuario usuario) {
-        Optional<Categoria> optCat = catService.findById((long) req.categoriaId());
-        if(optCat.isEmpty()) {
-            return new Response<>(
-                    HttpStatus.BAD_REQUEST.value(),
-                    "Categoria de equipamento desconhecida.",
-                    null
-            );
-        }
-        Solicitacao s = new Solicitacao(
-                null,
-                StatusSolicitacao.NOVA,
-                req.descDefeito(),
-                req.descEquipamento(),
-                Utils.timestampNow(),
-                null,
-                null,
-                usuario,
-                optCat.get(), true);
-        service.novaSolicitacao(usuario, s);
+        service.novaSolicitacao(usuario, req);
         return new Response<>(HttpStatus.OK.value(), "Solicitação criada com sucesso!", null);
     }
 
@@ -101,9 +83,10 @@ public class SolicitacaoController {
     }
 
     @PutMapping("/{id}")
-    public Response<?> atualizarSolicitacao(@PathVariable("id") Long solicitacaoId, @RequestBody AtualizarSolicitacaoRequest req, @AuthenticationPrincipal Usuario usuario) {
-        service.atualizarSolicitacao(usuario, solicitacaoId, req);
-        return new Response<>(HttpStatus.OK.value(), "Orçamento enviado com sucesso!", null);
+    public Response<SolicitacaoDTO> atualizarSolicitacao(@PathVariable("id") Long solicitacaoId, @RequestBody AtualizarSolicitacaoRequest req, @AuthenticationPrincipal Usuario usuario) {
+        Solicitacao s = service.atualizarSolicitacao(usuario, solicitacaoId, req);
+        List<LogSolicitacao> logs = service.findLogs(s);
+        return new Response<>(HttpStatus.OK.value(), "Solicitação atualizada com sucesso!", SolicitacaoDTO.from(s, logs));
     }
 
 }

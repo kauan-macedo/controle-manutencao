@@ -15,18 +15,29 @@ import java.util.Optional;
 
 public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long> {
 
-    @Query("SELECT s FROM Solicitacao s WHERE " +
-            "(:dataInicioParam IS NULL OR s.dataCriacao >= :dataInicioParam) AND " +
-            "(:dataFimParam IS NULL OR s.dataCriacao <= :dataFimParam) AND " +
-            "(:statusParam IS NULL OR s.status = :statusParam) AND " +
-            "(:filtroPorClienteParam = FALSE OR :filtroPorClienteParam IS NULL OR s.usuario.id = :idUsuarioLogadoParam)")
-    Page<Solicitacao> buscaSolicitacoes( // Retorna um Page
-                                                    @Param("dataInicioParam") Long dataInicio,
-                                                    @Param("dataFimParam") Long dataFim,
-                                                    @Param("filtroPorClienteParam") Boolean filtroPorCliente,
-                                                    @Param("idUsuarioLogadoParam") Long idUsuarioLogado,
-                                                    @Param("statusParam") StatusSolicitacao status,
-                                                    Pageable pageable);
+    @Query("""
+       SELECT s FROM Solicitacao s
+       WHERE (:dataInicioParam IS NULL OR s.dataCriacao >= :dataInicioParam)
+         AND (:dataFimParam IS NULL OR s.dataCriacao <= :dataFimParam)
+         AND (
+              :statusParam IS NULL
+              OR COALESCE(:statusParam, NULL) IS NULL
+              OR s.status IN :statusParam
+         )
+         AND (
+              :filtroPorClienteParam = FALSE
+              OR :filtroPorClienteParam IS NULL
+              OR s.usuario.id = :idUsuarioLogadoParam
+         )
+       """)
+    Page<Solicitacao> buscaSolicitacoes(
+            @Param("dataInicioParam") Long dataInicio,
+            @Param("dataFimParam") Long dataFim,
+            @Param("filtroPorClienteParam") Boolean filtroPorCliente,
+            @Param("idUsuarioLogadoParam") Long idUsuarioLogado,
+            @Param("statusParam") List<StatusSolicitacao> status,
+            Pageable pageable
+    );
 
     @Query("SELECT s FROM Solicitacao s WHERE " +
             // Novo parâmetro booleano para a verificação de funcionário

@@ -1,4 +1,4 @@
-<app-modal-visualizar-solicitacao [solicitacao]="solicitacaoSelecionada"></app-modal-visualizar-solicitacao>
+<app-modal-visualizar-solicitacao (closed)="solicitacaoSelecionada = null" [solicitacao]="solicitacaoSelecionada"></app-modal-visualizar-solicitacao>
 <main class="font-sans p-8 dark:bg-gray-950 h-screen">
   <div class="max-w-7xl mx-auto dark:bg-gray-950">
     <div class="flex justify-between items-center">
@@ -114,7 +114,7 @@
                     Efetuar Orçamento
                   </a>
                 } @else {
-                  <a (click)="solicitacaoSelecionada = solicitacao"
+                  <a (click)="abrirSolicitacao(solicitacao)"
                      class="text-lg text-gray-800 hover:text-gray-950 dark:text-gray-400 dark:hover:text-gray-300">
                     Ver Detalhes
                   </a>
