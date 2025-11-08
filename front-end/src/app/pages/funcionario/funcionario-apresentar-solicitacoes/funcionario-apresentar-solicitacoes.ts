@@ -57,19 +57,19 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
     this.loading = true;
     let hoje = this.filtroSelecionado == 'Hoje';
 
-    this.solicitacaoService.buscarTodas([this.statusSelecionado], hoje && this.filtroSelecionado != 'Todas', hoje && this.filtroSelecionado != 'Todas' ? null : this.dataInicial.trim(), hoje && this.filtroSelecionado != 'Todas' ?  null : this.dataFinal)
+    this.solicitacaoService.buscarTodas(this.statusSelecionado != -1 ? [this.statusSelecionado] : null, hoje && this.filtroSelecionado != 'Todas', hoje && this.filtroSelecionado != 'Todas' ? null : this.dataInicial.trim(), hoje && this.filtroSelecionado != 'Todas' ?  null : this.dataFinal)
       .pipe(finalize(() => this.endLoad()))
       .subscribe({
-      next: (solicitacoes) => {
-        //aqui deveria ser this.solicitacoes = solicitacoes, para depois filtrar, mas por hora vou deixar assim pra não ter que mudar o template
-        this.solicitacoesFiltradas = solicitacoes;
-        this.loading = false;
-        this.cdr.detectChanges();
-      },
-        error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
-          this.toastService.error(err.error.message);
-        }
-    });
+        next: (solicitacoes) => {
+          //aqui deveria ser this.solicitacoes = solicitacoes, para depois filtrar, mas por hora vou deixar assim pra não ter que mudar o template
+          this.solicitacoesFiltradas = solicitacoes;
+          this.loading = false;
+          this.cdr.detectChanges();
+        },
+          error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
+            this.toastService.error(err.error.message);
+          }
+      });
   }
 
   endLoad = () => {

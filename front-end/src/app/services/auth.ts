@@ -2,75 +2,42 @@ import { Injectable } from '@angular/core';
 import { StorageService } from './storage-service';
 import { Usuario } from '../models/usuario';
 import * as api from '../../api/auth';
+import {Observable} from 'rxjs';
+import {API_URL, APIResponse} from '../../api/api';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly STORAGE_KEY = 'usuarios';
 
-  constructor(private storageService: StorageService) {
-    this.criarFuncionarioTeste();
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+    withCredentials: true
   }
 
+  constructor(private httpClient: HttpClient) {}
 
-  //criando um usuario do perfil funcionario para testar o login:
-  //
-  private criarFuncionarioTeste(): void {
-    
-    const dados = this.storageService.getDados(this.STORAGE_KEY);
-    
-    // Se já houver um array de usuários, ele não é sobrescrito.
-    // Desse modo, eu posso cadastrar um funcionário e, em seguida,
-    // realizar login com ele
-    /*if(dados.length = 0){return};
-    
-    const funcionarioAdmin = new Usuario(
-      'Gabriel',
-      'gabriel@gmail.com',
-      '11111111111',
-      '999999999',
-      'FUNCIONARIO'
-    );
-    const clienteTeste = new Usuario(
-      'Maria', 
-      'maria@gmail.com', 
-      '22222222222', 
-      '888888888', 
-      'CLIENTE' 
-    );
-    clienteTeste.id = 2; 
-    clienteTeste.senha = '1234';
-    funcionarioAdmin.id = 1;
-    funcionarioAdmin.senha = '1234';
-
-    this.storageService.salvarDados(this.STORAGE_KEY, [funcionarioAdmin, clienteTeste])*/
-  }
-
-  async login(email: string, senha: string, onSuccess: (u: Usuario) => void, onError?: (msg: string) => void) {
+  login(email: string, senha: string): Observable<APIResponse<Usuario>> {
     let body = {
       email: email,
       password: senha
     }
-    let resp = await api.login(body)
-    if(resp.error) {
-      onError?.(resp.message);
-    } else {
-      localStorage.setItem('usuarioLogado', resp.body);
-      onSuccess(resp.body);
-    }
+    return this.httpClient.post<APIResponse<Usuario>>(
+      `${API_URL}/auth/login`,
+      body,
+      this.httpOptions
+    );
   }
 
-  logout(): void {
-    this.storageService.removerItem('usuarioLogado');
-  }
-
-  
-  getUsuarioLogado(): Usuario | null {
-    const dados = localStorage.getItem('usuarioLogado');
-    if (dados) {
-      return JSON.parse(dados) as Usuario;
-    }
-    return null;
+  logout(): Observable<APIResponse<any>> {
+    return this.httpClient.post<APIResponse<any>>(
+      `${API_URL}/auth/logout`,
+      ({}),
+      this.httpOptions
+    );
   }
 
 }

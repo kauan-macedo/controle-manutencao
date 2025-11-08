@@ -1,5 +1,6 @@
-<div class="relative flex items-center justify-center min-h-screen flex-col 
-            bg-gradient-to-br from-blue-50 to-indigo-100 
+<app-loading-overlay [visible]="loading"></app-loading-overlay>
+<div class="relative flex items-center justify-center min-h-screen flex-col
+            bg-gradient-to-br from-blue-50 to-indigo-100
             dark:from-gray-900 dark:to-gray-950 p-4">
 
 
@@ -7,18 +8,18 @@
     <app-theme-toggle></app-theme-toggle>
   </div>
 
- 
+
   <div class="w-full max-w-xl bg-white dark:bg-gray-900 p-10 rounded-2xl shadow-2xl
               transform transition-all duration-500 hover:scale-[1.02] animate-fadeIn">
-       
+
     <div class="flex justify-center mb-6">
     <svg class="h-16 w-16 text-blue-600 dark:text-blue-400 drop-shadow-lg" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
         <path fill-rule="evenodd" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" clip-rule="evenodd"/>
     </svg>
     </div>
 
-    <h2 class="text-4xl font-extrabold mb-3 text-center bg-clip-text text-transparent 
-               bg-gradient-to-r from-blue-600 to-indigo-500 
+    <h2 class="text-4xl font-extrabold mb-3 text-center bg-clip-text text-transparent
+               bg-gradient-to-r from-blue-600 to-indigo-500
                dark:from-blue-400 dark:to-indigo-300">
       Sistema de Manutenção
     </h2>
@@ -30,7 +31,7 @@
     <p class="text-white text-center mb-4">Se não souber sua senha, consulte seu e-mail.</p>
     <form #form="ngForm" (ngSubmit)="onLogin(form)" class="space-y-6">
 
-   
+
       <div>
         <label for="email" class="block text-base font-medium pb-2 text-gray-800 dark:text-gray-200">
           Email
@@ -43,9 +44,9 @@
             </svg>
           </div>
           <input type="text" id="email" name="email" required [(ngModel)]="credenciais.email"
-            class="form-input w-full rounded-lg text-gray-800 dark:text-white 
-                   bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
-                   py-4 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500 
+            class="form-input w-full rounded-lg text-gray-800 dark:text-white
+                   bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700
+                   py-4 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500
                    placeholder-gray-500 dark:placeholder-gray-400 text-base">
         </div>
       </div>
@@ -61,21 +62,21 @@
             </svg>
           </div>
           <input type="password" id="password" name="password" required [(ngModel)]="credenciais.senha"
-            class="form-input w-full rounded-lg text-gray-800 dark:text-white 
-                   bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
-                   py-4 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500 
+            class="form-input w-full rounded-lg text-gray-800 dark:text-white
+                   bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700
+                   py-4 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500
                    placeholder-gray-500 dark:placeholder-gray-400 text-base">
         </div>
-        <a [routerLink]="['/recuperar-senha']" 
+        <a [routerLink]="['/recuperar-senha']"
            class="mt-2 block text-sm text-right text-blue-500 dark:text-blue-400 hover:text-blue-600">
            Esqueceu sua senha?
         </a>
       </div>
 
-     
+
       <button type="submit" [disabled]="form.invalid"
-        class="w-full py-4 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 
-               dark:from-blue-700 dark:to-indigo-700 text-white rounded-lg font-semibold 
+        class="w-full py-4 px-4 bg-gradient-to-r from-blue-600 to-indigo-600
+               dark:from-blue-700 dark:to-indigo-700 text-white rounded-lg font-semibold
                hover:opacity-90 transition duration-150 flex items-center justify-center space-x-2">
         <span>Entrar</span>
         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
@@ -84,10 +85,10 @@
       </button>
     </form>
 
-  
+
     <p class="text-center mt-6 text-base font-medium text-gray-600 dark:text-gray-400">
-      Não tem uma conta? 
-      <a [routerLink]="['/autocadastro']" 
+      Não tem uma conta?
+      <a [routerLink]="['/autocadastro']"
          class="text-blue-500 dark:text-blue-400 hover:text-blue-600 font-semibold">
         Criar conta
       </a>

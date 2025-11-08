@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Usuario } from '../models/usuario';
-import { StorageService } from './storage-service';
 import * as api from '../../api/auth';
 import { Observable } from 'rxjs';
 import { API_URL, APIResponse } from '../../api/api';
@@ -10,8 +9,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root',
 })
 export class CadastroService {
-  
-  private readonly STORAGE_KEY = 'usuarios';
 
   private httpOptions = {
     headers: new HttpHeaders({
