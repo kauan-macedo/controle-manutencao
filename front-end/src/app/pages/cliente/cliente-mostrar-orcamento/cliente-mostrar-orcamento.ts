@@ -1,13 +1,14 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { CurrencyPipe, DatePipe, NgIf } from '@angular/common';
+import {CurrencyPipe, DatePipe, NgClass, NgIf} from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteAprovarServico } from '../cliente-aprovar-servico/cliente-aprovar-servico';
 import { ClienteRejeitarServico } from '../cliente-rejeitar-servico/cliente-rejeitar-servico';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
-import { EstadosSolicitacao } from '../../../models/enums/estados-solicitacao';
+import {EstadosSolicitacao, translateEstado} from '../../../models/enums/estados-solicitacao';
 import { LoadingOverlayComponent } from '../../../shared/loading-overlay.component';
 import { ToastService } from '../../../services/toast-service';
 import {finalize} from 'rxjs';
+import {formataData, getClasseEstado} from '../../../utils/utils';
 
 @Component({
   selector: 'app-cliente-mostrar-orcamento',
@@ -16,7 +17,8 @@ import {finalize} from 'rxjs';
     CurrencyPipe,
     ClienteAprovarServico,
     ClienteRejeitarServico,
-    LoadingOverlayComponent
+    LoadingOverlayComponent,
+    NgClass
   ],
   templateUrl: './cliente-mostrar-orcamento.html',
   styleUrls: ['./cliente-mostrar-orcamento.css']
@@ -27,6 +29,9 @@ export class ClienteMostrarOrcamento implements OnInit {
   solicitacao: any;
   exibirModalAprovarServico: boolean = false;
   exibirModalRejeitarServico: boolean = false;
+  formataData = formataData
+  getClasseEstado = getClasseEstado
+  translateEstado = translateEstado
   loading = false;
 
   constructor(
