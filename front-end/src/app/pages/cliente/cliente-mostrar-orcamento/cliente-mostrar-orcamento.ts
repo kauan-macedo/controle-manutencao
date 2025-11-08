@@ -78,6 +78,7 @@ export class ClienteMostrarOrcamento implements OnInit {
 
   aprovarSolicitacao(): void {
     if (this.solicitacao) {
+      this.loading = true;
       this.solicitacaoService.atualizarSolicitacao(this.solicitacao.id, { status: EstadosSolicitacao.APROVADA })
       .subscribe({
         next: () => {
@@ -88,6 +89,9 @@ export class ClienteMostrarOrcamento implements OnInit {
         error: (error) => {
           this.toastService.showSuccess('Erro ao aprovar a solicitação. Tente novamente mais tarde.');
           console.error(error);
+        },
+        complete: () => {
+          this.endLoad();
         }
       });
     }
@@ -96,6 +100,7 @@ export class ClienteMostrarOrcamento implements OnInit {
  
   rejeitarSolicitacao(): void {
     if (this.solicitacao) {
+      this.loading = true;
       this.solicitacaoService.atualizarSolicitacao(this.solicitacao.id, { status: EstadosSolicitacao.REJEITADA })
       .subscribe({
         next: () => {
@@ -106,6 +111,9 @@ export class ClienteMostrarOrcamento implements OnInit {
         error: (error) => {
           this.toastService.showSuccess('Erro ao rejeitar a solicitação. Tente novamente mais tarde.');
           console.error(error);
+        },
+        complete: () => {
+          this.endLoad();
         }
       });
     }

@@ -12,6 +12,7 @@ import { LoadingOverlayComponent } from '../../../shared/loading-overlay.compone
 import { ModalResgatarServicoComponent } from '../../../shared/modal/modal-resgatar-servico/modal-resgatar-servico';
 import { HttpErrorResponse } from '@angular/common/http';
 import { APIResponse } from '../../../../api/api';
+import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cliente-pagina-inicial',
@@ -35,7 +36,7 @@ export class ClientePaginaInicial implements OnInit {
   solicitacaoParaResgatar: Solicitacao | null = null;
 
 
-  constructor(private solicitacaoService: SolicitacaoService, private toastService: ToastService, private cdr: ChangeDetectorRef) {}
+  constructor(private solicitacaoService: SolicitacaoService, private toastService: ToastService, private cdr: ChangeDetectorRef, private toastrService: ToastrService) {}
 
   ngOnInit(): void {
     this.carregarSolicitacoes();
@@ -65,6 +66,8 @@ export class ClientePaginaInicial implements OnInit {
         this.endLoad()
       }
     });
+
+    console.log()
   }
 
   abrirModal(): void {
@@ -73,7 +76,6 @@ export class ClientePaginaInicial implements OnInit {
 
   fecharModal(): void {
     this.exibirModal = false;
-    this.carregarSolicitacoes();
   }
 
   traduzirEstado(estd: EstadosSolicitacao): string {
@@ -85,10 +87,26 @@ export class ClientePaginaInicial implements OnInit {
   }
 
   handleCancelResgate(): void {
-    this.solicitacaoParaResgatar = null;
+    setTimeout(() => {
+      this.solicitacaoParaResgatar = null;
+    });
   }
 
   handleConfirmResgate(solicitacao: Solicitacao): void {
-   
+    this.loading = true;
+    this.solicitacaoService.atualizarSolicitacao(solicitacao.id, { status: EstadosSolicitacao.APROVADA })
+      .subscribe({
+        next: (res: APIResponse<any>) => {
+          this.toastService.showSuccess('Serviço resgatado com sucesso!');
+          
+          this.handleCancelResgate();
+          setTimeout(() => this.carregarSolicitacoes(), 100);
+        },
+        error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
+          this.toastService.showError(err.error.message);
+          this.endLoad();
+          this.handleCancelResgate();
+        }
+      });
   }
 }

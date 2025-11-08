@@ -108,9 +108,15 @@
         <!-- Valor do orçamento -->
         <div>
           <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4 border-b pb-2 dark:border-gray-700">Valor do Orçamento</h2>
-          <div class="bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200 p-6 rounded-lg text-center">
-            <p class="text-4xl font-bold">{{ solicitacao.orcamento.valor | currency:'BRL' }}</p>
-          </div>
+          @if (solicitacao.orcamento) {
+            <div class="bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200 p-6 rounded-lg text-center">
+              <p class="text-4xl font-bold">{{ solicitacao.orcamento.valor | currency:'BRL' }}</p>
+            </div>
+          } @else {
+            <div class="bg-yellow-100 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200 p-6 rounded-lg text-center">
+              <p class="text-xl font-semibold">Orçamento ainda não disponível.</p>
+            </div>
+          }
         </div>
       </div>
 
