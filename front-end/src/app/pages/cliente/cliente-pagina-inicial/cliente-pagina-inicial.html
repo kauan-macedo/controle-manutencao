@@ -1,6 +1,6 @@
 @if(loading) {
   <app-loading-overlay [visible]="loading"/>
-} @else {
+}
 <main class="font-sans p-8 bg-gray-50 dark:bg-gray-950 min-h-screen">
   <div class="max-w-7xl mx-auto">
     <header class="mb-8">
@@ -41,7 +41,7 @@
                       <a [routerLink]="['/cliente/mostrar-orcamento', solicitacao.id]" class="text-lg text-yellow-600 hover:text-yellow-800 dark:text-yellow-400 dark:hover:text-yellow-500">Aprovar/Rejeitar Serviço</a>
                     }
                     @if (solicitacao.status == 4) {
-                      <a [routerLink]="['/cliente/resgatar-servico', solicitacao.id]" class="text-lg text-stone-600 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-500">Resgatar Serviço</a>
+                      <button (click)="abrirModalResgatar(solicitacao)" class="text-lg text-stone-600 hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-500">Resgatar Serviço</button>
                     }
                     @if (solicitacao.status == 6) {
                       <a [routerLink]="['/cliente/pagar-servico', solicitacao.id]" class="text-lg text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-500">Pagar Serviço</a>
@@ -77,5 +77,12 @@
       </div>
     </div>
   }
+
+  @if (solicitacaoParaResgatar) {
+    <app-modal-resgatar-servico
+      [solicitacao]="solicitacaoParaResgatar"
+      (confirm)="handleConfirmResgate($event)"
+      (cancel)="handleCancelResgate()"
+    />
+  }
 </main>
-}
