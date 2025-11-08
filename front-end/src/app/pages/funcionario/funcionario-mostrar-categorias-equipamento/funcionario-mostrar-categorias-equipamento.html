@@ -1,7 +1,7 @@
+<app-loading-overlay [visible]="loading"></app-loading-overlay>
 <main class="bg-gray-50 dark:bg-gray-950 min-h-screen p-4 sm:p-6 lg:p-8">
-   <app-loading-overlay [visible]="loading"></app-loading-overlay>
   <div class="max-w-7xl mx-auto">
-    
+
     <div class="mb-10">
       <h1 class="text-4xl font-bold text-gray-800 dark:text-white">
         Gerenciar Categorias
@@ -16,22 +16,22 @@
         <div class="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6 mb-8">
           <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Adicionar Nova Categoria</h2>
           <form #addForm="ngForm" class="flex flex-col gap-4">
-            <input 
-              type="text" 
-              name="nomeCategoria" 
-              placeholder="Nome da Categoria" 
-              required 
+            <input
+              type="text"
+              name="nomeCategoria"
+              placeholder="Nome da Categoria"
+              required
               [(ngModel)]="novaCategoria.descricao"
               class="p-3 border dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 dark:text-white placeholder:text-gray-400"
             />
-            <button 
+            <button
               (click)="onAdicionar(addForm)"
               [disabled]="addForm.invalid"
               class="py-3 px-6 bg-blue-600 dark:bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 dark:hover:bg-blue-800"
             >
               Adicionar
             </button>
-          </form> 
+          </form>
         </div>
       </div>
       <div class="lg:col-span-2">
@@ -76,7 +76,7 @@
                 </tr>
               }
               @if(!categorias){
-                <tr> 
+                <tr>
                   <td colspan="3" class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200 text-center">Nenhuma categoria cadastrada.</td>
                 </tr>
               }
@@ -93,7 +93,7 @@
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-8 my-8 w-full max-w-lg transform transition-all">
         <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Editando categoria: {{categoriaEmEdicao.descricaoOriginal}}</h2>
         <form #editForm="ngForm" (ngSubmit)="onSalvarEdicao()" class="flex flex-col gap-4">
-          <input 
+          <input
             type="text"
             name="nomeEdicao"
             placeholder="Nome"
@@ -106,7 +106,7 @@
               class="flex-1 py-3 px-6 bg-blue-600 dark:bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 dark:hover:bg-blue-800">
               Salvar alterações
             </button>
-            <button 
+            <button
               type="button"
               (click)="categoriaEmEdicao.id = 0"
               class="flex-1 py-3 px-6 bg-stone-600 dark:bg-stone-700 text-white font-semibold rounded-lg shadow-md hover:bg-stone-700 dark:hover:bg-stone-800">

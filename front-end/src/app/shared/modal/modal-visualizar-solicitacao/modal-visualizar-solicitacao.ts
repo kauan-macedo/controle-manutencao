@@ -46,6 +46,13 @@ export class ModalVisualizarSolicitacao implements OnInit {
   ngOnInit() {
   }
 
+  endLoad = () => {
+    setTimeout(() => {
+      this.loading = false;
+      this.cdr.detectChanges();
+    })
+  }
+
   close() {
     this.solicitacao = null;
     this.closed.emit();
@@ -62,15 +69,9 @@ export class ModalVisualizarSolicitacao implements OnInit {
     if(!this.solicitacao) {
       return;
     }
+    this.loading = true;
     this.solicitacaoService.atualizarSolicitacao(this.solicitacao!.id, { status: EstadosSolicitacao.FINALIZADA })
-      .pipe(
-        finalize(() => {
-          setTimeout(() => {
-            this.loading = false;
-            this.cdr.detectChanges();
-          }, 10);
-        })
-      )
+      .pipe(finalize(()=>this.endLoad))
       .subscribe({
         next: (res) => {
           this.toastrService.success(res.message);
