@@ -4,12 +4,12 @@ import { CommonModule } from '@angular/common';
 import { CategoriaEquipamentoService } from '../../../services/categoria-equipamento-service';
 import { Categoria } from '../../../models/categoria-equipamento';
 import { ToastService } from '../../../services/toast-service';
-import { Usuario } from '../../../models/usuario';
-import { SpinnerComponent } from '../../../shared/loading-spinner/spinner';
+import { LoadingOverlayComponent } from '../../../shared/loading-overlay.component';
+
 
 @Component({
   selector: 'app-funcionario-mostrar-categorias-equipamento',
-  imports: [CommonModule, FormsModule, SpinnerComponent],
+  imports: [CommonModule, FormsModule, LoadingOverlayComponent],
   templateUrl: './funcionario-mostrar-categorias-equipamento.html',
   styleUrl: './funcionario-mostrar-categorias-equipamento.css'
 })
@@ -23,7 +23,7 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
   };
 
   public categorias!: Categoria[];
-  isLoading: boolean = false;
+  loading = false;
 
   constructor(
     private categoriaService: CategoriaEquipamentoService,
@@ -36,22 +36,29 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
   }
 
   listarTodas(): void {
-    this.isLoading = true;
+    this.loading = true;
     this.categoriaService.listarTodas().subscribe({
       next: (data) => {
         this.categorias = data;
-        this.isLoading = false;
         this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Erro ao buscar categorias:', error);
         this.categorias = [];
+      },
+      complete: () => {
+        this.endLoad();
       }
     });
   }
 
+  endLoad = () => {
+    setTimeout(() => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      })
+  }
 
-  // essas funcoes ainda precisam de ajustes
 
 
   // Observer
