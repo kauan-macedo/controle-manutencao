@@ -4,8 +4,6 @@ import { RouterModule } from '@angular/router';
 import { ClienteCriarSolicitacao } from '../cliente-criar-solicitacao/cliente-criar-solicitacao';
 import { Solicitacao } from '../../../models/solicitacao';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
-import { ToastComponent } from '../../../shared/toast-component/toast-component';
-import { ToastService } from '../../../services/toast-service';
 import { EstadosSolicitacao, translateEstado ,} from '../../../models/enums/estados-solicitacao';
 import { getClasseEstado} from '../../../utils/utils';
 import { formataData } from '../../../utils/utils';
@@ -13,7 +11,7 @@ import { LoadingOverlayComponent } from '../../../shared/loading-overlay.compone
 import { ModalResgatarServicoComponent } from '../../../shared/modal/modal-resgatar-servico/modal-resgatar-servico';
 import { HttpErrorResponse } from '@angular/common/http';
 import { APIResponse } from '../../../../api/api';
-import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
+import {ToastContainerDirective, ToastrModule, ToastrService} from 'ngx-toastr';
 import {finalize} from 'rxjs';
 
 @Component({
@@ -22,7 +20,7 @@ import {finalize} from 'rxjs';
     ClienteCriarSolicitacao,
     CommonModule,
     RouterModule,
-    ToastComponent,
+    ToastrModule,
     LoadingOverlayComponent,
     ModalResgatarServicoComponent
   ],
@@ -40,7 +38,7 @@ export class ClientePaginaInicial implements OnInit {
 
   constructor(
     private solicitacaoService: SolicitacaoService,
-    private toastService: ToastService,
+    private toastService: ToastrService,
     private cdr: ChangeDetectorRef,
     private toastrService: ToastrService
   ){}
@@ -66,11 +64,10 @@ export class ClientePaginaInicial implements OnInit {
           this.minhasSolicitacoes = solicitacoes;
           this.cdr.detectChanges();
         },
-        error: (error) => {
-          console.error('Erro ao carregar solicitações:', error);
-          this.toastService.showError('Erro ao carregar solicitações.');
+        error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
+          this.toastService.error(err.error.message);
         }
-    });
+      });
 
     console.log()
   }
@@ -104,13 +101,13 @@ export class ClientePaginaInicial implements OnInit {
     this.solicitacaoService.atualizarSolicitacao(solicitacao.id, { status: EstadosSolicitacao.APROVADA })
       .subscribe({
         next: (res: APIResponse<any>) => {
-          this.toastService.showSuccess('Serviço resgatado com sucesso!');
+          this.toastService.success('Serviço resgatado com sucesso!');
 
           this.handleCancelResgate();
           setTimeout(() => this.carregarSolicitacoes(), 100);
         },
         error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
-          this.toastService.showError(err.error.message);
+          this.toastService.error(err.error.message);
           this.endLoad();
           this.handleCancelResgate();
         }

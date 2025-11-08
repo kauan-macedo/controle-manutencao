@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { Solicitacao } from '../../../models/solicitacao';
-import { ToastService } from '../../../services/toast-service';
 import { EstadosSolicitacao, translateEstado } from '../../../models/enums/estados-solicitacao';
 import { LoadingOverlayComponent } from '../../../shared/loading-overlay.component';
 import {formataData, getClasseEstado} from '../../../utils/utils';
@@ -12,6 +11,9 @@ import {
   ModalVisualizarSolicitacao
 } from '../../../shared/modal/modal-visualizar-solicitacao/modal-visualizar-solicitacao';
 import {finalize} from 'rxjs';
+import {ToastrService} from 'ngx-toastr';
+import {HttpErrorResponse} from '@angular/common/http';
+import {APIResponse} from '../../../../api/api';
 
 @Component({
   selector: 'app-funcionario-pagina-inicial',
@@ -35,7 +37,7 @@ export class FuncionarioPaginaInicial implements OnInit {
   solicitacoesAbertas: Solicitacao[] = [];
   isLoading: boolean = false;
 
-  constructor(private solicitacaoService: SolicitacaoService, private toastService: ToastService, private cdr: ChangeDetectorRef) {}
+  constructor(private solicitacaoService: SolicitacaoService, private toastService: ToastrService, private cdr: ChangeDetectorRef) {}
 
   carregarSolicitacoes(): void {
     this.isLoading = true;
@@ -52,10 +54,9 @@ export class FuncionarioPaginaInicial implements OnInit {
         this.solicitacoesAbertas = solicitacoes;
         this.cdr.detectChanges();
       },
-      error: (error) => {
-        console.error('Erro ao carregar solicitações:', error);
-        this.toastService.showError('Erro ao carregar solicitações.');
-      }
+        error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
+          this.toastService.error(err.error.message);
+        }
     });
   }
 

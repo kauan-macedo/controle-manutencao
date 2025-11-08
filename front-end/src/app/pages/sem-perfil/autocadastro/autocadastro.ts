@@ -6,7 +6,6 @@ import { RouterLink } from '@angular/router';
 import { ThemeToggle } from '../../../shared/theme-toggle/theme-toggle';
 import { Usuario } from '../../../models/usuario';
 import { CadastroService } from '../../../services/cadastro-service';
-import { ToastService } from '../../../services/toast-service';
 import { MaskDirective } from '../../../shared/directives/mask.directive';
 import { LoadingOverlayComponent } from '../../../shared/loading-overlay.component';
 import { ToastrService } from 'ngx-toastr';

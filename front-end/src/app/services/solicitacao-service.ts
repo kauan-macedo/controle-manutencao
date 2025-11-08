@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EstadosSolicitacao } from '../models/enums/estados-solicitacao';
 import { Solicitacao } from '../models/solicitacao';
-import { ToastService } from './toast-service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { API_URL, APIResponse } from '../../api/api';
@@ -19,7 +17,7 @@ export class SolicitacaoService {
     withCredentials: true
   }
 
-  constructor(private toastService: ToastService, private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
 
   //Observable

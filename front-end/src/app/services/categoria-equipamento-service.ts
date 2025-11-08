@@ -22,12 +22,10 @@ export class CategoriaEquipamentoService {
   constructor(private httpClient: HttpClient){}
 
   // Observable
-  listarTodas(): Observable<Categoria[]> {
+  listarTodas(): Observable<APIResponse<Categoria[]>> {
     return this.httpClient.get<APIResponse<Categoria[]>>(
       API_URL + "/categoria",
       this.httpOptions
-    ).pipe(
-      map((res) => res.body)
     );
   }
 

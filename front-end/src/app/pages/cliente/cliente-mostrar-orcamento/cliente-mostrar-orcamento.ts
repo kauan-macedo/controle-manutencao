@@ -6,9 +6,11 @@ import { ClienteRejeitarServico } from '../cliente-rejeitar-servico/cliente-reje
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import {EstadosSolicitacao, translateEstado} from '../../../models/enums/estados-solicitacao';
 import { LoadingOverlayComponent } from '../../../shared/loading-overlay.component';
-import { ToastService } from '../../../services/toast-service';
 import {finalize} from 'rxjs';
 import {formataData, getClasseEstado} from '../../../utils/utils';
+import {ToastrModule, ToastrService} from 'ngx-toastr';
+import {HttpErrorResponse} from '@angular/common/http';
+import {APIResponse} from '../../../../api/api';
 
 @Component({
   selector: 'app-cliente-mostrar-orcamento',
@@ -18,7 +20,8 @@ import {formataData, getClasseEstado} from '../../../utils/utils';
     ClienteAprovarServico,
     ClienteRejeitarServico,
     LoadingOverlayComponent,
-    NgClass
+    NgClass,
+    ToastrModule
   ],
   templateUrl: './cliente-mostrar-orcamento.html',
   styleUrls: ['./cliente-mostrar-orcamento.css']
@@ -39,7 +42,7 @@ export class ClienteMostrarOrcamento implements OnInit {
     private router: Router,
     private solicitacaoService: SolicitacaoService,
     private cdr: ChangeDetectorRef,
-    private toastService: ToastService
+    private toastService: ToastrService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -87,15 +90,14 @@ export class ClienteMostrarOrcamento implements OnInit {
       this.solicitacaoService.atualizarSolicitacao(this.solicitacao.id, { status: EstadosSolicitacao.APROVADA })
         .pipe(finalize(() => this.endLoad()))
         .subscribe({
-        next: () => {
-          this.toastService.showSuccess('Solicitação aprovada com sucesso!');
-          this.fecharModalAprovarServico();
-          this.router.navigate(['/cliente/pagina-inicial']);
-        },
-        error: (error) => {
-          this.toastService.showSuccess('Erro ao aprovar a solicitação. Tente novamente mais tarde.');
-          console.error(error);
-        },
+          next: () => {
+            this.toastService.success('Solicitação aprovada com sucesso!');
+            this.fecharModalAprovarServico();
+            this.router.navigate(['/cliente/pagina-inicial']);
+          },
+          error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
+            this.toastService.error(err.error.message);
+          }
       });
     }
   }
@@ -107,15 +109,14 @@ export class ClienteMostrarOrcamento implements OnInit {
       this.solicitacaoService.atualizarSolicitacao(this.solicitacao.id, { status: EstadosSolicitacao.REJEITADA })
         .pipe(finalize(() => this.endLoad()))
         .subscribe({
-        next: () => {
-          this.toastService.showSuccess('Solicitação rejeitada com sucesso.');
+        next: (res) => {
+          this.toastService.success(res.message);
           this.fecharModalRejeitarServico();
           this.router.navigate(['/cliente/pagina-inicial']);
         },
-        error: (error) => {
-          this.toastService.showSuccess('Erro ao rejeitar a solicitação. Tente novamente mais tarde.');
-          console.error(error);
-        }
+          error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
+            this.toastService.error(err.error.message);
+          }
       });
     }
   }

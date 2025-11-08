@@ -7,7 +7,6 @@ import { OrcamentoService } from '../../../services/orcamento-service';
 import { FormsModule } from '@angular/forms';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { EstadosSolicitacao, translateEstado } from '../../../models/enums/estados-solicitacao';
-import { ToastService } from '../../../services/toast-service';
 import { MaskDirective } from '../../../shared/directives/mask.directive';
 import { formataData, getClasseEstado } from '../../../utils/utils';
 import { ToastrModule, ToastrService } from 'ngx-toastr';

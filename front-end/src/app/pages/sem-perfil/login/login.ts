@@ -4,39 +4,34 @@ import { RouterModule, Router } from '@angular/router'; // Importação correta 
 import { FormsModule } from '@angular/forms'; // Adicione este import
 import { AuthService } from '../../../services/auth';
 import { ThemeToggle } from '../../../shared/theme-toggle/theme-toggle';
-import { ToastService } from '../../../services/toast-service';
 import { Usuario } from '../../../models/usuario';
+import {ToastrModule, ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, ThemeToggle],
+  imports: [CommonModule, RouterModule, FormsModule, ThemeToggle, ToastrModule],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
-export class Login implements OnInit {
+export class Login {
   credenciais = { email: '', senha: '' };
 
-  constructor(private router: Router, private authService: AuthService, private toastService: ToastService) {}
-
-  ngOnInit(): void {
-    this.toastService.showPendingMessage();
-  }
-
+  constructor(private router: Router, private authService: AuthService, private toastService: ToastrService) {}
 
   onLogin(form: any): void {
     if (form.valid) {
       const { email, senha } = this.credenciais;
-      this.authService.login(email, senha, 
+      this.authService.login(email, senha,
         (user: Usuario) => {
           if(user.tipoUsuario === 'CLIENTE') {
             this.router.navigate(['/cliente/pagina-inicial']);
           } else {
             this.router.navigate(['/funcionario/pagina-inicial']);
           }
-        }, 
+        },
         () => { // Handler de erro
-          alert('Email ou senha incorretos.');
+          this.toastService.error('Email ou senha incorretos.');
         }
       );
     }

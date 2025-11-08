@@ -3,9 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CategoriaEquipamentoService } from '../../../services/categoria-equipamento-service';
 import { Categoria } from '../../../models/categoria-equipamento';
-import { ToastService } from '../../../services/toast-service';
 import { LoadingOverlayComponent } from '../../../shared/loading-overlay.component';
 import {finalize} from 'rxjs';
+import {ToastrService} from 'ngx-toastr';
 
 
 @Component({
@@ -28,7 +28,7 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
 
   constructor(
     private categoriaService: CategoriaEquipamentoService,
-    private toastService: ToastService,
+    private toastService: ToastrService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -42,7 +42,7 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
       .pipe(finalize(() => this.endLoad()))
       .subscribe({
       next: (data) => {
-        this.categorias = data;
+        this.categorias = data.body;
         this.cdr.detectChanges();
       },
       error: (error) => {

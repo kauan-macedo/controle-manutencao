@@ -4,17 +4,19 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Solicitacao } from '../../../models/solicitacao';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
-import { ToastService } from '../../../services/toast-service';
 import { translateEstado } from '../../../models/enums/estados-solicitacao';
 import {formataData, getClasseEstado} from '../../../utils/utils';
 import {ModalVisualizarSolicitacao} from '../../../shared/modal/modal-visualizar-solicitacao/modal-visualizar-solicitacao';
 import {LoadingOverlayComponent} from '../../../shared/loading-overlay.component';
 import {finalize} from 'rxjs';
+import {HttpErrorResponse} from '@angular/common/http';
+import {APIResponse} from '../../../../api/api';
+import {ToastrModule, ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-funcionario-apresentar-solicitacoes',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, LoadingOverlayComponent, ModalVisualizarSolicitacao],
+  imports: [CommonModule, RouterModule, FormsModule, LoadingOverlayComponent, ModalVisualizarSolicitacao, ToastrModule],
   templateUrl: './funcionario-apresentar-solicitacoes.html',
   styleUrl: './funcionario-apresentar-solicitacoes.css'
 })
@@ -38,7 +40,7 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
 
   constructor(
     private solicitacaoService: SolicitacaoService,
-    private toastService: ToastService,
+    private toastService: ToastrService,
     private cdr: ChangeDetectorRef) {
   }
 
@@ -64,10 +66,9 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
         this.loading = false;
         this.cdr.detectChanges();
       },
-      error: (error) => {
-        console.error('Erro ao carregar solicitações:', error);
-        this.toastService.showError('Erro ao carregar solicitações.');
-      }
+        error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
+          this.toastService.error(err.error.message);
+        }
     });
   }
 
