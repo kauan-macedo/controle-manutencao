@@ -1,223 +1,321 @@
 <app-loading-overlay [visible]="loading"></app-loading-overlay>
 <main class="bg-gray-50 dark:bg-gray-950 p-4 md:p-8 font-sans min-h-screen">
-
   @if (loading) {
-    <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden animate-pulse">
-      <div class="p-6 bg-gray-100 dark:bg-gray-900 border-b dark:border-gray-700">
-        <div class="h-8 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
-        <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/2 mt-3"></div>
-        <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/4 mt-2"></div>
-      </div>
+  <div
+    class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden animate-pulse"
+  >
+    <div class="p-6 bg-gray-100 dark:bg-gray-900 border-b dark:border-gray-700">
+      <div class="h-8 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
+      <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/2 mt-3"></div>
+      <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/4 mt-2"></div>
+    </div>
 
-      <div class="p-6">
-        <div class="mb-8">
-          <div class="h-7 bg-gray-300 dark:bg-gray-700 rounded w-1/3 mb-4"></div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-            <div>
-              <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/4 mb-2"></div>
-              <div class="h-5 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
-            </div>
-            <div>
-              <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/4 mb-2"></div>
-              <div class="h-5 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
-            </div>
-            <div class="md:col-span-2">
-              <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/4 mb-2"></div>
-              <div class="h-16 bg-gray-200 dark:bg-gray-700 rounded"></div>
-            </div>
+    <div class="p-6">
+      <div class="mb-8">
+        <div class="h-7 bg-gray-300 dark:bg-gray-700 rounded w-1/3 mb-4"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+          <div>
+            <div
+              class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/4 mb-2"
+            ></div>
+            <div class="h-5 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
           </div>
-        </div>
-
-        <div class="mb-8">
-          <div class="h-7 bg-gray-300 dark:bg-gray-700 rounded w-1/3 mb-4"></div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-            <div>
-              <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/4 mb-2"></div>
-              <div class="h-5 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
-            </div>
-            <div>
-              <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/4 mb-2"></div>
-              <div class="h-5 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
-            </div>
+          <div>
+            <div
+              class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/4 mb-2"
+            ></div>
+            <div class="h-5 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
           </div>
-        </div>
-
-        <div>
-          <div class="h-7 bg-gray-300 dark:bg-gray-700 rounded w-1/3 mb-4"></div>
-          <div class="h-24 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
+          <div class="md:col-span-2">
+            <div
+              class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/4 mb-2"
+            ></div>
+            <div class="h-16 bg-gray-200 dark:bg-gray-700 rounded"></div>
+          </div>
         </div>
       </div>
 
-      <div class="p-6 bg-gray-50 dark:bg-gray-900 border-t dark:border-gray-700 flex justify-end gap-4">
-        <div class="h-12 bg-gray-300 dark:bg-gray-700 rounded w-32"></div>
-        <div class="h-12 bg-gray-300 dark:bg-gray-700 rounded w-32"></div>
+      <div class="mb-8">
+        <div class="h-7 bg-gray-300 dark:bg-gray-700 rounded w-1/3 mb-4"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+          <div>
+            <div
+              class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/4 mb-2"
+            ></div>
+            <div class="h-5 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
+          </div>
+          <div>
+            <div
+              class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/4 mb-2"
+            ></div>
+            <div class="h-5 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="h-7 bg-gray-300 dark:bg-gray-700 rounded w-1/3 mb-4"></div>
+        <div class="h-24 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
       </div>
     </div>
+
+    <div
+      class="p-6 bg-gray-50 dark:bg-gray-900 border-t dark:border-gray-700 flex justify-end gap-4"
+    >
+      <div class="h-12 bg-gray-300 dark:bg-gray-700 rounded w-32"></div>
+      <div class="h-12 bg-gray-300 dark:bg-gray-700 rounded w-32"></div>
+    </div>
+  </div>
   } @else if (solicitacao) {
 
-    <div class="max-w-4xl mx-auto text-gray-700 dark:text-white bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden">
+  <div
+    class="max-w-4xl mx-auto text-gray-700 dark:text-white bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden"
+  >
+    <!-- Cabeçalho da solicitação -->
+    <div class="p-6 bg-gray-100 dark:bg-gray-900 border-b dark:border-gray-700">
+      <h1 class="text-3xl font-bold text-gray-800 dark:text-white">
+        Orçamento da Solicitação
+      </h1>
+      <p class="text-md text-gray-600 dark:text-gray-400">
+        Solicitado em:
+        {{ solicitacao.dataCriacao | date : "dd/MM/yyyy 'às' HH:mm" }}
+      </p>
+      <p class="text-md text-gray-600 dark:text-gray-400">
+        Estado: <span class="font-semibold">{{ solicitacao.status }}</span>
+      </p>
+    </div>
 
-      <!-- Cabeçalho da solicitação -->
-      <div class="p-6 bg-gray-100 dark:bg-gray-900 border-b dark:border-gray-700">
-        <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Orçamento da Solicitação</h1>
-        <p class="text-md text-gray-600 dark:text-gray-400">
-          Solicitado em: {{ solicitacao.dataCriacao | date:'dd/MM/yyyy \'às\' HH:mm' }}
-        </p>
-        <p class="text-md text-gray-600 dark:text-gray-400">
-          Estado: <span class="font-semibold">{{ solicitacao.status }}</span>
-        </p>
-      </div>
-
-      <!-- Detalhes da solicitação -->
-      <div class="p-6 max-h-[50vh] overflow-y-scroll">
-        <div class="mb-8">
-          <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4 border-b pb-2 dark:border-gray-700">Detalhes da Solicitação</h2>
-          <div class="grid grid-cols-4 text-lg gap-4">
-            <div>
-              <p class="font-bold">Cliente</p>
-              <p class="text-gray-300">{{solicitacao.usuario.nome}}</p>
-            </div>
-            @if(solicitacao.orcamento) {
-              <div>
-                <p class="font-bold">Valor orçado</p>
-                <p class="text-gray-300">{{solicitacao.orcamento ? 'R$ ' + solicitacao.orcamento.valor.toFixed(2) : 'Serviço não orçado'}}</p>
-              </div>
-              <div>
-                <p class="font-bold">Orçado em</p>
-                <p class="text-gray-300">{{formataData(solicitacao.orcamento.dataCriacao)}}</p>
-              </div>
-            }
-            <div>
-              <p class="font-bold">Categoria Equip.</p>
-              <p class="text-gray-300">{{solicitacao.categoria.descricao}}</p>
-            </div>
-            <div>
-              <p class="font-bold">Data Criação</p>
-              <p class="text-gray-300">{{formataData(solicitacao.dataCriacao)}}</p>
-            </div>
-            @if(solicitacao.dataArrumado) {
-              <div>
-                <p class="font-bold">Data Arrumado</p>
-                <p class="text-gray-300">{{solicitacao.dataArrumado ? formataData(solicitacao.dataArrumado) : 'Equipamento não arrumado'}}</p>
-              </div>
-            }
-            <div>
-              <p class="font-bold">Responsável</p>
-              <p class="text-gray-300">{{solicitacao.responsavel ? solicitacao.responsavel.nome : 'Sem responsável'}}</p>
-            </div>
-            <div>
-              <p class="font-bold">Status</p>
-              <p
-                [ngClass]="[getClasseEstado(solicitacao.status), 'inline-block', 'px-3', 'py-1', 'rounded-full', 'text-sm', 'font-semibold']">
-                {{ translateEstado(solicitacao.status) }}
-              </p>
-            </div>
+    <!-- Detalhes da solicitação -->
+    <div class="p-6 max-h-[50vh] overflow-y-scroll">
+      <div class="mb-8">
+        <h2
+          class="text-2xl font-bold text-gray-800 dark:text-white mb-4 border-b pb-2 dark:border-gray-700"
+        >
+          Detalhes da Solicitação
+        </h2>
+        <div class="grid grid-cols-4 text-lg gap-4">
+          <div>
+            <p class="font-bold">Cliente</p>
+            <p class="text-gray-300">{{ solicitacao.usuario.nome }}</p>
           </div>
-          <hr class="my-4 h-[1px]">
-          <div class="text-lg flex-col gap-y-4 grid grid-cols-3">
-            <div class="">
-              <p class="font-bold">Desc. Equipamento</p>
-              <p>{{solicitacao.descricaoEquipamento}}</p>
-            </div>
-            <div class="">
-              <p class="font-bold">Desc. Defeito</p>
-              <p>{{solicitacao.descricaoDefeito}}</p>
-            </div>
-            @if(solicitacao.orcamento) {
-              <div class="">
-                <p class="font-bold">Detalhe Orçamento</p>
-                <p>{{solicitacao.orcamento.descricao}}</p>
-              </div>
-            }
+          @if(solicitacao.orcamento) {
+          <div>
+            <p class="font-bold">Valor orçado</p>
+            <p class="text-gray-300">
+              {{
+                solicitacao.orcamento
+                  ? "R$ " + solicitacao.orcamento.valor.toFixed(2)
+                  : "Serviço não orçado"
+              }}
+            </p>
           </div>
-          <div class="mt-4 w-full">
-            <h3 class="text-xl font-bold">Histórico</h3>
+          <div>
+            <p class="font-bold">Orçado em</p>
+            <p class="text-gray-300">
+              {{ formataData(solicitacao.orcamento.dataCriacao) }}
+            </p>
+          </div>
+          }
+          <div>
+            <p class="font-bold">Categoria Equip.</p>
+            <p class="text-gray-300">{{ solicitacao.categoria.descricao }}</p>
+          </div>
+          <div>
+            <p class="font-bold">Data Criação</p>
+            <p class="text-gray-300">
+              {{ formataData(solicitacao.dataCriacao) }}
+            </p>
+          </div>
+          @if(solicitacao.dataArrumado) {
+          <div>
+            <p class="font-bold">Data Arrumado</p>
+            <p class="text-gray-300">
+              {{
+                solicitacao.dataArrumado
+                  ? formataData(solicitacao.dataArrumado)
+                  : "Equipamento não arrumado"
+              }}
+            </p>
+          </div>
+          }
+          <div>
+            <p class="font-bold">Responsável</p>
+            <p class="text-gray-300">
+              {{
+                solicitacao.responsavel
+                  ? solicitacao.responsavel.nome
+                  : "Sem responsável"
+              }}
+            </p>
+          </div>
+          <div>
+            <p class="font-bold">Status</p>
+            <p
+              [ngClass]="[
+                getClasseEstado(solicitacao.status),
+                'inline-block',
+                'px-3',
+                'py-1',
+                'rounded-full',
+                'text-sm',
+                'font-semibold'
+              ]"
+            >
+              {{ translateEstado(solicitacao.status) }}
+            </p>
+          </div>
+        </div>
+        <hr class="my-4 h-[1px]" />
+        <div class="text-lg flex-col gap-y-4 grid grid-cols-3">
+          <div class="">
+            <p class="font-bold">Desc. Equipamento</p>
+            <p>{{ solicitacao.descricaoEquipamento }}</p>
+          </div>
+          <div class="">
+            <p class="font-bold">Desc. Defeito</p>
+            <p>{{ solicitacao.descricaoDefeito }}</p>
+          </div>
+          @if(solicitacao.orcamento) {
+          <div class="">
+            <p class="font-bold">Detalhe Orçamento</p>
+            <p>{{ solicitacao.orcamento.descricao }}</p>
+          </div>
+          }
+        </div>
+        <div class="mt-4 w-full">
+          <h3 class="text-xl font-bold">Histórico</h3>
 
-            <div class="mt-2 rounded-lg border border-gray-200 dark:border-gray-600 overflow-hidden">
-              <!-- wrapper com overflow -->
-              <div class="max-h-[200px] min-h-[200px] overflow-y-auto">
-                <table class="w-full border-collapse">
-                  <thead class="bg-gray-50 sticky top-0 z-10 dark:bg-gray-700">
+          <div
+            class="mt-2 rounded-lg border border-gray-200 dark:border-gray-600 overflow-hidden"
+          >
+            <!-- wrapper com overflow -->
+            <div class="max-h-[200px] min-h-[200px] overflow-y-auto">
+              <table class="w-full border-collapse">
+                <thead class="bg-gray-50 sticky top-0 z-10 dark:bg-gray-700">
                   <tr>
                     <th class="px-4 py-2 w-2/12 text-left">Data/Hora</th>
                     <th class="px-4 py-2 w-3/12 text-left">Usuário</th>
                     <th class="px-4 py-2 w-7/12 text-left">Ação</th>
                   </tr>
-                  </thead>
-                  <tbody>
-                    @for (log of solicitacao.historico; track $index) {
-                      <tr class="border-t border-gray-200 dark:border-gray-600">
-                        <td class="px-4 py-2">{{ formataData(log.data) }}</td>
-                        <td class="px-4 py-2">{{ log.agente.nome }}</td>
-                        <td class="px-4 py-2">{{ log.descricao }}</td>
-                      </tr>
-                    }
-                  </tbody>
-                </table>
-              </div>
+                </thead>
+                <tbody>
+                  @for (log of solicitacao.historico; track $index) {
+                  <tr class="border-t border-gray-200 dark:border-gray-600">
+                    <td class="px-4 py-2">{{ formataData(log.data) }}</td>
+                    <td class="px-4 py-2">{{ log.agente.nome }}</td>
+                    <td class="px-4 py-2">{{ log.descricao }}</td>
+                  </tr>
+                  }
+                </tbody>
+              </table>
             </div>
           </div>
-        </div>
-
-        <!-- Dados do cliente -->
-        <div class="mb-4">
-          <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4 border-b pb-2 dark:border-gray-700">Seus Dados</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-            <div>
-              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nome</h3>
-              <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.usuario?.nome }}</p>
-            </div>
-            <div>
-              <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Contato</h3>
-              <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.usuario?.telefone }}</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Valor do orçamento -->
-        <div>
-          <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4 border-b pb-2 dark:border-gray-700">Valor do Orçamento</h2>
-          @if (solicitacao.orcamento) {
-            <div class="bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200 p-6 rounded-lg text-center">
-              <p class="text-4xl font-bold">{{ solicitacao.orcamento.valor | currency:'BRL' }}</p>
-            </div>
-          } @else {
-            <div class="bg-yellow-100 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200 p-6 rounded-lg text-center">
-              <p class="text-xl font-semibold">Orçamento ainda não disponível.</p>
-            </div>
-          }
         </div>
       </div>
 
-      <!-- Botões -->
-      <div class="p-6 bg-gray-50 dark:bg-gray-900 border-t dark:border-gray-700 flex flex-col md:flex-row justify-end items-center gap-4">
-        <button (click)="abrirModalRejeitarServico()"
-                class="w-full md:w-auto px-6 py-3 bg-red-600 dark:bg-red-700 text-white font-semibold text-sm uppercase rounded shadow-md hover:bg-red-700 dark:hover:bg-red-800 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 dark:active:bg-red-900 transition duration-150 ease-in-out">
+      <!-- Dados do cliente -->
+      <div class="mb-4">
+        <h2
+          class="text-2xl font-bold text-gray-800 dark:text-white mb-4 border-b pb-2 dark:border-gray-700"
+        >
+          Seus Dados
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+          <div>
+            <h3
+              class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+            >
+              Nome
+            </h3>
+            <p class="text-lg text-gray-800 dark:text-gray-200">
+              {{ solicitacao.usuario?.nome }}
+            </p>
+          </div>
+          <div>
+            <h3
+              class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+            >
+              Contato
+            </h3>
+            <p class="text-lg text-gray-800 dark:text-gray-200">
+              {{ solicitacao.usuario?.telefone }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Valor do orçamento -->
+      <div>
+        <h2
+          class="text-2xl font-bold text-gray-800 dark:text-white mb-4 border-b pb-2 dark:border-gray-700"
+        >
+          Valor do Orçamento
+        </h2>
+        @if (solicitacao.orcamento) {
+        <div
+          class="bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200 p-6 rounded-lg text-center"
+        >
+          <p class="text-4xl font-bold">
+            {{ solicitacao.orcamento.valor | currency : "BRL" }}
+          </p>
+        </div>
+        } @else {
+        <div
+          class="bg-yellow-100 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200 p-6 rounded-lg text-center"
+        >
+          <p class="text-xl font-semibold">Orçamento ainda não disponível.</p>
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- Botões -->
+    <div
+      class="p-6 bg-gray-50 dark:bg-gray-900 border-t dark:border-gray-700 flex justify-between items-center"
+    >
+      <div class="flex gap-3">
+        <a
+          routerLink="/cliente/pagina-inicial"
+          class="inline-block px-6 py-2.5 bg-blue-600 dark:bg-blue-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 dark:hover:bg-blue-800 hover:shadow-lg focus:bg-blue-700 dark:focus:bg-blue-800 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 dark:active:bg-blue-900 active:shadow-lg transition duration-150 ease-in-out"
+        >
+          Voltar para Minhas Solicitações
+        </a>
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+        <button
+          (click)="abrirModalRejeitarServico()"
+          class="w-full md:w-auto px-6 py-3 bg-red-600 dark:bg-red-700 text-white font-semibold text-sm uppercase rounded shadow-md hover:bg-red-700 dark:hover:bg-red-800 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 dark:active:bg-red-900 transition duration-150 ease-in-out"
+        >
           Rejeitar Serviço
         </button>
-        <button (click)="abrirModalAprovarServico()"
-                class="w-full md:w-auto px-6 py-3 bg-blue-600 dark:bg-blue-700 text-white font-semibold text-sm uppercase rounded shadow-md hover:bg-blue-700 dark:hover:bg-blue-800 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 dark:active:bg-blue-900 transition duration-150 ease-in-out">
+        <button
+          (click)="abrirModalAprovarServico()"
+          class="w-full md:w-auto px-6 py-3 bg-blue-600 dark:bg-blue-700 text-white font-semibold text-sm uppercase rounded shadow-md hover:bg-blue-700 dark:hover:bg-blue-800 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 dark:active:bg-blue-900 transition duration-150 ease-in-out"
+        >
           Aprovar Serviço
         </button>
       </div>
-
-      <!-- Modal Aprovar -->
-      @if (exibirModalAprovarServico){
-        <app-cliente-aprovar-servico
-        (fechar)="fecharModalAprovarServico()"
-        (aprovado)="aprovarSolicitacao()">
-        </app-cliente-aprovar-servico>
-      }
-
-      <!-- Modal Rejeitar -->
-      @if (exibirModalRejeitarServico){
-        <app-cliente-rejeitar-servico
-        (fechar)="fecharModalRejeitarServico()"
-        (rejeitado)="rejeitarSolicitacao()">
-        </app-cliente-rejeitar-servico>
-      }
-
     </div>
+
+    <!-- Modal Aprovar -->
+    @if (exibirModalAprovarServico){
+    <app-cliente-aprovar-servico
+      (fechar)="fecharModalAprovarServico()"
+      (aprovado)="aprovarSolicitacao()"
+    >
+    </app-cliente-aprovar-servico>
+    }
+
+    <!-- Modal Rejeitar -->
+    @if (exibirModalRejeitarServico){
+    <app-cliente-rejeitar-servico
+      (fechar)="fecharModalRejeitarServico()"
+      (rejeitado)="rejeitarSolicitacao()"
+    >
+    </app-cliente-rejeitar-servico>
+    }
+  </div>
 
   }
 </main>

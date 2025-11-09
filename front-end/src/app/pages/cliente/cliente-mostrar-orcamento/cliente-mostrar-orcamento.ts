@@ -1,6 +1,7 @@
+import { Solicitacao } from '../../../models/solicitacao';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import {CurrencyPipe, DatePipe, NgClass, NgIf} from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import { ClienteAprovarServico } from '../cliente-aprovar-servico/cliente-aprovar-servico';
 import { ClienteRejeitarServico } from '../cliente-rejeitar-servico/cliente-rejeitar-servico';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
@@ -21,7 +22,8 @@ import {APIResponse} from '../../../../api/api';
     ClienteRejeitarServico,
     LoadingOverlayComponent,
     NgClass,
-    ToastrModule
+    ToastrModule,
+    RouterModule
   ],
   templateUrl: './cliente-mostrar-orcamento.html',
   styleUrls: ['./cliente-mostrar-orcamento.css']
@@ -29,7 +31,7 @@ import {APIResponse} from '../../../../api/api';
 export class ClienteMostrarOrcamento implements OnInit {
 
 
-  solicitacao: any;
+  solicitacao: Solicitacao | null = null;
   exibirModalAprovarServico: boolean = false;
   exibirModalRejeitarServico: boolean = false;
   formataData = formataData
