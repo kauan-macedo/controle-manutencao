@@ -80,10 +80,10 @@ public class SolicitacaoService {
 
         Solicitacao s = repository.findById(idOS).orElseThrow(() -> new IllegalArgumentException("Solicitação não encontrada!"));
 
-        Utils.ifNotNull(in.descricaoDefeito(), (x) -> s.setDescricaoDefeito(in.descricaoDefeito()));
-        Utils.ifNotNull(in.descManutencao(), (x) -> s.setDescricaoManutencao(in.descManutencao()));
-        Utils.ifNotNull(in.orientacoesCliente(), (x) -> s.setOrientacoesCliente(in.orientacoesCliente()));
-        Utils.ifNotNull(in.descricaoEquipamento(), (x) -> s.setDescricaoEquipamento(in.descricaoEquipamento()));
+        Utils.ifNotNull(in.descricaoDefeito(), (x) -> s.setDescricaoDefeito(in.descricaoDefeito().substring(0, 255)));
+        Utils.ifNotNull(in.descManutencao(), (x) -> s.setDescricaoManutencao(in.descManutencao().substring(0, 255)));
+        Utils.ifNotNull(in.orientacoesCliente(), (x) -> s.setOrientacoesCliente(in.orientacoesCliente().substring(0, 255)));
+        Utils.ifNotNull(in.descricaoEquipamento(), (x) -> s.setDescricaoEquipamento(in.descricaoEquipamento().substring(0, 255)));
         var redirecionada = false;
         if(in.responsavelId() != null) {
             Usuario u = usuarioService.findById(in.responsavelId()).orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado!"));

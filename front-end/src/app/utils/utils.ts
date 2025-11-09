@@ -12,6 +12,14 @@ export function formataData(str: string): string {
     return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
 }
 
+export function validateEmail(email: string): boolean {
+  return email.toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    ) != null;
+};
+
+
 export function getClasseEstado(estado: EstadosSolicitacao): string {
   switch (estado) {
     // Requisito: Cinza

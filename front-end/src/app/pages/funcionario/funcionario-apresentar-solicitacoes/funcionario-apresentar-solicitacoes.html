@@ -110,7 +110,7 @@
                 <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.usuario.nome }}</p>
               </td>
               <td class="px-4 border-b dark:border-slate-700 border-slate-200 py-5">
-                <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.descricaoEquipamento }}</p>
+                <p class="text-lg text-gray-800 dark:text-gray-200">{{ solicitacao.descricaoEquipamento.length > 30 ? solicitacao.descricaoEquipamento.substring(0, 30) + '...' : solicitacao.descricaoEquipamento }}</p>
               </td>
               <td class="px-4 border-b dark:border-slate-700 border-slate-200 py-5">
                 <span

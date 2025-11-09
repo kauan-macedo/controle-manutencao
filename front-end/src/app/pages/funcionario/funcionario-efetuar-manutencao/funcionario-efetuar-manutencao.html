@@ -65,39 +65,53 @@
             </div>
           </div>
           <hr class="my-4 h-[1px] border-gray-400 dark:border-gray-700">
-        <div>
-          <h2 class="text-2xl font-bold dark:text-white mt-8 mb-2">Informações extras</h2>
-            <div class="py-3">
+          <form #cadastroForm="ngForm" (ngSubmit)="submit(cadastroForm)">
+            <div>
+              <h2 class="text-2xl font-bold dark:text-white mt-8 mb-2">Informações extras</h2>
+              <div class="py-3">
                 <label for="descricaoManutencao" class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase">Descrição da Manutenção</label>
                 <textarea
-                name="descricaoManutencao"
-                id="descricaoManutencao"
-                placeholder="Descrição..."
-                [(ngModel)]="descricaoManutencao"
-                class="h-48 w-full p-2 bg-[#f0f2f5] dark:bg-gray-700 text-gray-800 dark:text-white resize-none rounded-md"></textarea>
-            </div>
-            <div class="py-4">
+                  required
+                  maxlength="254"
+                  name="descricaoManutencao"
+                  id="descricaoManutencao"
+                  placeholder="Descrição..."
+                  [(ngModel)]="descricaoManutencao"
+                  class="h-48 w-full p-2 bg-[#f0f2f5] dark:bg-gray-700 text-gray-800 dark:text-white resize-none rounded-md"></textarea>
+              </div>
+              <div class="py-4">
                 <label for="instrucoesCliente" class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase">Instruções para o Cliente</label>
                 <textarea
-                name="instrucoesCliente"
-                id="instrucoesCliente"
-                placeholder="Instruções..."
-                [(ngModel)]="instrucoesCliente"
-                class="h-48 w-full p-2 bg-[#f0f2f5] dark:bg-gray-700 text-gray-800 dark:text-white resize-none rounded-md"></textarea>
+                  required
+                  maxlength="254"
+                  name="instrucoesCliente"
+                  id="instrucoesCliente"
+                  placeholder="Instruções..."
+                  [(ngModel)]="instrucoesCliente"
+                  class="h-48 w-full p-2 bg-[#f0f2f5] dark:bg-gray-700 text-gray-800 dark:text-white resize-none rounded-md"></textarea>
+              </div>
             </div>
-        </div>
-      </div>
-      <div class="flex flex-col md:flex-row justify-end items-center gap-4">
-        @if(solicitacao.status == 5) {
-          <button (click)="redirecionando = true"
+            <div class="flex flex-col md:flex-row justify-end items-center gap-4">
+              @if(solicitacao.status == 5) {
+                <button (click)="redirecionando = true"
                   class="w-full md:w-auto px-6 py-3 bg-red-600 text-white font-semibold text-sm uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 transition duration-150 ease-in-out">
-            Redirecionar Manutenção
-          </button>
-        }
-        <button (click)="submit()"
-                class="w-full md:w-auto px-6 py-3 bg-blue-600 text-white font-semibold text-sm uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 transition duration-150 ease-in-out">
-          Efetuar Manutenção
-        </button>
+                  Redirecionar Manutenção
+                </button>
+              }
+              <button type="submit" [disabled]="cadastroForm.invalid"
+                      [ngClass]="{
+                        'w-full md:w-auto px-6 py-3 text-white font-semibold text-sm uppercase rounded shadow-md focus:outline-none focus:ring-0 transition duration-150 ease-in-out':
+                          true,
+                        'bg-blue-600 hover:bg-blue-700 hover:shadow-lg active:bg-blue-800':
+                          cadastroForm.valid,
+                        'bg-gray-400 cursor-not-allowed':
+                          cadastroForm.invalid
+                      }">
+                Efetuar Manutenção
+              </button>
+            </div>
+          </form>
+
       </div>
     </div>
     </div>

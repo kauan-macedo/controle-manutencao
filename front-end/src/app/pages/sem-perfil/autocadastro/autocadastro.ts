@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
 import { APIResponse } from '../../../../api/api';
 import { finalize } from 'rxjs';
+import {validateEmail} from '../../../utils/utils';
 
 @Component({
   selector: 'app-autocadastro',
@@ -64,6 +65,10 @@ export class Autocadastro implements OnInit {
   onSubmit(form: any): void {
     //implementar método onsubmit de cadastro!
     if (form.valid) {
+      if(!validateEmail(this.usuario.email)) {
+        this.toastService.error("E-mail inválido!");
+        return;
+      }
       this.loading = true
       this.cadastroService.registrarUsuario(this.usuario)
       .pipe(

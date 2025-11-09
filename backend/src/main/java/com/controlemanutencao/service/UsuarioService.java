@@ -130,7 +130,7 @@ public class UsuarioService {
         if(hoje.isBefore(dataMaioridade)) {
            throw new IllegalArgumentException("Funcionário deve ser maior de 18 anos!");
         }
-        usuario.setSenha(in.senha());
+        usuario.setSenha(passwordEncoder.encode(in.senha()));
         repository.save(usuario);
         String mensagem = "Seja bem vindo ao ambiente Controle Manutenção!"
                 + "\nPara fazer login como funcionário, utilize seu email e a seguinte senha: " + in.senha();

@@ -5,15 +5,16 @@ import { Usuario } from '../../../models/usuario';
 import { UsuarioService } from '../../../services/usuario-service';
 
 import { LoadingOverlayComponent } from '../../../shared/loading-overlay.component';
-import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
+import {ToastContainerDirective, ToastrModule, ToastrService} from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
 import { APIResponse } from '../../../../api/api';
 import {finalize} from 'rxjs';
+import {validateEmail} from '../../../utils/utils';
 
 @Component({
   selector: 'app-funcionario-manter-funcionario',
   standalone: true,
-  imports: [CommonModule, FormsModule, LoadingOverlayComponent],
+  imports: [CommonModule, FormsModule, LoadingOverlayComponent, ToastrModule],
   templateUrl: './funcionario-manter-funcionario.html',
   styleUrl: './funcionario-manter-funcionario.css'
 })
@@ -22,6 +23,7 @@ export class FuncionarioManterFuncionario implements OnInit {
   novoFuncionario = { nome: '', email: '', senha: '', dt_nascimento: '' };
   funcionarioEmEdicao: any = null;
   loading = false;
+  excluindo: Usuario | null = null;
 
   constructor(
     private usuarioService: UsuarioService,
@@ -54,10 +56,14 @@ export class FuncionarioManterFuncionario implements OnInit {
   }
 
   onAdicionar(form: any): void {
-    this.loading = true;
     if (form.invalid) {
       return;
     }
+    if(!validateEmail(this.novoFuncionario.email)) {
+      this.toastrService.error("E-mail inválido!");
+      return;
+    }
+    this.loading = true;
     this.usuarioService.criarFuncionario(this.novoFuncionario.nome, this.novoFuncionario.email, this.novoFuncionario.dt_nascimento, this.novoFuncionario.senha)
       .pipe(finalize(() => this.endLoad()))
       .subscribe({
@@ -94,13 +100,17 @@ export class FuncionarioManterFuncionario implements OnInit {
     });
   }
 
-  onRemover(id: number): void {
+  onRemover(): void {
+    if(!this.excluindo) {
+      return;
+    }
     this.loading = true;
-    this.usuarioService.inativarFuncionario(id)
+    this.usuarioService.inativarFuncionario(this.excluindo!.id)
       .pipe(finalize(() => this.endLoad()))
       .subscribe({
       next: (x) => {
         this.toastrService.success(x.message);
+        this.excluindo = null;
         this.refreshUsers();
       },
       error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {

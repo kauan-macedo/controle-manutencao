@@ -67,12 +67,12 @@ export class FuncionarioEfetuarManutencao implements OnInit{
       });
   }
 
-  submit(): void {
-    if(!this.solicitacao) {
+  submit(form: any): void {
+    if(!this.solicitacao || !form.valid) {
       return;
     }
     this.loading = true;
-    this.solicitacaoService.atualizarSolicitacao(this.solicitacao.id, { status: EstadosSolicitacao.ARRUMADA }).pipe(
+    this.solicitacaoService.atualizarSolicitacao(this.solicitacao.id, { status: EstadosSolicitacao.ARRUMADA, desc_manutencao: this.descricaoManutencao, orientacoes_cliente: this.instrucoesCliente }).pipe(
       finalize(() => {
         setTimeout(() => {
           this.loading = false;
@@ -84,7 +84,6 @@ export class FuncionarioEfetuarManutencao implements OnInit{
       .subscribe({
         next: (res) => {
           this.toastrService.success(res.message);
-          this.solicitacao!.status = EstadosSolicitacao.ARRUMADA;
           setTimeout(() => {
             this.ngZone.run(() => {
               this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
