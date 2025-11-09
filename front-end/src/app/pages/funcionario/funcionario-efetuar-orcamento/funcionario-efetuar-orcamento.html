@@ -57,20 +57,20 @@
           <p class="font-semibold">Responsável</p>
           <p class="text-gray-400 dark:text-gray-300">{{solicitacao.responsavel ? solicitacao.responsavel.nome : 'Sem responsável'}}</p>
         </div>
-        <div class="">
-          <p class="font-bold">Desc. Equipamento</p>
-          <p>{{solicitacao.descricaoEquipamento}}</p>
-        </div>
-        <div class="col-span-2">
-          <p class="font-bold">Desc. Defeito</p>
-          <p>{{solicitacao.descricaoDefeito}}</p>
-        </div>
         <div>
           <p class="font-semibold">Status</p>
           <p
             [ngClass]="[getClasseEstado(solicitacao.status), 'inline-block', 'px-3', 'py-1', 'rounded-full', 'text-sm', 'font-semibold']">
             {{ translateEstado(solicitacao.status) }}
           </p>
+        </div>
+        <div class="col-span-4">
+          <p class="font-bold">Desc. Equipamento</p>
+          <p>{{solicitacao.descricaoEquipamento}}</p>
+        </div>
+        <div class="col-span-4">
+          <p class="font-bold">Desc. Defeito</p>
+          <p>{{solicitacao.descricaoDefeito}}</p>
         </div>
       </div>
       <p class="text-xl font-bold mt-6">Cliente:</p>

@@ -50,13 +50,13 @@ export class SolicitacaoService {
   }
 
   //Observable
-  adicionarSolicitacao(solicitacao: Solicitacao): Observable<APIResponse<any>>{
+  adicionarSolicitacao(descDefeito: string, categoria: number, descEquipamento: string): Observable<APIResponse<any>>{
     return this.httpClient.post<APIResponse<any>>(
       API_URL + "/solicitacao",
       JSON.stringify(({
-        desc_defeito: solicitacao.descricaoDefeito,
-        desc_equipamento: solicitacao.descricaoEquipamento,
-        categoria_id: solicitacao.categoria.id
+        desc_defeito: descDefeito,
+        desc_equipamento: descEquipamento,
+        categoria_id: categoria
       })),
       this.httpOptions
     );

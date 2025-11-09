@@ -63,8 +63,8 @@ export class Autocadastro implements OnInit {
 
   onSubmit(form: any): void {
     //implementar método onsubmit de cadastro!
-    this.loading = true
     if (form.valid) {
+      this.loading = true
       this.cadastroService.registrarUsuario(this.usuario)
       .pipe(
         finalize(() => {
@@ -80,7 +80,7 @@ export class Autocadastro implements OnInit {
           setTimeout(() => {
             this.ngZone.run(() => {
               this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                this.router.navigate(['/cliente/pagina-inicial']);
+                this.router.navigate(['/login']);
               });
             });
           }, 3000)
@@ -89,6 +89,8 @@ export class Autocadastro implements OnInit {
           this.toastService.error(err.error.message)
         }
       })
+    } else {
+      this.toastService.error("Preencha todos os campos");
     }
   }
 }

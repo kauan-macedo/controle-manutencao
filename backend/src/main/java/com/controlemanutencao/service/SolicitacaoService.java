@@ -47,6 +47,15 @@ public class SolicitacaoService {
         if(optCat.isEmpty()) {
             throw new IllegalArgumentException("Categoria desconhecida.");
         }
+
+        if(req.descDefeito().length() > 254) {
+            throw new IllegalArgumentException("Descrição de defeito muito longa.");
+        }
+
+        if(req.descEquipamento().length() > 254) {
+            throw new IllegalArgumentException("Descrição de equipamento muito longa.");
+        }
+
         Solicitacao s = new Solicitacao(
                 null,
                 StatusSolicitacao.NOVA,

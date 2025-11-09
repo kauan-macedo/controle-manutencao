@@ -96,12 +96,18 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
     }
 
     this.loading = true;
-    this.orcamentoService.enviarOrcamento(solicitacao.id, parseFloat(
-      this.valorOrcamento
-          .replace(/[^\d,.-]/g, '')
-          .replace(/\./g, '')
-          .replace(',', '.')
-      ))
+
+    debugger
+    let valor = this.valorOrcamento
+      .replace(/[^\d,.,-]/g, '')
+      .replace(/\./g, '')
+      .replace(',', '.');
+
+    if (valor.endsWith('-')) {
+      valor = valor.slice(0, -1);
+    }
+
+    this.orcamentoService.enviarOrcamento(solicitacao.id, parseFloat(valor)*10)
       .pipe(finalize(() => this.endLoad()))
         .subscribe({
             next: (response) => {

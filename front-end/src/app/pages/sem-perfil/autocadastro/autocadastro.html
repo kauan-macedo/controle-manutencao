@@ -1,127 +1,153 @@
 <app-loading-overlay [visible]="loading"></app-loading-overlay>
-<div class="relative flex items-center justify-center size-full min-h-screen flex-col bg-gray-50 dark:bg-gray-950 p-4 overflow-x-hidden">
-    <div class="absolute top-4 right-4">
-        <app-theme-toggle></app-theme-toggle>
-    </div>
-    <div class="w-full max-w-lg">
-        <h2 class="text-4xl font-bold mb-8 text-center text-gray-800 dark:text-white">Crie sua conta:</h2>
+<div
+  class="relative flex items-center justify-center size-full min-h-screen flex-col bg-gray-50 dark:bg-gray-950 p-4 overflow-x-hidden">
+  <div class="absolute top-4 right-4">
+    <app-theme-toggle></app-theme-toggle>
+  </div>
+  <div class="w-full max-w-lg">
+    <h2 class="text-4xl font-bold mb-8 text-center text-gray-800 dark:text-white">Crie sua conta:</h2>
 
-        <form #cadastroForm="ngForm" (ngSubmit)="onSubmit(cadastroForm)" class="space-y-4">
+    <form #cadastroForm="ngForm" (ngSubmit)="onSubmit(cadastroForm)" class="space-y-4">
 
-            <div>
-                <label for="nome" class="text-base font-medium leading-normal pb-2 text-gray-800 dark:text-gray-200">Nome:</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <input id="nome" type="text" required name="nome" [(ngModel)]="usuario.nome" placeholder="Insira seu nome aqui"
-                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 pl-12 text-base font-normal leading-normal">
-                </div>
-            </div>
+      <div>
+        <label class="text-base font-medium leading-normal pb-2 text-gray-800 dark:text-gray-200"
+               for="nome">Nome:</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path clip-rule="evenodd"
+                    d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
+                    fill-rule="evenodd"/>
+            </svg>
+          </div>
+          <input [(ngModel)]="usuario.nome" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 pl-12 text-base font-normal leading-normal" id="nome" name="nome" placeholder="Insira seu nome aqui"
+                 required
+                 type="text">
+        </div>
+      </div>
 
-            <div>
-                <label for="email" class="block text-gray-800 dark:text-gray-200">E-mail:</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
-                            <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
-                        </svg>
-                    </div>
-                    <input id="email" type="email" required name="email" [(ngModel)]="usuario.email" placeholder="Insira seu email"
-                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 pl-12 text-base font-normal leading-normal">
-                </div>
-            </div>
+      <div>
+        <label class="block text-gray-800 dark:text-gray-200" for="email">E-mail:</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z"/>
+              <path
+                d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z"/>
+            </svg>
+          </div>
+          <input [(ngModel)]="usuario.email" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 pl-12 text-base font-normal leading-normal" id="email" name="email" placeholder="Insira seu email"
+                 required
+                 type="email">
+        </div>
+      </div>
 
-            <div>
-                <label for="cpf" class="block text-gray-800 dark:text-gray-200">CPF:</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path fill-rule="evenodd" d="M3 4.5a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 4.5ZM3.75 9.75a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75ZM3 15a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 15ZM5.25 19.5a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5H6a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <input id="cpf" type="text" required name="cpf" [(ngModel)]="usuario.cpf" placeholder="Insira seu CPF"  appMask="000.000.000-00"
-                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 pl-12 text-base font-normal leading-normal">
-                </div>
-            </div>
+      <div>
+        <label class="block text-gray-800 dark:text-gray-200" for="cpf">CPF:</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path clip-rule="evenodd"
+                    d="M3 4.5a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 4.5ZM3.75 9.75a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75ZM3 15a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 15ZM5.25 19.5a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5H6a.75.75 0 0 1-.75-.75Z"
+                    fill-rule="evenodd"/>
+            </svg>
+          </div>
+          <input [(ngModel)]="usuario.cpf" appMask="000.000.000-00" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 pl-12 text-base font-normal leading-normal" id="cpf" name="cpf" placeholder="Insira seu CPF"
+                 required
+                 type="text">
+        </div>
+      </div>
 
-            <div>
-                <label for="telefone" class="block text-gray-800 dark:text-gray-200">Telefone:</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.279-.087.431l4.108 7.293c.077.152.25.18.431.087l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C6.55 22.5 1.5 17.45 1.5 10.5V4.5Z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <input id="telefone" type="tel" required name="telefone" [(ngModel)]="usuario.telefone" placeholder="Insira seu número de telefone" appMask="(00) 00000-0000"
-                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 pl-12 text-base font-normal leading-normal">
-                </div>
-            </div>
+      <div>
+        <label class="block text-gray-800 dark:text-gray-200" for="telefone">Telefone:</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path clip-rule="evenodd"
+                    d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.279-.087.431l4.108 7.293c.077.152.25.18.431.087l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C6.55 22.5 1.5 17.45 1.5 10.5V4.5Z"
+                    fill-rule="evenodd"/>
+            </svg>
+          </div>
+          <input [(ngModel)]="usuario.telefone" appMask="(00) 00000-0000" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 pl-12 text-base font-normal leading-normal" id="telefone" name="telefone"
+                 placeholder="Insira seu número de telefone" required
+                 type="tel">
+        </div>
+      </div>
 
-            <div>
-                <label for="cep" class="block text-gray-800 dark:text-gray-200">CEP:</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a23.51 23.51 0 0 0 7.72-6.223c2.4-2.68 3.149-6.04 2.28-9.257A9.75 9.75 0 0 0 12 3C9.25 3 6.824 4.39 5.356 6.67l-.003.004a9.75 9.75 0 0 0-2.28 9.257 23.51 23.51 0 0 0 7.72 6.223ZM12 10.5a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <input id="cep" type="text" required name="cep" [(ngModel)]="usuario.endereco.cep" (blur)="buscarEndereco()" placeholder="Insira seu CEP" appMask="00000-000"
-                        class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 pl-12 text-base font-normal leading-normal">
-                </div>
-            </div>
+      <div>
+        <label class="block text-gray-800 dark:text-gray-200" for="cep">CEP:</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path clip-rule="evenodd"
+                    d="M11.54 22.351l.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a23.51 23.51 0 0 0 7.72-6.223c2.4-2.68 3.149-6.04 2.28-9.257A9.75 9.75 0 0 0 12 3C9.25 3 6.824 4.39 5.356 6.67l-.003.004a9.75 9.75 0 0 0-2.28 9.257 23.51 23.51 0 0 0 7.72 6.223ZM12 10.5a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z"
+                    fill-rule="evenodd"/>
+            </svg>
+          </div>
+          <input (blur)="buscarEndereco()" [(ngModel)]="usuario.endereco.cep" appMask="00000-000" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 pl-12 text-base font-normal leading-normal" id="cep" name="cep"
+                 placeholder="Insira seu CEP" required
+                 type="text">
+        </div>
+      </div>
 
-            <div class="grid grid-cols-3 gap-4">
-                <div class="col-span-2">
-                    <label for="logradouro" class="block text-gray-800 dark:text-gray-200">Rua:</label>
-                    <input id="logradouro" type="text" required name="logradouro" [(ngModel)]="usuario.endereco.logradouro"
-                           class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal">
-                </div>
-                <div class="col-span-1">
-                    <label for="numero" class="block text-gray-800 dark:text-gray-200">Numero:</label>
-                    <input id="numero" type="number" required name="numero" [(ngModel)]="usuario.endereco.numero"
-                           class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal">
-                </div>
-            </div>
+      <div class="grid grid-cols-3 gap-4">
+        <div class="col-span-2">
+          <label class="block text-gray-800 dark:text-gray-200" for="logradouro">Rua:</label>
+          <input [(ngModel)]="usuario.endereco.logradouro" disabled class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal" id="logradouro" name="logradouro" required
+                 type="text">
+        </div>
+        <div class="col-span-1">
+          <label class="block text-gray-800 dark:text-gray-200" for="numero">Numero:</label>
+          <input [(ngModel)]="usuario.endereco.numero" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal" id="numero" name="numero" required
+                 type="number">
+        </div>
+      </div>
 
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label for="bairro" class="block text-gray-800 dark:text-gray-200">Bairro:</label>
-                    <input id="bairro" type="text" required name="bairro" [(ngModel)]="usuario.endereco.bairro"
-                           class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal">
-                </div>
-                <div>
-                    <label for="cidade" class="block text-gray-800 dark:text-gray-200">Cidade:</label>
-                    <input id="cidade" type="text" required name="cidade" [(ngModel)]="usuario.endereco.cidade"
-                           class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal">
-                </div>
-            </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-gray-800 dark:text-gray-200" for="bairro">Bairro:</label>
+          <input [(ngModel)]="usuario.endereco.bairro" disabled class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal" id="bairro" name="bairro" required
+                 type="text">
+        </div>
+        <div>
+          <label class="block text-gray-800 dark:text-gray-200" for="cidade">Cidade:</label>
+          <input [(ngModel)]="usuario.endereco.cidade" disabled class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal" id="cidade" name="cidade" required
+                 type="text">
+        </div>
+      </div>
 
-            <div>
-                <label for="estado" class="block text-gray-800 dark:text-gray-200">Estado:</label>
-                <input id="estado" type="text" required name="estado" [(ngModel)]="usuario.endereco.estado"
-                       class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal">
-            </div>
+      <div>
+        <label class="block text-gray-800 dark:text-gray-200" for="estado">Estado:</label>
+        <input [(ngModel)]="usuario.endereco.estado" disabled class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-800 dark:text-white focus:outline-0 focus:ring-0 border-none bg-gray-200 dark:bg-gray-700 focus:border-none py-2 placeholder:text-gray-500 dark:placeholder:text-gray-400 p-4 text-base font-normal leading-normal" id="estado" name="estado" required
+               type="text">
+      </div>
 
 
-            <button type="submit" [disabled]="!cadastroForm.valid"
-                class="w-full py-4 px-4 bg-gradient-to-r from-blue-600 to-indigo-600
-                    dark:from-blue-700 dark:to-indigo-700 text-white rounded-lg font-semibold
-                    hover:opacity-90 transition duration-150 flex items-center justify-center space-x-2">
-                <span>Cadastrar</span>
-                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                    <path fill-rule="evenodd"
-                        d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 0 1 1.04-.208Z"
-                        clip-rule="evenodd" />
-                </svg>
-            </button>
-        </form>
+      <button [disabled]="!cadastroForm.valid" [disabled]="!cadastroForm.valid"
+              [ngClass]="{
+                'w-full py-4 px-4 text-white rounded-lg font-semibold hover:opacity-90 transition duration-150 flex items-center justify-center space-x-2':
+                  true,
+                'bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700':
+                  cadastroForm.valid,
+                'bg-gray-400 cursor-not-allowed': !cadastroForm.valid
+              }"
+              type="submit">
+        <span>Cadastrar</span>
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path clip-rule="evenodd"
+                d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 0 1 1.04-.208Z"
+                fill-rule="evenodd"/>
+        </svg>
+      </button>
+    </form>
 
-        <p class="text-center mt-4 text-gray-800 dark:text-gray-200">
-            Já tem uma conta? <a [routerLink]="['/login']" class="text-blue-500 dark:text-blue-400">Faça login</a>
-        </p>
-    </div>
+    <p class="text-center mt-4 text-gray-800 dark:text-gray-200">
+      Já tem uma conta? <a [routerLink]="['/login']" class="text-blue-500 dark:text-blue-400">Faça login</a>
+    </p>
+  </div>
 </div>

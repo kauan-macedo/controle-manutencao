@@ -93,7 +93,7 @@ export class ClienteMostrarOrcamento implements OnInit {
         .pipe(finalize(() => this.endLoad()))
         .subscribe({
           next: () => {
-            this.toastService.success('Solicitação aprovada com sucesso!');
+            this.toastService.success("Serviço Aprovado no Valor R$" + this.solicitacao!.orcamento!.valor.toFixed(2) + "");
             this.fecharModalAprovarServico();
             this.router.navigate(['/cliente/pagina-inicial']);
           },
@@ -112,7 +112,7 @@ export class ClienteMostrarOrcamento implements OnInit {
         .pipe(finalize(() => this.endLoad()))
         .subscribe({
           next: (res) => {
-            this.toastService.success(res.message);
+            this.toastService.success("Serviço rejeitado.");
             this.fecharModalRejeitarServico();
             this.router.navigate(['/cliente/pagina-inicial']);
           },

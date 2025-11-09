@@ -22,7 +22,9 @@ export class ClienteCriarSolicitacao implements OnInit {
   @Output() solicitacaoCriada = new EventEmitter<void>();
 
   loading = false;
-  solicitacao: Solicitacao = new Solicitacao() ;
+  descEquipamento = "";
+  categoria: number | null = null;
+  descDefeito = "";
   categorias!: Categoria[];
 
   constructor(
@@ -56,7 +58,7 @@ export class ClienteCriarSolicitacao implements OnInit {
   onSubmit(form: any) {
     if (form.valid) {
       this.loading = true;
-      this.solicitacaoService.adicionarSolicitacao(this.solicitacao!)
+      this.solicitacaoService.adicionarSolicitacao(this.descDefeito, this.categoria!, this.descEquipamento)
         .pipe(finalize(() => this.endLoad()))
         .subscribe({
           next: (res) => {

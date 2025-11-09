@@ -14,8 +14,8 @@ export class ClienteAprovarServico {
   @Output() aprovado = new EventEmitter<void>();
 
   confirmar(): void {
-    this.aprovado.emit(); 
-    this.fechar.emit();   
+    this.aprovado.emit();
+    this.fechar.emit();
   }
 
   fecharModal(): void {

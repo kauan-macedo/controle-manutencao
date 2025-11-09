@@ -80,6 +80,7 @@ export class ClientePaginaInicial implements OnInit {
   }
 
   fecharModal(): void {
+    this.carregarSolicitacoes();
     this.exibirModal = false;
   }
 
