@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, output, Output} from '@angular/core';
 import {ModalRedirecionarSolicitacao} from "../modal-redirecionar-solicitacao/modal-redirecionar-solicitacao";
 import {Solicitacao} from '../../../models/solicitacao';
 import {Router} from '@angular/router';
@@ -63,7 +63,10 @@ export class ModalPagarSolicitacao implements OnInit {
       .pipe(finalize(() => this.endLoad()))
       .subscribe({
         next: (res) => {
-          this.toastrService.error(res.message);
+          this.toastrService.success(res.message);
+          if(this.solicitacao) {
+            this.solicitacao.status = EstadosSolicitacao.PAGA;
+          }
           this.closed.emit();
         },
         error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {

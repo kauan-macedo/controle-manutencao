@@ -64,7 +64,8 @@ public class SolicitacaoService {
     public Solicitacao atualizarSolicitacao(Usuario user, Long idOS, AtualizarSolicitacaoRequest in) throws IllegalArgumentException, EstadoIlegalSolicitacaoException, DeveSerFuncionarioException  {
         if (!user.isFuncionario()
                 && in.status() != StatusSolicitacao.REJEITADA.getId()
-                && in.status() != StatusSolicitacao.APROVADA.getId()) {
+                && in.status() != StatusSolicitacao.APROVADA.getId()
+                && in.status() != StatusSolicitacao.PAGA.getId()) {
             throw new DeveSerFuncionarioException();
         }
 

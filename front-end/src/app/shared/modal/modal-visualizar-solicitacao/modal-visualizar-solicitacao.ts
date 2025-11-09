@@ -73,7 +73,7 @@ export class ModalVisualizarSolicitacao implements OnInit {
     }
     this.loading = true;
     this.solicitacaoService.atualizarSolicitacao(this.solicitacao!.id, { status: EstadosSolicitacao.FINALIZADA })
-      .pipe(finalize(()=>this.endLoad))
+      .pipe(finalize(()=>this.endLoad()))
       .subscribe({
         next: (res) => {
           this.toastrService.success(res.message);
