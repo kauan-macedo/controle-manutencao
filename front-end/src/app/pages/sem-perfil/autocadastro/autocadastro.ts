@@ -43,9 +43,9 @@ export class Autocadastro implements OnInit {
 
   // função para completar automaticamente o endereço usando a api ViaCEP
   buscarEndereco(): void {
-    this.loading = true;
     const cep = this.usuario.endereco.cep.substring(0,9).replaceAll("-", "");
     if (cep && cep.length == 8) {
+      this.loading = true;
       fetch(`https://viacep.com.br/ws/${cep.substring(0,8)}/json/`)
         .then((response) => response.json())
         .then((dados) => {
