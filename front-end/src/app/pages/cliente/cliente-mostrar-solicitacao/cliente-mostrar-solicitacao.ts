@@ -1,17 +1,18 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, ActivatedRoute } from '@angular/router';
-import { SolicitacaoService } from '../../../services/solicitacao-service';
-import { Solicitacao } from '../../../models/solicitacao';
-import { EstadosSolicitacao, translateEstado } from '../../../models/enums/estados-solicitacao';
-import { LoadingOverlayComponent } from '../../../shared/loading-overlay.component';
-import { formataData, getClasseEstado } from '../../../utils/utils';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ActivatedRoute, RouterModule} from '@angular/router';
+import {SolicitacaoService} from '../../../services/solicitacao-service';
+import {Solicitacao} from '../../../models/solicitacao';
+import {EstadosSolicitacao, translateEstado} from '../../../models/enums/estados-solicitacao';
+import {LoadingOverlayComponent} from '../../../shared/loading-overlay.component';
+import {formataData, getClasseEstado} from '../../../utils/utils';
 import {finalize} from 'rxjs';
+import {ModalPagarSolicitacao} from '../../../shared/modal/modal-pagar-solicitacao/modal-pagar-solicitacao';
 
 @Component({
   selector: 'app-cliente-mostrar-solicitacao',
   standalone: true,
-  imports: [CommonModule, RouterModule, LoadingOverlayComponent],
+  imports: [CommonModule, RouterModule, LoadingOverlayComponent, ModalPagarSolicitacao],
   templateUrl: './cliente-mostrar-solicitacao.html',
   styleUrl: './cliente-mostrar-solicitacao.css',
 })
@@ -19,10 +20,12 @@ export class ClienteMostrarSolicitacao implements OnInit {
   formataData = formataData
   translateEstado = translateEstado
   getClasseEstado = getClasseEstado
+  pagando = false;
   solicitacao: Solicitacao | null = null;
   loading = false;
 
-  constructor(private route: ActivatedRoute, private solicitacaoService: SolicitacaoService, private cdr: ChangeDetectorRef) {}
+  constructor(private route: ActivatedRoute, private solicitacaoService: SolicitacaoService, private cdr: ChangeDetectorRef) {
+  }
 
   async ngOnInit(): Promise<void> {
     const idDaUrl = this.route.snapshot.paramMap.get('id');
@@ -43,9 +46,9 @@ export class ClienteMostrarSolicitacao implements OnInit {
 
   endLoad = () => {
     setTimeout(() => {
-        this.loading = false;
-        this.cdr.detectChanges();
-      })
+      this.loading = false;
+      this.cdr.detectChanges();
+    })
   }
 
   traduzirEstado(estd: EstadosSolicitacao): string {
@@ -58,13 +61,13 @@ export class ClienteMostrarSolicitacao implements OnInit {
     this.solicitacaoService.buscarPorId(id)
       .pipe(finalize(() => this.endLoad()))
       .subscribe({
-      next: (data) => {
-        this.solicitacao = data;
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error('Erro ao carregar solicitações:', error);
-      }
-    });
+        next: (data) => {
+          this.solicitacao = data;
+          this.cdr.detectChanges();
+        },
+        error: (error) => {
+          console.error('Erro ao carregar solicitações:', error);
+        }
+      });
   }
 }

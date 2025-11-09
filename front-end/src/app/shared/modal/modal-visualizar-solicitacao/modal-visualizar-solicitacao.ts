@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { SolicitacaoService } from '../../../services/solicitacao-service';
 import { finalize, map } from 'rxjs';
 import {ModalRedirecionarSolicitacao} from '../modal-redirecionar-solicitacao/modal-redirecionar-solicitacao';
+import {LoadingOverlayComponent} from '../../loading-overlay.component';
 
 @Component({
   selector: 'app-modal-visualizar-solicitacao',
@@ -20,6 +21,7 @@ import {ModalRedirecionarSolicitacao} from '../modal-redirecionar-solicitacao/mo
     NgClass,
     FormsModule,
     ToastrModule,
+    LoadingOverlayComponent,
     ModalRedirecionarSolicitacao
   ],
   templateUrl: './modal-visualizar-solicitacao.html',

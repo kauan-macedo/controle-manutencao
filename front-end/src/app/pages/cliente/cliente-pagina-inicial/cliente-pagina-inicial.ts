@@ -13,6 +13,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { APIResponse } from '../../../../api/api';
 import {ToastContainerDirective, ToastrModule, ToastrService} from 'ngx-toastr';
 import {finalize} from 'rxjs';
+import {ModalPagarSolicitacao} from '../../../shared/modal/modal-pagar-solicitacao/modal-pagar-solicitacao';
 
 @Component({
   selector: 'app-cliente-pagina-inicial',
@@ -22,7 +23,8 @@ import {finalize} from 'rxjs';
     RouterModule,
     ToastrModule,
     LoadingOverlayComponent,
-    ModalResgatarServicoComponent
+    ModalResgatarServicoComponent,
+    ModalPagarSolicitacao
   ],
   templateUrl: './cliente-pagina-inicial.html',
   styleUrl: './cliente-pagina-inicial.css',
@@ -33,6 +35,7 @@ export class ClientePaginaInicial implements OnInit {
   minhasSolicitacoes: Solicitacao[] = [];
   loading = false;
 
+  pagandoSolicitacao: Solicitacao | null = null;
   solicitacaoParaResgatar: Solicitacao | null = null;
 
 

@@ -75,35 +75,35 @@
           <div class="grid grid-cols-4 text-lg gap-4">
             <div>
               <p class="font-bold">Cliente</p>
-              <p class="text-gray-300">{{solicitacao.usuario.nome}}</p>
+              <p class="text-gray-700 dark:text-gray-300">{{solicitacao.usuario.nome}}</p>
             </div>
             @if(solicitacao.orcamento) {
               <div>
                 <p class="font-bold">Valor orçado</p>
-                <p class="text-gray-300">{{solicitacao.orcamento ? 'R$ ' + solicitacao.orcamento.valor.toFixed(2) : 'Serviço não orçado'}}</p>
+                <p class="text-gray-700 dark:text-gray-300">{{solicitacao.orcamento ? 'R$ ' + solicitacao.orcamento.valor.toFixed(2) : 'Serviço não orçado'}}</p>
               </div>
               <div>
                 <p class="font-bold">Orçado em</p>
-                <p class="text-gray-300">{{formataData(solicitacao.orcamento.dataCriacao)}}</p>
+                <p class="text-gray-700 dark:text-gray-300">{{formataData(solicitacao.orcamento.dataCriacao)}}</p>
               </div>
             }
             <div>
               <p class="font-bold">Categoria Equip.</p>
-              <p class="text-gray-300">{{solicitacao.categoria.descricao}}</p>
+              <p class="text-gray-700 dark:text-gray-300">{{solicitacao.categoria.descricao}}</p>
             </div>
             <div>
               <p class="font-bold">Data Criação</p>
-              <p class="text-gray-300">{{formataData(solicitacao.dataCriacao)}}</p>
+              <p class="text-gray-700 dark:text-gray-300">{{formataData(solicitacao.dataCriacao)}}</p>
             </div>
             @if(solicitacao.dataArrumado) {
               <div>
                 <p class="font-bold">Data Arrumado</p>
-                <p class="text-gray-300">{{solicitacao.dataArrumado ? formataData(solicitacao.dataArrumado) : 'Equipamento não arrumado'}}</p>
+                <p class="text-gray-700 dark:text-gray-300">{{solicitacao.dataArrumado ? formataData(solicitacao.dataArrumado) : 'Equipamento não arrumado'}}</p>
               </div>
             }
             <div>
               <p class="font-bold">Responsável</p>
-              <p class="text-gray-300">{{solicitacao.responsavel ? solicitacao.responsavel.nome : 'Sem responsável'}}</p>
+              <p class="text-gray-700 dark:text-gray-300">{{solicitacao.responsavel ? solicitacao.responsavel.nome : 'Sem responsável'}}</p>
             </div>
             <div>
               <p class="font-bold">Status</p>

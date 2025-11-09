@@ -152,7 +152,7 @@
         }
 
         @if (solicitacao.status == 6) {
-        <button
+        <button (click)="pagando = true"
           class="px-6 py-2.5 bg-green-600 dark:bg-green-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 dark:hover:bg-green-800 hover:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 dark:active:bg-green-900 transition duration-150 ease-in-out">
           Pagar Serviço
         </button>
@@ -176,3 +176,7 @@
   }
 }
 </main>
+
+@if(pagando){
+  <app-modal-pagar-solicitacao (closed)="pagando = false" [solicitacao]="solicitacao"></app-modal-pagar-solicitacao>
+}

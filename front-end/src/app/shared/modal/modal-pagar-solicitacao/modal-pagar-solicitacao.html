@@ -9,37 +9,33 @@
     <hr class="my-4 h-[1px]">
     <div class="modal-body">
       <div class="grid grid-cols-4 text-lg gap-4">
-        <div>
-          <p class="font-bold">Cliente</p>
-          <p class="text-gray-300">{{solicitacao.usuario.nome}}</p>
-        </div>
         @if(solicitacao.orcamento) {
           <div>
             <p class="font-bold">Valor orçado</p>
-            <p class="text-gray-300">{{solicitacao.orcamento ? 'R$ ' + solicitacao.orcamento.valor.toFixed(2) : 'Serviço não orçado'}}</p>
+            <p class="text-gray-700 dark:text-gray-300">{{solicitacao.orcamento ? 'R$ ' + solicitacao.orcamento.valor.toFixed(2) : 'Serviço não orçado'}}</p>
           </div>
           <div>
             <p class="font-bold">Orçado em</p>
-            <p class="text-gray-300">{{formataData(solicitacao.orcamento.dataCriacao)}}</p>
+            <p class="text-gray-700 dark:text-gray-300">{{formataData(solicitacao.orcamento.dataCriacao)}}</p>
           </div>
         }
         <div>
           <p class="font-bold">Categoria Equip.</p>
-          <p class="text-gray-300">{{solicitacao.categoria.descricao}}</p>
+          <p class="text-gray-700 dark:text-gray-300">{{solicitacao.categoria.descricao}}</p>
         </div>
         <div>
           <p class="font-bold">Data Criação</p>
-          <p class="text-gray-300">{{formataData(solicitacao.dataCriacao)}}</p>
+          <p class="text-gray-700 dark:text-gray-300">{{formataData(solicitacao.dataCriacao)}}</p>
         </div>
         @if(solicitacao.dataArrumado) {
           <div>
             <p class="font-bold">Data Arrumado</p>
-            <p class="text-gray-300">{{solicitacao.dataArrumado ? formataData(solicitacao.dataArrumado) : 'Equipamento não arrumado'}}</p>
+            <p class="text-gray-700 dark:text-gray-300">{{solicitacao.dataArrumado ? formataData(solicitacao.dataArrumado) : 'Equipamento não arrumado'}}</p>
           </div>
         }
         <div>
           <p class="font-bold">Responsável</p>
-          <p class="text-gray-300">{{solicitacao.responsavel ? solicitacao.responsavel.nome : 'Sem responsável'}}</p>
+          <p class="text-gray-700 dark:text-gray-300">{{solicitacao.responsavel ? solicitacao.responsavel.nome : 'Sem responsável'}}</p>
         </div>
         <div>
           <p class="font-bold">Status</p>
@@ -94,24 +90,9 @@
         </div>
       </div>
       <div class="mx-auto mt-4 flex justify-center gap-x-4">
-        @if(solicitacao.status == 1) {
-          <button (click)="orcar()" class="py-3 px-6 bg-blue-600 dark:bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 dark:hover:bg-blue-800">
-            Efetuar Orçamento
-          </button>
-        }
-        @if(solicitacao.status == 5 || solicitacao.status == 2) {
-          <button (click)="redirecionando = true" class="py-3 px-6 bg-blue-600 dark:bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 dark:hover:bg-blue-800">
-            Redirecionar
-          </button>
-        }
-        @if(solicitacao.status == 2 || solicitacao.status == 5) {
-          <button (click)="arrumar()" class="py-3 px-6 bg-green-600 dark:bg-green-700 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 dark:hover:bg-green-800">
-            Efetuar Manutenção
-          </button>
-        }
-        @if(solicitacao.status == 8) {
-          <button (click)="finalizar()" class="py-3 px-6 bg-green-600 dark:bg-green-700 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 dark:hover:bg-green-800">
-            Finalizar
+        @if(solicitacao.status == 6) {
+          <button (click)="confirmar()" class="py-3 px-6 bg-blue-600 dark:bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 dark:hover:bg-blue-800">
+            Confirmar pagamento
           </button>
         }
         <button (click)="close()" class="py-3 px-6 bg-red-600 dark:bg-red-700 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 dark:hover:bg-red-800">
