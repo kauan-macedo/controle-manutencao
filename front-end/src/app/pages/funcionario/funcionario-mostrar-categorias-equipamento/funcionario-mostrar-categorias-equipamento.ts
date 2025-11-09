@@ -6,15 +6,18 @@ import { Categoria } from '../../../models/categoria-equipamento';
 import { LoadingOverlayComponent } from '../../../shared/loading-overlay.component';
 import {finalize} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
+import { ModalRemoverCategoriaComponent } from '../../../shared/modal/modal-remover-categoria/modal-remover-categoria';
 
 
 @Component({
   selector: 'app-funcionario-mostrar-categorias-equipamento',
-  imports: [CommonModule, FormsModule, LoadingOverlayComponent],
+  imports: [CommonModule, FormsModule, LoadingOverlayComponent, ModalRemoverCategoriaComponent],
   templateUrl: './funcionario-mostrar-categorias-equipamento.html',
   styleUrl: './funcionario-mostrar-categorias-equipamento.css'
 })
 export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
+
+  showRemoverModal = false;
 
   novaCategoria = new Categoria(0, "", true);
   categoriaEmEdicao = {
@@ -111,11 +114,24 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
     this.categoriaEmEdicao.descricao = "";
   }
 
+  categoriaIdParaRemover: number | null = null;
+
   /*async*/ onRemover(id: number) {
-    let cat: Categoria = this.buscarPorId(id);
-    if (confirm(`Deseja realmente excluir ${cat.descricao}?`)){
-      this.categoriaService.remover(id);
-      this.listarTodas();
+    this.showRemoverModal = true;
+    this.categoriaIdParaRemover = id;
+  }
+
+  confirmarRemocao() {
+    if (this.categoriaIdParaRemover) {
+      this.categoriaService.remover(this.categoriaIdParaRemover).subscribe(() => {
+        this.listarTodas();
+        this.cancelarRemocao();
+      });
     }
+  }
+
+  cancelarRemocao() {
+    this.showRemoverModal = false;
+    this.categoriaIdParaRemover = null;
   }
 }

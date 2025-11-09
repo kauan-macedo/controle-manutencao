@@ -117,4 +117,8 @@
       </div>
     </div>
   }
+
+  @if (showRemoverModal) {
+    <app-remover-categoria (onConfirm)="confirmarRemocao()" (onCancel)="cancelarRemocao()"></app-remover-categoria>
+  }
 </main>
