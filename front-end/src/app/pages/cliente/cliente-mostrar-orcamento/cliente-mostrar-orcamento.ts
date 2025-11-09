@@ -66,9 +66,9 @@ export class ClienteMostrarOrcamento implements OnInit {
 
   endLoad = () => {
     setTimeout(() => {
-        this.loading = false;
-        this.cdr.detectChanges();
-      })
+      this.loading = false;
+      this.cdr.detectChanges();
+    })
   }
 
   buscarPorId(id: number): void {
@@ -76,14 +76,14 @@ export class ClienteMostrarOrcamento implements OnInit {
     this.solicitacaoService.buscarPorId(id)
       .pipe(finalize(() => this.endLoad()))
       .subscribe({
-      next: (data) => {
-        this.solicitacao = data;
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error('Erro ao carregar solicitações:', error);
-      }
-    });
+        next: (data) => {
+          this.solicitacao = data;
+          this.cdr.detectChanges();
+        },
+        error: (error) => {
+          console.error('Erro ao carregar solicitações:', error);
+        }
+      });
   }
 
   aprovarSolicitacao(): void {
@@ -100,7 +100,7 @@ export class ClienteMostrarOrcamento implements OnInit {
           error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
             this.toastService.error(err.error.message);
           }
-      });
+        });
     }
   }
 
@@ -111,15 +111,15 @@ export class ClienteMostrarOrcamento implements OnInit {
       this.solicitacaoService.atualizarSolicitacao(this.solicitacao.id, { status: EstadosSolicitacao.REJEITADA })
         .pipe(finalize(() => this.endLoad()))
         .subscribe({
-        next: (res) => {
-          this.toastService.success(res.message);
-          this.fecharModalRejeitarServico();
-          this.router.navigate(['/cliente/pagina-inicial']);
-        },
+          next: (res) => {
+            this.toastService.success(res.message);
+            this.fecharModalRejeitarServico();
+            this.router.navigate(['/cliente/pagina-inicial']);
+          },
           error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
             this.toastService.error(err.error.message);
           }
-      });
+        });
     }
   }
 
