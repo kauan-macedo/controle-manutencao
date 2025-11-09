@@ -56,3 +56,10 @@
     <app-theme-toggle></app-theme-toggle>
   </nav>
 </header>
+
+@if (showLogoutModal) {
+  <app-modal-logout
+    (onConfirm)="confirmLogout()"
+    (onCancel)="cancelLogout()"
+  ></app-modal-logout>
+}
