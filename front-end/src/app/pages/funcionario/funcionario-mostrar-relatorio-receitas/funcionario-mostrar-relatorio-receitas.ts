@@ -1,7 +1,7 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FuncionarioMostrarRelatorioReceitasCategoria } from '../funcionario-mostrar-relatorio-receitas-categoria/funcionario-mostrar-relatorio-receitas-categoria';
+
 import { Router } from '@angular/router';
 import { jsPDF } from 'jspdf';
 
@@ -9,7 +9,7 @@ import { RelatorioService, RelatorioReceita } from '../../../services/relatorio-
 
 @Component({
   selector: 'app-funcionario-mostrar-relatorio-receitas',
-  imports: [CommonModule, DatePipe, FormsModule, FuncionarioMostrarRelatorioReceitasCategoria],
+  imports: [CommonModule, DatePipe, FormsModule],
   templateUrl: './funcionario-mostrar-relatorio-receitas.html',
   styleUrl: './funcionario-mostrar-relatorio-receitas.css'
 })
