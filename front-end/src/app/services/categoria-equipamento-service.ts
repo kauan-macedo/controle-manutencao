@@ -23,6 +23,7 @@ export class CategoriaEquipamentoService {
 
   // Observable
   listarTodas(): Observable<APIResponse<Categoria[]>> {
+    console.log("service.listarTodas()")
     return this.httpClient.get<APIResponse<Categoria[]>>(
       API_URL + "/categoria",
       this.httpOptions
@@ -32,6 +33,7 @@ export class CategoriaEquipamentoService {
 
   // Observable
   inserir(categoria: Categoria): Observable<any> {
+    console.log("service.inserir()")
     return this.httpClient.post<APIResponse<any>>(
       API_URL + "/categoria",
       JSON.stringify(categoria),
@@ -57,6 +59,7 @@ export class CategoriaEquipamentoService {
 
   // Observable
   atualizar(id: number, desc: string): Observable<any>{
+    console.log("service.atualizar()")
     return this.httpClient.put<APIResponse<Categoria>>(
       API_URL + "/categoria/" + id,
       this.httpOptions
@@ -67,6 +70,7 @@ export class CategoriaEquipamentoService {
 
   // Observable
   remover(id: number) {
+    console.log("service.remover()")
     return this.httpClient.delete(
       API_URL + "/categoria/" + id,
       this.httpOptions

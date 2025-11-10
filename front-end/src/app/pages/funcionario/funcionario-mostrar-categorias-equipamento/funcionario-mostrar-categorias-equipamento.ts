@@ -81,12 +81,14 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
 
   // Observer
   onAdicionar(form: any) {
+    console.log("ts.onAdicionar()")
     if(form.invalid){
       return
     }
 
     this.categoriaService.inserir(this.novaCategoria).subscribe({
       next: (data) => {
+        console.log(data)
         this.listarTodas()
       }
     });
@@ -94,6 +96,7 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
 
 
   /*async*/ onEditar(id: number) {
+    console.log("ts.onEditar()")
     let res: Categoria = this.buscarPorId(id);
     if (res.id !== 0){
       this.categoriaEmEdicao.id = res.id;
@@ -103,6 +106,7 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
   }
 
   /*async*/ onSalvarEdicao() {
+    console.log("ts.onSalvarEdicao()")
     this.categoriaService
       .atualizar(this.categoriaEmEdicao.id, this.categoriaEmEdicao.descricao)
       .subscribe({
@@ -117,6 +121,7 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
   categoriaIdParaRemover: number | null = null;
 
   /*async*/ onRemover(id: number) {
+    console.log("ts.onRemover()")
     this.showRemoverModal = true;
     this.categoriaIdParaRemover = id;
   }
