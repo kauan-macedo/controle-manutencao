@@ -11,8 +11,8 @@ export interface RelatorioReceita {
 }
 
 export interface RelatorioReceitaCategoria { 
-  receita: number;
-  categoria: Categoria
+  categoria: Categoria,
+  receita: number
 }
 
 @Injectable({
@@ -50,6 +50,28 @@ export class RelatorioService {
         ...item
       })))
     )
+  }
+
+  agruparRegistros(registros: RelatorioReceitaCategoria[]): Record<string, number>{
+
+    let registrosFormatados = registros.map(r => ({
+      categoria: r.categoria.descricao,
+      receita: r.receita
+    }));
+
+    let categoriaSoma: Record<string, number> = {};
+    registrosFormatados.forEach(r => {
+        let cat = r.categoria;
+        let rec = r.receita;
+        
+        if(!categoriaSoma[cat]){
+          categoriaSoma[cat] = 0;
+        }
+
+        categoriaSoma[cat] += rec;
+    });
+
+    return categoriaSoma;
   }
 
 }

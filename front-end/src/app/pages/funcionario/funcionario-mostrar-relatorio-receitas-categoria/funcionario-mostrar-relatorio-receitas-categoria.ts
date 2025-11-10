@@ -1,57 +1,23 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { jsPDF } from 'jspdf';
+import { RelatorioService, RelatorioReceitaCategoria } from '../../../services/relatorio-service';
 
 @Component({
   selector: 'app-funcionario-mostrar-relatorio-receitas-categoria',
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './funcionario-mostrar-relatorio-receitas-categoria.html',
   styleUrl: './funcionario-mostrar-relatorio-receitas-categoria.css'
 })
 export class FuncionarioMostrarRelatorioReceitasCategoria implements OnInit{
 
-  registros = [
-    { categoria: 'notebook',  data: new Date('2025-01-05'), receita: 850 },
-    { categoria: 'fone',      data: new Date('2025-01-12'), receita: 1750 },
-    { categoria: 'monitor',   data: new Date('2025-02-03'), receita: 2200 },
-    { categoria: 'mouse',     data: new Date('2025-02-10'), receita: 1420 },
-    { categoria: 'teclado',   data: new Date('2025-02-18'), receita: 1960 },
-    { categoria: 'notebook',  data: new Date('2025-03-01'), receita: 3150 },
-    { categoria: 'fone',      data: new Date('2025-03-07'), receita: 1250 },
-    { categoria: 'monitor',   data: new Date('2025-03-15'), receita: 2890 },
-    { categoria: 'mouse',     data: new Date('2025-04-02'), receita: 3320 },
-    { categoria: 'teclado',   data: new Date('2025-04-18'), receita: 2780 },
-    { categoria: 'notebook',  data: new Date('2025-05-05'), receita: 4100 },
-    { categoria: 'fone',      data: new Date('2025-05-12'), receita: 900 },
-    { categoria: 'monitor',   data: new Date('2025-05-27'), receita: 1370 },
-    { categoria: 'mouse',     data: new Date('2025-06-03'), receita: 2450 },
-    { categoria: 'teclado',   data: new Date('2025-06-20'), receita: 3150 },
-    { categoria: 'notebook',  data: new Date('2025-07-08'), receita: 1820 },
-    { categoria: 'fone',      data: new Date('2025-07-19'), receita: 2670 },
-    { categoria: 'monitor',   data: new Date('2025-08-02'), receita: 1980 },
-    { categoria: 'mouse',     data: new Date('2025-08-14'), receita: 3540 },
-    { categoria: 'teclado',   data: new Date('2025-08-29'), receita: 2760 }
-  ];
+  constructor(private relatorioService: RelatorioService, private router: Router, private cdr: ChangeDetectorRef){}
 
-  agruparRegistros(){
-    let categoriaSoma: Record<string, number> = {};
-    this.registros.forEach(r => {
-        let cat = r.categoria;
-        let rec = r.receita;
-        
-        if(!categoriaSoma[cat]){
-          categoriaSoma[cat] = 0;
-        }
+  registros: RelatorioReceitaCategoria[] = [];
 
-        categoriaSoma[cat] += rec;
-    });
-
-    return categoriaSoma;
-  }
-  
-  registrosTabela = this.agruparRegistros();
+  registrosTabela: { categoria: string, receita: number }[] = [];
 
   registrosCategoria = Object.entries(this.registrosTabela);
 
@@ -71,9 +37,10 @@ export class FuncionarioMostrarRelatorioReceitasCategoria implements OnInit{
       startY += 10;
 
       // linhas da tabela
-      for(let cat in this.registrosTabela){
-        doc.text(cat, 14, startY);
-        doc.text(this.registrosTabela[cat].toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), 80, startY);
+      for(let i=0; i<this.registrosTabela.length; i++){
+        let registro = this.registrosTabela[i];
+        doc.text(registro.categoria, 14, startY);
+        doc.text(registro.receita.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), 80, startY);
         startY += 10;
       }
 
@@ -83,7 +50,17 @@ export class FuncionarioMostrarRelatorioReceitasCategoria implements OnInit{
 
 
   ngOnInit(): void {
-    
+    this.relatorioService.getRelatorioReceitasCategoria().subscribe(data => {
+      this.registros = data;
+
+      this.registrosTabela = Object.entries(this.relatorioService.agruparRegistros(this.registros))
+      .map(([ categoria, receita ]) => ({
+        categoria,
+        receita
+      }));
+      this.registrosCategoria = Object.entries(this.registrosTabela);
+      this.cdr.detectChanges();
+    })
   }
 
 }

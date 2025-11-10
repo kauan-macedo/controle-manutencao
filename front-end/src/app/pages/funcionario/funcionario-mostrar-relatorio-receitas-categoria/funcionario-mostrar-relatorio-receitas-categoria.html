@@ -21,7 +21,7 @@
     <div id="imprimir" class="h-[60vh] overflow-y-scroll dark:bg-gray-900">
 
         <table class="min-w-full divide-y dark:divide-gray-700 divide-gray-200 table-auto">
-            <thead class="bg-gray-100 dark:bg-gray-900 dark:text-gray-200 text-gray-600 uppercase text-sm font-semibold sticky top-0">
+            <thead class="bg-gray-200 dark:bg-gray-800 dark:text-gray-200 text-gray-600 uppercase text-sm font-semibold sticky top-0">
                 <tr>
                     <th class="px-6 py-4 text-left w-1/6">Categoria</th>    
                     <th class="px-6 py-4 text-left w-1/6">Receita</th>
@@ -32,16 +32,16 @@
             @for (registro of registrosCategoria; track registro[0]) {
                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
                     <td class="px-6 border-b dark:border-slate-700 border-slate-200 py-5">
-                        <p class="text-lg uppercase text-gray-800 text-gray-800 dark:text-gray-200">{{ registro[0] }}</p>
+                        <p class="text-lg uppercase text-gray-800 text-gray-800 dark:text-gray-200">{{ registro[1].categoria }}</p>
                     </td>
                     <td class="px-6 border-b dark:border-slate-700 border-slate-200 py-5">
-                        <p class="text-lg text-gray-800 text-gray-800 dark:text-gray-200">{{ registro[1] | currency:'BRL' }}</p>
+                        <p class="text-lg text-gray-800 text-gray-800 dark:text-gray-200">{{ registro[1].receita | currency:'BRL' }}</p>
                     </td>
                 </tr>
             } @empty {
                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
-                <td class="px-6 border-b dark:border-slate-700 border-slate-200 py-5">
-                    <p class="text-lg text-gray-800 text-gray-800 dark:text-gray-200">Sem receitas para o período informado.</p>
+                <td colspan="2" class="px-6 py-5 text-center text-gray-500 dark:text-gray-400">
+                    Sem receitas para o período informado.
                 </td>
                 </tr>
             }
