@@ -1,54 +1,78 @@
-<main class="bg-gray-50 dark:bg-gray-950 h-screen p-4 md:p-8 font-sans">
+<main class="bg-gray-50 dark:bg-gray-950 min-h-screen p-6 md:p-10 font-sans">
+<app-loading-overlay [visible]="loading"></app-loading-overlay>
+  <div class="max-w-7xl mx-auto dark:bg-gray-950">
+    <header class="mb-10 flex justify-between">
+      <div>
+        <h1 class="text-4xl font-bold text-gray-800 dark:text-white">Gerar Relatório de Receita</h1>
+        <p class="mt-2 max-w-6xl text-lg text-gray-600 dark:text-gray-400">Visualize e gere um relatório de receitas por categoria</p>
+      </div>
+      <div class="">
+        <button
+          (click)="gerarPDF()"
+          id="gerarPDF"
+          type="button"
+          class="px-6 py-2 text-lg font-semibold text-gray-700 dark:text-white bg-blue-200 dark:bg-blue-700 rounded-lg hover:bg-blue-300 dark:hover:bg-blue-600 focus:outline-none transition"
+        >
+          Baixar PDF
+        </button>
+      </div>
+    </header>
+  </div>
 
-  <h1 class="max-w-4xl mx-auto p-4 text-4xl dark:text-white font-bold text-gray-800">Gerar Relatório de Receita</h1>
-
-  <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">    
-    <!-- Cabeçalho -->
-    <div class="p-6 bg-gray-100 dark:bg-gray-800 border-b dark:border-gray-700 flex justify-between">
-
-        <div>
-            <p class="text-2xl dark:text-white font-semibold pt-4">Receita agrupado por Categoria</p>
-        </div>
-
-        <div class="flex gap-6">
-          <button (click)="gerarPDF()" id="gerarPDF" type="cbutton" class="w-48 py-2 flex items-center justify-center mt-4 px-4 text-lg font-semibold text-gray-600 dark:text-white dark:bg-blue-700 focus:outline-none bg-blue-200 rounded-lg hover:bg-blue-300 ease-in-out transition duration-150">
-            Baixar PDF
-          </button>
-        </div>
-    </div>
-
-    <!-- Tabela Preview -->
-    <div id="imprimir" class="h-[60vh] overflow-y-scroll dark:bg-gray-900">
-
-        <table class="min-w-full divide-y dark:divide-gray-700 divide-gray-200 table-auto">
-            <thead class="bg-gray-200 dark:bg-gray-800 dark:text-gray-200 text-gray-600 uppercase text-sm font-semibold sticky top-0">
-                <tr>
-                    <th class="px-6 py-4 text-left w-1/6">Categoria</th>    
-                    <th class="px-6 py-4 text-left w-1/6">Receita</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
-
-            @for (registro of registrosCategoria; track registro[0]) {
-                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
-                    <td class="px-6 border-b dark:border-slate-700 border-slate-200 py-5">
-                        <p class="text-lg uppercase text-gray-800 text-gray-800 dark:text-gray-200">{{ registro[1].categoria }}</p>
-                    </td>
-                    <td class="px-6 border-b dark:border-slate-700 border-slate-200 py-5">
-                        <p class="text-lg text-gray-800 text-gray-800 dark:text-gray-200">{{ registro[1].receita | currency:'BRL' }}</p>
-                    </td>
-                </tr>
-            } @empty {
-                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
-                <td colspan="2" class="px-6 py-5 text-center text-gray-500 dark:text-gray-400">
-                    Sem receitas para o período informado.
+  <div
+    class="max-w-7xl mx-auto bg-white dark:bg-gray-900 rounded-xl shadow-lg overflow-hidden"
+  >
+    <div id="imprimir" class="h-[65vh] overflow-y-scroll">
+      <table
+        class="min-w-full divide-y dark:divide-gray-700 divide-gray-200 table-auto"
+      >
+        <thead
+          class="bg-gray-200 dark:bg-gray-800 dark:text-gray-200 text-gray-700 uppercase text-sm font-semibold sticky top-0"
+        >
+          <tr>
+            <th class="px-6 py-3 text-left w-1/6">Categoria</th>
+            <th class="px-6 py-3 text-left w-1/6">Receita</th>
+          </tr>
+        </thead>
+        @if(loading) {
+          <tbody class="divide-y divide-gray-100 dark:divide-gray-700 animate-pulse">
+            @for (_ of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track $index) {
+              <tr>
+                <td class="px-6 py-4">
+                  <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
                 </td>
-                </tr>
+                <td class="px-6 py-4">
+                  <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
+                </td>
+              </tr>
             }
-            </tbody>
-        </table>
-
-
-        </div>
+          </tbody>
+        } @else {
+        <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+          @for (registro of registrosCategoria; track registro[0]) {
+          <tr
+            class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200"
+          >
+            <td class="px-6 py-4 text-lg text-gray-800 dark:text-gray-200">
+              {{ registro[1].categoria }}
+            </td>
+            <td class="px-6 py-4 text-lg text-gray-800 dark:text-gray-200">
+              {{ registro[1].receita | currency : "BRL" }}
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td
+              colspan="2"
+              class="px-6 py-6 text-center text-gray-500 dark:text-gray-400"
+            >
+              Sem receitas para o período informado.
+            </td>
+          </tr>
+          }
+        </tbody>
+      }
+      </table>
     </div>
+  </div>
 </main>

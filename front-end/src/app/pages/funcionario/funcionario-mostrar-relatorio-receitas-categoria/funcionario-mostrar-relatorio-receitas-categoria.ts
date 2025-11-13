@@ -4,14 +4,18 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { jsPDF } from 'jspdf';
 import { RelatorioService, RelatorioReceitaCategoria } from '../../../services/relatorio-service';
+import {LoadingOverlayComponent} from '../../../shared/loading-overlay.component';
+import {finalize} from 'rxjs';
 
 @Component({
   selector: 'app-funcionario-mostrar-relatorio-receitas-categoria',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LoadingOverlayComponent],
   templateUrl: './funcionario-mostrar-relatorio-receitas-categoria.html',
   styleUrl: './funcionario-mostrar-relatorio-receitas-categoria.css'
 })
 export class FuncionarioMostrarRelatorioReceitasCategoria implements OnInit{
+
+  loading = false;
 
   constructor(private relatorioService: RelatorioService, private router: Router, private cdr: ChangeDetectorRef){}
 
@@ -50,7 +54,10 @@ export class FuncionarioMostrarRelatorioReceitasCategoria implements OnInit{
 
 
   ngOnInit(): void {
-    this.relatorioService.getRelatorioReceitasCategoria().subscribe(data => {
+    this.loading = true;
+    this.relatorioService.getRelatorioReceitasCategoria()
+    .pipe(finalize(() => this.endLoad()))
+    .subscribe(data => {
       this.registros = data;
 
       this.registrosTabela = Object.entries(this.relatorioService.agruparRegistros(this.registros))
@@ -63,4 +70,10 @@ export class FuncionarioMostrarRelatorioReceitasCategoria implements OnInit{
     })
   }
 
+   endLoad = () => {
+    setTimeout(() => {
+      this.loading = false;
+      this.cdr.detectChanges();
+    })
+  }
 }

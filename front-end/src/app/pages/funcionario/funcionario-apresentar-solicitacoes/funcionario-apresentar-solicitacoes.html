@@ -130,14 +130,14 @@
                   </a>
                 } @else {
                   <a (click)="abrirSolicitacao(solicitacao)"
-                     class="text-lg text-gray-800 hover:text-gray-950 dark:text-gray-400 dark:hover:text-gray-300">
+                     class="text-lg text-gray-800 hover:text-gray-950 dark:text-gray-400 dark:hover:text-gray-300 cursor-pointer">
                     Ver Detalhes
                   </a>
                 }
               </td>
             </tr>
           } @empty {
-            <tr class="hover:bg-gray-50 transition-colors duration-200">
+            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200">
               <td colspan="5" class="text-center py-6 text-gray-500 dark:text-gray-400">Sem elementos!</td>
             </tr>
           }
