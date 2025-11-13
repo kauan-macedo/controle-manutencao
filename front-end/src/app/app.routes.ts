@@ -15,7 +15,6 @@ import { FuncionarioMostrarRelatorioReceitas } from './pages/funcionario/funcion
 import { FuncionarioMostrarRelatorioReceitasCategoria } from './pages/funcionario/funcionario-mostrar-relatorio-receitas-categoria/funcionario-mostrar-relatorio-receitas-categoria';
 import { FuncionarioManterFuncionario } from './pages/funcionario/funcionario-manter-funcionario/funcionario-manter-funcionario';
 import { FuncionarioMostrarCategoriasEquipamento } from './pages/funcionario/funcionario-mostrar-categorias-equipamento/funcionario-mostrar-categorias-equipamento';
-import { FuncionarioManterCategoriaEquipamento } from './pages/funcionario/funcionario-manter-categoria-equipamento/funcionario-manter-categoria-equipamento';
 import { FuncionarioApresentarSolicitacoes } from './pages/funcionario/funcionario-apresentar-solicitacoes/funcionario-apresentar-solicitacoes';
 import { FuncionarioEfetuarManutencao } from './pages/funcionario/funcionario-efetuar-manutencao/funcionario-efetuar-manutencao';
 /*
@@ -97,10 +96,6 @@ export const routes: Routes = [
             {
                 path: 'mostrar-categorias-equipamento',
                 component: FuncionarioMostrarCategoriasEquipamento
-            },
-            {
-                path: 'manter-categoria-equipamento',
-                component: FuncionarioManterCategoriaEquipamento
             },
             {
                 path: 'efetuar-orcamento/:id',
