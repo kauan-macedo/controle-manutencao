@@ -22,17 +22,19 @@ export class CategoriaEquipamentoService {
   constructor(private httpClient: HttpClient){}
 
   // Observable
-  listarTodas(): Observable<APIResponse<Categoria[]>> {
+  listarTodas(): Observable<Categoria[]> {
     console.log("service.listarTodas()")
     return this.httpClient.get<APIResponse<Categoria[]>>(
       API_URL + "/categoria",
       this.httpOptions
+    ).pipe(
+      map((res => res.body))
     );
   }
 
 
   // Observable
-  inserir(categoria: Categoria): Observable<any> {
+  inserir(categoria: Categoria): Observable<Categoria> {
     console.log("service.inserir()")
     return this.httpClient.post<APIResponse<any>>(
       API_URL + "/categoria",

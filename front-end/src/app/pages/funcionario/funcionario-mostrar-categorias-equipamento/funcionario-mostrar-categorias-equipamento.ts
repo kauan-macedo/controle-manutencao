@@ -45,7 +45,7 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
       .pipe(finalize(() => this.endLoad()))
       .subscribe({
       next: (data) => {
-        this.categorias = data.body;
+        this.categorias = data;
         this.cdr.detectChanges();
       },
       error: (error) => {
@@ -95,14 +95,17 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
   }
 
 
-  /*async*/ onEditar(id: number) {
-    console.log("ts.onEditar()")
-    let res: Categoria = this.buscarPorId(id);
-    if (res.id !== 0){
+  /*async*/ onEditar(index: number) {
+    //let res: Categoria = this.buscarPorId(id);
+    /*if (res.id !== 0){
       this.categoriaEmEdicao.id = res.id;
       this.categoriaEmEdicao.descricao = res.descricao;
       this.categoriaEmEdicao.descricaoOriginal = res.descricao;
-    }
+    }*/
+    
+    this.categoriaEmEdicao.id = this.categorias[index].id;
+    this.categoriaEmEdicao.descricao = this.categorias[index].descricao;
+    this.categoriaEmEdicao.descricaoOriginal = this.categorias[index].descricao;
   }
 
   /*async*/ onSalvarEdicao() {

@@ -40,7 +40,7 @@ export class ClienteCriarSolicitacao implements OnInit {
       .pipe(finalize(() => this.endLoad()))
       .subscribe({
         next: (data) => {
-          this.categorias = data.body;
+          this.categorias = data;
         },
         error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
           this.toastService.error(err.error.message);
