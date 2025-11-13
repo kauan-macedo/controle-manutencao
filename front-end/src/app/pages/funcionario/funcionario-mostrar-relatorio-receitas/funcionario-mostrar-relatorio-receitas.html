@@ -1,9 +1,14 @@
 <main class="bg-gray-50 dark:bg-gray-950 min-h-screen p-6 md:p-10 font-sans">
+  <app-loading-overlay [visible]="loading"></app-loading-overlay>
   <div class="max-w-7xl mx-auto dark:bg-gray-950">
     <header class="mb-10 flex justify-between">
       <div>
-        <h1 class="text-4xl font-bold text-gray-800 dark:text-white">Gerar Relatório de Receita</h1>
-        <p class="mt-2 max-w-6xl text-lg text-gray-600 dark:text-gray-400">Visualize e gere um relatório de receitas</p>
+        <h1 class="text-4xl font-bold text-gray-800 dark:text-white">
+          Gerar Relatório de Receita
+        </h1>
+        <p class="mt-2 max-w-6xl text-lg text-gray-600 dark:text-gray-400">
+          Visualize e gere um relatório de receitas
+        </p>
       </div>
       <div class="">
         <button
@@ -86,6 +91,24 @@
             <th class="px-6 py-3 text-left w-1/6">Receita</th>
           </tr>
         </thead>
+        @if(loading) {
+        <tbody
+          class="divide-y divide-gray-100 dark:divide-gray-700 animate-pulse"
+        >
+          @for (_ of [1, 2, 3, 4, 5]; track $index) {
+          <tr>
+            <td class="px-6 py-4">
+              <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
+            </td>
+            <td class="px-6 py-4">
+              <div
+                class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full"
+              ></div>
+            </td>
+          </tr>
+          }
+        </tbody>
+        } @else {
         <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
           @for (registro of registrosFiltrados; track registro.data) {
           <tr
@@ -109,6 +132,7 @@
           </tr>
           }
         </tbody>
+        }
       </table>
     </div>
   </div>

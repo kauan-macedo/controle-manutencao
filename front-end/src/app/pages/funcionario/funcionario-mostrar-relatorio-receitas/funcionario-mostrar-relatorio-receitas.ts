@@ -1,15 +1,15 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
 import { Router } from '@angular/router';
 import { jsPDF } from 'jspdf';
-
 import { RelatorioService, RelatorioReceita } from '../../../services/relatorio-service';
+import {LoadingOverlayComponent} from '../../../shared/loading-overlay.component';
+import {finalize} from 'rxjs';
 
 @Component({
   selector: 'app-funcionario-mostrar-relatorio-receitas',
-  imports: [CommonModule, DatePipe, FormsModule],
+  imports: [CommonModule, DatePipe, FormsModule, LoadingOverlayComponent],
   templateUrl: './funcionario-mostrar-relatorio-receitas.html',
   styleUrl: './funcionario-mostrar-relatorio-receitas.css'
 })
@@ -25,7 +25,9 @@ export class FuncionarioMostrarRelatorioReceitas implements OnInit{
 
   registrosFiltrados = [...this.registros];
 
-  constructor(private relatorioService: RelatorioService, private router: Router) {}
+  loading = false;
+
+  constructor(private relatorioService: RelatorioService, private router: Router, private cdr: ChangeDetectorRef) {}
 
   aplicarFiltro(){
     let dip = this.dataInicial.split('-');
@@ -82,10 +84,20 @@ export class FuncionarioMostrarRelatorioReceitas implements OnInit{
 
 
   ngOnInit(): void {
-    this.relatorioService.getRelatorioReceitas().subscribe(data => {
+    this.loading = true;
+    this.relatorioService.getRelatorioReceitas()
+    .pipe(finalize(() => this.endLoad()))
+    .subscribe(data => {
       this.registros = data;
       this.registrosFiltrados = [...this.registros];
     });
+  }
+
+  endLoad = () => {
+    setTimeout(() => {
+      this.loading = false;
+      this.cdr.detectChanges();
+    })
   }
 
   redirecionarCategoria(){
