@@ -5,6 +5,7 @@ import com.controlemanutencao.exception.RecursoNaoEncontradoException;
 import com.controlemanutencao.model.Categoria;
 import com.controlemanutencao.model.Response;
 import com.controlemanutencao.model.Usuario;
+import com.controlemanutencao.model.request.AtualizarCategoriaRequest;
 import com.controlemanutencao.model.request.NovaCategoriaRequest;
 import com.controlemanutencao.service.CategoriaService;
 import org.springframework.http.HttpStatus;
@@ -25,13 +26,13 @@ public class CategoriaController {
 
     @PostMapping
     public Response<?> novaCategoria(@RequestBody NovaCategoriaRequest input, @AuthenticationPrincipal Usuario usuario) {
-        service.novaCategoria(usuario, new Categoria(0L, input.descricao(), true));
+        service.novaCategoria(usuario, input.descricao());
         return new Response<>(HttpStatus.OK.value(), "Categoria criada com sucesso", null);
     }
 
     @PutMapping("/{id}")
-    public Response<?> atualizarCategoria(@PathVariable("id") Long id, @RequestBody NovaCategoriaRequest input, @AuthenticationPrincipal Usuario usuario) {
-        service.novaCategoria(usuario, new Categoria(id, input.descricao(), true));
+    public Response<?> atualizarCategoria(@PathVariable("id") Long id, @RequestBody AtualizarCategoriaRequest input, @AuthenticationPrincipal Usuario usuario) {
+        service.atualizarCategoria(usuario, id, input.descricao());
         return new Response<>(HttpStatus.OK.value(), "Categoria atualizada com sucesso", null);
     }
 

@@ -22,8 +22,7 @@ public class Categoria {
     public Categoria() {
     }
 
-    public Categoria(Long id, String descricao, boolean ativo) {
-        this.id = id;
+    public Categoria(String descricao, boolean ativo) {
         this.descricao = descricao;
         this.ativo = ativo;
     }

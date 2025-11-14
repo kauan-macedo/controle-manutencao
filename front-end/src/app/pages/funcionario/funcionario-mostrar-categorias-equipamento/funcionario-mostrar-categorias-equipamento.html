@@ -70,8 +70,8 @@
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200">{{ categoria.id }}</td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200">{{ categoria.descricao }}</td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <a href="#" (click)="onEditar($index); $event.preventDefault()" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-4">Editar</a>
-                    <a href="#" (click)="onRemover(categoria.id); $event.preventDefault()" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">Remover</a>
+                    <a href="#" (click)="onEditar(categoria); $event.preventDefault()" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-4">Editar</a>
+                    <a href="#" (click)="onRemover(categoria); $event.preventDefault()" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">Remover</a>
                   </td>
                 </tr>
               }
@@ -88,10 +88,10 @@
     </div>
   </div>
 
-  @if(categoriaEmEdicao.id != 0){
+  @if(categoriaEmEdicao){
     <div class="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex justify-center items-center z-50 transition-opacity" aria-labelledby="modal-title" role="dialog" aria-modal="true">
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-8 my-8 w-full max-w-lg transform transition-all">
-        <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Editando categoria: {{categoriaEmEdicao.descricaoOriginal}}</h2>
+        <h2 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">Editando categoria: {{categoriaEmEdicao.descricao}}</h2>
         <form #editForm="ngForm" (ngSubmit)="onSalvarEdicao()" class="flex flex-col gap-4">
           <input
             type="text"
@@ -108,7 +108,7 @@
             </button>
             <button
               type="button"
-              (click)="categoriaEmEdicao.id = 0"
+              (click)="categoriaEmEdicao = null"
               class="flex-1 py-3 px-6 bg-stone-600 dark:bg-stone-700 text-white font-semibold rounded-lg shadow-md hover:bg-stone-700 dark:hover:bg-stone-800">
               Cancelar
             </button>

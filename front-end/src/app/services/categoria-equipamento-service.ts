@@ -64,6 +64,9 @@ export class CategoriaEquipamentoService {
     console.log("service.atualizar()")
     return this.httpClient.put<APIResponse<Categoria>>(
       API_URL + "/categoria/" + id,
+      ({
+        descricao: desc
+      }),
       this.httpOptions
     ).pipe(
       map((res) => res.body)

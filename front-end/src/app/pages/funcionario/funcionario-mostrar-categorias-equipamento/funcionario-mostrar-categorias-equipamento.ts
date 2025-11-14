@@ -7,6 +7,8 @@ import { LoadingOverlayComponent } from '../../../shared/loading-overlay.compone
 import {finalize} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
 import { ModalRemoverCategoriaComponent } from '../../../shared/modal/modal-remover-categoria/modal-remover-categoria';
+import { HttpErrorResponse } from '@angular/common/http';
+import { APIResponse } from '../../../../api/api';
 
 
 @Component({
@@ -20,11 +22,8 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
   showRemoverModal = false;
 
   novaCategoria = new Categoria(0, "", true);
-  categoriaEmEdicao = {
-    id: 0,
-    descricao: "",
-    descricaoOriginal: ""
-  };
+  categoriaEmEdicao: Categoria | null = null;
+  categoriaParaRemover: Categoria | null = null;
 
   public categorias!: Categoria[];
   loading = false;
@@ -48,9 +47,8 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
         this.categorias = data;
         this.cdr.detectChanges();
       },
-      error: (error) => {
-        console.error('Erro ao buscar categorias:', error);
-        this.categorias = [];
+      error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
+        this.toastService.error(err.error.message);
       }
     });
   }
@@ -62,84 +60,74 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
       })
   }
 
-
-
-  // Observer
-  buscarPorId(id: number): Categoria {
-    let cat: Categoria = new Categoria(0, "", true);
-    const resp = this.categoriaService.buscarPorId(id).subscribe({
-      next: (data) => {
-        if (data == null) {
-          console.log("ID inexistente!")
-        } else {
-          cat = data;
-        }
-      }
-    });
-    return cat;
-  }
-
-  // Observer
   onAdicionar(form: any) {
-    console.log("ts.onAdicionar()")
     if(form.invalid){
       return
     }
-
-    this.categoriaService.inserir(this.novaCategoria).subscribe({
+    this.loading = true;
+    this.categoriaService.inserir(this.novaCategoria)
+    .pipe(finalize(() => this.endLoad()))
+    .subscribe({
       next: (data) => {
-        console.log(data)
+         this.toastService.success('Categoria adicionada com sucesso!');
         this.listarTodas()
+      },
+      error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
+        this.toastService.error(err.error.message);
       }
     });
   }
 
-
-  /*async*/ onEditar(index: number) {
-    //let res: Categoria = this.buscarPorId(id);
-    /*if (res.id !== 0){
-      this.categoriaEmEdicao.id = res.id;
-      this.categoriaEmEdicao.descricao = res.descricao;
-      this.categoriaEmEdicao.descricaoOriginal = res.descricao;
-    }*/
-    
-    this.categoriaEmEdicao.id = this.categorias[index].id;
-    this.categoriaEmEdicao.descricao = this.categorias[index].descricao;
-    this.categoriaEmEdicao.descricaoOriginal = this.categorias[index].descricao;
+  onEditar(cat: Categoria) {
+    this.categoriaEmEdicao = cat;
   }
 
-  /*async*/ onSalvarEdicao() {
-    console.log("ts.onSalvarEdicao()")
+  onSalvarEdicao() {
+    if(!this.categoriaEmEdicao) {
+      return;
+    }
+    this.loading = true;
     this.categoriaService
       .atualizar(this.categoriaEmEdicao.id, this.categoriaEmEdicao.descricao)
+      .pipe(finalize(() => this.endLoad()))
       .subscribe({
         next: (_) => {
+          this.categoriaEmEdicao = null;
+          this.toastService.success('Categoria atualizada com sucesso!');
           this.listarTodas();
+        },
+        error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
+          this.toastService.error(err.error.message);
         }
       })
-    this.categoriaEmEdicao.id = 0;
-    this.categoriaEmEdicao.descricao = "";
   }
 
-  categoriaIdParaRemover: number | null = null;
-
-  /*async*/ onRemover(id: number) {
-    console.log("ts.onRemover()")
+  onRemover(cat: Categoria) {
     this.showRemoverModal = true;
-    this.categoriaIdParaRemover = id;
+    this.categoriaParaRemover = cat;
   }
 
   confirmarRemocao() {
-    if (this.categoriaIdParaRemover) {
-      this.categoriaService.remover(this.categoriaIdParaRemover).subscribe(() => {
+    if (this.categoriaParaRemover) {
+      this.loading = true;
+      this.categoriaService.remover(this.categoriaParaRemover.id)
+      .pipe(finalize(() => this.endLoad()))
+      .subscribe({
+      next: (_) => {
         this.listarTodas();
+        this.categoriaParaRemover = null;
+        this.toastService.success('Categoria removida com sucesso!');
         this.cancelarRemocao();
+      },
+      error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
+          this.toastService.error(err.error.message);
+        } 
       });
     }
   }
 
   cancelarRemocao() {
     this.showRemoverModal = false;
-    this.categoriaIdParaRemover = null;
+    this.categoriaParaRemover = null;
   }
 }

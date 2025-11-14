@@ -25,20 +25,22 @@ public class CategoriaService {
         return repository.findById(id);
     }
 
-    public void novaCategoria(Usuario u, Categoria cat) {
+    public void novaCategoria(Usuario u, String desc) {
         if(!u.isFuncionario()) {
             throw new DeveSerFuncionarioException();
         }
-        repository.save(cat);
+        repository.save(new Categoria(desc, true));
     }
 
-    public void atualizarCategoria(Usuario u, Categoria c) {
-        Optional<Categoria> cat = repository.findById(c.getId());
+    public void atualizarCategoria(Usuario u, Long id, String desc) {
+        Optional<Categoria> cat = repository.findById(id);
         if(cat.isEmpty()) {
             throw new RecursoNaoEncontradoException("Categoria não encontrada.");
         }
         Categoria categoria = cat.get();
-        categoria.setDescricao(c.getDescricao());
+        if(desc != null) {
+            categoria.setDescricao(desc);
+        }
         repository.save(categoria);
     }
 
