@@ -169,4 +169,6 @@ public class Solicitacao {
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
     }
+
+
 }

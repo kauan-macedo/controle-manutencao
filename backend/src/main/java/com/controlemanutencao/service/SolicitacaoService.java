@@ -1,7 +1,9 @@
 package com.controlemanutencao.service;
 
+import com.controlemanutencao.exception.AutoRedirecionamentoException;
 import com.controlemanutencao.exception.DeveSerFuncionarioException;
 import com.controlemanutencao.exception.EstadoIlegalSolicitacaoException;
+import com.controlemanutencao.exception.RecursoNaoEncontradoException;
 import com.controlemanutencao.model.*;
 import com.controlemanutencao.model.enums.StatusSolicitacao;
 import com.controlemanutencao.model.enums.TipoUsuario;
@@ -45,7 +47,7 @@ public class SolicitacaoService {
     public void novaSolicitacao(Usuario user, NovaSolicitacaoRequest req) {
         Optional<Categoria> optCat = categoriaService.findById((long) req.categoriaId());
         if(optCat.isEmpty()) {
-            throw new IllegalArgumentException("Categoria desconhecida.");
+            throw new RecursoNaoEncontradoException("Categoria desconhecida.");
         }
 
         if(req.descDefeito().length() > 254) {
@@ -92,7 +94,7 @@ public class SolicitacaoService {
             }
             if(in.status() == StatusSolicitacao.REDIRECIONADA.getId()) {
                 if(u.getId() == user.getId()) {
-                    throw new IllegalArgumentException("Não é permitido redirecionar uma solicitação para si mesmo.");
+                    throw new AutoRedirecionamentoException();
                 }
                 salvarLog(s, "Redirecionou solicitação para " + u.getNome(), user);
                 redirecionada = true;
@@ -126,7 +128,7 @@ public class SolicitacaoService {
             throw new DeveSerFuncionarioException();
         }
         if (s.getStatus() != StatusSolicitacao.NOVA && s.getStatus() != StatusSolicitacao.REDIRECIONADA) {
-            throw new EstadoIlegalSolicitacaoException("Não é possível enviar um orçamento nessa etapa.");
+            throw new AutoRedirecionamentoException();
         }
         salvarLog(s, String.format("Orçou o pedido em R$ %.2f", valor), agente);
         s.setStatus(StatusSolicitacao.ORCADA);

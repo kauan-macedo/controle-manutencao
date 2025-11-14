@@ -1,7 +1,6 @@
 package com.controlemanutencao.service;
 
-import com.controlemanutencao.exception.DeveSerFuncionarioException;
-import com.controlemanutencao.exception.EmailAlreadyTakenException;
+import com.controlemanutencao.exception.*;
 import com.controlemanutencao.model.EnderecoViaCep;
 import com.controlemanutencao.model.Usuario;
 import com.controlemanutencao.model.enums.TipoUsuario;
@@ -65,7 +64,7 @@ public class UsuarioService {
         }
         Optional<Usuario> usr = repository.findById(userId);
         if(usr.isEmpty()) {
-            throw new IllegalArgumentException("Usuário não encontrado.");
+            throw new RecursoNaoEncontradoException("Usuário não encontrado.");
         }
         return usr.get();
     }
@@ -75,7 +74,10 @@ public class UsuarioService {
             throw new DeveSerFuncionarioException();
         }
         if(sender.getId() == userId) {
-            throw new IllegalArgumentException("Não é permitido inativar seu próprio perfil.");
+            throw new AutoInativacaoException();
+        }
+        if(repository.countByTipoUsuario(TipoUsuario.FUNCIONARIO) <= 1) {
+            throw new InativaUltimoUsuarioException();
         }
         Optional<Usuario> opt = repository.findById(userId);
         if(opt.isEmpty()) {
@@ -128,7 +130,7 @@ public class UsuarioService {
         LocalDate hoje = LocalDate.now();
         LocalDate dataMaioridade = dataNascimento.plusYears(18);
         if(hoje.isBefore(dataMaioridade)) {
-           throw new IllegalArgumentException("Funcionário deve ser maior de 18 anos!");
+           throw new FuncionarioMenor18AnosException();
         }
         usuario.setSenha(passwordEncoder.encode(in.senha()));
         repository.save(usuario);

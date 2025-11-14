@@ -5,5 +5,7 @@ import java.time.LocalDate;
 
 import com.controlemanutencao.model.Categoria;
 
-public record RelatorioReceitaCategoriaDTO(Categoria categoria, BigDecimal receita) {
-}
+public record RelatorioReceitaCategoriaDTO(
+        Categoria categoria,
+        BigDecimal receita
+) { }

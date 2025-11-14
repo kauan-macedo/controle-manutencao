@@ -7,10 +7,13 @@ import java.time.format.DateTimeFormatter;
 
 public record OrcamentoDTO(double valor, String descricao, String dataCriacao) {
     public static OrcamentoDTO from(Orcamento orc) {
-        return orc == null ? null : new OrcamentoDTO(
-                orc.getValor(),
-                orc.getDescricao(),
-                Utils.parseMillis(orc.getDataCriacao(), DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-        );
+        if (orc != null) {
+            return new OrcamentoDTO(
+                    orc.getValor(),
+                    orc.getDescricao(),
+                    Utils.parseMillis(orc.getDataCriacao(), DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            );
+        }
+        return null;
     }
 }

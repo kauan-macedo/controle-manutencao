@@ -24,21 +24,25 @@ public record SolicitacaoDTO (
         List<LogSolicitacaoDTO> historico
 ) {
     public static SolicitacaoDTO from(Solicitacao sol, List<LogSolicitacao> logs) {
-        return sol == null ? null : new SolicitacaoDTO(
-                sol.getId(),
-                sol.getStatus().getId(),
-                sol.getDescricaoDefeito(),
-                sol.getDescricaoEquipamento(),
-                Utils.parseMillis(sol.getDataCriacao(), DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-                Utils.parseMillis(sol.getDataArrumado(), DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-                sol.getOrientacoesCliente(),
-                sol.getDescricaoManutencao(),
-                sol.isAtivo(),
-                OrcamentoDTO.from(sol.getOrcamento()),
-                UsuarioDTO.from(sol.getUsuario()),
-                UsuarioDTO.from(sol.getResponsavel()),
-                CategoriaDTO.from(sol.getCategoria()),
-                logs.stream().map(LogSolicitacaoDTO::from).toList()
-        );
+        if(sol != null) {
+            SolicitacaoDTO s = new SolicitacaoDTO(
+                    sol.getId(),
+                    sol.getStatus().getId(),
+                    sol.getDescricaoDefeito(),
+                    sol.getDescricaoEquipamento(),
+                    Utils.parseMillis(sol.getDataCriacao(), DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                    Utils.parseMillis(sol.getDataArrumado(), DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                    sol.getOrientacoesCliente(),
+                    sol.getDescricaoManutencao(),
+                    sol.isAtivo(),
+                    OrcamentoDTO.from(sol.getOrcamento()),
+                    UsuarioDTO.from(sol.getUsuario()),
+                    UsuarioDTO.from(sol.getResponsavel()),
+                    CategoriaDTO.from(sol.getCategoria()),
+                    logs.stream().map(LogSolicitacaoDTO::from).toList()
+            );
+            return s;
+        }
+        return null;
     }
 }

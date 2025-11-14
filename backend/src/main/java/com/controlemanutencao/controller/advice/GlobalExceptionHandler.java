@@ -56,6 +56,26 @@ public class GlobalExceptionHandler {
         return new Response<>(HttpStatus.UNAUTHORIZED.value(), "Faça login novamente", null);
     }
 
+    @ExceptionHandler(AutoInativacaoException.class)
+    public Response<?> handleAutoInativacao(AutoInativacaoException ex) {
+        return new Response<>(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), null);
+    }
+
+    @ExceptionHandler(InativaUltimoUsuarioException.class)
+    public Response<?> handleInativaUltimoUsuario(InativaUltimoUsuarioException ex) {
+        return new Response<>(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), null);
+    }
+
+    @ExceptionHandler(AutoRedirecionamentoException.class)
+    public Response<?> handleAutoDirecionamento(AutoRedirecionamentoException ex) {
+        return new Response<>(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), null);
+    }
+
+    @ExceptionHandler(FuncionarioMenor18AnosException.class)
+    public Response<?> handleFuncionarioMenor(FuncionarioMenor18AnosException ex) {
+        return new Response<>(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), null);
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public Response<?> handleRuntime(RuntimeException ex) {
         return Responses.fromException(ex);
