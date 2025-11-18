@@ -166,5 +166,9 @@
 </main>
 
 @if(redirecionando && solicitacao) {
-  <app-modal-redirecionar-solicitacao (onClosed)="redirecionando = false" [solicitacao]="solicitacao" [redirecionando]="redirecionando"></app-modal-redirecionar-solicitacao>
+  <app-modal-redirecionar-solicitacao
+    (onClosed)="redirecionando = false"
+    [solicitacao]="solicitacao"
+    [redirecionando]="redirecionando">
+  </app-modal-redirecionar-solicitacao>
 }

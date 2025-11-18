@@ -47,20 +47,36 @@
         @if (filtroSelecionado === 'Selecionar Período:') {
           <div class="flex gap-2 items-end">
             <div>
-              <label for="dataInicial" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Data inicial</label>
-              <input type="date" id="dataInicial" [(ngModel)]="dataInicial"
-                    class="p-2 h-12 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+              <label
+                for="dataInicial"
+                class="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                  Data inicial
+              </label>
+              <input
+                type="date"
+                id="dataInicial"
+                [(ngModel)]="dataInicial"
+                class="p-2 h-12 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              />
             </div>
             <div>
               <label for="dataFinal" class="block text-sm font-medium text-gray-700 dark:text-gray-200">Data final</label>
-              <input type="date" id="dataFinal" [(ngModel)]="dataFinal"
-                    class="p-2 h-12 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"/>
+              <input
+                type="date"
+                id="dataFinal"
+                [(ngModel)]="dataFinal"
+                class="p-2 h-12 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              />
             </div>
           </div>
         }
 
-        <button (click)="carregarSolicitacoes()" id="botaoFiltro" type="button" class="w-24 h-12 flex items-center mt-auto justify-center py-2 px-4 text-lg font-semibold text-gray-600 dark:text-white dark:bg-blue-700 focus:outline-none bg-blue-200 rounded-lg hover:bg-blue-300 ease-in-out transition duration-150">
-          Filtrar
+        <button
+          (click)="carregarSolicitacoes()"
+          id="botaoFiltro"
+          type="button"
+          class="w-24 h-12 flex items-center mt-auto justify-center py-2 px-4 text-lg font-semibold text-gray-600 dark:text-white dark:bg-blue-700 focus:outline-none bg-blue-200 rounded-lg hover:bg-blue-300 ease-in-out transition duration-150">
+            Filtrar
         </button>
       </div>
     </div>
