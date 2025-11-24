@@ -60,7 +60,7 @@
 
       <div class="flex gap-4">
         <button
-          (click)="aplicarFiltro()"
+          (click)="buscarRelatorio()"
           id="gerarRelatorio"
           type="button"
           class="px-6 py-2 text-lg font-semibold text-gray-700 dark:text-white bg-blue-200 dark:bg-blue-700 rounded-lg hover:bg-blue-300 dark:hover:bg-blue-600 focus:outline-none transition"
@@ -115,7 +115,7 @@
             class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200"
           >
             <td class="px-6 py-4 text-lg text-gray-800 dark:text-gray-200">
-              {{ registro.data | date : "dd/MM/yyyy" }}
+              {{ registro.data }}
             </td>
             <td class="px-6 py-4 text-lg text-gray-800 dark:text-gray-200">
               {{ registro.receita | currency : "BRL" }}

@@ -57,7 +57,12 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
     this.loading = true;
     let hoje = this.filtroSelecionado == 'Hoje';
 
-    this.solicitacaoService.buscarTodas(this.statusSelecionado != -1 ? [this.statusSelecionado] : null, hoje && this.filtroSelecionado != 'Todas', hoje && this.filtroSelecionado != 'Todas' ? null : this.dataInicial.trim(), hoje && this.filtroSelecionado != 'Todas' ?  null : this.dataFinal)
+    this.solicitacaoService.buscarTodas(
+      this.statusSelecionado != -1 ? [this.statusSelecionado] : null, 
+      hoje && this.filtroSelecionado != 'Todas', 
+      hoje && this.filtroSelecionado != 'Todas' ? null : this.dataInicial.trim(), 
+      hoje && this.filtroSelecionado != 'Todas' ?  null : this.dataFinal
+    )
       .pipe(finalize(() => this.endLoad()))
       .subscribe({
         next: (solicitacoes) => {

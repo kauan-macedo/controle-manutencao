@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { API_URL } from '../../api/api';
 import { Categoria } from '../models/categoria-equipamento';
 
 export interface RelatorioReceita {
-  data: Date;
+  data: string;
   receita: number;
 }
 
 export interface RelatorioReceitaCategoria { 
-  categoria: Categoria,
+  categoria: string,
   receita: number
 }
 
@@ -29,33 +29,27 @@ export class RelatorioService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getRelatorioReceitas(): Observable<RelatorioReceita[]> {
-    return this.httpClient.get<{ data: string, receita: number }[]>(
+  getRelatorioReceitas(de: string, ate: string): Observable<RelatorioReceita[]> {
+    let params = new HttpParams();
+    params = de == null || de.trim() == "" ? params : params.append('de', de);
+    params = ate == null || ate.trim() == "" ? params : params.append('ate', ate);
+    return this.httpClient.get<RelatorioReceita[]>(
       API_URL + '/api/relatorios/receitas',
-      this.httpOptions
-    ).pipe(
-      map(response => response.map(item => ({
-        ...item,
-        data: new Date(item.data)
-      })))
+      {...this.httpOptions, params: params}
     );
   }
 
   getRelatorioReceitasCategoria(): Observable<RelatorioReceitaCategoria[]>{
-    return this.httpClient.get<{ receita: number, categoria: Categoria }[]>(
+    return this.httpClient.get<RelatorioReceitaCategoria[]>(
       API_URL + '/api/relatorios/receitasCategoria',
       this.httpOptions
-    ).pipe(
-      map(response => response.map(item => ({
-        ...item
-      })))
     )
   }
 
   agruparRegistros(registros: RelatorioReceitaCategoria[]): Record<string, number>{
 
     let registrosFormatados = registros.map(r => ({
-      categoria: r.categoria.descricao,
+      categoria: r.categoria,
       receita: r.receita
     }));
 

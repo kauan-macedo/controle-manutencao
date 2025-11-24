@@ -24,8 +24,8 @@ export class SolicitacaoService {
   //lembrando que so esta buscando solicitacoes em ate 1 pagina (15 solicitacoes)
  buscarTodas(status: number[] | null, hoje: boolean, de: string | null, ate: string | null): Observable<Solicitacao[]> {
     let params = new HttpParams();
-    params = de == null || de.trim() == "" ? params : params.append('de', new Date(de).toLocaleDateString("pt-BR"));
-    params = ate == null || ate.trim() == "" ? params : params.append('ate', new Date(ate).toLocaleDateString("pt-BR"));
+    params = de == null || de.trim() == "" ? params : params.append('de', de);
+    params = ate == null || ate.trim() == "" ? params : params.append('ate', ate);
     params = hoje ? params.append('de', new Date().toLocaleDateString("pt-BR")).append('ate', new Date().toLocaleDateString("pt-BR")) : params;
     params = status ? params.append('status', status.join(',')) : params;
     params = params.append('page', '0');

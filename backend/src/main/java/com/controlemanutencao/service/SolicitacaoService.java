@@ -1,5 +1,7 @@
 package com.controlemanutencao.service;
 
+import com.controlemanutencao.dto.RelatorioReceitaCategoriaDTO;
+import com.controlemanutencao.dto.RelatorioReceitaDTO;
 import com.controlemanutencao.exception.AutoRedirecionamentoException;
 import com.controlemanutencao.exception.DeveSerFuncionarioException;
 import com.controlemanutencao.exception.EstadoIlegalSolicitacaoException;
@@ -42,6 +44,33 @@ public class SolicitacaoService {
 
     public Optional<Solicitacao> findById(Usuario user, Long id) {
         return repository.findByIdWithUser(user, id, user.isFuncionario());
+    }
+
+    public List<RelatorioReceitaCategoriaDTO> findRelatorioCategorias(Usuario u) {
+        if(!u.isFuncionario()) {
+            throw new DeveSerFuncionarioException();
+        }
+        return repository.listarReceitasPorCategoria();
+    }
+
+    public List<RelatorioReceitaDTO> findRelatorioPorData(Usuario u, LocalDate de, LocalDate ate) {
+        if(!u.isFuncionario()) {
+            throw new DeveSerFuncionarioException();
+        }
+
+        ZoneId utcZone = ZoneOffset.UTC;
+
+        Long from = null;
+        Long to = null;
+
+        if(de != null) {
+            from = de.atStartOfDay(utcZone).toInstant().toEpochMilli();
+        }
+        if(ate != null) {
+            to = ate.atStartOfDay(utcZone).plusDays(1).minusNanos(1).toInstant().toEpochMilli();
+        }
+
+        return repository.receitasPorData(from, to);
     }
 
     public void novaSolicitacao(Usuario user, NovaSolicitacaoRequest req) {

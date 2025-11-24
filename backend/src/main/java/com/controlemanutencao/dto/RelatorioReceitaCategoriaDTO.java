@@ -1,11 +1,20 @@
 package com.controlemanutencao.dto;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
+public class RelatorioReceitaCategoriaDTO {
+    private String categoria;
+    private double receita;
 
-import com.controlemanutencao.model.Categoria;
+    public RelatorioReceitaCategoriaDTO(String categoria, double receita) {
+        this.categoria = categoria;
+        this.receita = receita;
+    }
 
-public record RelatorioReceitaCategoriaDTO(
-        Categoria categoria,
-        BigDecimal receita
-) { }
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public double getReceita() {
+        return receita;
+    }
+}
+

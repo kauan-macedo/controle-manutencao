@@ -29,29 +29,6 @@ export class FuncionarioMostrarRelatorioReceitas implements OnInit{
 
   constructor(private relatorioService: RelatorioService, private router: Router, private cdr: ChangeDetectorRef) {}
 
-  aplicarFiltro(){
-    let dip = this.dataInicial.split('-');
-    let dfp = this.dataFinal.split('-');
-
-    let dataInicialCorrigida = new Date(+dip[0], +dip[1]-1, +dip[2]);
-    let dataFinalCorrigida = new Date(+dfp[0], +dfp[1]-1, +dfp[2]);
-
-    this.registrosFiltrados = this.registros.filter(s => {
-      const dataRegistro = new Date(s.data);
-      dataRegistro.setHours(0, 0, 0, 0);
-
-      if(this.dataInicial && this.dataFinal){
-        return dataRegistro >= dataInicialCorrigida && dataRegistro <= dataFinalCorrigida;
-      }else if(this.dataInicial){
-        return dataRegistro >= dataInicialCorrigida;
-      }else if(this.dataFinal){
-        return dataRegistro <= dataFinalCorrigida;
-      }else{
-        return true;
-      }
-    });
-  }
-
     /** Palheta pastel
      * 
      * (247, 244, 234) - Creme
@@ -93,7 +70,7 @@ export class FuncionarioMostrarRelatorioReceitas implements OnInit{
       // linhas da tabela
       startY += 10;
       this.registrosFiltrados.forEach(r => {
-        doc.text(new Date(r.data).toLocaleDateString('pt-BR'), 14, startY);
+        doc.text(r.data, 14, startY);
         doc.text(r.receita.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), 140, startY);
         doc.setDrawColor(220, 220, 220);
         doc.line(14, startY-7, 195, startY-7);
@@ -107,9 +84,14 @@ export class FuncionarioMostrarRelatorioReceitas implements OnInit{
 
   ngOnInit(): void {
     this.loading = true;
-    this.relatorioService.getRelatorioReceitas()
+    this.buscarRelatorio();
+  }
+
+  buscarRelatorio() {
+    this.relatorioService.getRelatorioReceitas(this.dataInicial, this.dataFinal)
     .pipe(finalize(() => this.endLoad()))
     .subscribe(data => {
+      debugger
       this.registros = data;
       this.registrosFiltrados = [...this.registros];
     });
