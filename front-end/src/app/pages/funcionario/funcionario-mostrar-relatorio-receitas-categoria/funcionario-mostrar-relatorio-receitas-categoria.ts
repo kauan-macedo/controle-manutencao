@@ -64,7 +64,7 @@ export class FuncionarioMostrarRelatorioReceitasCategoria implements OnInit{
     this.relatorioService.getRelatorioReceitasCategoria()
     .pipe(finalize(() => this.endLoad()))
     .subscribe(data => {
-      this.registros = data;
+      this.registros = data.body;
 
       this.registrosTabela = Object.entries(this.relatorioService.agruparRegistros(this.registros))
       .map(([ categoria, receita ]) => ({

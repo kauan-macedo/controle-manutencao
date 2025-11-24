@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { API_URL } from '../../api/api';
+import { API_URL, APIResponse } from '../../api/api';
 import { Categoria } from '../models/categoria-equipamento';
 
 export interface RelatorioReceita {
@@ -29,18 +29,18 @@ export class RelatorioService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getRelatorioReceitas(de: string, ate: string): Observable<RelatorioReceita[]> {
+  getRelatorioReceitas(de: string, ate: string): Observable<APIResponse<RelatorioReceita[]>> {
     let params = new HttpParams();
     params = de == null || de.trim() == "" ? params : params.append('de', de);
     params = ate == null || ate.trim() == "" ? params : params.append('ate', ate);
-    return this.httpClient.get<RelatorioReceita[]>(
+    return this.httpClient.get<APIResponse<RelatorioReceita[]>>(
       API_URL + '/api/relatorios/receitas',
       {...this.httpOptions, params: params}
     );
   }
 
-  getRelatorioReceitasCategoria(): Observable<RelatorioReceitaCategoria[]>{
-    return this.httpClient.get<RelatorioReceitaCategoria[]>(
+  getRelatorioReceitasCategoria(): Observable<APIResponse<RelatorioReceitaCategoria[]>>{
+    return this.httpClient.get<APIResponse<RelatorioReceitaCategoria[]>>(
       API_URL + '/api/relatorios/receitasCategoria',
       this.httpOptions
     )

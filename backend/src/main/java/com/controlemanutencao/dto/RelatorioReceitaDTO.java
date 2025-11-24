@@ -12,7 +12,7 @@ public class RelatorioReceitaDTO {
 
     public RelatorioReceitaDTO(String date, Double receita) {
         this.data = date.split("-")[2] + "/" + date.split("-")[1] + "/" + date.split("-")[0];
-        this.receita = receita == null ? 0d : receita.doubleValue();
+        this.receita = receita == null ? 0d : receita;
     }
 
     public String getData() {

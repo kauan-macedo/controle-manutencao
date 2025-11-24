@@ -88,11 +88,11 @@ export class FuncionarioMostrarRelatorioReceitas implements OnInit{
   }
 
   buscarRelatorio() {
+    this.loading = true;
     this.relatorioService.getRelatorioReceitas(this.dataInicial, this.dataFinal)
     .pipe(finalize(() => this.endLoad()))
     .subscribe(data => {
-      debugger
-      this.registros = data;
+      this.registros = data.body;
       this.registrosFiltrados = [...this.registros];
     });
   }
