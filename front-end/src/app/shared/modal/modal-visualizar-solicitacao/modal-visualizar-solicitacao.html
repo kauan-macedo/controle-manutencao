@@ -1,13 +1,13 @@
 <app-loading-overlay [visible]="loading"></app-loading-overlay>
 @if(solicitacao) {
-  <div class="modal-backdrop z-10" (click)="close()"></div>
-  <div class="modal p-8 max-h-[65vh] overflow-y-scroll bg-white dark:bg-gray-800 text-gray-800 dark:text-white w-[1000px] z-20">
+  <div class="modal-backdrop z-[999]" (click)="close()"></div>
+  <div class="modal p-8 bg-white dark:bg-gray-800 text-gray-800 dark:text-white w-[1000px] z-[1000]">
     <div class="modal-header">
       <h3 class="text-3xl font-bold">{{solicitacao.descricaoEquipamento}}</h3>
       <button (click)="close()">×</button>
     </div>
     <hr class="my-4 h-[1px]">
-    <div class="modal-body">
+    <div class="modal-body max-h-[65vh] overflow-y-scroll">
       <div class="grid grid-cols-4 text-lg gap-4">
         <div>
           <p class="font-bold">Cliente</p>
@@ -53,11 +53,11 @@
       <div class="text-lg flex-col gap-y-4 grid grid-cols-1">
         <div class="">
           <p class="font-bold">Desc. Equipamento</p>
-          <p>{{solicitacao.descricaoEquipamento}}</p>
+          <p class="break-all">{{solicitacao.descricaoEquipamento}}</p>
         </div>
         <div class="">
           <p class="font-bold">Desc. Defeito</p>
-          <p>{{solicitacao.descricaoDefeito}}</p>
+          <p class="break-all">{{solicitacao.descricaoDefeito}}</p>
         </div>
       </div>
       <div class="mt-4 w-full">
@@ -87,7 +87,8 @@
           </div>
         </div>
       </div>
-      <div class="mx-auto mt-4 flex justify-center gap-x-4">
+    </div>
+    <div class="mx-auto mt-4 flex justify-center gap-x-4">
         @if(solicitacao.status == 1) {
           <button (click)="orcar()" class="py-3 px-6 bg-blue-600 dark:bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 dark:hover:bg-blue-800">
             Efetuar Orçamento
@@ -112,7 +113,6 @@
           Fechar
         </button>
       </div>
-    </div>
   </div>
 }
 

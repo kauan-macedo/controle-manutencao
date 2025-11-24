@@ -1,9 +1,9 @@
 <app-loading-overlay [visible]="loading"></app-loading-overlay>
 @if(solicitacao) {
-  <div class="modal-backdrop z-10" (click)="close()"></div>
-  <div class="modal p-8 bg-white dark:bg-gray-800 text-gray-800 dark:text-white w-[1000px] z-20">
+  <div class="modal-backdrop z-[999]" (click)="close()"></div>
+  <div class="modal p-8 bg-white dark:bg-gray-800 text-gray-800 dark:text-white w-[1000px] z-[1000]">
     <div class="modal-header">
-      <h3 class="text-3xl font-bold">{{solicitacao.descricaoEquipamento}}</h3>
+      <h3 class="text-3xl font-bold">{{ solicitacao.descricaoEquipamento.length > 30 ? solicitacao.descricaoEquipamento.substring(0, 30) : solicitacao.descricaoEquipamento}}</h3>
       <button (click)="close()">×</button>
     </div>
     <hr class="my-4 h-[1px]">
@@ -46,19 +46,19 @@
         </div>
       </div>
       <hr class="my-4 h-[1px]">
-      <div class="text-lg flex-col gap-y-4 grid grid-cols-3">
-        <div class="">
+      <div class="text-lg flex-col gap-y-4 grid grid-cols-1">
+        <div>
           <p class="font-bold">Desc. Equipamento</p>
-          <p>{{solicitacao.descricaoEquipamento}}</p>
+          <p class="break-all">{{solicitacao.descricaoEquipamento}}</p>
         </div>
         <div class="">
           <p class="font-bold">Desc. Defeito</p>
-          <p>{{solicitacao.descricaoDefeito}}</p>
+          <p class="break-all">{{solicitacao.descricaoDefeito}}</p>
         </div>
         @if(solicitacao.orcamento) {
           <div class="">
             <p class="font-bold">Detalhe Orçamento</p>
-            <p>{{solicitacao.orcamento.descricao}}</p>
+            <p class="break-all">{{solicitacao.orcamento.descricao}}</p>
           </div>
         }
       </div>

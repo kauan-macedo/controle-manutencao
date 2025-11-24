@@ -43,14 +43,14 @@
     </div>
   } @else {
   @if (solicitacao) {
-  <div class="max-w-4xl mx-auto max-h-[75vh] overflow-y-scroll bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden">
+  <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden">
 
     <div class="p-6 bg-gray-100 dark:bg-gray-900 border-b dark:border-gray-700">
-      <h1 class="text-3xl font-bold text-gray-800 dark:text-white">{{ solicitacao.descricaoEquipamento }}</h1>
+      <h1 class="text-3xl font-bold text-gray-800 dark:text-white">{{ solicitacao.descricaoEquipamento.length > 30 ? solicitacao.descricaoEquipamento.substring(0, 30) : solicitacao.descricaoEquipamento}}</h1>
       <p class="text-md text-gray-600 dark:text-gray-400">Solicitado em: {{ solicitacao.dataCriacao }}</p>
     </div>
 
-    <div class="p-6 text-gray-800 dark:text-white">
+    <div class="p-6 max-h-[50vh] overflow-y-scroll text-gray-800 dark:text-white">
       <div class="grid grid-cols-4 text-lg gap-4">
         @if(solicitacao.orcamento) {
           <div>
@@ -89,23 +89,23 @@
         </div>
       </div>
       <hr class="my-4 h-[1px]">
-      <div class="text-lg flex-col gap-y-4 grid grid-cols-2">
+      <div class="text-lg flex-col gap-y-4 grid grid-cols-1">
         <div class="">
           <p class="font-bold">Desc. Equipamento</p>
-          <p>{{solicitacao.descricaoEquipamento}}</p>
+          <p class="break-all">{{solicitacao.descricaoEquipamento}}</p>
         </div>
         <div class="">
           <p class="font-bold">Desc. Defeito</p>
-          <p>{{solicitacao.descricaoDefeito}}</p>
+          <p class="break-all">{{solicitacao.descricaoDefeito}}</p>
         </div>
         @if(solicitacao.dataArrumado) {
           <div class="">
             <p class="font-bold">Desc. Manutenção</p>
-            <p>{{solicitacao.descricaoManutencao}}</p>
+            <p class="break-all">{{solicitacao.descricaoManutencao}}</p>
           </div>
           <div class="">
             <p class="font-bold">Orientações</p>
-            <p>{{solicitacao.orientacoesCliente}}</p>
+            <p class="break-all">{{solicitacao.orientacoesCliente}}</p>
           </div>
         }
       </div>

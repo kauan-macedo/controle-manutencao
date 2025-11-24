@@ -107,7 +107,7 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
       valor = valor.slice(0, -1);
     }
 
-    this.orcamentoService.enviarOrcamento(solicitacao.id, parseFloat(valor)*10)
+    this.orcamentoService.enviarOrcamento(solicitacao.id, parseFloat(valor))
       .pipe(finalize(() => this.endLoad()))
         .subscribe({
             next: (response) => {

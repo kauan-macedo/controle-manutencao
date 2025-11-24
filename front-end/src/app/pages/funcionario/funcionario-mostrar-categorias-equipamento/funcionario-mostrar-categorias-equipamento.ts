@@ -70,6 +70,7 @@ export class FuncionarioMostrarCategoriasEquipamento implements OnInit {
     .subscribe({
       next: (data) => {
          this.toastService.success('Categoria adicionada com sucesso!');
+         this.novaCategoria = new Categoria(0, "", true);
         this.listarTodas()
       },
       error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
