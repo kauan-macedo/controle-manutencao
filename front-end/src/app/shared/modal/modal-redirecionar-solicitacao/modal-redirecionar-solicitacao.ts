@@ -52,6 +52,7 @@ export class ModalRedirecionarSolicitacao implements OnInit{
   }
 
   redirecionar() {
+    debugger
     if (!this.redirecionando || !this.funcionarioDestino || !this.solicitacao) {
       return
     }
@@ -78,6 +79,7 @@ export class ModalRedirecionarSolicitacao implements OnInit{
               });
             });
           }, 3000)
+          this.onClosed.emit();
         },
         error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
           this.toastrService.error(err.error.message)
