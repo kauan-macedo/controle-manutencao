@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -9,7 +9,7 @@ import {finalize} from 'rxjs';
 
 @Component({
   selector: 'app-funcionario-mostrar-relatorio-receitas',
-  imports: [CommonModule, DatePipe, FormsModule, LoadingOverlayComponent],
+  imports: [CommonModule, FormsModule, LoadingOverlayComponent],
   templateUrl: './funcionario-mostrar-relatorio-receitas.html',
   styleUrl: './funcionario-mostrar-relatorio-receitas.css'
 })
