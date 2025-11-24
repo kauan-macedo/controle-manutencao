@@ -1,5 +1,6 @@
 export interface AtualizarSolicitacaoInput {
     desc_defeito: string;
+    motivo_rejeicao: string;
     desc_equipamento: string;
     orientacoes_cliente: string;
     desc_manutencao: string;

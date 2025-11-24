@@ -9,6 +9,9 @@ public record AtualizarSolicitacaoRequest (
     @JsonProperty("desc_equipamento")
     String descricaoEquipamento,
 
+    @JsonProperty("motivo_rejeicao")
+    String motivoRejeicao,
+
     @JsonProperty("orientacoes_cliente")
     String orientacoesCliente,
 

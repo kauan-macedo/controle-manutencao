@@ -7,7 +7,7 @@
       <button (click)="close()">×</button>
     </div>
     <hr class="my-4 h-[1px]">
-    <div class="modal-body">
+    <div class="modal-body max-h-[50vh] overflow-y-scroll">
       <div class="grid grid-cols-4 text-lg gap-4">
         @if(solicitacao.orcamento) {
           <div>
@@ -61,6 +61,12 @@
             <p class="break-all">{{solicitacao.orcamento.descricao}}</p>
           </div>
         }
+        @if(solicitacao.status == 4 && solicitacao.motivoRejeicao) {
+              <div>
+                <p class="font-bold">Motivo Rejeição</p>
+                <p class="break-all">{{ solicitacao.motivoRejeicao }}</p>
+              </div>
+            }
       </div>
       <div class="mt-4 w-full">
         <h3 class="text-xl font-bold">Histórico</h3>
@@ -89,7 +95,8 @@
           </div>
         </div>
       </div>
-      <div class="mx-auto mt-4 flex justify-center gap-x-4">
+    </div>
+    <div class="mx-auto mt-4 flex justify-center gap-x-4">
         @if(solicitacao.status == 6) {
           <button (click)="confirmar()" class="py-3 px-6 bg-blue-600 dark:bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 dark:hover:bg-blue-800">
             Confirmar pagamento
@@ -99,7 +106,6 @@
           Fechar
         </button>
       </div>
-    </div>
   </div>
 }
 

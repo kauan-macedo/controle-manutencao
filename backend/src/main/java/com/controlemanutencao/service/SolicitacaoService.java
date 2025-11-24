@@ -82,10 +82,11 @@ public class SolicitacaoService {
 
         Solicitacao s = repository.findById(idOS).orElseThrow(() -> new IllegalArgumentException("Solicitação não encontrada!"));
 
-        Utils.ifNotNull(in.descricaoDefeito(), (x) -> s.setDescricaoDefeito(in.descricaoDefeito().substring(0, 255)));
-        Utils.ifNotNull(in.descManutencao(), (x) -> s.setDescricaoManutencao(in.descManutencao().substring(0, 255)));
-        Utils.ifNotNull(in.orientacoesCliente(), (x) -> s.setOrientacoesCliente(in.orientacoesCliente().substring(0, 255)));
-        Utils.ifNotNull(in.descricaoEquipamento(), (x) -> s.setDescricaoEquipamento(in.descricaoEquipamento().substring(0, 255)));
+        Utils.ifNotNull(in.descricaoDefeito(), (x) -> s.setDescricaoDefeito(in.descricaoDefeito().length() > 255 ? in.descricaoDefeito().substring(0, 255) : in.descricaoDefeito()));
+        Utils.ifNotNull(in.motivoRejeicao(), (x) -> s.setMotivoRejeicao(in.motivoRejeicao().length() > 255 ? in.motivoRejeicao().substring(0, 255) : in.motivoRejeicao()));
+        Utils.ifNotNull(in.descManutencao(), (x) -> s.setDescricaoManutencao(in.descManutencao().length() > 255 ? in.descManutencao().substring(0, 255) : in.descManutencao()));
+        Utils.ifNotNull(in.orientacoesCliente(), (x) -> s.setOrientacoesCliente(in.orientacoesCliente().length() > 255 ? in.orientacoesCliente().substring(0, 255) : in.orientacoesCliente()));
+        Utils.ifNotNull(in.descricaoEquipamento(), (x) -> s.setDescricaoEquipamento(in.descricaoEquipamento().length() > 255 ? in.descricaoEquipamento().substring(0, 255) : in.descricaoEquipamento()));
         var redirecionada = false;
         if(in.responsavelId() != null) {
             Usuario u = usuarioService.findById(in.responsavelId()).orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado!"));

@@ -2,18 +2,36 @@
   <div class="bg-white dark:bg-gray-800 p-12 rounded-xl shadow-2xl w-1/3 relative">
     <h2 class="text-3xl font-bold mb-8 text-center text-gray-800 dark:text-white">Tem certeza que deseja rejeitar o serviço?</h2>
 
-    <div class="flex justify-center gap-6 mt-6">
-      <button
-        (click)="cancelar()"
-        class="px-6 py-3 bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-white rounded hover:bg-gray-400 dark:hover:bg-gray-600">
-          Cancelar
-      </button>
-      <button
-        (click)="confirmar()"
-        class="px-6 py-3 bg-red-600 dark:bg-red-700 text-white rounded hover:bg-red-700 dark:hover:bg-red-800">
-          Confirmar
-      </button>
-    </div>
+    <form #form="ngForm" (ngSubmit)="confirmar(form)" class="space-y-6">
+
+        <div>
+            <label for="descricaoEquipamento" class="block text-base font-medium text-gray-700 dark:text-gray-200 pb-2">Motivo rejeição:</label>
+            <input
+                id="descricaoEquipamento"
+                type="text"
+                maxlength="254"
+                name="descricaoEquipamento"
+                required
+                [(ngModel)]="motivoRejeicao"
+                class="w-full p-3 border dark:border-gray-600 rounded-lg text-[#111418] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[#f0f2f5] dark:bg-gray-700 placeholder:text-[#60758a] dark:placeholder:text-gray-400"
+            />
+        </div>
+
+        <div class="flex justify-center gap-6 mt-6">
+          <button
+            (click)="cancelar()"
+            class="w-1/2 rounded-lg px-6 py-3 bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-white hover:bg-gray-400 dark:hover:bg-gray-600">
+              Cancelar
+          </button>
+          <button
+            type="submit"
+            [disabled]="form.invalid"
+            class="w-1/2 py-3 px-6 bg-blue-600 dark:bg-red-700 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 dark:hover:bg-red-800 disabled:bg-gray-400 dark:disabled:bg-gray-600 disabled:cursor-not-allowed transition duration-300"
+          >
+              Confirmar
+          </button>
+        </div>
+    </form>
 
     <button
       (click)="fecharModal()"

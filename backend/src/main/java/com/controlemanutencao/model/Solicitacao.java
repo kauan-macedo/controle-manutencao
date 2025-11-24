@@ -23,6 +23,9 @@ public class Solicitacao {
     @Column(name = "DescEquipamento")
     private String descricaoEquipamento;
 
+    @Column(name = "MotivoRejeicao")
+    private String motivoRejeicao;
+
     @Column(name = "DescManutencao")
     private String descricaoManutencao;
 
@@ -170,5 +173,11 @@ public class Solicitacao {
         this.ativo = ativo;
     }
 
+    public String getMotivoRejeicao() {
+        return motivoRejeicao;
+    }
 
+    public void setMotivoRejeicao(String motivoRejeicao) {
+        this.motivoRejeicao = motivoRejeicao;
+    }
 }

@@ -46,6 +46,9 @@ public class CategoriaService {
 
     public void inativarCategoria(Usuario u, Categoria c) {
         Optional<Categoria> cat = repository.findById(c.getId());
+        if(!u.isFuncionario()) {
+            throw new DeveSerFuncionarioException();
+        }
         if(cat.isEmpty()) {
             throw new RecursoNaoEncontradoException("Categoria não encontrada.");
         }

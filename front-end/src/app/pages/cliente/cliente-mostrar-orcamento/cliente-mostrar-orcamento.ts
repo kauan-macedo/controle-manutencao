@@ -105,10 +105,10 @@ export class ClienteMostrarOrcamento implements OnInit {
   }
 
 
-  rejeitarSolicitacao(): void {
+  rejeitarSolicitacao(motivo: string): void {
     if (this.solicitacao) {
       this.loading = true;
-      this.solicitacaoService.atualizarSolicitacao(this.solicitacao.id, { status: EstadosSolicitacao.REJEITADA })
+      this.solicitacaoService.atualizarSolicitacao(this.solicitacao.id, { status: EstadosSolicitacao.REJEITADA, motivo_rejeicao: motivo })
         .pipe(finalize(() => this.endLoad()))
         .subscribe({
           next: (res) => {

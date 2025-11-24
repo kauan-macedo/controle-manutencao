@@ -11,11 +11,15 @@ import { FormsModule } from '@angular/forms';
 export class ClienteRejeitarServico {
 
   @Output() fechar = new EventEmitter<void>();
-  @Output() rejeitado = new EventEmitter<void>();
+  @Output() rejeitado = new EventEmitter<string>();
 
-  confirmar(): void {
-    this.rejeitado.emit();
-    this.fechar.emit();
+  motivoRejeicao: string = ""
+
+  confirmar(form: any): void {
+    if(form.valid) {
+      this.rejeitado.emit(this.motivoRejeicao);
+      this.fechar.emit();
+    }
   }
 
   fecharModal(): void {
@@ -23,6 +27,7 @@ export class ClienteRejeitarServico {
   }
 
   cancelar(): void {
+    this.motivoRejeicao = "";
     this.fechar.emit();
   }
 }

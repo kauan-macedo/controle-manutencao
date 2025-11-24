@@ -108,6 +108,12 @@
             <p class="break-all">{{solicitacao.orientacoesCliente}}</p>
           </div>
         }
+        @if(solicitacao.status == 4 && solicitacao.motivoRejeicao) {
+              <div>
+                <p class="font-bold">Motivo Rejeição</p>
+                <p class="break-all">{{ solicitacao.motivoRejeicao }}</p>
+              </div>
+            }
       </div>
 
       <hr class="my-8 dark:border-gray-700">

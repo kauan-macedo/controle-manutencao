@@ -59,6 +59,12 @@
           <p class="font-bold">Desc. Defeito</p>
           <p class="break-all">{{solicitacao.descricaoDefeito}}</p>
         </div>
+        @if(solicitacao.status == 4 && solicitacao.motivoRejeicao) {
+          <div>
+            <p class="font-bold">Motivo Rejeição</p>
+            <p class="break-all">{{ solicitacao.motivoRejeicao }}</p>
+          </div>
+        }
       </div>
       <div class="mt-4 w-full">
         <h3 class="text-xl font-bold">Histórico</h3>
