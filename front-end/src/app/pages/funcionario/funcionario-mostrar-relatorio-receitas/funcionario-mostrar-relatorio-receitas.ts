@@ -52,29 +52,51 @@ export class FuncionarioMostrarRelatorioReceitas implements OnInit{
     });
   }
 
+    /** Palheta pastel
+     * 
+     * (247, 244, 234) - Creme
+     * (222, 217, 226) - Creme meio roxo
+     * (192, 185, 221) - Roxo
+     * (12, 24, 33)    - Azul muito escuro
+     * (27, 42, 65)    - Azul escuro
+     * (128, 161, 212) - Azul
+     * (117, 201, 200) - Verde
+     * (232, 248, 255) - Azul bem claro
+     */
+
+
     gerarPDF() {
       const doc = new jsPDF();
 
       // título
-      doc.setFontSize(16);
-      doc.text("Relatório de Receitas", 14, 20);
+      doc.setFontSize(24);
+      doc.setTextColor(12, 24, 33);
+      doc.text("Relatório de Receitas", 14, 15);
+      doc.setDrawColor(220, 220, 220);
+      doc.line(2, 20, 208, 20);
 
       // período do filtro
       const periodo = `Período: ${this.dataInicial || 'Início'} até ${this.dataFinal || 'Fim'}`;
-      doc.setFontSize(11);
+      doc.setTextColor(12, 24, 33);
+      doc.setFontSize(14);
       doc.text(periodo, 14, 30);
 
       // cabeçalho da tabela
       let startY = 40;
-      doc.setFontSize(12);
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(14);
       doc.text("Data", 14, startY);
-      doc.text("Receita", 80, startY);
+      doc.text("Receita", 140, startY);
+      doc.setDrawColor(220, 220, 220);
+      //doc.line(5, 32, 204, 32);
 
       // linhas da tabela
       startY += 10;
       this.registrosFiltrados.forEach(r => {
         doc.text(new Date(r.data).toLocaleDateString('pt-BR'), 14, startY);
-        doc.text(r.receita.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), 80, startY);
+        doc.text(r.receita.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), 140, startY);
+        doc.setDrawColor(220, 220, 220);
+        doc.line(14, startY-7, 195, startY-7);
         startY += 10;
       });
 

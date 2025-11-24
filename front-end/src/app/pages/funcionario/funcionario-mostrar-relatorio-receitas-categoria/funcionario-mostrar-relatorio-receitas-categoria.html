@@ -6,12 +6,20 @@
         <h1 class="text-4xl font-bold text-gray-800 dark:text-white">Gerar Relatório de Receita</h1>
         <p class="mt-2 max-w-6xl text-lg text-gray-600 dark:text-gray-400">Visualize e gere um relatório de receitas por categoria</p>
       </div>
-      <div class="">
+      <div class="flex flex-col space-y-4">
+        <button
+          (click)="redirecionarReceita()"
+          id="gerarRelatorio"
+          type="button"
+          class="px-6 py-2 text-lg font-semibold text-gray-700 dark:text-white bg-blue-200 dark:bg-blue-700 rounded-lg hover:bg-blue-300 dark:hover:bg-blue-600 focus:outline-none transition"
+        >
+          Relatório por Período
+        </button>
         <button
           (click)="gerarPDF()"
           id="gerarPDF"
           type="button"
-          class="px-6 py-2 text-lg font-semibold text-gray-700 dark:text-white bg-blue-200 dark:bg-blue-700 rounded-lg hover:bg-blue-300 dark:hover:bg-blue-600 focus:outline-none transition"
+          class="px-6 py-2 text-lg font-semibold text-gray-700 dark:text-white bg-green-200 dark:bg-green-700 rounded-lg hover:bg-green-300 dark:hover:bg-green-600 focus:outline-none transition"
         >
           Baixar PDF
         </button>

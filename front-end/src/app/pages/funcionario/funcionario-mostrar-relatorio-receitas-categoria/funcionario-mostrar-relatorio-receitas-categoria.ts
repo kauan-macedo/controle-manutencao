@@ -29,22 +29,28 @@ export class FuncionarioMostrarRelatorioReceitasCategoria implements OnInit{
       const doc = new jsPDF();
 
       // título
-      doc.setFontSize(16);
-      doc.text("Relatório de Receitas", 14, 20);
+      doc.setFontSize(24);
+      doc.setTextColor(12, 24, 33);
+      doc.text("Relatório de Receitas por Categoria", 14, 15);
+      doc.setDrawColor(220, 220, 220);
+      doc.line(2, 20, 208, 20);
 
       // cabeçalho da tabela
       let startY = 40;
-      doc.setFontSize(12);
+      doc.setFontSize(14);
       doc.text("Categoria", 14, startY);
-      doc.text("Receita Total", 80, startY);
+      doc.text("Receita Total", 140, startY);
 
+      doc.setFontSize(14);
       startY += 10;
 
       // linhas da tabela
       for(let i=0; i<this.registrosTabela.length; i++){
         let registro = this.registrosTabela[i];
         doc.text(registro.categoria, 14, startY);
-        doc.text(registro.receita.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), 80, startY);
+        doc.text(registro.receita.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }), 140, startY);
+        doc.setDrawColor(220, 220, 220);
+        doc.line(14, startY-7, 195, startY-7);
         startY += 10;
       }
 
@@ -75,5 +81,9 @@ export class FuncionarioMostrarRelatorioReceitasCategoria implements OnInit{
       this.loading = false;
       this.cdr.detectChanges();
     })
+  }
+
+  redirecionarReceita(){
+    this.router.navigate(['/funcionario/mostrar-relatorio-receitas']);
   }
 }
