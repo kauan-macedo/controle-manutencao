@@ -60,6 +60,7 @@ public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long> 
         FROM Solicitacao s
         WHERE s.orcamento IS NOT NULL
           AND s.categoria IS NOT NULL
+          AND (s.status = 7 OR s.status = 8)
         GROUP BY s.categoria
     """)
     List<RelatorioReceitaCategoriaDTO> listarReceitasPorCategoria();
