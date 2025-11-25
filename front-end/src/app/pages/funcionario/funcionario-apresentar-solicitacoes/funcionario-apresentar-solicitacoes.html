@@ -1,4 +1,4 @@
-<app-modal-visualizar-solicitacao (closed)="solicitacaoSelecionada = null" [solicitacao]="solicitacaoSelecionada"></app-modal-visualizar-solicitacao>
+<app-modal-visualizar-solicitacao (closed)="solicitacaoSelecionada = null" [solicitacao]="solicitacaoSelecionada" (solicitacaoFinalizada)="carregarSolicitacoes()"></app-modal-visualizar-solicitacao>
 <main class="font-sans p-8 dark:bg-gray-950 h-screen">
   <app-loading-overlay [visible]="loading"></app-loading-overlay>
   <div class="max-w-7xl mx-auto dark:bg-gray-950">

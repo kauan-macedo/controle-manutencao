@@ -78,5 +78,5 @@
 </main>
 
 @if(solicitacaoAberta) {
-  <app-modal-visualizar-solicitacao [solicitacao]="solicitacaoAberta" (closed)="solicitacaoAberta = null"/>
+  <app-modal-visualizar-solicitacao [solicitacao]="solicitacaoAberta" (closed)="solicitacaoAberta = null" (solicitacaoFinalizada)="carregarSolicitacoes()"/>
 }

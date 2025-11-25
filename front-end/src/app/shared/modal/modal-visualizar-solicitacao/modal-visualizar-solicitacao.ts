@@ -37,6 +37,7 @@ export class ModalVisualizarSolicitacao implements OnInit {
 
   @Input() solicitacao: Solicitacao | null = null;
   @Output() closed = new EventEmitter<void>();
+  @Output() solicitacaoFinalizada = new EventEmitter<void>();
 
   constructor(
     private router: Router,
@@ -78,6 +79,8 @@ export class ModalVisualizarSolicitacao implements OnInit {
         next: (res) => {
           this.toastrService.success(res.message);
           this.solicitacao = res.body;
+          this.solicitacaoFinalizada.emit();
+          this.close();
         },
         error: (err: HttpErrorResponse & { error: APIResponse<any> }) => {
           this.toastrService.error(err.error.message)
