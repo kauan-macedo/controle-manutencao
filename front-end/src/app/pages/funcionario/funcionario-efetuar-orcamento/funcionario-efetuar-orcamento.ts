@@ -101,7 +101,6 @@ export class FuncionarioEfetuarOrcamento implements OnInit {
     const valorNumerico = parseFloat(digitsOnly) / 100;
 
     this.orcamentoService.enviarOrcamento(solicitacao.id, valorNumerico)
-      .pipe(finalize(() => this.endLoad()))
         .subscribe({
             next: (response) => {
                 this.toastrService.success(response.message);
