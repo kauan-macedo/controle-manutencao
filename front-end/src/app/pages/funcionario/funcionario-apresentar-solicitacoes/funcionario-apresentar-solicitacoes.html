@@ -34,6 +34,7 @@
             name="dropdownFiltro"
             required
             [(ngModel)]="filtroSelecionado"
+            (ngModelChange)="onFiltroChange($event)"
             [ngClass]="{'mb-0': filtroSelecionado == 'Selecionar Período:'}"
             class="w-full p-3 h-12 border dark:border-gray-600 rounded-lg text-[#111418] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[#f0f2f5] dark:bg-gray-700 placeholder:text-[#60758a] dark:placeholder:text-gray-400"
           >

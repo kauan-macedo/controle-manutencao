@@ -48,6 +48,13 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
     this.carregarSolicitacoes();
   }
 
+  onFiltroChange(value: string) {
+    if (value === 'Todas' || value === 'Hoje') {
+      this.dataInicial = '';
+      this.dataFinal = '';
+    }
+  }
+
   abrirSolicitacao(s: Solicitacao) {
     this.solicitacaoSelecionada = s;
     this.cdr.detectChanges();
@@ -55,13 +62,12 @@ export class FuncionarioApresentarSolicitacoes implements OnInit {
 
   carregarSolicitacoes(): void {
     this.loading = true;
-    let hoje = this.filtroSelecionado == 'Hoje';
 
     this.solicitacaoService.buscarTodas(
       this.statusSelecionado != -1 ? [this.statusSelecionado] : null, 
-      hoje && this.filtroSelecionado != 'Todas', 
-      hoje && this.filtroSelecionado != 'Todas' ? null : this.dataInicial.trim(), 
-      hoje && this.filtroSelecionado != 'Todas' ?  null : this.dataFinal
+      this.filtroSelecionado == 'Hoje', 
+      this.dataInicial, 
+      this.dataFinal
     )
       .pipe(finalize(() => this.endLoad()))
       .subscribe({
